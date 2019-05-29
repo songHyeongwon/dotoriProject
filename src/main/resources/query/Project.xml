@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.client.project.dao.ProjectDao">
+	<select id="getPatterns" resultType="Project" parameterType="String">
+				SELECT 
+		    project_pattern2
+		FROM 
+		    project_pattern where project_pattern1 = #{project_pattern1}
+	</select>
+</mapper>

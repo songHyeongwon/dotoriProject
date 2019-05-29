@@ -17,8 +17,8 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/uploadStorage/**"
-		location="C:/uploadStorage/" />
+	<resources mapping="/uploadStorage/**" location="C:/uploadStorage/" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
@@ -55,8 +55,12 @@
 		<beans:property name="order" value="2" /><!-- 우선순위 설정 2번 -->
 	</beans:bean>
 
-	<beans:bean id="multipartResolver"
+	<beans:bean id="multipartResolver_default"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
-
+	<!-- file Upload -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<beans:property name="maxUploadSize" value="20971520" />
+    	<beans:property name="maxInMemorySize" value="1048576" />
+    </beans:bean>
 </beans:beans>

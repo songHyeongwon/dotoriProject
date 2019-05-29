@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 문서타입 mapper에서 configuration로 변경 옆에 PUBLIC 내의 모든 mapper도  Config로 변경해줘야함-->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+<!-- 		<typeAlias type="com.spring.client.board.vo.BoardVO" alias="board"/>
+		<typeAlias type="com.spring.client.reply.vo.ReplyVO" alias="reply"/>
+		<typeAlias type="com.spring.client.gallery.vo.GalleryVO" alias="gallery"/> -->
+	</typeAliases>
+</configuration>

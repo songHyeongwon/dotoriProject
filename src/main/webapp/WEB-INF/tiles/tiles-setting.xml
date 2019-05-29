@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  
+<tiles-definitions>
+	<definition name="intro" template="/WEB-INF/views/template/client/mainLayout.jsp">
+		<put-attribute name="title" value="도토리s펀딩s 홈페이지"/>
+		<put-attribute name="nav" value="/WEB-INF/views/template/client/nav.jsp"/>
+		<put-attribute name="header" value="/WEB-INF/views/template/client/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp"/>
+	</definition>
+	
+	<definition name="content" template="/WEB-INF/views/template/client/contentLayout.jsp">
+		<put-attribute name="title" value="도토리s펀딩s 홈페이지"/>
+		<put-attribute name="nav" value="/WEB-INF/views/template/client/nav.jsp"/>
+		<put-attribute name="header" value="/WEB-INF/views/template/client/header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp"/>
+	</definition>
+	<!-- 기본게시판 맵핑 설정 -->
+	<definition name="project/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
+	</definition>
+	<!-- 갤러리 맵핑 설정 -->
+<!--  	<definition name="gallery/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/gallery/{1}.jsp"/>
+	</definition> -->
+	<!-- 댓글 맵핑 설정 -->
+<!--  	<definition name="replies/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/board/reply.jsp"/>
+	</definition> -->
+</tiles-definitions>

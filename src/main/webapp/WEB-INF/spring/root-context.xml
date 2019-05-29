@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.0.120:1521:orcl"/>
+		<property name="username" value="DOTORIPROJECT"/>
+		<property name="password" value="PROJECT"/>
+	</bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<!-- mybatis 셋팅
+		sqlSessionFactory는 데이터베이스와의 연결과 SQL의 실행에 대한 모든 것을 가진 가장 중요한 객체이다.
+		sqlSessionFactory를 생성해주는 객체를 설정해주어야하는데 sqlSessionFactoryBean 이라는 클래스를 생성한다.
+	 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- <property name="mapperLocations" value="classpath:query/*.xml"/> -->
+		<!-- 이 mybatis의 설정을 전담하는 config.xml을 설정한다. -->
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+	</bean>
+
+	<!-- 
+	이렇게 설정하면 다양한 패키지에 대응할수가 없다.
+	<mybatis-spring:scan base-package="com.spring.client.board.dao"/> -->
+	<context:component-scan base-package="com.dotori.sample"/>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"><value>com.dotori.**.**.dao</value></property>
+	</bean>
+</beans>

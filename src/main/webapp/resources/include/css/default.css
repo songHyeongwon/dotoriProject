@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+textarea{resize: none;}
+
+.contentTB{margin-top: 10px;}
+.contentTB .table-height{height: 200px;}
+
+/* 댓글처리 */
+.gap{margin-right: 8px;}
+.cnt{font-size: 10px; color: red;}
+.inline{display: inline;}
+.msg_error, .required{color: red;}
+.msg_default{font-weight: bold;}
+body > .container {
+		margin-bottom: 100px;
+	}

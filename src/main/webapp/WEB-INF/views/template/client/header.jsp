@@ -38,8 +38,8 @@
 					<button type="submit" class="btn btn-default">검색</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
+					<li><a href="/member/login">로그인</a></li>
+					<li><a href="/member/join">회원가입</a></li>
 					<li><a href="#">결재화면으로 이동</a></li>
 				</ul>
 			</div>

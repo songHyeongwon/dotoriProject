@@ -21,9 +21,14 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript"
 	src="/resources/editor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+<script type="text/javascript"
+	src="/resources/include/js/jquery-1.12.4.min.js"></script>
 
 <!--모바일 웹 페이지 설정 끝 -->
 <script type="text/javascript">
+	//컨텐츠의 갯수를 받아오는 전역변수
+	var ContentCnt = 2;
+
 	$(function() {
 		//전역변수
 		var obj = [];
@@ -33,29 +38,35 @@
 			elPlaceHolder : "editor",
 			sSkinURI : "/resources/editor/SmartEditor2Skin.html",
 			htParams : {
-				// 툴바 사용 여부
-				//bUseToolbar : true,
-				// 입력창 크기 조절바 사용 여부
-				//bUseVerticalResizer : true,
-				// 모드 탭(Editor | HTML | TEXT) 사용 여부
-				//bUseModeChanger : true,
+			// 툴바 사용 여부
+			//bUseToolbar : true,
+			// 입력창 크기 조절바 사용 여부
+			//bUseVerticalResizer : true,
+			// 모드 탭(Editor | HTML | TEXT) 사용 여부
+			//bUseModeChanger : true,
 			}
 		});
-		//전송버튼
-		/* $("#insertBoard").click(function() {
-			//id가 smarteditor인 textarea에 에디터에서 대입
-			obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-			//폼 submit
-			$("#insertBoardFrm").submit();
-		}); */
 
 		//버튼 탭 누를시 변경
 		$('#myTab a').click(function(e) {
+			console.log(this);
 			e.preventDefault()
-			$(this).tab('show')
+			$(this).tab('show');
 		});
 
 		//이전 다음 버튼 누를시 제어
+		$(".Prev").click(function() {
+			console.log("뒤로");
+			//var tabs = $(this).parents(".tab-pane");
+			//console.log(tabs.prev().attr("id"))
+			$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+		});
+
+		$(".Next").click(function() {
+			console.log("다음");
+			$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+		});
+
 		//대분류 선택시 소분류 데이터 가져오기
 		$("#Project_pattern1").click(
 				function() {
@@ -76,8 +87,64 @@
 						alert("소분류 목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요")
 					});
 				});
-
+		//상품추가 버튼을 누를시
+		$("#ContentAdd").click(function() {
+			ContentPlue();
+		});
+		
+		//상품제거 버튼을 누를시
+		$("#ContentDel").click(function() {
+			$("#ContentTable").find("tr").last().remove();
+			ContentCnt = ContentCnt-1
+		})
+		
 	});
+	function ContentPlue() {
+		//태그 만들기
+		//상품명
+		var Content_name = $("<input>");
+		Content_name.attr("type", "text");
+		Content_name.attr("name", "Content_name");
+		Content_name.addClass("form-control");
+
+		//금액
+		var Content_MinPrice = $("<input>");
+		Content_MinPrice.attr("type", "text");
+		Content_MinPrice.attr("name", "Content_MinPrice");
+		Content_MinPrice.addClass("form-control");
+		
+		//배송필요유무 체크박스
+		var Content_Kind = $("<input>");
+		Content_Kind.attr("type","checkbox");
+		Content_Kind.attr("name","Content_Kind");
+		Content_Kind.attr("value","1");
+		
+		//옵션추가하기 버튼
+		var addOption = $("<input>");
+		addOption.attr("type","button");
+		addOption.attr("name","addOption");
+		addOption.attr("value","옵션추가하기");
+		
+		//tr & td
+		var tr = $("<tr>");
+		var td1 = $("<td>");
+		td1.html("상품 "+ContentCnt);
+		var td2 = $("<td>");
+		
+		//br
+		var br = $("<br>");
+		
+		//조립하기
+		td2.append("상품명").append(Content_name).append("금액").append(Content_MinPrice).append("배송이 필요한 상품인가요?").append(Content_Kind)
+		td2.append(br).append(addOption);
+		tr.append(td1).append(td2);
+		$("#ContentTable").append(tr);
+		ContentCnt = ContentCnt+1
+	}
+	//옵션 라디오체크를 누르면 옵션을 입력할수있는 내역이 나온다.
+	function optionPlus() {
+		
+	}
 </script>
 </head>
 <body>
@@ -148,25 +215,55 @@
 						</tr>
 						<tr>
 							<td class="text-center">세부내역 입력</td>
-							<td>
-								<textarea name="editor" id="editor" class="form-control"></textarea>
+							<td><textarea name="Project_content" maxlength="4000"
+									id="editor" class="form-control"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button type="button" class="Next btn btn-primary"
+									style="float: right;">다음</button>
 							</td>
 						</tr>
 					</table>
-					
+
 				</div>
 				<%--펀딩 및 후원품 구성 폼 시작 --%>
 				<div role="tabpanel" class="tab-pane" id="profile">
-					<table class="table table-bordered">
+					<table class="table table-bordered" id="ContentTable">
 						<colgroup>
 							<col width="20%" />
 							<col width="80%" />
 						</colgroup>
-						
+						<tr>
+							<td colspan="2">
+								<button type="button" id="ContentAdd">추가</button>
+								<button type="button" id="ContentDel">제거</button>
+							</td>
+						</tr>
+						<tr>
+							<td>상품1</td>
+							<td>
+								상품명 
+								<input type="text" name="Content_name" class="form-control"> 
+								
+								금액
+								<input type="text" name="Content_MinPrice" class="form-control">
+								
+								배송이 필요한 상품인가요? 
+								<input type="checkbox" name="Content_Kind" value="1">
+								
+								<br> 
+								<input type="button" name="addOption" value="옵션추가하기">
+							</td>
+						</tr>
 					</table>
+						<button type="button" class="Prev btn btn-default"
+									style="float: left">이전</button>
+						<button type="button" class="Next btn btn-primary"
+									style="float: right;">다음</button>
 				</div>
 				<%--펀딩 및 후원품 구성 폼 종료 --%>
-					
+
 				<%--계좌설정 폼 시작--%>
 				<div role="tabpanel" class="tab-pane" id="settings">
 					<table class="table table-bordered">
@@ -192,18 +289,20 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<button type="button" class="form-control">입력완료</button>
+								<button type="button" class="form-control btn btn-primary">입력완료</button>
 							</td>
 						</tr>
-						
+						<tr>
+							<td colspan="2">
+								<button type="button" class="Prev btn btn-default"
+									style="float: left">이전</button>
+							</td>
+						</tr>
 					</table>
-
 				</div>
 				<%--계좌설정 폼 종료--%>
 			</div>
 		</div>
-		<button type="button">이전</button>
-		<button type="button">다음</button>
 	</form>
 </body>
 </html>

@@ -161,7 +161,7 @@
 		<!-- 오라클 11g -->
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc</artifactId>
+			<artifactId>ojdbc6</artifactId>
 			<version>6.0</version>
 		</dependency>
 

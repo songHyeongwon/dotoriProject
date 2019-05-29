@@ -22,6 +22,10 @@
 	<definition name="project/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
 	</definition>
+	<!-- 결제화면 맵핑 설정 -->
+	<definition name="orders/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/orders/{1}.jsp"/>
+	</definition>
 	<!-- 갤러리 맵핑 설정 -->
 <!--  	<definition name="gallery/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/gallery/{1}.jsp"/>

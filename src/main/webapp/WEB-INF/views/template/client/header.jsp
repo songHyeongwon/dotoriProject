@@ -40,7 +40,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">로그인</a></li>
 					<li><a href="#">회원가입</a></li>
-					<li><a href="#">결재화면으로 이동</a></li>
+					<li><a href="/orders/ordersForm">결제화면으로 이동</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

@@ -18,12 +18,37 @@
 		<![endif] -->
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript"
+	src="/resources/editor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+
 <!--모바일 웹 페이지 설정 끝 -->
 <script type="text/javascript">
 	$(function() {
-		
-		
-		
+		//전역변수
+		var obj = [];
+		//스마트에디터 프레임생성
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : obj,
+			elPlaceHolder : "editor",
+			sSkinURI : "/resources/editor/SmartEditor2Skin.html",
+			htParams : {
+				// 툴바 사용 여부
+				//bUseToolbar : true,
+				// 입력창 크기 조절바 사용 여부
+				//bUseVerticalResizer : true,
+				// 모드 탭(Editor | HTML | TEXT) 사용 여부
+				//bUseModeChanger : true,
+			}
+		});
+		//전송버튼
+		/* $("#insertBoard").click(function() {
+			//id가 smarteditor인 textarea에 에디터에서 대입
+			obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+			//폼 submit
+			$("#insertBoardFrm").submit();
+		}); */
+
 		//버튼 탭 누를시 변경
 		$('#myTab a').click(function(e) {
 			e.preventDefault()
@@ -52,29 +77,23 @@
 					});
 				});
 
-		
 	});
 </script>
 </head>
 <body>
 	<h1>프로젝트의 내용을 입력해주세요</h1>
-	<form id="projectInsertForm" method="post"
-		enctype="multipart/form-data">
+	<form>
 		<div role="tabpanel" id="totalDiv">
-
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
 				<li role="presentation" class="active"><a href="#home"
-					aria-controls="home" role="tab" data-toggle="tab">프로젝트 개요</a></li>
+					aria-controls="home" role="tab" data-toggle="tab">프로젝트 내용</a></li>
 				<li role="presentation"><a href="#profile"
 					aria-controls="profile" role="tab" data-toggle="tab">펀딩 및 후원품
 						구성</a></li>
-				<li role="presentation"><a href="#messages"
-					aria-controls="messages" role="tab" data-toggle="tab">프로젝트 세부내용</a></li>
 				<li role="presentation"><a href="#settings"
 					aria-controls="settings" role="tab" data-toggle="tab">계좌설정</a></li>
 			</ul>
-
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="home">
@@ -127,17 +146,27 @@
 							<td><input type="text" id="Project_URL" name="Project_URL"
 								class="form-control"></td>
 						</tr>
+						<tr>
+							<td class="text-center">세부내역 입력</td>
+							<td>
+								<textarea name="editor" id="editor" class="form-control"></textarea>
+							</td>
+						</tr>
 					</table>
-				</div>
-				<%--펀딩 및 후원품 구성 폼 시작 --%>
-				<div role="tabpanel" class="tab-pane" id="profile">펀딩 및 후원품 구성
-					폼</div>
-				<%--펀딩 및 후원품 구성 폼 종료 --%>
-				<%--프로젝트 세부내용 폼 시작--%>
-				<div role="tabpanel" class="tab-pane" id="messages">
 					
 				</div>
-				<%--프로젝트 세부내용 폼 종료--%>
+				<%--펀딩 및 후원품 구성 폼 시작 --%>
+				<div role="tabpanel" class="tab-pane" id="profile">
+					<table class="table table-bordered">
+						<colgroup>
+							<col width="20%" />
+							<col width="80%" />
+						</colgroup>
+						
+					</table>
+				</div>
+				<%--펀딩 및 후원품 구성 폼 종료 --%>
+					
 				<%--계좌설정 폼 시작--%>
 				<div role="tabpanel" class="tab-pane" id="settings">
 					<table class="table table-bordered">
@@ -166,9 +195,7 @@
 								<button type="button" class="form-control">입력완료</button>
 							</td>
 						</tr>
-						<tr>
-							<td>
-						</tr>
+						
 					</table>
 
 				</div>

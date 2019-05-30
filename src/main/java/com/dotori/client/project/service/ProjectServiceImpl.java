@@ -104,14 +104,19 @@ public class ProjectServiceImpl implements ProjectService {
 			icvo.setContent_minprice(pvo.getList().get(i).getContent_MinPrice());
 			icvo.setContent_name(pvo.getList().get(i).getContent_name());
 			result = projectDao.insertProjectContentTable(icvo);
+			if(result==0) {
+				return result;
+			}
 		}
-		return 0;
+		return result;
 	}
 
 	//프로젝트 옵션 입력 쿼리
 	@Override
 	public int insertProjectOptionTable(ProjectVO pvo) {
-		// TODO Auto-generated method stub
+		int result = 0;
+				
+		
 		return 0;
 	}
 

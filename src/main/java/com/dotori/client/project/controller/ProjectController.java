@@ -87,7 +87,6 @@ public class ProjectController {
 		result = projectService.createReplyTableSeq(pvo);
 		result = projectService.createQna_boardTableSeq(pvo);
 		
-		
 		result = projectService.insertProject(pvo);
 		result = projectService.insertProjectContentTable(pvo);
 		result = projectService.insertProjectOptionTable(pvo);

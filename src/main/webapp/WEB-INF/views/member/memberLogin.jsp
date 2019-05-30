@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
-	
 		
 		<meta charset="UTF-8">
 		<title>로그인 창</title>
@@ -18,21 +18,49 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-	
+		
+		
+		<script type="text/javascript">
+			if("${success}"==1){
+				alert("도토리 펀딩's 가입이 완료되었습니다. 많은 이용 부탁드립니다.");
+			} 		
+			
+			/* if("${fail}"==0){
+				alert("비밀번호 또는 ID가 일치하지 않습니다.\n다시 확인 부탁드립니다.");
+			} */
+			console.log($("#member_id").val());
+			$(function(){
+				$("#loginBtn").click(function(){
+					if(!checkForm("#member_id","ID를")) return;
+					else if(!checkForm("#member_pwd","비밀번호를")) return;
+					else{
+						$("#loginForm").attr({
+							"method" : "post",
+							"action" : "/member/session"
+						})
+						
+						$("#loginForm").submit();
+					}
+				})
+			})
+		</script>
 	</head>
-	<body>
+	<body>>
 		<div class="text-center total">
 			<h1 class="strong">로그인</h1>
 			<div>
 				<form name="loginForm" id="loginForm">
 					<div class="form-group">
-						<input type="text" class="text" id="id" name="id" placeholder="아이디 입력"/>
+						<input type="text" class="text" id="member_id" name="member_id" placeholder="아이디 입력"/>
 					</div>
 					<div class="form-group">
-						<input type="text" class="text" id="pwd" name="pwd" placeholder="비밀번호(영문자/숫자 혼용 8~20자 사이)"/>
+						<input type="password" class="text" id="member_pwd" name="member_pwd" placeholder="비밀번호(영문자/숫자 혼용 8~20자 사이)"/>
 					</div>
 					<div class="form-group">
-						<p class="error"></p>
+						<c:if test="${codeNumber==1}">
+							<p class="error">비밀번호 또는 아이디가 일치하지 않습니다.</p>
+							<p class="error">확인 부탁드립니다.</p>
+						</c:if>
 					</div>
 				</form>
 				<div class="form-group">	

@@ -10,4 +10,29 @@
 		as state from dual
 	</select>
 	
+	
+	<!-- 회원 가입 -->
+	<insert id="memberJoin" parameterType="member">
+		/* member - memberJoin */
+		insert into member(member_num,member_id,member_pwd,member_name,
+		member_address,member_phone,member_email,member_kind,member_signum,
+		member_nickname,member_infoagree,member_evenagree) 
+		values(member_seq.nextval,#{member_id},#{member_pwd},#{member_name},
+		#{member_address},#{member_phone},#{member_eMail},#{member_kind},
+		#{member_sigNum},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+	</insert>
+	
+	<!-- 회원 로그인 -->
+	<!-- <select id="memberSession" parameterType="member" resultType="int">
+		/* member - memberSession */
+		select nvl((select 1 from member where member_id=#{member_id} and member_pwd=#{member_pwd}),0) 
+		as state from dual
+	</select> -->
+	
+	<!-- 회원 정보 가져오기 -->
+	<select id="memberSession" parameterType="member" resultType="member">
+		/* member - memberAll */
+		select member_name,member_address,member_phone,member_eMail,member_kind,member_sigNum,member_point,member_nickName 
+		from member where member_id=#{member_id} and member_pwd=#{member_pwd}
+	</select>
 </mapper>

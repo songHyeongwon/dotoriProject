@@ -28,7 +28,17 @@
 	
 		<script type="text/javascript">
 		 $(function(){
-			
+			var member_eMail="";
+			var member_phone="";
+			var member_address="";
+			var sigNum="";
+			var sigNumFrontPattern = /^[0-9]{6}$/;	// 주민번호 앞자리 정규식
+			var sigNumBackPattern = /^[0-9]{7}$/;	// 주민번호 뒷자리 정규식
+			var Pattern = /^[0-9a-zA-Z]{5,20}$/;	// 아이디 및 비밀번호 패턴 정규식
+			var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
+			var idchk = 0;
+			var member_kind=0;
+			 
 			 $("#idChkBtn").click(function(){
 				 $.ajax({
 					 url : "/member/idCheck",
@@ -41,9 +51,11 @@
 				 	success : function(data){
 				 		if(data=="성공" && $("#member_id").val()!=""){
 				 			alert("이 ID는 사용이 가능합니다.");
+				 			idchk=1;
 				 		}else if(data=="실패" && $("#member_id").val()!=""){
 				 			alert("이 ID는 사용 중이라 사용이 불가능합니다. 다른 ID를 적어주세요.");
 				 			$("#member_id").val("");
+				 			idchk=0;
 				 			return;
 				 		}else if($("#member_id").val()==""){
 				 			alert("ID를 입력해주세요.");
@@ -64,8 +76,23 @@
 				 location.href="/";
 			 })
 			 
+			$("#email").on("change", function(){
+        		$("#eMailBack").val($(this).val());
+    		});
 			 
 			 $("#joinMemberBtn").click(function(){
+				 if($("#member_infoAgree").prop("checked")){
+					 $("#member_infoAgree").val('1');
+				 }else{
+					 $("#member_infoAgree").val('0');
+				 }
+				 
+				 if($("#member_evenAgree").prop("checked")){
+					 $("#member_evenAgree").val('1');
+				 }else{
+					 $("#member_evenAgree").val('0');
+				 }
+				 
 				 if(!checkForm("#member_id","아이디를 ")) return;
 				 else if(!checkForm("#member_pwd","비밀번호를 ")) return;
 				 else if(!checkForm("#member_name","이름을 ")) return;
@@ -93,14 +120,55 @@
 				 else if(!checkForm("#addressDetail","상세주소를 ")) return;
 				 else if(!$("#member_infoAgree").prop("checked")){
 					 alert("개인정보 처리동의 여부를 선택해주세요.");
+					 $("#member_infoAgree").val('0');
 					 return;
 				 }else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
 					 alert("비밀번호가 같지 않습니다. 확인 부탁드립니다.");
 					 $("#cofirmPwd").val("");
 					 $("#cofirmPwd").focus();
-					 
 					 return;
-				 }else{}
+				 }else if($("#member_id").val().search(Pattern)<0){
+					 alert("ID를 올바르게 입력해주세요.");
+					 $("#member_id").val("");
+					 $("member_id").focus();
+					 return;
+				 }else if($("#member_pwd").val().search(Pattern)<0){
+					 alert("비밀번호를 올바르게 입력해주세요.");
+					 $("#member_pwd").val("");
+					 $("#member_pwd").focus();
+					 return;
+				 }else if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
+					 alert("핸드폰 번호를 올바르게 입력해주세요.");
+					 $("#phoneFirst").val("");
+					 $("#phoneMiddle").val("");
+					 $("#phoneLast").val("");
+					 $("#phoneFirst").focus();
+					 return;
+				 }else if($("#frontSigNum").val().search(sigNumFrontPattern)<0 || $("#backSigNum").val().search(sigNumBackPattern)<0){
+					 alert("번호를 정확히 입력해주세요.");
+					 $("#frontSigNum").val("");
+					 $("#backSigNum").val("");
+					 $("#frontSigNum").focus();
+					 return;
+				 }else if(idchk==0){
+					 alert("아이디 중복을 확인해 주세요.");
+				 }else{
+					member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
+					member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
+					member_address=$("#address").val()+" "+$("#addressDetail").val();
+					member_sigNum=$("#frontSigNum").val()+"-"+$("#backSigNum").val();
+					$("#member_eMail").val(member_eMail);
+					$("#member_phone").val(member_phone);
+					$("#member_address").val(member_address);
+					$("#member_sigNum").val(member_sigNum);
+					$("#member_kind").val(member_kind);
+					 $("#joinForm").attr({
+						"method" : "post",
+					 	"action" : "/member/memberJoin"
+					 });
+					 $("#joinForm").submit();
+					 
+				 }
 			 })
 			 
 		 })
@@ -114,7 +182,8 @@
 				<input type="button" id="company" name="company" value="법인 회원"/>
 			</div>
 			<div class="form-group">
-				<form class="joinForm">
+				<form class="joinForm" id="joinForm">
+					<input type="hidden" id="member_kind" name="member_kind"/>
 					<table class="table .table-striped">
 						<tr class="tb">
 							<td class="tn">아이디</td>
@@ -161,12 +230,13 @@
 								<input type="text" id="eMailFront" name="eMailFront"/>
 								@
 								<input type="text" id="eMailBack" name="eMailBack"/>
-								<select>
-									<option>naver.com</option>
-									<option>hamail.net</option>
-									<option>google.co.kr</option>
-									<option>nate.com</option>
-									<option>yahoo.co.kr</option>
+								<select id="email">
+									<option value="empty"></option>
+									<option value="naver.com">naver.com</option>
+									<option value="hanmail.net">hamail.net</option>
+									<option value="google.co.kr">google.co.kr</option>
+									<option value="nate.com">nate.com</option>
+									<option value="yahoo.co.kr">yahoo.co.kr</option>
 								</select>
 							</td>
 						</tr>	
@@ -194,10 +264,14 @@
 						<tr>
 							<td colspan="2">
 								<input type="checkbox" id="member_infoAgree" name="member_infoAgree"/><label for="member_infoAgree">개인정보 처리 동의</label>&nbsp;<a href="#">정보처리 약관보기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="checkbox" id="Member_evenAgree" name="Member_evenAgree"/><label for="Member_evenAgree">이메일/문자 수신 동의</label>&nbsp;<a href="#">수신 약관보기</a>
+								<input type="checkbox" id="member_evenAgree" name="member_evenAgree"/><label for="member_evenAgree">이메일/문자 수신 동의</label>&nbsp;<a href="#">수신 약관보기</a>
 							</td>
 						</tr>	
 					</table>
+					<input type="hidden" name="member_sigNum" id="member_sigNum" />
+					<input type="hidden" name="member_phone" id="member_phone" />
+					<input type="hidden" name="member_eMail" id="member_eMail" />
+					<input type="hidden" name="member_address" id="member_address" />
 				</form>
 				<div class="text-center">
 					<input type="button" class="btn" id="joinMemberBtn" name="joinMemberBtn" value="가입하기"/>

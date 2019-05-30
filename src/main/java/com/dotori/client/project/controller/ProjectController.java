@@ -1,25 +1,25 @@
 package com.dotori.client.project.controller;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dotori.client.project.service.ProjectService;
+import com.dotori.client.project.vo.ContentVO;
+import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +30,11 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @AllArgsConstructor
 public class ProjectController {
+	
+	@InitBinder
+	public void initBiner(WebDataBinder binder) {
+		binder.registerCustomEditor(MultipartFile.class, "file", new StringTrimmerEditor(true));
+	}
 	//프로젝트 서비스
 	private ProjectService projectService;
 	
@@ -56,6 +61,37 @@ public class ProjectController {
 	}
 	
 	
-	
-	
+	@RequestMapping(value="/insertProject")
+	public String projectInsert(@ModelAttribute ProjectVO pvo) {
+		log.info("insert 안에 들어 왔습니다.");
+		log.info("들어온값"+pvo);
+		
+		//pk키 가져오기
+		int Pknum = projectService.getProjectPKNum();
+		
+		String id = pvo.getMember_id();
+		pvo.setProject_num(Pknum);
+		pvo.setReply_table_name(id+"_"+Pknum+"_reply");
+		pvo.setOption_table_name(id+"_"+Pknum+"_option");
+		pvo.setContent_table_name(id+"_"+Pknum+"_content");
+		pvo.setQna_board_table_name(id+"_"+Pknum+"_qna_board");
+		
+		//각각 테이블 생성하기
+		int result = 0;
+		result = projectService.createContentTable(pvo);
+		result = projectService.createReplyTable(pvo);
+		result = projectService.createOptionTable(pvo);
+		result = projectService.createQna_boardTable(pvo);
+		
+		result = projectService.createContentTableSeq(pvo);
+		result = projectService.createReplyTableSeq(pvo);
+		result = projectService.createQna_boardTableSeq(pvo);
+		
+		
+		result = projectService.insertProject(pvo);
+		result = projectService.insertProjectContentTable(pvo);
+		result = projectService.insertProjectOptionTable(pvo);
+		
+		return "index";
+	}
 }

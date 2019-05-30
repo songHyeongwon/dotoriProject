@@ -23,6 +23,7 @@
 	src="/resources/editor/js/HuskyEZCreator.js" charset="UTF-8"></script>
 <script type="text/javascript"
 	src="/resources/include/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/resources/include/js/common.js"></script>
 
 <!--모바일 웹 페이지 설정 끝 -->
 <script type="text/javascript">
@@ -94,8 +95,88 @@
 		
 		//상품제거 버튼을 누를시
 		$("#ContentDel").click(function() {
-			$("#ContentTable").find("tr").last().remove();
-			ContentCnt = ContentCnt-1
+			if(ContentCnt!=2){
+				$("#ContentTable").find("tr").last().remove();
+				ContentCnt = ContentCnt-1
+			}else{
+				alert("더이상 상품을 지울수 없습니다.");
+			}
+		})
+		
+		//옵션 추가하기 버튼을 누를시
+		$(document).on("click","input[name='addOptions']", function() {
+			optionPlus($(this));
+			
+			$(this).next().val(parseInt($(this).next().val())+1);
+			console.log($(this).next().val());
+		});
+		
+		//옵션필요 버튼 누를시
+		$(document).on("click",'input[optionData=""]', function() {
+			if($(this).is(":checked") == true){
+				console.log('체크')
+				$(this).next().removeClass()
+			}else{
+				console.log('아웃')
+				$(this).next().addClass("hide")
+			}
+		});
+		
+		//옵션제거 버튼을 누를시<span>제거하기
+		$(document).on("click","input[name='delOptionDiv']", function() {
+			var n = $(this).parents("td").children("input[name='optionCnt']");
+			n.val(parseInt(n.val())-1)
+			$(this).parent("span").remove();
+			console.log(n.val());
+			
+		});
+		
+		//옵션넣기버튼 텍스트에리어게 옵션값을 넣는다.
+		$(document).on("click","input[name='addOption']", function() {
+			//텍스에리어의 내용찾음
+			var text = $(this).prev().prev().val();
+			var value = $(this).prev("input").val();
+			text = text + " / "+value;
+			console.log(text);
+			$(this).prev().prev().val(text);
+			$(this).prev("input").val("");
+		});
+		
+		//마지막 옵션 제거하기 버튼 클릭시
+		$(document).on("click","input[name='delOption']", function() {
+			var text = $(this).prev().prev().prev().val();
+			//전체 문자열 길이
+			//마지막 /좌표 찾기
+			var last = text.lastIndexOf("/");
+			text = text.substring(0,last);
+			$(this).prev().prev().prev().val(text);
+		});
+		
+		
+		//서브밋 버튼
+		$("#ProjectSut").click(function() {
+			if(!chkData('#Project_name',"프로젝트명을")) return;
+			else if (!chkData('#Project_summary',"프로젝트 소개를")) return;
+			else if (!chkData('#file',"등록할 이미지를")) return;
+			else if (!chkFile($('#file'))) return;
+			//else if (!chkData('#Project_pattern1',"대분류를")) return;
+			//else if (!chkData('#Project_pattern2',"소분류를")) return;
+			else if (!chkData('#Project_targetMoney',"목표금액을")) return;
+			else if (!chkData('#Project_endDate',"종료날짜를")) return;
+			//else if (!chkData('#editor',"프로젝트 소개를")) return;
+			else if (!chkData('#Project_bank',"입금은행명을")) return;
+			else if (!chkData('#Project_bankNum',"입금계좌를")) return;
+			else {
+				console.log("모두통과");
+				//스마트 에디터 내용 삽입
+				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+				$("#projectInsertForm").attr({
+					"method" : "post",
+					"action" : "/project/insertProject",
+					"enctype" : "multipart/form-data"
+				});
+				$("#projectInsertForm").submit();
+			} 
 		})
 		
 	});
@@ -104,26 +185,39 @@
 		//상품명
 		var Content_name = $("<input>");
 		Content_name.attr("type", "text");
-		Content_name.attr("name", "Content_name");
+		Content_name.attr("name", "list["+(ContentCnt-1)+"].content_name");
 		Content_name.addClass("form-control");
-
+		
+		//히든 태그 만들기
+		var hidden = $("<input>");
+		hidden.attr("type", "hidden");
+		hidden.attr("name", "contentCnt");
+		hidden.attr("value", ""+(ContentCnt-1));
+		
+		//옵션갯수가 몇개인지 알수있는 태그 만들기
+		var hidden2 = $("<input>");
+		hidden2.attr("type", "hidden");
+		hidden2.attr("name", "optionCnt");
+		hidden2.attr("value", "0");
+		
 		//금액
 		var Content_MinPrice = $("<input>");
 		Content_MinPrice.attr("type", "text");
-		Content_MinPrice.attr("name", "Content_MinPrice");
+		Content_MinPrice.attr("name", "list["+(ContentCnt-1)+"].content_MinPrice");
 		Content_MinPrice.addClass("form-control");
 		
 		//배송필요유무 체크박스
 		var Content_Kind = $("<input>");
 		Content_Kind.attr("type","checkbox");
-		Content_Kind.attr("name","Content_Kind");
+		Content_Kind.attr("name","list["+(ContentCnt-1)+"].content_Kind");
 		Content_Kind.attr("value","1");
 		
 		//옵션추가하기 버튼
 		var addOption = $("<input>");
 		addOption.attr("type","button");
-		addOption.attr("name","addOption");
+		addOption.attr("name","addOptions");
 		addOption.attr("value","옵션추가하기");
+		addOption.addClass("form-control");
 		
 		//tr & td
 		var tr = $("<tr>");
@@ -135,21 +229,87 @@
 		var br = $("<br>");
 		
 		//조립하기
-		td2.append("상품명").append(Content_name).append("금액").append(Content_MinPrice).append("배송이 필요한 상품인가요?").append(Content_Kind)
-		td2.append(br).append(addOption);
+		td2.append("상품명").append(Content_name).append("금액").append(Content_MinPrice).append("배송이 필요한 상품인가요?").append(Content_Kind).append(hidden);
+		td2.append(br).append(addOption).append(hidden2);
 		tr.append(td1).append(td2);
 		$("#ContentTable").append(tr);
 		ContentCnt = ContentCnt+1
 	}
-	//옵션 라디오체크를 누르면 옵션을 입력할수있는 내역이 나온다.
-	function optionPlus() {
+	//옵션 추가하기 버튼을 누르면 옵션을 입력할수있는 내역이 나온다.
+	function optionPlus(button) {
+		//히든값 뽑아 만들기
+		var cnt = button.prev().prev().val();
+		console.log(cnt+"번째 상품의");//몇번째 상품의
+		var cntOption = button.next().val();
+		console.log(cntOption+"번째 옵션이다.")
 		
+		//옵션명
+		var optionName = $("<input>");
+		optionName.attr("type", "text");
+		optionName.attr("name", "list["+cnt+"].listOption["+cntOption+"].option_name");
+		optionName.addClass("form-control");
+		//옵션선택이 필요한가요?
+		var optionKind = $("<input>");
+		optionKind.attr("type", "checkbox");
+		optionKind.attr("name", "list["+cnt+"].listOption["+cntOption+"].option_kind");
+		optionKind.attr("value", "1");
+		optionKind.attr("optionData","");
+		//옵션 리스트 div
+		var optionDiv = $("<div>");
+		optionDiv.addClass("hide");
+		
+		//마지막 옵션을 담는 에리어
+		//var lastOption = $("<input>");
+		//lastOption.attr("type", "hidden");
+		//lastOption.attr("name", "lastOption");
+		
+		//옵션담는 텍스트 에리어
+		var optionValue = $("<textarea>");
+		optionValue.attr("name","list["+cnt+"].listOption["+cntOption+"].option_value_text");
+		optionValue.attr("readonly","readonly");
+		optionValue.addClass("form-control");
+		
+		//옵션입력을 해주는 텍스트
+		var inOption = $("<input>");
+		inOption.attr("type","text");
+		inOption.attr("name","inOption");
+		inOption.addClass("form-control");
+		
+		//옵션을 넣는 버튼
+		var addOption = $("<input>");
+		addOption.attr("type","button");
+		addOption.attr("name","addOption");
+		addOption.attr("value","옵션넣기");
+		
+		//마지막 옵션 제거하기
+		var delOption = $("<input>");
+		delOption.attr("type", "button");
+		delOption.attr("name","delOption");
+		delOption.attr("value","마지막 옵션 제거하기");
+		
+		//옵션틀 전체 제거 버튼
+		var delOptionDiv = $("<input>");
+		delOptionDiv.attr("type", "button");
+		delOptionDiv.attr("name","delOptionDiv");
+		delOptionDiv.attr("value","옵션제거하기");
+		
+		
+		//전체틀 span
+		var span = $("<span>");
+		//조립하기
+		optionDiv.append("옵션을 입력해주세요").append(optionValue).append(inOption)
+		optionDiv.append(addOption).append(delOption);
+		
+		span.append($("<br>")).append("옵션명").append(optionName).append("옵션선택이 필요한가요? ");
+		span.append(optionKind).append(optionDiv).append(delOptionDiv);
+		button.parent().append(span);
 	}
 </script>
 </head>
 <body>
 	<h1>프로젝트의 내용을 입력해주세요</h1>
-	<form>
+	<form id="projectInsertForm">
+		<input type="hidden" value="testuser1" id="member_id" name="member_id">
 		<div role="tabpanel" id="totalDiv">
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
@@ -181,8 +341,8 @@
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 썸네일</td>
-							<td><input type="file" id="Project_thumb"
-								name="Project_thumb" class="form-control">
+							<td><input type="file" id="file"
+								name="file" class="form-control">
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 구분</td>
@@ -241,19 +401,21 @@
 							</td>
 						</tr>
 						<tr>
-							<td>상품1</td>
+							<td>상품 1</td>
 							<td>
 								상품명 
-								<input type="text" name="Content_name" class="form-control"> 
+								<input type="text" name="list[0].content_name" class="form-control"> 
 								
 								금액
-								<input type="text" name="Content_MinPrice" class="form-control">
+								<input type="text" name="list[0].content_MinPrice" class="form-control">
 								
 								배송이 필요한 상품인가요? 
-								<input type="checkbox" name="Content_Kind" value="1">
-								
+								<input type="checkbox" name="list[0].content_Kind" value="1">
+								<input type="hidden" name="contentCnt" value="0">
 								<br> 
-								<input type="button" name="addOption" value="옵션추가하기">
+								<input type="button" name="addOptions" value="옵션추가하기" class="form-control">
+								<input type="hidden" name="optionCnt" value="0">
+								
 							</td>
 						</tr>
 					</table>
@@ -289,7 +451,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<button type="button" class="form-control btn btn-primary">입력완료</button>
+								<button type="button" class="form-control btn btn-primary" id="ProjectSut">입력완료</button>
 							</td>
 						</tr>
 						<tr>

@@ -32,6 +32,7 @@ public class HandcodingController {
     // 다중파일업로드
     @RequestMapping(value = "/file_uploader_html5.do",
                   method = RequestMethod.POST)
+    
     @ResponseBody
     public String multiplePhotoUpload(HttpServletRequest request) {
         // 파일정보

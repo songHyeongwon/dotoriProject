@@ -21,5 +21,12 @@ public class OrdersController {
 	public String ordersForm() {
 		return "orders/ordersForm";
 	}
-	
+	@RequestMapping(value="/ordersFinal")
+	public String ordersFinal() {
+		return "orders/ordersFinal";
+	}
+	@RequestMapping(value="/ordersConfirm")
+	public String ordersConfirm() {
+		return "orders/ordersConfirm";
+	}
 }

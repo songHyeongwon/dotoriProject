@@ -21,8 +21,7 @@
     Content_Kind         NUMBER NOT NULL ,          
 	Content_MinPrice     NUMBER NOT NULL ,          
 	Content_RecDate      DATE DEFAULT sysdate,      
-	option_table_name    VARCHAR2(30) NULL ,        
-    CONSTRAINT content_pk PRIMARY KEY(Content_num)
+	option_table_name    VARCHAR2(30) NULL
 ) 
 	</update>
 	<update id="createReplyTable" parameterType="Project">
@@ -32,8 +31,7 @@
 	Project_num          NUMBER NOT NULL ,          
 	Member_id            VARCHAR2(20) NOT NULL ,    
 	reply_content        VARCHAR2(1000) NOT NULL ,  
-	reply_RecDate        DATE DEFAULT sysdate ,     
-    CONSTRAINT reply_pk PRIMARY KEY (reply_num)
+	reply_RecDate        DATE DEFAULT sysdate
 )
 	
 	</update>
@@ -42,10 +40,9 @@
 (
 	Project_num          NUMBER NOT NULL ,          --프로젝트 번호
 	Content_num          NUMBER NOT NULL ,          --제품번호
-	option_name          VARCHAR2(10) NOT NULL ,    --옵션명
+	option_name          VARCHAR2(100) NOT NULL ,    --옵션명
 	option_kind          NUMBER NOT NULL ,          --옵션종류 0 = 선택옵션, 1 = 입력옵션
-	option_value         VARCHAR2(10) NOT NULL ,    --옵션값
-    CONSTRAINT option_pk  PRIMARY KEY (Project_num)
+	option_value         VARCHAR2(100)
 )
 	
 	</update>
@@ -60,8 +57,7 @@
 	QNA_mDate            DATE DEFAULT sysdate ,
 	QNA_REPROOT          NUMBER NULL ,
 	QNA_REPINDENT        NUMBER NULL ,
-	QNA_hidden           NUMBER not null ,
-    CONSTRAINT  QNA_Board_pk PRIMARY KEY (QNA_num)
+	QNA_hidden           NUMBER not null
 ) 
 	
 	</update>
@@ -112,12 +108,12 @@
     #{project_summary},
     #{project_pattern1},
     #{project_pattern2},
-    #{project_url},
-    #{project_targetmoney},
-    #{project_enddate},
+    #{project_URL},
+    #{project_targetMoney},
+    #{project_endDate},
     #{project_content},
     #{project_bank},
-    #{project_banknum},
+    #{project_bankNum},
     #{content_table_name},
     #{qna_board_table_name},
     #{option_table_name},
@@ -126,7 +122,7 @@
 )
 	</insert>
 	
-	<insert id="insertProjectContentTable" parameterType="InsertContentVO">
+	<insert id="insertProjectContentTable" parameterType="ContentVO">
 	INSERT INTO ${tableName} (
     content_num,
     project_num,
@@ -135,12 +131,50 @@
     content_minprice,
     option_table_name
 ) VALUES (
-    ${tableName}_seq.nextval,
+    #{content_num},
     #{project_num},
     #{content_name},
-    #{content_kind},
-    #{content_minprice},
+    #{content_Kind},
+    #{content_MinPrice},
     #{option_table_name}
 )
 	</insert>
+	<select id="getProjectContentTablePk" parameterType="Project" resultType="int">
+		select 
+    		${content_table_name}_seq.nextval from dual
+	</select>
+	<insert id="insertProjectOptionTable" parameterType="OptionVO">
+		INSERT INTO ${tableName} (
+    project_num,
+    content_num,
+    option_name,
+    option_kind,
+    option_value
+) VALUES (
+    #{project_num},
+    #{content_num},
+    #{option_name},
+    #{option_kind},
+    #{option_value}
+)
+	</insert>
+	
+	<select id="ProjectListCnt" parameterType="Project" resultType="int">
+		select count(*) from project 
+		<trim prefix=" where (" suffix=")">
+			<include refid="boardSearch"></include>
+		</trim>
+	</select>
+	
+	<sql id="boardSearch">
+		<if test="search=='Project_name'">
+				<![CDATA[Project_name like '%'|| #{keyword} ||'%']]>
+		</if>
+		<if test="search == 'b_content'">
+				<![CDATA[b_content like '%'|| #{keyword} ||'%']]>
+		</if>
+		<if test="search == 'b_name'">
+				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
+		</if>
+	</sql>
 </mapper>

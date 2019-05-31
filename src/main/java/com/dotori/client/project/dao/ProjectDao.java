@@ -1,8 +1,10 @@
 package com.dotori.client.project.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.dotori.client.project.vo.InsertContentVO;
+import com.dotori.client.project.vo.ContentVO;
+import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
 
 public interface ProjectDao {
@@ -22,6 +24,14 @@ public interface ProjectDao {
 
 	public int insertProject(ProjectVO pvo);
 
-	public int insertProjectContentTable(InsertContentVO icvo);
+	public int insertProjectContentTable(ContentVO icvo);
+
+	public int getProjectContentTablePk(ProjectVO pvo);
+
+	public int insertProjectOptionTable(OptionVO icvo);
+
+	public List<ProjectVO> getListProject(ProjectVO pvo);
+
+	public int ProjectListCnt(ProjectVO pvo);
 
 }

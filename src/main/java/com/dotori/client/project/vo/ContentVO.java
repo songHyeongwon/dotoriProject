@@ -15,4 +15,10 @@ public class ContentVO {
 	public ContentVO() {
 		listOption = new ArrayList<OptionVO>();
 	}
+	
+	private String tableName;
+	private int content_num;
+    private int project_num;
+    private String content_recdate;
+    private String option_table_name;
 }

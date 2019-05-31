@@ -1,6 +1,7 @@
 package com.dotori.client.project.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dotori.client.project.vo.ProjectVO;
 
@@ -19,10 +20,11 @@ public interface ProjectService {
 	public int createQna_boardTableSeq(ProjectVO pvo);
 
 	public int insertProject(ProjectVO pvo);
-
 	public int insertProjectContentTable(ProjectVO pvo);
 
-	public int insertProjectOptionTable(ProjectVO pvo);
+	public List<ProjectVO> getListProject(ProjectVO pvo);
+
+	public int ProjectListCnt(ProjectVO pvo);
 
 	
 

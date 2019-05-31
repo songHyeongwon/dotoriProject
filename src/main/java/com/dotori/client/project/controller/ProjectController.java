@@ -1,6 +1,5 @@
 package com.dotori.client.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -8,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dotori.client.project.service.ProjectService;
-import com.dotori.client.project.vo.ContentVO;
-import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.common.vo.PageDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -87,10 +86,26 @@ public class ProjectController {
 		result = projectService.createReplyTableSeq(pvo);
 		result = projectService.createQna_boardTableSeq(pvo);
 		
+		//프로젝트 인설트
 		result = projectService.insertProject(pvo);
 		result = projectService.insertProjectContentTable(pvo);
-		result = projectService.insertProjectOptionTable(pvo);
-		
+		if(result==0) {
+			log.info("======================================아마오류?=================================");
+		}
 		return "index";
+	}
+	
+	//프로젝트의 모든 내용을 반환해 보여주는 메서드
+	@RequestMapping(value="/listForm",method=RequestMethod.GET)
+	public String projectList(@ModelAttribute ProjectVO pvo, Model model) {
+		log.info("ProjectList 호출 성공");
+
+		List<ProjectVO> list = projectService.getListProject(pvo);
+		model.addAttribute("listProject",list);
+		
+		//전체 레코드 수 구현
+		int total = projectService.ProjectListCnt(pvo);
+		model.addAttribute("pageMaker",new PageDTO(pvo,total));
+		return "project/projectList";
 	}
 }

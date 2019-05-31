@@ -7,6 +7,7 @@
 		<typeAlias type="com.spring.client.reply.vo.ReplyVO" alias="reply"/>
 		<typeAlias type="com.spring.client.gallery.vo.GalleryVO" alias="gallery"/> -->
 		<typeAlias type="com.dotori.client.project.vo.ProjectVO" alias="Project"/>
-		<typeAlias type="com.dotori.client.project.vo.InsertContentVO" alias="InsertContentVO"/>
+		<typeAlias type="com.dotori.client.project.vo.ContentVO" alias="ContentVO"/>
+		<typeAlias type="com.dotori.client.project.vo.OptionVO" alias="OptionVO"/>
 	</typeAliases>
 </configuration>

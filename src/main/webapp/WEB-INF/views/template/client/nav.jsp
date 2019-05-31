@@ -9,11 +9,11 @@
 			<div class="masthead">
 				<nav>
 					<ul class="nav nav-justified">
-						<li class="active"><a href="#">전체</a></li>
+						<li class="active"><a href="/project/listForm">전체</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="false">공연</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">뮤지컬</a></li>
+								<li><a href="/project/listForm">뮤지컬</a></li>
 								<li><a href="#">연극</a></li>
 								<li><a href="#">패스티벌</a></li>
 								<li><a href="#">독립영화</a></li>

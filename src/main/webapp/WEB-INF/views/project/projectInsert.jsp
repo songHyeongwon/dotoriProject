@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,15 +58,11 @@
 
 		//이전 다음 버튼 누를시 제어
 		$(".Prev").click(function() {
-			console.log("뒤로");
-			//var tabs = $(this).parents(".tab-pane");
-			//console.log(tabs.prev().attr("id"))
-			$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+			$('.nav-tabs > .active').prev('li').find('a')[0].click();
 		});
 
 		$(".Next").click(function() {
-			console.log("다음");
-			$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+			$('.nav-tabs > .active').next('li').find('a')[0].click();
 		});
 
 		//대분류 선택시 소분류 데이터 가져오기
@@ -92,80 +89,87 @@
 		$("#ContentAdd").click(function() {
 			ContentPlue();
 		});
-		
+
 		//상품제거 버튼을 누를시
 		$("#ContentDel").click(function() {
-			if(ContentCnt!=2){
+			if (ContentCnt != 2) {
 				$("#ContentTable").find("tr").last().remove();
-				ContentCnt = ContentCnt-1
-			}else{
+				ContentCnt = ContentCnt - 1
+			} else {
 				alert("더이상 상품을 지울수 없습니다.");
 			}
 		})
-		
+
 		//옵션 추가하기 버튼을 누를시
-		$(document).on("click","input[name='addOptions']", function() {
+		$(document).on("click", "input[name='addOptions']", function() {
 			optionPlus($(this));
-			
-			$(this).next().val(parseInt($(this).next().val())+1);
+
+			$(this).next().val(parseInt($(this).next().val()) + 1);
 			console.log($(this).next().val());
 		});
-		
+
 		//옵션필요 버튼 누를시
-		$(document).on("click",'input[optionData=""]', function() {
-			if($(this).is(":checked") == true){
+		$(document).on("click", 'input[optionData=""]', function() {
+			if ($(this).is(":checked") == true) {
 				console.log('체크')
 				$(this).next().removeClass()
-			}else{
+			} else {
 				console.log('아웃')
 				$(this).next().addClass("hide")
 			}
 		});
-		
+
 		//옵션제거 버튼을 누를시<span>제거하기
-		$(document).on("click","input[name='delOptionDiv']", function() {
+		$(document).on("click", "input[name='delOptionDiv']", function() {
 			var n = $(this).parents("td").children("input[name='optionCnt']");
-			n.val(parseInt(n.val())-1)
+			n.val(parseInt(n.val()) - 1)
 			$(this).parent("span").remove();
 			console.log(n.val());
-			
+
 		});
-		
+
 		//옵션넣기버튼 텍스트에리어게 옵션값을 넣는다.
-		$(document).on("click","input[name='addOption']", function() {
+		$(document).on("click", "input[name='addOption']", function() {
 			//텍스에리어의 내용찾음
 			var text = $(this).prev().prev().val();
 			var value = $(this).prev("input").val();
-			text = text + " / "+value;
+			text = text + "/" + value;
 			console.log(text);
 			$(this).prev().prev().val(text);
 			$(this).prev("input").val("");
 		});
-		
+
 		//마지막 옵션 제거하기 버튼 클릭시
-		$(document).on("click","input[name='delOption']", function() {
+		$(document).on("click", "input[name='delOption']", function() {
 			var text = $(this).prev().prev().prev().val();
 			//전체 문자열 길이
 			//마지막 /좌표 찾기
 			var last = text.lastIndexOf("/");
-			text = text.substring(0,last);
+			text = text.substring(0, last);
 			$(this).prev().prev().prev().val(text);
 		});
-		
-		
+
 		//서브밋 버튼
 		$("#ProjectSut").click(function() {
-			if(!chkData('#Project_name',"프로젝트명을")) return;
-			else if (!chkData('#Project_summary',"프로젝트 소개를")) return;
-			else if (!chkData('#file',"등록할 이미지를")) return;
-			else if (!chkFile($('#file'))) return;
+			if (!chkData('#Project_name', "프로젝트명을"))
+				return;
+			else if (!chkData('#Project_summary', "프로젝트 소개를"))
+				return;
+			else if (!chkData('#file', "등록할 이미지를"))
+				return;
+			else if (!chkFile($('#file')))
+				return;
 			//else if (!chkData('#Project_pattern1',"대분류를")) return;
 			//else if (!chkData('#Project_pattern2',"소분류를")) return;
-			else if (!chkData('#Project_targetMoney',"목표금액을")) return;
-			else if (!chkData('#Project_endDate',"종료날짜를")) return;
+			else if (!chkData('#Project_targetMoney', "목표금액을"))
+				return;
+			else if (!chkData('#Project_endDate', "종료날짜를"))
+				return;
 			//else if (!chkData('#editor',"프로젝트 소개를")) return;
-			else if (!chkData('#Project_bank',"입금은행명을")) return;
-			else if (!chkData('#Project_bankNum',"입금계좌를")) return;
+			else if (!chkData('#Project_bank', "입금은행명을"))
+				return;
+			else if (!chkData('#Project_bankNum', "입금계좌를"))
+				return;
 			else {
 				console.log("모두통과");
 				//스마트 에디터 내용 삽입
@@ -176,131 +180,139 @@
 					"enctype" : "multipart/form-data"
 				});
 				$("#projectInsertForm").submit();
-			} 
+			}
 		})
-		
+
 	});
 	function ContentPlue() {
 		//태그 만들기
 		//상품명
 		var Content_name = $("<input>");
 		Content_name.attr("type", "text");
-		Content_name.attr("name", "list["+(ContentCnt-1)+"].content_name");
+		Content_name
+				.attr("name", "list[" + (ContentCnt - 1) + "].content_name");
 		Content_name.addClass("form-control");
-		
+
 		//히든 태그 만들기
 		var hidden = $("<input>");
 		hidden.attr("type", "hidden");
 		hidden.attr("name", "contentCnt");
-		hidden.attr("value", ""+(ContentCnt-1));
-		
+		hidden.attr("value", "" + (ContentCnt - 1));
+
 		//옵션갯수가 몇개인지 알수있는 태그 만들기
 		var hidden2 = $("<input>");
 		hidden2.attr("type", "hidden");
 		hidden2.attr("name", "optionCnt");
 		hidden2.attr("value", "0");
-		
+
 		//금액
 		var Content_MinPrice = $("<input>");
 		Content_MinPrice.attr("type", "text");
-		Content_MinPrice.attr("name", "list["+(ContentCnt-1)+"].content_MinPrice");
+		Content_MinPrice.attr("name", "list[" + (ContentCnt - 1)
+				+ "].content_MinPrice");
 		Content_MinPrice.addClass("form-control");
-		
+
 		//배송필요유무 체크박스
 		var Content_Kind = $("<input>");
-		Content_Kind.attr("type","checkbox");
-		Content_Kind.attr("name","list["+(ContentCnt-1)+"].content_Kind");
-		Content_Kind.attr("value","1");
-		
+		Content_Kind.attr("type", "checkbox");
+		Content_Kind
+				.attr("name", "list[" + (ContentCnt - 1) + "].content_Kind");
+		Content_Kind.attr("value", "1");
+
 		//옵션추가하기 버튼
 		var addOption = $("<input>");
-		addOption.attr("type","button");
-		addOption.attr("name","addOptions");
-		addOption.attr("value","옵션추가하기");
+		addOption.attr("type", "button");
+		addOption.attr("name", "addOptions");
+		addOption.attr("value", "옵션추가하기");
 		addOption.addClass("form-control");
-		
+
 		//tr & td
 		var tr = $("<tr>");
 		var td1 = $("<td>");
-		td1.html("상품 "+ContentCnt);
+		td1.html("상품 " + ContentCnt);
 		var td2 = $("<td>");
-		
+
 		//br
 		var br = $("<br>");
-		
+
 		//조립하기
-		td2.append("상품명").append(Content_name).append("금액").append(Content_MinPrice).append("배송이 필요한 상품인가요?").append(Content_Kind).append(hidden);
+		td2.append("상품명").append(Content_name).append("금액").append(
+				Content_MinPrice).append("배송이 필요한 상품인가요?").append(Content_Kind)
+				.append(hidden);
 		td2.append(br).append(addOption).append(hidden2);
 		tr.append(td1).append(td2);
 		$("#ContentTable").append(tr);
-		ContentCnt = ContentCnt+1
+		ContentCnt = ContentCnt + 1
 	}
 	//옵션 추가하기 버튼을 누르면 옵션을 입력할수있는 내역이 나온다.
 	function optionPlus(button) {
 		//히든값 뽑아 만들기
 		var cnt = button.prev().prev().val();
-		console.log(cnt+"번째 상품의");//몇번째 상품의
+		console.log(cnt + "번째 상품의");//몇번째 상품의
 		var cntOption = button.next().val();
-		console.log(cntOption+"번째 옵션이다.")
-		
+		console.log(cntOption + "번째 옵션이다.")
+
 		//옵션명
 		var optionName = $("<input>");
 		optionName.attr("type", "text");
-		optionName.attr("name", "list["+cnt+"].listOption["+cntOption+"].option_name");
+		optionName.attr("name", "list[" + cnt + "].listOption[" + cntOption
+				+ "].option_name");
 		optionName.addClass("form-control");
 		//옵션선택이 필요한가요?
 		var optionKind = $("<input>");
 		optionKind.attr("type", "checkbox");
-		optionKind.attr("name", "list["+cnt+"].listOption["+cntOption+"].option_kind");
+		optionKind.attr("name", "list[" + cnt + "].listOption[" + cntOption
+				+ "].option_kind");
 		optionKind.attr("value", "1");
-		optionKind.attr("optionData","");
+		optionKind.attr("optionData", "");
 		//옵션 리스트 div
 		var optionDiv = $("<div>");
 		optionDiv.addClass("hide");
-		
+
 		//마지막 옵션을 담는 에리어
 		//var lastOption = $("<input>");
 		//lastOption.attr("type", "hidden");
 		//lastOption.attr("name", "lastOption");
-		
+
 		//옵션담는 텍스트 에리어
 		var optionValue = $("<textarea>");
-		optionValue.attr("name","list["+cnt+"].listOption["+cntOption+"].option_value_text");
-		optionValue.attr("readonly","readonly");
+		optionValue.attr("name", "list[" + cnt + "].listOption[" + cntOption
+				+ "].option_value_text");
+		optionValue.attr("readonly", "readonly");
 		optionValue.addClass("form-control");
-		
+
 		//옵션입력을 해주는 텍스트
 		var inOption = $("<input>");
-		inOption.attr("type","text");
-		inOption.attr("name","inOption");
+		inOption.attr("type", "text");
+		inOption.attr("name", "inOption");
 		inOption.addClass("form-control");
-		
+
 		//옵션을 넣는 버튼
 		var addOption = $("<input>");
-		addOption.attr("type","button");
-		addOption.attr("name","addOption");
-		addOption.attr("value","옵션넣기");
-		
+		addOption.attr("type", "button");
+		addOption.attr("name", "addOption");
+		addOption.attr("value", "옵션넣기");
+
 		//마지막 옵션 제거하기
 		var delOption = $("<input>");
 		delOption.attr("type", "button");
-		delOption.attr("name","delOption");
-		delOption.attr("value","마지막 옵션 제거하기");
-		
+		delOption.attr("name", "delOption");
+		delOption.attr("value", "마지막 옵션 제거하기");
+
 		//옵션틀 전체 제거 버튼
 		var delOptionDiv = $("<input>");
 		delOptionDiv.attr("type", "button");
-		delOptionDiv.attr("name","delOptionDiv");
-		delOptionDiv.attr("value","옵션제거하기");
-		
-		
+		delOptionDiv.attr("name", "delOptionDiv");
+		delOptionDiv.attr("value", "옵션제거하기");
+
 		//전체틀 span
 		var span = $("<span>");
 		//조립하기
 		optionDiv.append("옵션을 입력해주세요").append(optionValue).append(inOption)
 		optionDiv.append(addOption).append(delOption);
-		
-		span.append($("<br>")).append("옵션명").append(optionName).append("옵션선택이 필요한가요? ");
+
+		span.append($("<br>")).append("옵션명").append(optionName).append(
+				"옵션선택이 필요한가요? ");
 		span.append(optionKind).append(optionDiv).append(delOptionDiv);
 		button.parent().append(span);
 	}
@@ -341,13 +353,14 @@
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 썸네일</td>
-							<td><input type="file" id="file"
-								name="file" class="form-control">
+							<td><input type="file" id="file" name="file"
+								class="form-control">
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 구분</td>
 							<td>대분류 <select id="Project_pattern1"
 								name="Project_pattern1" class="form-control">
+									<option value=" ">선택하세요</option>
 									<option value="게임">게임</option>
 									<option value="공연">공연</option>
 									<option value="출판">출판</option>
@@ -378,14 +391,9 @@
 							<td><textarea name="Project_content" maxlength="4000"
 									id="editor" class="form-control"></textarea></td>
 						</tr>
-						<tr>
-							<td colspan="2">
-								<button type="button" class="Next btn btn-primary"
-									style="float: right;">다음</button>
-							</td>
-						</tr>
 					</table>
-
+					<button type="button" class="Next btn btn-primary"
+						style="float: right;">다음</button>
 				</div>
 				<%--펀딩 및 후원품 구성 폼 시작 --%>
 				<div role="tabpanel" class="tab-pane" id="profile">
@@ -402,27 +410,23 @@
 						</tr>
 						<tr>
 							<td>상품 1</td>
-							<td>
-								상품명 
-								<input type="text" name="list[0].content_name" class="form-control"> 
-								
-								금액
-								<input type="text" name="list[0].content_MinPrice" class="form-control">
-								
-								배송이 필요한 상품인가요? 
-								<input type="checkbox" name="list[0].content_Kind" value="1">
-								<input type="hidden" name="contentCnt" value="0">
-								<br> 
-								<input type="button" name="addOptions" value="옵션추가하기" class="form-control">
-								<input type="hidden" name="optionCnt" value="0">
-								
+							<td>상품명 <input type="text" name="list[0].content_name"
+								class="form-control"> 금액 <input type="text"
+								name="list[0].content_MinPrice" class="form-control">
+
+								배송이 필요한 상품인가요? <input type="checkbox"
+								name="list[0].content_Kind" value="1"> <input
+								type="hidden" name="contentCnt" value="0"> <br> <input
+								type="button" name="addOptions" value="옵션추가하기"
+								class="form-control"> <input type="hidden"
+								name="optionCnt" value="0">
 							</td>
 						</tr>
 					</table>
-						<button type="button" class="Prev btn btn-default"
-									style="float: left">이전</button>
-						<button type="button" class="Next btn btn-primary"
-									style="float: right;">다음</button>
+					<button type="button" class="Prev btn btn-default"
+						style="float: left">이전</button>
+					<button type="button" class="Next btn btn-primary"
+						style="float: right;">다음</button>
 				</div>
 				<%--펀딩 및 후원품 구성 폼 종료 --%>
 
@@ -451,16 +455,13 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<button type="button" class="form-control btn btn-primary" id="ProjectSut">입력완료</button>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<button type="button" class="Prev btn btn-default"
-									style="float: left">이전</button>
+								<button type="button" class="form-control btn btn-primary"
+									id="ProjectSut">입력완료</button>
 							</td>
 						</tr>
 					</table>
+					<button type="button" class="Prev btn btn-default"
+						style="float: left">이전</button>
 				</div>
 				<%--계좌설정 폼 종료--%>
 			</div>

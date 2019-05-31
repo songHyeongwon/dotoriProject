@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.client.member.dao.MemberDao">
+
+
+	<!-- ID 확인 쿼리 -->
+	<select id="idCheck" resultType="int" parameterType="member">
+		/* member - idCheck */
+		select nvl((select 1 from member where member_id=#{member_id}),0) 
+		as state from dual
+	</select>
+	
+	
+	<!-- 회원 가입 -->
+	<insert id="memberJoin" parameterType="member">
+		/* member - memberJoin */
+		insert into member(member_num,member_id,member_pwd,member_name,
+		member_address,member_phone,member_email,member_kind,member_signum,
+		member_nickname,member_infoagree,member_evenagree) 
+		values(member_seq.nextval,#{member_id},#{member_pwd},#{member_name},
+		#{member_address},#{member_phone},#{member_eMail},#{member_kind},
+		#{member_sigNum},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+	</insert>
+	
+	<!-- 회원 로그인 -->
+	<!-- <select id="memberSession" parameterType="member" resultType="int">
+		/* member - memberSession */
+		select nvl((select 1 from member where member_id=#{member_id} and member_pwd=#{member_pwd}),0) 
+		as state from dual
+	</select> -->
+	
+	<!-- 회원 정보 가져오기 -->
+	<select id="memberSession" parameterType="member" resultType="member">
+		/* member - memberAll */
+		select member_id,member_name,member_address,member_phone,member_eMail,member_kind,member_sigNum,member_point,member_nickName 
+		from member where member_id=#{member_id} and member_pwd=#{member_pwd}
+	</select>
+	
+	<!-- 회원 비밀번호 확인 -->
+	<select id="passwordConfirm" parameterType="member" resultType="int">
+		/* member - memberPasswordConfrim */
+		select nvl((select 1 from member where member_pwd=#{member_pwd}),0) 
+		as state from dual
+	</select>
+</mapper>

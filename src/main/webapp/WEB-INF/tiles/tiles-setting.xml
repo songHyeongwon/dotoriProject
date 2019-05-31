@@ -24,6 +24,13 @@
 	<definition name="project/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
 	</definition>
+	<!-- 로그인 화면 맵핑 설정 -->
+	<definition name="member/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
+	</definition>
+<!-- 	<definition name="member/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
+	</definition> -->
 	<!-- 갤러리 맵핑 설정 -->
 <!--  	<definition name="gallery/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/gallery/{1}.jsp"/>

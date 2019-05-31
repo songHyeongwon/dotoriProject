@@ -39,8 +39,13 @@
 					<button type="submit" class="btn btn-default">검색</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
+					<c:if test="${data==null}">
+					<li><a href="/member/login">로그인</a></li>
+					<li><a href="/member/join">회원가입</a></li>
+					</c:if>
+					<c:if test="${data!=null }">
+						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
+					</c:if>
 					<li><a href="#">결재화면으로 이동</a></li>
 				</ul>
 			</div>

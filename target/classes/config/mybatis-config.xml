@@ -9,5 +9,6 @@
 		<typeAlias type="com.dotori.client.project.vo.ProjectVO" alias="Project"/>
 		<typeAlias type="com.dotori.client.project.vo.ContentVO" alias="ContentVO"/>
 		<typeAlias type="com.dotori.client.project.vo.OptionVO" alias="OptionVO"/>
+		<typeAlias type="com.dotori.client.member.vo.MemberVO" alias="member"/>
 	</typeAliases>
 </configuration>

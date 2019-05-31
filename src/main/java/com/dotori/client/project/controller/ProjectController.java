@@ -34,21 +34,20 @@ public class ProjectController {
 	public void initBiner(WebDataBinder binder) {
 		binder.registerCustomEditor(MultipartFile.class, "file", new StringTrimmerEditor(true));
 	}
-	//프로젝트 서비스
+	//프로젝트 서비스 선언
 	private ProjectService projectService;
 	
-	//프로젝트의 insertForm으로 전송
+	/********************************************************************************************
+	 * 프로젝트 insert 폼 반환 메서드																	*
+	 ********************************************************************************************/
 	@RequestMapping(value="/insertForm")
 	public String projectInsertFrom() {
-		//폼으로 전송하면 서버에서 패턴들의 값을 받아서 전송해준다.
-		//ArrayList<ProjectVO> list = projectService.getPatterns();
-		//projectInsert.jsp에서 값을 꺼내온다.
-		//model.addAttribute("Patterns",list);
-		
 		return "project/projectInsert";
 	}
 	
-	//소분류 목록을 불러들이는 메서드
+	/********************************************************************************************
+	 * 소분류 목록을 불러들이는 메서드																		*
+	 ********************************************************************************************/
 	@GetMapping(value="/getPatterns/{Project_pattern1}", produces = {MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE } )
 	public ResponseEntity<List<ProjectVO>> getPatterns(@PathVariable("Project_pattern1") String project_pattern1) {
@@ -59,7 +58,9 @@ public class ProjectController {
 		return entity;
 	}
 	
-	
+	/********************************************************************************************
+	 * 프로젝트 insert 폼에서 서브밋하면 값을 받아 처리하는 메서드													*
+	 ********************************************************************************************/
 	@RequestMapping(value="/insertProject")
 	public String projectInsert(@ModelAttribute ProjectVO pvo) {
 		log.info("insert 안에 들어 왔습니다.");
@@ -94,18 +95,20 @@ public class ProjectController {
 		}
 		return "index";
 	}
-	
-	//프로젝트의 모든 내용을 반환해 보여주는 메서드
+	/********************************************************************************************
+	 * 프로젝트의 모든 내용을 반환해 보여주는 메서드																*
+	 ********************************************************************************************/
 	@RequestMapping(value="/listForm",method=RequestMethod.GET)
 	public String projectList(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("ProjectList 호출 성공");
 
-		List<ProjectVO> list = projectService.getListProject(pvo);
+		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		
 		//전체 레코드 수 구현
-		int total = projectService.ProjectListCnt(pvo);
+		int total = projectService.projectListCnt(pvo);
 		model.addAttribute("pageMaker",new PageDTO(pvo,total));
+		
 		return "project/projectList";
 	}
 }

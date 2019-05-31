@@ -159,16 +159,59 @@
 )
 	</insert>
 	
-	<select id="ProjectListCnt" parameterType="Project" resultType="int">
-		select count(*) from project 
+	<select id="projectList" parameterType="Project" resultType="Project">
+		<![CDATA[
+		SELECT 
+			project_num,
+		    project_name,
+		    project_thumb,
+		    project_summary,
+		    project_targetmoney,
+		    project_summoney,
+		    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+		    project_status,
+		    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+		    member_id,
+		    project_pattern1,
+		    project_pattern2
+		FROM ( 
+			SELECT /*+INDEX_DESC(project project_pk)*/
+				rownum as rnum, 
+				project_num,
+			    project_name,
+			    project_thumb,
+			    project_summary,
+			    project_targetmoney,
+			    project_summoney,
+			    project_enddate,
+			    project_status,
+			    project_adddate,
+			    member_id,
+			    project_pattern1,
+			    project_pattern2
+			FROM project 
+			WHERE ]]>	
+			
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="projectSearch"></include>
+		</trim>
+		<![CDATA[ rownum <= #{pageNum} * #{amount}
+		) PROJECTlist
+		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	
+
+	<select id="projectListCnt" resultType="int" parameterType="Project">
+		select count(*) from project
 		<trim prefix=" where (" suffix=")">
-			<include refid="boardSearch"></include>
+			<include refid="projectSearch"></include>
 		</trim>
 	</select>
 	
-	<sql id="boardSearch">
-		<if test="search=='Project_name'">
-				<![CDATA[Project_name like '%'|| #{keyword} ||'%']]>
+<!-- 자주 사용하는 부분만을 떼어내 sql태그안에 정의해준다. 다른 select문에서 호출하여 적용한다. -->
+	<sql id="projectSearch">
+		<if test="search=='b_title'">
+				<![CDATA[project_name like '%'|| #{keyword} ||'%']]>
 		</if>
 		<if test="search == 'b_content'">
 				<![CDATA[b_content like '%'|| #{keyword} ||'%']]>

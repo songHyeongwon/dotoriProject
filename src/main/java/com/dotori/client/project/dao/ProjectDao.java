@@ -30,8 +30,9 @@ public interface ProjectDao {
 
 	public int insertProjectOptionTable(OptionVO icvo);
 
-	public List<ProjectVO> getListProject(ProjectVO pvo);
+	public List<ProjectVO> projectList(ProjectVO pvo);
 
-	public int ProjectListCnt(ProjectVO pvo);
+	public int projectListCnt(ProjectVO pvo);
+
 
 }

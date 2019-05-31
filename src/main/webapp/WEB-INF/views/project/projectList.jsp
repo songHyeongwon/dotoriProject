@@ -20,9 +20,72 @@
 		<![endif] -->
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
+<script type="text/javascript">
+	
+</script>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
 <body>
-	
+	<div class="contentContainer">
+		<div class="contentTit text-center">
+			<h1>프로젝트리스트</h1>
+		</div>
+		<form id="boardList">
+			<input type="hidden" id="b_num" name="b_num" /> <input type="hidden"
+				name="pageNum" id="pageNum" value="${pageMaker.cvo.pageNum}">
+			<input type="hidden" name="amount" id="amount"
+				value="${pageMaker.cvo.amount }">
+		</form>
+		<%--============리스트 시작=========== --%>
+		<div id="boardList">
+			<c:choose>
+				<c:when test="${not empty listProject}">
+					<c:forEach var="project" items="${listProject}" varStatus="status">
+						<div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive">
+			                <div>
+								제목 : ${project.project_name}<br>
+								설명 : ${project.project_summary}<br>
+								목표금 : ${project.project_targetMoney}<br>
+								현재금 : ${project.project_sumMoney}<br>
+								종료일 : ${project.project_endDate}<br>
+								제작자 : ${project.member_id}<br>
+								대분류 : ${project.project_pattern1}<br>
+								소분류 : ${project.project_pattern2}<br>
+							</div>
+			            </div>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<td colspan="4" class="tac">등록된 게시물이 없습니다.</td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
+	<%--============================리스트 종료========================== --%>
+
+	<%--=========================페이징 처리 시작=========================== --%>
+	<div class="text-center">
+		<ul class="pagination">
+			<c:if test="${pageMaker.prev}">
+				<li class="paginate_button previous"><a
+					href="${pageMaker.startPage-1}">Previous</a></li>
+			</c:if>
+			<c:forEach var="num" begin="${pageMaker.startPage}"
+				end="${pageMaker.endPage}">
+				<li
+					class="paginate_button ${pageMaker.cvo.pageNum==num? 'active': ''}">
+					<a href="${num}">${num}</a>
+				</li>
+			</c:forEach>
+			<c:if test="${pageMaker.next}">
+				<li class="paginate_button next"><a
+					href="${pageMaker.endPage +1}">Next</a></li>
+			</c:if>
+		</ul>
+	</div>
+	<%--==========================페이징 처리 종료============================--%>
 </body>
 </html>

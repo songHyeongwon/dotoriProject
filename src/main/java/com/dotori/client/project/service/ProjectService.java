@@ -22,11 +22,8 @@ public interface ProjectService {
 	public int insertProject(ProjectVO pvo);
 	public int insertProjectContentTable(ProjectVO pvo);
 
-	public List<ProjectVO> getListProject(ProjectVO pvo);
+	public List<ProjectVO> projectList(ProjectVO pvo);
 
-	public int ProjectListCnt(ProjectVO pvo);
-
-	
-
+	public int projectListCnt(ProjectVO pvo);
 
 }

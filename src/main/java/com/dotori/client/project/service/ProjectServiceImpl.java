@@ -137,19 +137,16 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return result;
 	}
-	
-	//리스트 반환
+
 	@Override
-	public List<ProjectVO> getListProject(ProjectVO pvo) {
-		List<ProjectVO> list = projectDao.getListProject(pvo);
+	public List<ProjectVO> projectList(ProjectVO pvo) {
+		List<ProjectVO> list = projectDao.projectList(pvo);
 		return list;
 	}
-	
-	//갯수 반환
-	@Override
-	public int ProjectListCnt(ProjectVO pvo) {
-		int result = projectDao.ProjectListCnt(pvo);
-		return result;
-	}
 
+	@Override
+	public int projectListCnt(ProjectVO pvo) {
+		int result = projectDao.projectListCnt(pvo);
+		return 0;
+	}
 }

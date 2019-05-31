@@ -31,9 +31,10 @@
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search">
+				<form class="navbar-form navbar-left" role="search" id="search" action="/project/listForm" method="get">
+					<input type="hidden" value="b_title" name="search">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword">
 					</div>
 					<button type="submit" class="btn btn-default">검색</button>
 				</form>

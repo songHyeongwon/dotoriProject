@@ -26,4 +26,6 @@ public interface ProjectService {
 
 	public int projectListCnt(ProjectVO pvo);
 
+	public ProjectVO projectDetail(ProjectVO pvo);
+
 }

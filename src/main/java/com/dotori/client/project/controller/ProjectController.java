@@ -111,4 +111,15 @@ public class ProjectController {
 		
 		return "project/projectList";
 	}
+	/********************************************************************************************
+	 * 프로젝트 종류 눌렀을시 그 내용을 보여주는 메서드															*
+	 ********************************************************************************************/
+	@RequestMapping(value="/detail",method=RequestMethod.POST)
+	public String projectDetail(@ModelAttribute ProjectVO pvo, Model model){
+		log.info("detail페이지 호출");
+		ProjectVO result = projectService.projectDetail(pvo);
+		model.addAttribute("project", result);
+		
+		return "project/projectDetail";
+	}
 }

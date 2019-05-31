@@ -34,5 +34,7 @@ public interface ProjectDao {
 
 	public int projectListCnt(ProjectVO pvo);
 
+	public ProjectVO projectDetail(ProjectVO pvo);
+
 
 }

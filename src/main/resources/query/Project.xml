@@ -220,4 +220,7 @@
 				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
 		</if>
 	</sql>
+	<select id="projectDetail" parameterType="Project" resultType="Project">
+		SELECT * FROM project where project_num = #{project_num}
+	</select>
 </mapper>

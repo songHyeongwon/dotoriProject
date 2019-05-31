@@ -21,7 +21,18 @@
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
 <script type="text/javascript">
-	
+	$(function() {
+		$(".hdpe").click(function() {
+			var form = $(this).find("form[name='deteilGo']");
+			form.attr({
+				"action" : "/project/detail",
+				"method" : "post"
+			});
+			form.submit();
+		});
+		
+		
+	})
 </script>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -42,6 +53,9 @@
 				<c:when test="${not empty listProject}">
 					<c:forEach var="project" items="${listProject}" varStatus="status">
 						<div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+							<form name="deteilGo">
+								<input type="hidden" name="project_num" value="${project.project_num}">
+							</form>
 			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive">
 			                <div>
 								제목 : ${project.project_name}<br>

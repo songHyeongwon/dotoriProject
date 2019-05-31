@@ -18,6 +18,8 @@
 		<put-attribute name="body" value=""/>
 		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp"/>
 	</definition>
+	
+	
 	<!-- 기본게시판 맵핑 설정 -->
 	<definition name="project/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>

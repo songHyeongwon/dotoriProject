@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,48 +18,83 @@
 		<!-- [if lt IE 9]>
 			<script src="../js/html5shiv.js"></script>
 		<![endif]-->
-		
+		<style type="text/css">
+			#container{
+				width:500px;
+				margin:0px auto;
+				text-align:center;
+			}
+		</style>
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-		<script>
+		<script type="text/javascript">
 			$(function(){
-				var resultValue;
-				$("#anotherAddress").click(function(){
-					new daum.Postcode({
-		        		oncomplete: function(data) {
-		        			
-		    		}).open();
+				$("#support").click(function(){
+					if(!$("#agreement").prop("checked")){
+						alert("배송/후원사항을 읽고 동의해주세요.");
+					}
+					else{
+						location.href="/orders/ordersFinal";	
+					}
+					
 				});
-				/* $("#support").click(function(){
-					location.href="../view/orders/ordersFinal.jsp";
-				}); */
-		});
-			
-		</script>
+				$("#anotherAddress").click(function(){
+					var input=$("<input>");
+					input.attr({
+						"type":"text",
+						"name":"newAddress",
+						"id":"newAddress",
+						"placeholder":"서울특별시 성동구 무학로 2길 54(신방빌딩)",
+						"style":"width:300px"
+					});
+					var btn=$("<input>");
+					btn.attr({
+						"type":"button",
+						"id":"addAddress",
+						"value":"등록"
+					});
+					$("#f_address").append(input).append(btn);
+				});
+			});
+			$(document).on("click","input[type='button']",function(){
+				if($("#newAddress").val().replace(/\s/g,"")==""){
+					alert("새로운 주소지를 입력해주세요.");
+				}
+				else{
+					$("#address").html($("#newAddress").val());
+				}
+				$("#newAddress").val("");
+				$("#f_address").css("visibility","hide");
+				
+			});
+		
+		</script>		
 		<title>Insert title here</title>
 	</head>
 	<body>
-	<div class="title">
+	<div id="container">
+	<header>
 		<h3>프로젝트명"${project.name}"</h3>
-	</div>
-	<hr/>
-    <div class="container">
-	<div class="detailOrders">
-		<label>리워드 세부내역</label><br/>
-		<label>"${project.content}"</label>
-	</div>
+		<hr/>
+		<div class="detailOrders">
+			<label>후원금액:</label>
+			<label>"${project.price}"</label><br/>
+			
+			<label>리워드 세부내역</label><br/>
+			<label>"${project.content}"</label>
+		</div>
+	</header>
+	
 	<hr/>
       <div class="starter-template">
         <label>배송지</label>
 		<ul>
 			<li>"${member.address}"</li>
 			<li>"${member.address}"</li>
-			<li id="newAdress"></li>
+			<li><span id="address"></span></li>
 		</ul>
 		<br/>
-		<button type="button" id="anotherAddress" name="anotherAdreess">다른 주소 입력하기</button>
-		<br/>
-      </div>
+			<button type="button" id="anotherAddress">다른 주소 입력하기</button>
+      <form id="f_address"></form>
       <hr/>
       <div class="annotation">
       	
@@ -84,11 +120,10 @@
 		<button type="button" name="support" id="support">후원하기</button>
 	
       </div>
-      
-
-    </div><!-- /.container -->
-
-
+   </div>
+   </div>
+   <!-- /.container -->
+	
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

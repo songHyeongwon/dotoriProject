@@ -35,7 +35,7 @@
 				});
 			});
 		</script>
-		<title>Insert title here</title>
+		<title>배송/결제 안내사항 확인 페이지</title>
 	</head>
 	<body>
 	<div id="container">

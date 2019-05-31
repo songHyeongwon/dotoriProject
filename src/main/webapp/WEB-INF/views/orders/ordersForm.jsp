@@ -28,6 +28,8 @@
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript">
 			$(function(){
+				$("#insertAdd").hide();
+				
 				$("#support").click(function(){
 					if(!$("#agreement").prop("checked")){
 						alert("배송/후원사항을 읽고 동의해주세요.");
@@ -37,38 +39,25 @@
 					}
 					
 				});
-				$("#anotherAddress").click(function(){
-					var input=$("<input>");
-					input.attr({
-						"type":"text",
-						"name":"newAddress",
-						"id":"newAddress",
-						"placeholder":"서울특별시 성동구 무학로 2길 54(신방빌딩)",
-						"style":"width:300px"
-					});
-					var btn=$("<input>");
-					btn.attr({
-						"type":"button",
-						"id":"addAddress",
-						"value":"등록"
-					});
-					$("#f_address").append(input).append(btn);
+				$("#newAddBtn").click(function(){
+					$("#insertAdd").show();	
+				});
+				$("#addBtn").click(function(){
+					if($("#newAddress").val().replace(/\s/g,"")==""){
+						alert("새로운 배송지의 주소를 입력해주세요");
+					}
+					else{
+						var li=$("<li>");
+						var li_value=$("#newAddress").val();
+						
+						$("#addressList").append(li);
+						$("#insertAdd").hide();
+					}
 				});
 			});
-			$(document).on("click","input[type='button']",function(){
-				if($("#newAddress").val().replace(/\s/g,"")==""){
-					alert("새로운 주소지를 입력해주세요.");
-				}
-				else{
-					$("#address").html($("#newAddress").val());
-				}
-				$("#newAddress").val("");
-				$("#f_address").css("visibility","hide");
-				
-			});
-		
+			
 		</script>		
-		<title>Insert title here</title>
+		<title>결제</title>
 	</head>
 	<body>
 	<div id="container">
@@ -87,14 +76,19 @@
 	<hr/>
       <div class="starter-template">
         <label>배송지</label>
-		<ul>
+		<ul id="addressList">
 			<li>"${member.address}"</li>
-			<li>"${member.address}"</li>
-			<li><span id="address"></span></li>
 		</ul>
 		<br/>
-			<button type="button" id="anotherAddress">다른 주소 입력하기</button>
-      <form id="f_address"></form>
+			<button type="button" id="newAddBtn">다른 주소 입력하기</button>
+      <!-- 새 주소 입력부 -->
+      <div id="insertAdd">
+      	<form id="f_address">
+      		<input type="text" name="newAddress" id="newAddress" placeholder="서울특별시 성동구 무학로 2길 54(신방빌딩)"/>
+      		<button type="button" id="addBtn" name="addBtn">등록</button>
+      	</form>
+      </div>
+      
       <hr/>
       <div class="annotation">
       	

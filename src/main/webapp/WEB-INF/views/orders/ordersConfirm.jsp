@@ -33,7 +33,7 @@
 				});
 			});
 		</script>
-		<title>Insert title here</title>
+		<title>결제완료</title>
 	</head>
 	<body>
 	<div id="container">

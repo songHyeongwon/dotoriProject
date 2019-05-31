@@ -31,6 +31,7 @@
 		<script type="text/javascript">
 			$(function(){
 				$("#finalConfirm").click(function(){
+					
 					location.href="/orders/ordersConfirm";
 				});
 			});
@@ -43,8 +44,8 @@
 	<hr/>
 	<div id="rewardDetail">
 		<h4>리워드 세부항목</h4>
-		-후원금액:"${orders.price}"<br/>
-		-리워드:"${orders.content}"<br/>
+		-후원금액:"${project.price}"<br/>
+		-리워드:"${project.content}"<br/>
 		-주소:<span id="address"></span>
 	</div>
 	<hr/>

@@ -24,21 +24,15 @@
 				margin:0px auto;
 				text-align:center;
 			}
+			.selected{
+				border:1px solid red;
+			}
 		</style>
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript">
 			$(function(){
 				$("#insertAdd").hide();
 				
-				$("#support").click(function(){
-					if(!$("#agreement").prop("checked")){
-						alert("배송/후원사항을 읽고 동의해주세요.");
-					}
-					else{
-						location.href="/orders/ordersFinal";	
-					}
-					
-				});
 				$("#newAddBtn").click(function(){
 					$("#insertAdd").show();	
 				});
@@ -47,14 +41,28 @@
 						alert("새로운 배송지의 주소를 입력해주세요");
 					}
 					else{
-						var li=$("<li>");
-						var li_value=$("#newAddress").val();
-						
-						$("#addressList").append(li);
-						$("#insertAdd").hide();
+						$("#newAddList").html($("#newAddress").val());
 					}
+					$("#newAddress").val("");
+					$("#insertAdd").hide();
+
+				});
+				$("#addressList").children().click(function(){
+					$(this).addClass("selected");
+				});
+				$("#support").click(function(){
+					var value="";
+					if(!$("#agreement").prop("checked")){
+						alert("배송/후원사항을 읽고 동의해주세요.");
+					}
+					else{
+						location.href="/orders/ordersFinal";	
+						value=1;
+					}
+					
 				});
 			});
+			
 			
 		</script>		
 		<title>결제</title>
@@ -76,15 +84,17 @@
 	<hr/>
       <div class="starter-template">
         <label>배송지</label>
+        <button type="button" id="newAddBtn">다른 주소 입력하기</button>
 		<ul id="addressList">
-			<li>"${member.address}"</li>
+			<li>${member.address}</li>
+			<li><span id="newAddList"></span></li>
 		</ul>
 		<br/>
-			<button type="button" id="newAddBtn">다른 주소 입력하기</button>
       <!-- 새 주소 입력부 -->
       <div id="insertAdd">
       	<form id="f_address">
-      		<input type="text" name="newAddress" id="newAddress" placeholder="서울특별시 성동구 무학로 2길 54(신방빌딩)"/>
+      		<input type="text" name="newAddress" id="newAddress"
+      		style="width:500px" placeholder="예)서울특별시 성동구 무학로 2길 54(신방빌딩)"/>
       		<button type="button" id="addBtn" name="addBtn">등록</button>
       	</form>
       </div>

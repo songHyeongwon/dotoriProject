@@ -10,4 +10,6 @@ public interface MemberDao {
 
 	public MemberVO memberSession(MemberVO ivo);
 
+	public int passwordConfirm(String member_pwd);
+
 }

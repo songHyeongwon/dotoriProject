@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,18 @@ public class MemberController {
 		return "member/memberJoin";
 	}
 	
+	// 회원의 비밀번호 확인페이지로 이동
+	@RequestMapping(value="/memberMyPage",method=RequestMethod.GET)
+	public String memberMyPage() {
+		return "member/memberMyPage";
+	}
+	
+	// 마이페이지 개인정보수정 눌렀을 시 비밀번호 확인 화면으로 변경
+	@GetMapping(value="/confirmPassword")
+	public String confirmPassword() {
+		return "member/passwordConfirm";
+	}
+	
 	// 회원가입 중 ID 중복체크 버튼 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="/idCheck", produces="text/plain; charset=UTF-8")
@@ -59,6 +72,8 @@ public class MemberController {
 		return value;
 	}
 	
+	
+	// 회원가입 컨트롤러
 	@RequestMapping(value="/memberJoin",method=RequestMethod.POST)
 	public String memberJoin(@ModelAttribute MemberVO mvo, Model model) {
 		int result = 0;
@@ -76,6 +91,8 @@ public class MemberController {
 		
 	}
 	
+	
+	// 로그인 컨트롤러
 	@PostMapping(value="/session")
 	public ModelAndView session(@ModelAttribute MemberVO mvo, ModelAndView mav,HttpSession session) {
 		
@@ -93,8 +110,34 @@ public class MemberController {
 		}else {
 			session.setAttribute("data", result);
 			mav.addObject("login",result);
-			mav.setViewName("member/loginSuccess");
+			//mav.setViewName("member/loginSuccess");
+			mav.setViewName("redirect:/");		// redirect : 원하는 주소 = '원하는 주소'로 강제적으로 이동시킨다.
 			return mav;
 		}		
+	}
+	
+	// 회원의 로그아웃으로 인한 session값 상실
+	@PostMapping(value="memberLogout")
+	public String memberLogout(@ModelAttribute MemberVO mvo,HttpSession session) {
+		session.invalidate();
+		
+		return "index";
+	}
+		
+	// 비밀번호 확인 창 컨트롤러
+	@PostMapping(value="passwordConfirm")
+	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
+		String member_pwd=mvo.getMember_pwd();
+		
+		int result=0;
+		
+		result=memberService.passwordConfirm(member_pwd);
+		
+		if(result==1) {
+			return "member/personalModify";
+		}else {
+			model.addAttribute("fail",1);
+			return "member/passwordConfirm";
+		}
 	}
 }

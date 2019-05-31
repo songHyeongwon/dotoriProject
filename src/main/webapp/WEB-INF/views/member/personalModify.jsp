@@ -15,32 +15,9 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-		
-		<script type="text/javascript">
-			$(function(){
-				
-				$("#logoutBtn").click(function(){
-					$("#nameForm").attr({
-						"method" : "post",
-						"action" : "/member/memberLogout"
-					})
-					
-					$("#nameForm").submit();
-					
-				})
-				
-				$("#myPageBtn").click(function(){
-					location.href="/member/memberMyPage";
-				})
-				
-			})
-		</script>
+	
 	</head>
 	<body>
-		<form id="nameForm">
-			<h4 id="name">${data.member_name }님 안녕하세요.</h4>
-		</form>
-		<input type="button" id="logoutBtn" name="logoutBtn" value="로그아웃"/>&nbsp;&nbsp;
-		<input type="button" id="myPageBtn" name="myPageBtn" value="마이페이지"/>
+		
 	</body>
 </html>

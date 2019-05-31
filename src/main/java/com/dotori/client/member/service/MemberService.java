@@ -10,4 +10,6 @@ public interface MemberService {
 
 	MemberVO memberSession(String member_id,String member_pwd);
 
+	int passwordConfirm(String member_pwd);
+
 }

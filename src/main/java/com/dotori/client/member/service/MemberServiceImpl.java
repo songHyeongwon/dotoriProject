@@ -55,4 +55,14 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public int passwordConfirm(String member_pwd) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result=memberDao.passwordConfirm(member_pwd);
+		
+		return result;
+	}
+
 }

@@ -120,6 +120,8 @@ public class ProjectController {
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);
 		
+		log.info(result);
+		
 		return "project/projectDetail";
 	}
 }

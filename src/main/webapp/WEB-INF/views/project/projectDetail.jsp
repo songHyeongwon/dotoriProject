@@ -23,8 +23,21 @@
 	</head>
 	<body>
 		<c:choose>
-				<c:when test="${not empty project}">
-		${project.project_num}
-		</c:when></c:choose>
+			<c:when test="${not empty project}">
+				<c:forEach var="content" items="${project.list}">
+					${content.content_num}<br>
+					${content.content_name}<br>
+					${content.content_MinPrice}<br>
+					${content.content_Kind}<br>
+					${content.content_recdate}<br>
+					<c:forEach var="options" items="${content.listOption}">
+						${options.content_num}<br>
+						${options.option_value}<br>
+						${options.option_name}<br>
+						${options.option_kind}<br>
+					</c:forEach>
+				</c:forEach>
+			</c:when>
+		</c:choose>
 	</body>
 </html>

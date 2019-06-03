@@ -36,5 +36,9 @@ public interface ProjectDao {
 
 	public ProjectVO projectDetail(ProjectVO pvo);
 
+	public List<ContentVO> getContentList(ProjectVO pvo);
+
+	public List<OptionVO> getOprionList(ContentVO contentVO);
+
 
 }

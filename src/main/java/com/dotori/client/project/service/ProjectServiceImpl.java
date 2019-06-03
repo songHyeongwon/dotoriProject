@@ -153,6 +153,15 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public ProjectVO projectDetail(ProjectVO pvo) {
 		ProjectVO result = projectDao.projectDetail(pvo);
+		//먼저 뽑아봅니다.
+		
+		//컨텐츠를 가져옵니다.
+		result.setList(projectDao.getContentList(result));
+		
+		//컨텐츠별의 옵션을 가져옵니다.
+		for(int i = 0; i<result.getList().size(); i++) {
+			result.getList().get(i).setListOption(projectDao.getOprionList(result.getList().get(i)));
+		}
 		return result;
 	}
 }

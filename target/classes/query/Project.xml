@@ -221,6 +221,52 @@
 		</if>
 	</sql>
 	<select id="projectDetail" parameterType="Project" resultType="Project">
-		SELECT * FROM project where project_num = #{project_num}
+			SELECT
+	    project_num,
+	    project_name,
+	    project_thumb,
+	    project_summary,
+	    project_pattern1,
+	    project_pattern2,
+	    project_url,
+	    project_targetmoney,
+	    project_summoney,
+	    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+	    project_content,
+	    project_img1,
+	    project_bank,
+	    project_banknum,
+	    project_status,
+	    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+	    content_table_name,
+	    qna_board_table_name,
+	    option_table_name,
+	    reply_table_name,
+	    member_id
+	FROM project where project_num = #{project_num}
+	</select>
+	
+	<select id="getContentList" parameterType="Project" resultType="ContentVO">
+		SELECT
+	    content_num,
+	    project_num,
+	    content_name,
+	    content_kind,
+	    content_minprice,
+	    to_char(content_recdate,'YYYY-MM-DD') as content_recdate,
+	    option_table_name
+	FROM
+	    ${content_table_name} order by content_num
+	</select>
+	
+	<select id="getOprionList" parameterType="ContentVO" resultType="OptionVO">
+		SELECT
+	    project_num,
+	    content_num,
+	    option_name,
+	    option_kind,
+	    option_value
+	FROM
+	    ${option_table_name}
 	</select>
 </mapper>

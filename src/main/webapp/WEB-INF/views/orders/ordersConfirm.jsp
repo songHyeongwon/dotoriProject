@@ -19,9 +19,9 @@
 		<![endif]-->
 		<style type="text/css">
 			#container{
-				width:500px;
+				width:800px;
 				margin:0px auto;
-				text-align:center;
+				
 			}
 			
 		</style>
@@ -29,7 +29,7 @@
 		<script type="text/javascript">
 			$(function(){
 				$("#backHome").click(function(){
-					location.href="/views/index.jsp";
+					location.href="/";
 				});
 			});
 		</script>

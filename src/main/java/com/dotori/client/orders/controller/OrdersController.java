@@ -1,10 +1,13 @@
 package com.dotori.client.orders.controller;
 
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dotori.client.orders.service.OrdersService;
+import com.dotori.client.orders.vo.OrdersVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -28,5 +31,19 @@ public class OrdersController {
 	@RequestMapping(value="/ordersConfirm")
 	public String ordersConfirm() {
 		return "orders/ordersConfirm";
+	}
+	@RequestMapping(value="/boardInsert",method= {RequestMethod.GET,RequestMethod.POST})
+	public String boardInsert(@ModelAttribute OrdersVO ovo, Model model) {
+		log.info("ordersInsert »£√‚");
+		
+		int result=0;
+		String url="";
+		
+		result=ordersService.ordersInsert(ovo);
+		if(result==1) {
+			url="/orders/ordersConfirm";
+		}
+		
+		return "redirect:"+url;
 	}
 }

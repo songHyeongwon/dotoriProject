@@ -31,6 +31,9 @@
 	<definition name="orders/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/orders/{1}.jsp"/>
 	</definition>
+	<definition name="cs_board/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
+	</definition>
 	<!-- 갤러리 맵핑 설정 -->
 <!--  	<definition name="gallery/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/gallery/{1}.jsp"/>

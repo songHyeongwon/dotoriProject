@@ -29,7 +29,7 @@
 		<script type="text/javascript">
 			$(function(){
 				$("#backHome").click(function(){
-					location.href="/views/index.jsp";
+					location.href="/";
 				});
 			});
 		</script>

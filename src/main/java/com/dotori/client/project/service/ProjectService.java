@@ -28,4 +28,6 @@ public interface ProjectService {
 
 	public ProjectVO projectDetail(ProjectVO pvo);
 
+	public List<ProjectVO> mainList();
+
 }

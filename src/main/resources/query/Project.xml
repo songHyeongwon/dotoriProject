@@ -269,4 +269,40 @@
 	FROM
 	    ${option_table_name} where content_num = #{content_num}
 	</select>
+	<select id="mainList" resultType="Project">
+	<![CDATA[
+		SELECT 
+			project_num,
+		    project_name,
+		    project_thumb,
+		    project_summary,
+		    project_targetmoney,
+		    project_summoney,
+		    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+		    project_status,
+		    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+		    member_id,
+		    project_pattern1,
+		    project_pattern2
+		FROM ( 
+			SELECT /*+INDEX_DESC(project project_pk)*/
+				rownum as rnum, 
+				project_num,
+			    project_name,
+			    project_thumb,
+			    project_summary,
+			    project_targetmoney,
+			    project_summoney,
+			    project_enddate,
+			    project_status,
+			    project_adddate,
+			    member_id,
+			    project_pattern1,
+			    project_pattern2
+			FROM project 
+			WHERE	
+				rownum <= 3
+		)
+		]]>
+	</select>
 </mapper>

@@ -22,6 +22,20 @@
 		<![endif] -->
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
+<script type="text/javascript">
+	$(function() {
+		$(document).on("click","button[name='content']", function() {
+			$.ajax({
+				
+			})
+			$("#content_num")
+			$("#content_Kind")
+			$("#content_MinPrice")
+			$("#content_name")
+			$("#orders_content")
+		});
+	});
+</script>
 <style type="text/css">
 	.content{
 		width: 100%;
@@ -114,13 +128,43 @@
 						<input type="hidden" name="content_Kind" value="${content.content_Kind}">
 						<input type="hidden" name="content_recdate" value="${content.content_recdate}">
 						<input type="hidden" name="option_table_name" value="${content.option_table_name}">
-						<button type="button" name="content" class="content btn btn-info" >
+						<button type="button" name="content" class="content btn btn-info" data-toggle="modal" data-target="#myModal">
 							상품명 : ${content.content_name}<br>
 							최소후원액 : ${content.content_MinPrice}원<br>
 							<h3>프로젝트 후원하기</h3>
 						</button>
 					</form>
 				</c:forEach>
+			</div>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">상품후원을 위한 옵션을 선택합니다.</h4>
+						</div>
+						<div class="modal-body">
+							<form id="ordersForm">
+								<input type="hidden" value="${project.project_num}" name="project_num" id="project_num">
+								<input type="hidden" name="content_num" id="content_num">
+								<input type="hidden" name="content_Kind" id="content_Kind">
+								<input type="hidden" name="content_MinPrice" id="content_MinPrice">
+								
+								<input type="text" readonly="readonly" name="content_name" id="content_name" class="form-control">
+								<input type="text" readonly="readonly" name="orders_content" id="orders_content" class="form-control">
+								<select class="form-control">
+									<option>옵션들</option>
+								</select>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary">결재화면으로</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</c:when>
 	</c:choose>

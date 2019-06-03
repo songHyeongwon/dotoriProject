@@ -164,4 +164,10 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<ProjectVO> mainList() {
+		ArrayList<ProjectVO> list = projectDao.mainList();
+		return list;
+	}
 }

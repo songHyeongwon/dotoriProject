@@ -40,5 +40,7 @@ public interface ProjectDao {
 
 	public List<OptionVO> getOprionList(ContentVO contentVO);
 
+	public ArrayList<ProjectVO> mainList();
+
 
 }

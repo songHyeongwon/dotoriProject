@@ -233,7 +233,7 @@
 	    project_summoney,
 	    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
 	    project_content,
-	    project_img1,
+	    project_count,
 	    project_bank,
 	    project_banknum,
 	    project_status,

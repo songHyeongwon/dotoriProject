@@ -151,29 +151,28 @@
 
 		//서브밋 버튼
 		$("#ProjectSut").click(function() {
-			if (!chkData('#Project_name', "프로젝트명을"))
-				return;
-			else if (!chkData('#Project_summary', "프로젝트 소개를"))
-				return;
-			else if (!chkData('#file', "등록할 이미지를"))
-				return;
-			else if (!chkFile($('#file')))
-				return;
+			if (!chkData('#Project_name', "프로젝트명을")) return;
+			else if (!chkData('#Project_summary', "프로젝트 소개를")) return;
+			else if (!chkData('#file', "등록할 이미지를")) return;
+			else if (!chkFile($('#file'))) return;
 			//else if (!chkData('#Project_pattern1',"대분류를")) return;
 			//else if (!chkData('#Project_pattern2',"소분류를")) return;
-			else if (!chkData('#Project_targetMoney', "목표금액을"))
-				return;
-			else if (!chkData('#Project_endDate', "종료날짜를"))
-				return;
+			else if (!chkData('#Project_targetMoney', "목표금액을")) return;
+			else if (!chkData('#Project_endDate', "종료날짜를")) return;
 			//else if (!chkData('#editor',"프로젝트 소개를")) return;
-			else if (!chkData('#Project_bank', "입금은행명을"))
-				return;
-			else if (!chkData('#Project_bankNum', "입금계좌를"))
-				return;
+			else if (!chkData('#Project_bank', "입금은행명을")) return;
+			else if (!chkData('#Project_bankNum', "입금계좌를")) return;
 			else {
-				console.log("모두통과");
 				//스마트 에디터 내용 삽입
 				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+				//url 에 조건으로 https붙이기
+				var url = $("#Project_URL").val();
+				if(url.indexOf("http://")==-1){
+					if(url.indexOf("https://"==-1)){
+						$("#Project_URL").val("http://"+url);
+					}
+				}
+				
 				$("#projectInsertForm").attr({
 					"method" : "post",
 					"action" : "/project/insertProject",
@@ -192,6 +191,7 @@
 		Content_name
 				.attr("name", "list[" + (ContentCnt - 1) + "].content_name");
 		Content_name.addClass("form-control");
+		Content_name.attr("maxlength","50");
 
 		//히든 태그 만들기
 		var hidden = $("<input>");
@@ -258,6 +258,8 @@
 		optionName.attr("name", "list[" + cnt + "].listOption[" + cntOption
 				+ "].option_name");
 		optionName.addClass("form-control");
+		optionName.attr("maxlength","50");
+		
 		//옵션선택이 필요한가요?
 		var optionKind = $("<input>");
 		optionKind.attr("type", "checkbox");
@@ -286,6 +288,7 @@
 		inOption.attr("type", "text");
 		inOption.attr("name", "inOption");
 		inOption.addClass("form-control");
+		inOption.attr("maxlength","50");
 
 		//옵션을 넣는 버튼
 		var addOption = $("<input>");
@@ -344,12 +347,12 @@
 						<tr>
 							<td class="text-center">프로젝트 명</td>
 							<td><input type="text" id="Project_name" name="Project_name"
-								class="form-control">
+								class="form-control" maxlength="100">
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 소개</td>
 							<td><textarea rows="7" cols="" id="Project_summary"
-									name="Project_summary" class="form-control"></textarea>
+									name="Project_summary" class="form-control" maxlength="250"></textarea>
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 썸네일</td>
@@ -410,16 +413,14 @@
 						</tr>
 						<tr>
 							<td>상품 1</td>
-							<td>상품명 <input type="text" name="list[0].content_name"
-								class="form-control"> 금액 <input type="text"
-								name="list[0].content_MinPrice" class="form-control">
+							<td>
+								상품명 <input type="text" name="list[0].content_name"class="form-control" maxlength="50">
+								금액 <input type="text"name="list[0].content_MinPrice" class="form-control" >
 
-								배송이 필요한 상품인가요? <input type="checkbox"
-								name="list[0].content_Kind" value="1"> <input
-								type="hidden" name="contentCnt" value="0"> <br> <input
-								type="button" name="addOptions" value="옵션추가하기"
-								class="form-control"> <input type="hidden"
-								name="optionCnt" value="0">
+								배송이 필요한 상품인가요? <input type="checkbox" name="list[0].content_Kind" value="1"> 
+								<input type="hidden" name="contentCnt" value="0"> <br> 
+								<input type="button" name="addOptions" value="옵션추가하기" class="form-control"> 
+								<input type="hidden" name="optionCnt" value="0">
 							</td>
 						</tr>
 					</table>

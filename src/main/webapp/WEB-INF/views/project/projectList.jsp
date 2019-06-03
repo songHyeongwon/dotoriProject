@@ -34,6 +34,12 @@
 		
 	})
 </script>
+<style type="text/css">
+	.hdpe{height: 400px;
+		width: 32%;
+		border: black 1px solid;
+		margin: 5px;}
+</style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
 <body>
@@ -56,12 +62,11 @@
 							<form name="deteilGo">
 								<input type="hidden" name="project_num" value="${project.project_num}">
 							</form>
-			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive">
+			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
 			                <div>
 								제목 : ${project.project_name}<br>
 								설명 : ${project.project_summary}<br>
-								목표금 : ${project.project_targetMoney}<br>
-								현재금 : ${project.project_sumMoney}<br>
+								달성률 : ${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
 								종료일 : ${project.project_endDate}<br>
 								제작자 : ${project.member_id}<br>
 								대분류 : ${project.project_pattern1}<br>

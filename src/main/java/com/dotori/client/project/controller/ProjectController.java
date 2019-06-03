@@ -124,4 +124,20 @@ public class ProjectController {
 		
 		return "project/projectDetail";
 	}
+	/********************************************************************************************
+	 * nav의 값을 눌렀을때 해당하는 값만 찾아오는 메서드															*
+	 ********************************************************************************************/
+	@GetMapping(value="/getPatterns2"/*, produces = MediaType.APPLICATION_JSON_UTF8_VALUE*/)
+	public String navprojectList(@ModelAttribute ProjectVO pvo, Model model) {
+		log.info("navprojectList 호출");
+		pvo.setSearch("Patterns2");
+		List<ProjectVO> list = projectService.projectList(pvo);
+		model.addAttribute("listProject",list);
+		
+		//전체 레코드 수 구현
+		int total = projectService.projectListCnt(pvo);
+		model.addAttribute("pageMaker",new PageDTO(pvo,total));
+		
+		return "project/projectList";
+	}
 }

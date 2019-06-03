@@ -17,7 +17,7 @@
 (
 	Content_num          NUMBER NOT NULL ,          
 	Project_num          NUMBER NOT NULL ,          
-	Content_name         VARCHAR2(20) NOT NULL ,    
+	Content_name         VARCHAR2(100) NOT NULL ,    
     Content_Kind         NUMBER NOT NULL ,          
 	Content_MinPrice     NUMBER NOT NULL ,          
 	Content_RecDate      DATE DEFAULT sysdate,      
@@ -50,8 +50,8 @@
 	CREATE TABLE ${qna_board_table_name} 
 (
 	QNA_num              number NOT NULL ,
-	QNA_title            VARCHAR2(30) NOT NULL ,
-	QNA_content          VARCHAR2(1000) NOT NULL ,
+	QNA_title            VARCHAR2(100) NOT NULL ,
+	QNA_content          VARCHAR2(3000) NOT NULL ,
 	Member_id            VARCHAR2(20) NOT NULL ,
 	QNA_RegDate          date DEFAULT sysdate ,
 	QNA_mDate            DATE DEFAULT sysdate ,
@@ -213,8 +213,8 @@
 		<if test="search=='b_title'">
 				<![CDATA[project_name like '%'|| #{keyword} ||'%']]>
 		</if>
-		<if test="search == 'b_content'">
-				<![CDATA[b_content like '%'|| #{keyword} ||'%']]>
+		<if test="search == 'Patterns2'">
+				<![CDATA[PROJECT_PATTERN2 like #{project_pattern2}]]>
 		</if>
 		<if test="search == 'b_name'">
 				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
@@ -267,6 +267,6 @@
 	    option_kind,
 	    option_value
 	FROM
-	    ${option_table_name}
+	    ${option_table_name} where content_num = #{content_num}
 	</select>
 </mapper>

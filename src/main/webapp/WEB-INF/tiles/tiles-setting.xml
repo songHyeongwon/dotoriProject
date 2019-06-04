@@ -51,28 +51,4 @@
 	<definition name="cs_board/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
 	</definition>
-	
-	<!-- 기본게시판 맵핑 설정 -->
-	<!-- <definition name="project/*" extends="managerContent">
-		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
-	</definition>
-	로그인 화면 맵핑 설정
-	<definition name="member/*" extends="managerContent">
-		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
-	</definition>
-	<definition name="orders/*" extends="managerContent">
-		<put-attribute name="body" value="/WEB-INF/views/orders/{1}.jsp"/>
-	</definition>
-	<definition name="cs_board/*" extends="managerContent">
-		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
-	</definition> -->
-	
-	<!-- 갤러리 맵핑 설정 -->
-<!--  	<definition name="gallery/*" extends="content">
-		<put-attribute name="body" value="/WEB-INF/views/gallery/{1}.jsp"/>
-	</definition> -->
-	<!-- 댓글 맵핑 설정 -->
-<!--  	<definition name="replies/*" extends="content">
-		<put-attribute name="body" value="/WEB-INF/views/board/reply.jsp"/>
-	</definition> -->
 </tiles-definitions>

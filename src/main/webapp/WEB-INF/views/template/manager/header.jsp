@@ -20,7 +20,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/project/insertForm">프로젝트 올리기 <span
+					<li class="active"><a href="/projectManager/insertForm">프로젝트 관리하기 <span
 							class="sr-only">(current)</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">고객센터
@@ -31,7 +31,7 @@
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search" id="search" action="/project/listForm" method="get">
+				<form class="navbar-form navbar-left" role="search" id="search" action="/projectM/listForm" method="get">
 					<input type="hidden" value="b_title" name="search">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword">

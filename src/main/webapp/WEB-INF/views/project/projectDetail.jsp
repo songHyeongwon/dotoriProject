@@ -126,8 +126,11 @@ var optionCnt =0;
 				"method":"post",
 				"action":"/orders/ordersForm"
 			});
-			$("#ordersForm").submit();
-			
+			if($("#member_id").val()!=""){
+				$("#ordersForm").submit();
+			}else{
+				alert("로그인 후 이용가능합니다.");
+			}
 		});
 	});
 </script>
@@ -163,6 +166,15 @@ var optionCnt =0;
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
 <body>
+	<!-- 로그인 세션내용을 받는 값 -->
+	<c:choose>
+		<c:when test="${not empty data}">
+			<input type="hidden" id="member_id" value="${data.member_id}">
+		</c:when>
+		<c:otherwise>
+			<input type="hidden" id="member_id">
+		</c:otherwise>
+	</c:choose>
 	<c:choose>
 		<c:when test="${not empty project}">
 			<%--헤더 시작 --%>

@@ -170,4 +170,10 @@ public class ProjectServiceImpl implements ProjectService {
 		ArrayList<ProjectVO> list = projectDao.mainList();
 		return list;
 	}
+
+	@Override
+	public List<OptionVO> getOptionValue(ContentVO cvo) {
+		List<OptionVO> list = projectDao.getOprionList(cvo);
+		return list;
+	}
 }

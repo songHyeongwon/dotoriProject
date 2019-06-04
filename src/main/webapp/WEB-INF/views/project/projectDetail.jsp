@@ -23,16 +23,111 @@
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
 <script type="text/javascript">
+//비교대상
+var fristName ="";
+var optionCnt =0;
+//처음 셀렉트
 	$(function() {
+		//모달 선택시
 		$(document).on("click","button[name='content']", function() {
+			//모달 초기화
+			$("#ordersForm").children("input[name='option']").remove();
+			$("#ordersForm").children("select[name='option']").remove();
+			fristName = "";
+			optionCnt =0;
+			
+			//값 찾아서 입력
+			var content_num = $(this).prev().prev().prev().prev().prev().prev("input[name='content_num']").val();
+			var content_name = $(this).prev().prev().prev().prev().prev("input[name='content_name']").val();
+			var content_MinPrice = $(this).prev().prev().prev().prev("input[name='content_MinPrice']").val();
+			var content_Kind = $(this).prev().prev().prev("input[name='content_Kind']").val();
+			var option_table_name = $(this).prev("input[name='option_table_name']").val();
+			
+			//버튼의 값 입력하기
+			$("#content_num").val(content_num);
+			$("#content_name").val(content_name);
+			$("#content_MinPrice").val(content_MinPrice);
+			$("#content_Kind").val(content_Kind);
+			$("#content_num").val(content_num);
+			$("#content_MinPriceView").html(content_MinPrice+"원");
+			
+			var data = ({
+					"content_num" : content_num,
+					"option_table_name" : option_table_name })
+			//ajax로 옵션 값 가져오기
 			$.ajax({
-				
-			})
-			$("#content_num")
-			$("#content_Kind")
-			$("#content_MinPrice")
-			$("#content_name")
-			$("#orders_content")
+				url: "/project/getOptionValue/",
+				type : "post",
+				dataType: 'json',
+				data: data,
+				success: function(data) {
+					var select ="";
+					$(data).each(function() {
+						var option_kind = this.option_kind;
+						var option_name = this.option_name;
+						var option_value = this.option_value;
+						if(option_kind==1){
+							if(option_name!=fristName){
+								//이번에 들어온 옵션의 이름이 이전것과 다를 경우
+								select = $("<select>");
+								select.attr("name","option");
+								select.addClass("form-control");
+								
+								//옵션에 첫번째 값 입력
+								var option = $("<option>");
+								option.html(option_value);
+								option.attr("value",option_value);
+								select.append(option);
+								
+								$("#ordersForm").append(select);
+								
+								fristName=option_name;
+								optionCnt++;
+							}else{
+								//옵션명이 같음으로 <option>태그만 생성
+								var option = $("<option>");
+								option.html(option_value);
+								option.attr("value",option_value);
+								select.append(option);
+							}
+						}else{
+							//직접입력 인풋을 생성합니다.
+							var inputOption = $("<input>");
+							inputOption.attr("type","text");
+							inputOption.attr("name","option");
+							inputOption.addClass("form-control");
+							inputOption.attr("placeholder",option_name+" 을/를 입력해주세요");
+							$("#ordersForm").append(inputOption);
+						}
+					});
+					//data 반복문 종결
+				}
+			});
+			//ajax 종료
+			$('#myModal').modal();
+		});
+		
+		//옵션값 선택시
+		$(document).on("click","select[name='option']", function() {
+			var value = $(this).val();
+		});
+		//결재버튼 누를시
+		$("#orderBtn").click(function() {
+			
+			var det = $("#content_name").next();
+			var order_content = $("#content_name").val();
+			for(var i=0; i<optionCnt; i++){
+				order_content = order_content+" "+det.val();
+				det = det.next();
+			}
+			$("#order_content").val(order_content);
+			console.log($("#order_content").val());
+			/* $("#ordersForm").attr({
+				"method":"post",
+				"action":"/orders/ordersForm"
+			});
+			$("#ordersForm").submit(); */
+			
 		});
 	});
 </script>
@@ -128,7 +223,8 @@
 						<input type="hidden" name="content_Kind" value="${content.content_Kind}">
 						<input type="hidden" name="content_recdate" value="${content.content_recdate}">
 						<input type="hidden" name="option_table_name" value="${content.option_table_name}">
-						<button type="button" name="content" class="content btn btn-info" data-toggle="modal" data-target="#myModal">
+						<button type="button" name="content" class="content btn btn-info">
+						<!-- data-toggle="modal" data-target="#myModal" -->
 							상품명 : ${content.content_name}<br>
 							최소후원액 : ${content.content_MinPrice}원<br>
 							<h3>프로젝트 후원하기</h3>
@@ -147,21 +243,18 @@
 						</div>
 						<div class="modal-body">
 							<form id="ordersForm">
-								<input type="hidden" value="${project.project_num}" name="project_num" id="project_num">
+								<input type="hidden" name="order_content" id="order_content">
+								<input type="hidden" name="project_num" id="project_num" value="${project.project_num}" >
 								<input type="hidden" name="content_num" id="content_num">
 								<input type="hidden" name="content_Kind" id="content_Kind">
 								<input type="hidden" name="content_MinPrice" id="content_MinPrice">
-								
 								<input type="text" readonly="readonly" name="content_name" id="content_name" class="form-control">
-								<input type="text" readonly="readonly" name="orders_content" id="orders_content" class="form-control">
-								<select class="form-control">
-									<option>옵션들</option>
-								</select>
 							</form>
 						</div>
 						<div class="modal-footer">
+							<p id="content_MinPriceView" class="text-right"></p>
 							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary">결재화면으로</button>
+							<button type="button" class="btn btn-primary" id="orderBtn">결재화면으로</button>
 						</div>
 					</div>
 				</div>

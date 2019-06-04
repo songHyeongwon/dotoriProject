@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dotori.client.project.service.ProjectService;
+import com.dotori.client.project.vo.ContentVO;
+import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.common.vo.PageDTO;
 
@@ -139,5 +141,17 @@ public class ProjectController {
 		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
 		return "project/projectList";
+	}
+	
+	
+	//옵션 밸류 반환
+	@RequestMapping(value="/getOptionValue", produces = {MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<OptionVO>> getOptionValue(ContentVO cvo) {
+		
+		log.info("선택값 호출 = "+cvo);
+		ResponseEntity<List<OptionVO>> entity = null;
+		entity = new ResponseEntity<>(projectService.getOptionValue(cvo), HttpStatus.OK);
+		return entity;
 	}
 }

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 	<!--최상단 네비게이션 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -45,12 +44,9 @@
 					<li><a href="/member/join">회원가입</a></li>
 					</c:if>
 					<c:if test="${data!=null }">
-						<c:if test="${data.member_id=='master'}">
-							<tiles:insertDefinition name="manager"/>
-						</c:if>
 						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
 					</c:if>
-					<li><a href="/orders/ordersForm">결제화면으로 이동</a></li>
+					<li><a href="/orders/ordersForm">결재내역으로 이동</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -60,5 +56,5 @@
 	<!--최상단 네비게이션  종료-->
 	<div class="jumbotron container theme-showcase">
 		<h1>토토리s 펀딩s에 어서오세요</h1>
-		<p>이곳은 귀찮으므로 차후에 채우도록 하겠습니다.</p>
+		<p>현재 마스터 계정으로 로그인 하였습니다.</p>
 	</div>

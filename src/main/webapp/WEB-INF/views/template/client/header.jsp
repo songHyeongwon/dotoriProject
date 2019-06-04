@@ -28,7 +28,7 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">자주묻는 게시판</a></li>
+							<li><a href="/cs_board/cs_boardList">자주묻는 게시판</a></li>
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>

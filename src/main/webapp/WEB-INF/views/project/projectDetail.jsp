@@ -122,11 +122,11 @@ var optionCnt =0;
 			}
 			$("#order_content").val(order_content);
 			console.log($("#order_content").val());
-			/* $("#ordersForm").attr({
+			$("#ordersForm").attr({
 				"method":"post",
 				"action":"/orders/ordersForm"
 			});
-			$("#ordersForm").submit(); */
+			$("#ordersForm").submit();
 			
 		});
 	});

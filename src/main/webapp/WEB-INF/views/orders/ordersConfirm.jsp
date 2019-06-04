@@ -31,6 +31,9 @@
 				$("#backHome").click(function(){
 					location.href="/";
 				});
+				$("#myPunding").click(function(){
+					location.href="/orders/ordersDetail";
+				});
 			});
 		</script>
 		<title>결제완료</title>

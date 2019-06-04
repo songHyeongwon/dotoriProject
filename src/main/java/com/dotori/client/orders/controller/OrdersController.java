@@ -32,8 +32,8 @@ public class OrdersController {
 	public String ordersConfirm() {
 		return "orders/ordersConfirm";
 	}
-	@RequestMapping(value="/boardInsert",method= {RequestMethod.GET,RequestMethod.POST})
-	public String boardInsert(@ModelAttribute OrdersVO ovo, Model model) {
+	@RequestMapping(value="/ordersInsert",method= {RequestMethod.GET,RequestMethod.POST})
+	public String ordersInsert(@ModelAttribute OrdersVO ovo, Model model) {
 		log.info("ordersInsert »£√‚");
 		
 		int result=0;
@@ -41,9 +41,14 @@ public class OrdersController {
 		
 		result=ordersService.ordersInsert(ovo);
 		if(result==1) {
-			url="/orders/ordersConfirm";
+			url="orders/ordersConfirm";
 		}
 		
 		return "redirect:"+url;
+	}
+	@RequestMapping(value="/ordersDetail")
+	public String ordersDetail() {
+		
+		return "orders/ordersDetail";
 	}
 }

@@ -115,10 +115,14 @@
 			
 			$("#support").click(function(){
 				var value="";
-				if(!$("#agreement").prop("checked")){
+				if(!$("#orders_guideAgree").prop("checked")){
 					alert("배송/후원사항을 읽고 동의해주세요.");
 				}
 				else{
+					$("#f_orders").attr({
+						"method":"post",
+						"action":"/orders/ordersFinal"
+					});
 					location.href="/orders/ordersFinal";	
 					value=1;
 				}
@@ -131,12 +135,19 @@
 		<title>결제</title>
 	</head>
 	<body>
+	<%-- <jsp:useBean id="member" class="com.dotori.client.member.vo"/>
+	<jsp:setProperty property="*" name="member"/>
 	<%
-		String id=(String)session.getAttribute("id");
-		String orders_content=(String)session.getAttribute("orders_content");
-		String orders_price=(String)session.getAttribute("orders_price");
-		
-	%>
+		request.setAttribute("member", member);
+	%> --%>
+	<form id="f_orders">
+		<input type='hidden' name="member_id" id="member_id" value="test"/>
+		<input type='hidden' name="project_num" id="project_num" value="$1"/>
+		<input type="hidden" name="orders_content" id="orders_content" value="test1"/>
+		<input type="hidden" name="orders_price" id="orders_price" value="35000"/>
+		<input type="hidden" name="content_kind" id="content_kind" value="1"/> 
+	</form>
+	
 	<div id="container">
 	<header>
 		<h3>프로젝트명"${project.name}"</h3>
@@ -189,7 +200,7 @@
 		</textarea>
 		
 		<br/>
-		<input type="checkbox" name="agreement" id="agreement"/>
+		<input type="checkbox" name="orders_guideAgree" id="orders_guideAgree"/>
 		<label>약관을 모두 읽었으며 이에 동의합니다.</label>
 		<br/>
 		<button type="button" name="support" id="support">후원하기</button>

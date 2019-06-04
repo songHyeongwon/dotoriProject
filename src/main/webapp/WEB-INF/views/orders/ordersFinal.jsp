@@ -31,7 +31,7 @@
 				$("#finalConfirm").click(function(){
 					$("#f_confirm").attr({
 						"method":"post",
-						"action":"/orders/ordersInsert"
+						"action":"orders/ordersInsert"
 					});
 					$("#f_confirm").submit();
 					location.href="/orders/ordersConfirm";

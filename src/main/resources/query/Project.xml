@@ -203,15 +203,16 @@
 		</trim>
 		<![CDATA[ rownum <= #{pageNum} * #{amount}
 		) PROJECTlist
-		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+		WHERE rnum > (#{pageNum} - 1) * #{amount} and not PROJECT_STATUS=2]]>
 	</select>
 	
 
 	<select id="projectListCnt" resultType="int" parameterType="Project">
-		select count(*) from project 
-		<trim prefix=" where (" suffix=")">
+		select count(*) from project where 
+		<trim prefix="(" suffix=") and">
 			<include refid="projectSearch"></include>
 		</trim>
+		not PROJECT_STATUS=2
 	</select>
 	
 <!-- 자주 사용하는 부분만을 떼어내 sql태그안에 정의해준다. 다른 select문에서 호출하여 적용한다. -->
@@ -249,7 +250,7 @@
 	    option_table_name,
 	    reply_table_name,
 	    member_id
-	FROM project where project_num = #{project_num}
+	FROM project where project_num = #{project_num} and not PROJECT_STATUS=2
 	</select>
 	
 	<select id="getContentList" parameterType="Project" resultType="ContentVO">
@@ -307,7 +308,7 @@
 			    project_pattern2
 			FROM project 
 			WHERE	
-				rownum <= 3
+				rownum <= 3 and not PROJECT_STATUS=2
 		)
 		]]>
 	</select>

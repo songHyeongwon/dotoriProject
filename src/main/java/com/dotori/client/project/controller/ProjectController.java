@@ -111,9 +111,9 @@ public class ProjectController {
 		int total = projectService.projectListCnt(pvo);
 		
 		log.info("총 칼럼 갯수는 = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
 		
-		log.info("들어오는 값은 = "+new PageDTO(pvo,total,9));
+		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,10));
 		return "project/projectList";
 	}
 	/********************************************************************************************
@@ -121,6 +121,7 @@ public class ProjectController {
 	 ********************************************************************************************/
 	@RequestMapping(value="/detail",method=RequestMethod.POST)
 	public String projectDetail(@ModelAttribute ProjectVO pvo, Model model){
+		log.info("들어간 값 = "+pvo);
 		log.info("detail페이지 호출");
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);

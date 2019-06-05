@@ -6,11 +6,12 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dotori.client.project.vo.ContentVO;
+import com.dotori.common.vo.CommonVO;
 
 import lombok.Data;
 
 @Data
-public class ProjectMVO {
+public class ProjectMVO extends CommonVO{
 	private int project_num; //프로젝트 번호
 	private String project_name; //프로젝트 이름
 	private String project_thumb; //프로젝트 썸네일

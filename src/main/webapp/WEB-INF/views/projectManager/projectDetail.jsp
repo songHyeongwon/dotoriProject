@@ -28,6 +28,52 @@ var fristName ="";
 var optionCnt =0;
 //처음 셀렉트
 	$(function() {
+		$("#yes").click(function() {
+			console.log("승인페이지에 들어갔다.")
+			var project_num = $("#project_num").val();
+			
+			$.ajax({
+				url: '/projectManager/yes/'+project_num,
+				type: "post",
+				headers : {
+					"X-HTTP-Method-Override":"DELETE"
+				},
+				dateType : "text",
+				error : function() {
+					alert("전송중 예기치못한 오류가 발생하였습니다.");
+				},
+				success : function(result) {
+					console.log("result = "+result);
+					if(result=="SUCCESS"){
+						alert("승인이 완료되었습니다.");
+						location.href = "/projectManager/projectManagerForm";
+					};
+				}
+			});
+		});
+		$("#no").click(function() {
+			console.log("취소페이지에 들어갔다.")
+			var project_num = $("#project_num").val();
+			
+			$.ajax({
+				url: '/projectManager/no/'+project_num,
+				type: "post",
+				headers : {
+					"X-HTTP-Method-Override":"DELETE"
+				},
+				dateType : "text",
+				error : function() {
+					alert("전송중 예기치못한 오류가 발생하였습니다.");
+				},
+				success : function(result) {
+					console.log("result = "+result);
+					if(result=="SUCCESS"){
+						alert("취소가 완료되었습니다.");
+						location.href = "/projectManager/projectManagerForm";
+					}
+				}
+			});
+		});
 		//모달 선택시
 		$(document).on("click","button[name='content']", function() {
 			if($("#project_status").val()==0){
@@ -206,18 +252,30 @@ var optionCnt =0;
 							<h1>현재 진행중인 프로젝트</h1>
 						</c:when>
 						<c:when test="${project.project_status==2}">
-							<h1>부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h1>
+							<h1>관리자가 게시를 거부한 프로젝트입니다.</h1>
 						</c:when>
 						<c:when test="${project.project_status==3}">
-							<h1>여러분에 성원에 성공한 프로젝트입니다.</h1>
+							<h1>성공한 프로젝트입니다.</h1>
 						</c:when>
 						<c:when test="${project.project_status==4}">
-							<h1>아쉽게도 달성되지 못한 프로젝트입니다.</h1>
+							<h1>달성되지 못한 프로젝트입니다.</h1>
 						</c:when>
 					</c:choose>
 					<h1>목표금액 : ${project.project_targetMoney}</h1>
 					<h1>현재까지 모음 : ${project.project_sumMoney}</h1>
 					<h1>이 아이디어를 ${project.project_count}명이 후원해주셨습니다.</h1>
+					<c:choose>
+						<c:when test="${project.project_status==0}">
+							<button id="yes" class="btn btn-primary">승인하기</button>
+							<button id="no" class="btn btn-default">부적절한 프로젝트</button>
+						</c:when>
+						<c:when test="${project.project_status==1}">
+							<button id="no" class="btn btn-default">부적절한 프로젝트</button>
+						</c:when>
+						<c:when test="${project.project_status==2}">
+							<button id="yes" class="btn btn-primary">승인하기</button>
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 			<%--헤더 종료 --%>
@@ -257,18 +315,18 @@ var optionCnt =0;
 			<div id="floatMenu" class="floating">
 				<c:forEach var="content" items="${project.list}">
 					<form name="content">
-						<input type="hidden" name="content_num" value="${content.content_num}">
-						<input type="hidden" name="content_name" value="${content.content_name}">
-						<input type="hidden" name="content_MinPrice" value="${content.content_MinPrice}">
-						<input type="hidden" name="content_Kind" value="${content.content_Kind}">
-						<input type="hidden" name="content_recdate" value="${content.content_recdate}">
-						<input type="hidden" name="option_table_name" value="${content.option_table_name}">
-						<button type="button" name="content" class="content btn btn-info">
+						<input type="text" name="content_num" value="${content.content_num}" class="form-control" readonly="readonly">
+						<input type="text" name="content_name" value="${content.content_name}" class="form-control" readonly="readonly">
+						<input type="text" name="content_MinPrice" value="${content.content_MinPrice}" class="form-control" readonly="readonly">
+						<input type="text" name="content_Kind" value="${content.content_Kind}" class="form-control" readonly="readonly">
+						<input type="text" name="content_recdate" value="${content.content_recdate}" class="form-control" readonly="readonly">
+						<input type="text" name="option_table_name" value="${content.option_table_name}" class="form-control" readonly="readonly">
+						<!-- <button type="button" name="content" class="content btn btn-info"> -->
 						<!-- data-toggle="modal" data-target="#myModal" -->
-							상품명 : ${content.content_name}<br>
+							<%-- 상품명 : ${content.content_name}<br>
 							최소후원액 : ${content.content_MinPrice}원<br>
 							<h3>프로젝트 후원하기</h3>
-						</button>
+						</button> --%>
 					</form>
 				</c:forEach>
 			</div>

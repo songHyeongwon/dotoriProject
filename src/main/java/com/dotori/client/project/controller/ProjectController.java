@@ -103,7 +103,7 @@ public class ProjectController {
 	@RequestMapping(value="/listForm",method=RequestMethod.GET)
 	public String projectList(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("ProjectList 호출 성공");
-
+		projectService.updateStatus();
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		

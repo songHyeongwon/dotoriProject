@@ -44,5 +44,7 @@ public interface ProjectDao {
 
 	public ArrayList<OptionVO> getOptionValue(ContentVO cvo);
 
+	public int updateStatus1();
+	public int updateStatus2();
 
 }

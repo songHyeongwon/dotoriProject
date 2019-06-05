@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotori.client.project.dao.ProjectDao">
+	<update id="updateStatus1">
+		<![CDATA[update project set PROJECT_STATUS = 4 where (project.PROJECT_ENDDATE < sysdate) and (project.PROJECT_SUMMONEY<project.PROJECT_TARGETMONEY)]]>
+	</update>
+	<update id="updateStatus2">
+		<![CDATA[update project set PROJECT_STATUS = 3 where (project.PROJECT_ENDDATE < sysdate) and (project.PROJECT_SUMMONEY>=project.PROJECT_TARGETMONEY)]]>
+	</update>
 	<select id="getPatterns" resultType="Project" parameterType="String">
 				SELECT 
 		    project_pattern2

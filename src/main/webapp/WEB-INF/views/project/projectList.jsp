@@ -53,8 +53,7 @@
 		width: 32%;
 		border: black 1px solid;
 		margin: 5px;}
-	#pagination{
-		display: flex;}
+	#pagination{}
 </style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -97,7 +96,27 @@
 							<form name="deteilGo">
 								<input type="hidden" name="project_num" value="${project.project_num}">
 							</form>
+			                <div style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute;">
+								<c:choose>
+									<c:when test="${project.project_status==0}">
+										관리자검수중
+									</c:when>
+									<c:when test="${project.project_status==1}">
+										진행중
+									</c:when>
+									<c:when test="${project.project_status==2}">
+										관리자거부
+									</c:when>
+									<c:when test="${project.project_status==3}">
+										펀딩 성공
+									</c:when>
+									<c:when test="${project.project_status==4}">
+										펀딩 실패
+									</c:when>
+								</c:choose>
+							</div>
 			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
+			                
 			                <div>
 								제목 : ${project.project_name}<br>
 								설명 : ${project.project_summary}<br>
@@ -119,9 +138,7 @@
 		</div>
 	</div>
 	<%--============================리스트 종료========================== --%>
-
 	<%--=========================페이징 처리 시작=========================== --%>
-	
 	<div class="text-center" id="pagination">
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev}">

@@ -176,4 +176,11 @@ public class ProjectServiceImpl implements ProjectService {
 		List<OptionVO> list = projectDao.getOprionList(cvo);
 		return list;
 	}
+
+	@Override
+	public int updateStatus() {
+		int result1 = projectDao.updateStatus1();
+		int result2 = projectDao.updateStatus2();
+		return result1+result2;
+	}
 }

@@ -28,6 +28,11 @@
 				background:#F2FBEF;
 			}
 		</style>
+		<%
+			String id=(String)session.getAttribute("member_id");
+			String address=(String)session.getAttribute("address");
+		%>
+		
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script type="text/javascript">
@@ -70,7 +75,7 @@
 			                 document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
 			                 document.getElementById('roadAddress').value = fullRoadAddr;
 			                
-			                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+			                 /* // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
 			                 if (data.autoRoadAddress) {
 			                     //예상되는 도로명 주소에 조합형 주소를 추가한다.
 			                     var expRoadAddr = data.autoRoadAddress
@@ -85,7 +90,7 @@
 
 			                 } else {
 			                     document.getElementById('guide').innerHTML = '';
-			                 }
+			                 } */
 			             }
 			   		 }).open();
 				});
@@ -114,50 +119,54 @@
 			});
 			
 			$("#support").click(function(){
-				var value="";
-				if(!$("#orders_guideAgree").prop("checked")){
-					alert("배송/후원사항을 읽고 동의해주세요.");
+				var project_num=$("input[name='project_num']").val();
+				$("#project_num").val(project_num);
+				
+				if(!$("input:checkbox[id='order_guideAgree']").is(":checked") == true){
+					$("#order_guideAgree").val("0");
+					console.log("체크됨 온다");
+					alert("배송 관련 안내사항을 읽고 동의해주세요.");
 				}
 				else{
+					console.log("체크되지 않음");
+					$("#order_guideAgree").val("1");
 					$("#f_orders").attr({
 						"method":"post",
 						"action":"/orders/ordersFinal"
 					});
-					location.href="/orders/ordersFinal";	
-					value=1;
+					$("#f_orders").submit();
 				}
 				
 			});
 		});  
-		
+		$(document).on("click","li",function(event){
+			$(event.target).addClass("checked");
+			var address=$(event.target).val();
+			alert(address);
+		});
 		
 		</script>
 		<title>결제</title>
 	</head>
 	<body>
-	<%-- <jsp:useBean id="member" class="com.dotori.client.member.vo"/>
-	<jsp:setProperty property="*" name="member"/>
-	<%
-		request.setAttribute("member", member);
-	%> --%>
-	<form id="f_orders">
-		<input type='hidden' name="member_id" id="member_id" value="test"/>
-		<input type='hidden' name="project_num" id="project_num" value="$1"/>
-		<input type="hidden" name="orders_content" id="orders_content" value="test1"/>
-		<input type="hidden" name="orders_price" id="orders_price" value="35000"/>
-		<input type="hidden" name="content_kind" id="content_kind" value="1"/> 
-	</form>
 	
+	<form id="f_orders">
+		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
+		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
+		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
+		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
+		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
+		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
+	</form>
 	<div id="container">
 	<header>
-		<h3>프로젝트명"${project.name}"</h3>
+		<h3>프로젝트명:"${project.project_name}"</h3>
 		<hr/>
 		<div class="detailOrders">
-			<label>후원금액:</label>
-			<label>"${project.price}"</label><br/>
+			<label>후원금액:${orders.order_price}</label><br/>
 			
 			<label>리워드 세부내역</label><br/>
-			<label>"${project.content}"</label>
+			<label>${orders.order_content}</label>
 		</div>
 	</header>
 	
@@ -169,7 +178,7 @@
         	<li id="newAddress"></li>
         </ul>
         <button type="button" id="addAddress">다른 주소 입력</button>
-        <form id="f_address">
+        <div id="f_address">
         	<input type="text" id="postcode" placeholder="우편번호" readonly="readonly"/>
         	<input type="button" id="searchPostCode" value="우편번호 찾기"/>
         	<br/>
@@ -177,20 +186,20 @@
 			<input type="text" id="detailAddress" placeholder="상세주소">
 			<input type="button" id="addBtn" value="등록"/>
 			<span id="guide" style="color:#999"></span>
-        </form>
+        </div>
 		
 		<br/>
      
       <hr/>
       <div class="annotation">
       	
-		<label>배송/후원 안내사항</label>
+		<label>배송 안내사항</label>
 		<br/>
 		<textarea rows="5" cols="50" readonly="readonly">
 		배송정보 제 3자(프로젝트 진행자) 제공 동의
 		회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
 
-		제공받는자:"${project.id}"
+		제공받는자:
 		제공목적: 선물 전달/배송과 관련된 상담 및 민원처리
 		제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)
 		보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)
@@ -200,7 +209,7 @@
 		</textarea>
 		
 		<br/>
-		<input type="checkbox" name="orders_guideAgree" id="orders_guideAgree"/>
+		<input type="checkbox" name="order_guideAgree" id="order_guideAgree"/>
 		<label>약관을 모두 읽었으며 이에 동의합니다.</label>
 		<br/>
 		<button type="button" name="support" id="support">후원하기</button>
@@ -208,6 +217,7 @@
       </div>
    </div>
    </div>
+
    <!-- /.container -->
 	
     <!-- Bootstrap core JavaScript

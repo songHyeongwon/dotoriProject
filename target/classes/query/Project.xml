@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.client.project.dao.ProjectDao">
+	<select id="getPatterns" resultType="Project" parameterType="String">
+				SELECT 
+		    project_pattern2
+		FROM 
+		    project_pattern where project_pattern1 = #{project_pattern1}
+	</select>
+	<select id="getProjectPKNum" resultType="int">
+		select 
+    		project_seq.nextval from dual
+	</select>
+	
+	<update id="createContentTable" parameterType="Project">
+		CREATE TABLE ${content_table_name} 
+(
+	Content_num          NUMBER NOT NULL ,          
+	Project_num          NUMBER NOT NULL ,          
+	Content_name         VARCHAR2(100) NOT NULL ,    
+    Content_Kind         NUMBER NOT NULL ,          
+	Content_MinPrice     NUMBER NOT NULL ,          
+	Content_RecDate      DATE DEFAULT sysdate,      
+	option_table_name    VARCHAR2(30) NULL
+) 
+	</update>
+	<update id="createReplyTable" parameterType="Project">
+	CREATE TABLE ${reply_table_name} 
+(
+	reply_num            NUMBER NOT NULL ,          
+	Project_num          NUMBER NOT NULL ,          
+	Member_id            VARCHAR2(20) NOT NULL ,    
+	reply_content        VARCHAR2(1000) NOT NULL ,  
+	reply_RecDate        DATE DEFAULT sysdate
+)
+	
+	</update>
+	<update id="createOptionTable" parameterType="Project">
+	CREATE TABLE ${option_table_name} 
+(
+	Project_num          NUMBER NOT NULL ,          --프로젝트 번호
+	Content_num          NUMBER NOT NULL ,          --제품번호
+	option_name          VARCHAR2(100) NOT NULL ,    --옵션명
+	option_kind          NUMBER NOT NULL ,          --옵션종류 0 = 선택옵션, 1 = 입력옵션
+	option_value         VARCHAR2(100)
+)
+	
+	</update>
+	<update id="createQna_boardTable" parameterType="Project">
+	CREATE TABLE ${qna_board_table_name} 
+(
+	QNA_num              number NOT NULL ,
+	QNA_title            VARCHAR2(100) NOT NULL ,
+	QNA_content          VARCHAR2(3000) NOT NULL ,
+	Member_id            VARCHAR2(20) NOT NULL ,
+	QNA_RegDate          date DEFAULT sysdate ,
+	QNA_mDate            DATE DEFAULT sysdate ,
+	QNA_REPROOT          NUMBER NULL ,
+	QNA_REPINDENT        NUMBER NULL ,
+	QNA_hidden           NUMBER not null
+) 
+	
+	</update>
+	<update id="createQna_boardTableSeq" parameterType="Project">
+		create sequence ${qna_board_table_name}_seq 
+		start with 1 
+		increment by 1 
+		MINVALUE 1 
+		cache 2
+	</update>
+	<update id="createReplyTableSeq" parameterType="Project">
+		create sequence ${reply_table_name}_seq 
+		start with 1 
+		increment by 1 
+		MINVALUE 1 
+		cache 2
+	</update>
+	<update id="createContentTableSeq" parameterType="Project">
+		create sequence ${content_table_name}_seq 
+		start with 1 
+		increment by 1 
+		MINVALUE 1 
+		cache 2
+	</update>
+	<insert id="insertProject" parameterType="Project">
+		INSERT INTO project (
+    project_num,
+    project_name,
+    project_thumb,
+    project_summary,
+    project_pattern1,
+    project_pattern2,
+    project_url,
+    project_targetmoney,
+    project_enddate,
+    project_content,
+    project_bank,
+    project_banknum,
+    content_table_name,
+    qna_board_table_name,
+    option_table_name,
+    reply_table_name,
+    member_id
+) VALUES (
+    #{project_num},
+    #{project_name},
+    #{project_thumb},
+    #{project_summary},
+    #{project_pattern1},
+    #{project_pattern2},
+    #{project_URL},
+    #{project_targetMoney},
+    #{project_endDate},
+    #{project_content},
+    #{project_bank},
+    #{project_bankNum},
+    #{content_table_name},
+    #{qna_board_table_name},
+    #{option_table_name},
+    #{reply_table_name},
+    #{member_id}
+)
+	</insert>
+	
+	<insert id="insertProjectContentTable" parameterType="ContentVO">
+	INSERT INTO ${tableName} (
+    content_num,
+    project_num,
+    content_name,
+    content_kind,
+    content_minprice,
+    option_table_name
+) VALUES (
+    #{content_num},
+    #{project_num},
+    #{content_name},
+    #{content_Kind},
+    #{content_MinPrice},
+    #{option_table_name}
+)
+	</insert>
+	<select id="getProjectContentTablePk" parameterType="Project" resultType="int">
+		select 
+    		${content_table_name}_seq.nextval from dual
+	</select>
+	<insert id="insertProjectOptionTable" parameterType="OptionVO">
+		INSERT INTO ${tableName} (
+    project_num,
+    content_num,
+    option_name,
+    option_kind,
+    option_value
+) VALUES (
+    #{project_num},
+    #{content_num},
+    #{option_name},
+    #{option_kind},
+    #{option_value}
+)
+	</insert>
+	
+	<select id="projectList" parameterType="Project" resultType="Project">
+		<![CDATA[
+		SELECT 
+			project_num,
+		    project_name,
+		    project_thumb,
+		    project_summary,
+		    project_targetmoney,
+		    project_summoney,
+		    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+		    project_status,
+		    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+		    member_id,
+		    project_pattern1,
+		    project_pattern2
+		FROM ( 
+			SELECT /*+INDEX_DESC(project project_pk)*/
+				rownum as rnum, 
+				project_num,
+			    project_name,
+			    project_thumb,
+			    project_summary,
+			    project_targetmoney,
+			    project_summoney,
+			    project_enddate,
+			    project_status,
+			    project_adddate,
+			    member_id,
+			    project_pattern1,
+			    project_pattern2
+			FROM project 
+			WHERE ]]>	
+			
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="projectSearch"></include>
+		</trim>
+		<![CDATA[ rownum <= #{pageNum} * #{amount}
+		) PROJECTlist
+		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	
+
+	<select id="projectListCnt" resultType="int" parameterType="Project">
+		select count(*) from project
+		<trim prefix=" where (" suffix=")">
+			<include refid="projectSearch"></include>
+		</trim>
+	</select>
+	
+<!-- 자주 사용하는 부분만을 떼어내 sql태그안에 정의해준다. 다른 select문에서 호출하여 적용한다. -->
+	<sql id="projectSearch">
+		<if test="search=='b_title'">
+				<![CDATA[project_name like '%'|| #{keyword} ||'%']]>
+		</if>
+		<if test="search == 'Patterns2'">
+				<![CDATA[PROJECT_PATTERN2 like #{project_pattern2}]]>
+		</if>
+		<if test="search == 'b_name'">
+				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
+		</if>
+	</sql>
+	<select id="projectDetail" parameterType="Project" resultType="Project">
+			SELECT
+	    project_num,
+	    project_name,
+	    project_thumb,
+	    project_summary,
+	    project_pattern1,
+	    project_pattern2,
+	    project_url,
+	    project_targetmoney,
+	    project_summoney,
+	    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+	    project_content,
+	    project_count,
+	    project_bank,
+	    project_banknum,
+	    project_status,
+	    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+	    content_table_name,
+	    qna_board_table_name,
+	    option_table_name,
+	    reply_table_name,
+	    member_id
+	FROM project where project_num = #{project_num}
+	</select>
+	
+	<select id="getContentList" parameterType="Project" resultType="ContentVO">
+		SELECT
+	    content_num,
+	    project_num,
+	    content_name,
+	    content_kind,
+	    content_minprice,
+	    to_char(content_recdate,'YYYY-MM-DD') as content_recdate,
+	    option_table_name
+	FROM
+	    ${content_table_name} order by content_num
+	</select>
+	
+	<select id="getOprionList" parameterType="ContentVO" resultType="OptionVO">
+		SELECT
+	    project_num,
+	    content_num,
+	    option_name,
+	    option_kind,
+	    option_value
+	FROM
+	    ${option_table_name} where content_num = #{content_num}
+	</select>
+	<select id="mainList" resultType="Project">
+	<![CDATA[
+		SELECT 
+			project_num,
+		    project_name,
+		    project_thumb,
+		    project_summary,
+		    project_targetmoney,
+		    project_summoney,
+		    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+		    project_status,
+		    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+		    member_id,
+		    project_pattern1,
+		    project_pattern2
+		FROM ( 
+			SELECT /*+INDEX_DESC(project project_pk)*/
+				rownum as rnum, 
+				project_num,
+			    project_name,
+			    project_thumb,
+			    project_summary,
+			    project_targetmoney,
+			    project_summoney,
+			    project_enddate,
+			    project_status,
+			    project_adddate,
+			    member_id,
+			    project_pattern1,
+			    project_pattern2
+			FROM project 
+			WHERE	
+				rownum <= 3
+		)
+		]]>
+	</select>
+</mapper>

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 	<!--최상단 네비게이션 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -13,7 +14,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">도토리s펀딩s</a>
+				<a class="navbar-brand" href="/">도토리s펀딩s</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,15 +32,24 @@
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search">
+				<form class="navbar-form navbar-left" role="search" id="search" action="/project/listForm" method="get">
+					<input type="hidden" value="b_title" name="search">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword">
 					</div>
 					<button type="submit" class="btn btn-default">검색</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
+					<c:if test="${data==null}">
+					<li><a href="/member/login">로그인</a></li>
+					<li><a href="/member/join">회원가입</a></li>
+					</c:if>
+					<c:if test="${data!=null }">
+						<c:if test="${data.member_id=='master'}">
+							<tiles:insertDefinition name="manager"/>
+						</c:if>
+						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
+					</c:if>
 					<li><a href="/orders/ordersForm">결제화면으로 이동</a></li>
 				</ul>
 			</div>

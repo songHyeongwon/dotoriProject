@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page trimDirectiveWhitespaces="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +29,24 @@
 <script src="/resources/include/dist/js/docs.min.js"></script>
 <script src="/resources/include/dist/js/ie10-viewport-bug-workaround.js"></script>
 <script src="/resources/include/dist/js/ie-emulation-modes-warning.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".hdpe").click(function() {
+			var form = $(this).find("form[name='deteilGo']");
+			form.attr({
+				"action" : "/project/detail",
+				"method" : "post"
+			});
+			form.submit();
+		});
+	})
+</script>
+<style type="text/css">
+	.hdpe{height: 400px;
+		width: 32%;
+		border: black 1px solid;
+		margin: 5px;}
+</style>
 </head>
 
 <body>
@@ -85,181 +104,39 @@
 					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</a>
-			</div>
+			</div><br>
 			<!-- 호버 이미지 영역 끝-->
 
 			<!-- Example row of columns -->
-
-			<div class="row">
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<h2>컨텐츠 1</h2>
-					<p class="text-danger">As of v8.0, Safari exhibits a bug in
-						which resizing your browser horizontally causes rendering errors
-						in the justified nav that are cleared upon refreshing.</p>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce
-						dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-						ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-						magna mollis euismod. Donec sed odio dui.</p>
-					<p>
-						<a class="btn btn-primary" href="#" role="button">View details
-							&raquo;</a>
-					</p>
-				</div>
-			</div>
+			<h1>가장 최근에 등록된 프로젝트입니다.</h1>
+			<div id="boardList">
+			<c:choose>
+				<c:when test="${not empty mainList}">
+					<c:forEach var="project" items="${mainList}" varStatus="status">
+						<div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+							<form name="deteilGo">
+								<input type="hidden" name="project_num" value="${project.project_num}">
+							</form>
+			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
+			                <div>
+								제목 : ${project.project_name}<br>
+								설명 : ${project.project_summary}<br>
+								달성률 : ${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
+								종료일 : ${project.project_endDate}<br>
+								제작자 : ${project.member_id}<br>
+								대분류 : ${project.project_pattern1}<br>
+								소분류 : ${project.project_pattern2}<br>
+							</div>
+			            </div>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<td colspan="4" class="tac">등록된 게시물이 없습니다.</td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+		</div>
 		</section>
 	</div>
 	<footer>

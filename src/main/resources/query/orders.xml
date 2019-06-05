@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotori.client.orders.dao.OrdersDao">
 <insert id="ordersInsert" parameterType="orders">
-	insert into spring_board(
+	insert into orders(
 		orders_num,member_id,project_num,orders_content,
-		orders_price,orders_date,orders_guideAgree,
+		orders_price,orders_guideAgree,
 		orders_infoAgree,content_kind
 	) 
-	values(orders_seq.nextval,#{member_id},project_seq.nextval,#{orders_content},
-		#{orders_price},#{orders_date},#{orders_guideAgree},
-		#{orders_infoAgree},#{content_kind})
+	values(orders_seq.nextval,#{member_id},project_seq.nextval,#{order_content},
+		#{order_price},#{order_guideAgree},
+		#{order_infoAgree},#{content_kind})
 </insert>
 </mapper>

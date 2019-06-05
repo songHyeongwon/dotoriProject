@@ -49,6 +49,7 @@ function checkForm(item, msg) {
 	if($(item).val().replace(/\s/g,"")==""){
 		message = msg+" 입력해 주세요.";
 		$(item).attr("placeholder",message);
+		$(item).focus();
 		return false;
 	}else{
 		return true;

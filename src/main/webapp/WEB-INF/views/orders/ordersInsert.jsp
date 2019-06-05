@@ -39,14 +39,23 @@
 		<title>결제완료</title>
 	</head>
 	<body>
+	<form id="f_orders">
+		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
+		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
+		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
+		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
+		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
+		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
+		<input type="hidden" name="order_infoAgree" id="order_infoAgree" value="${orders.order_infoAgree}"/> 
+	</form>
 	<div id="container">
 		<header>
 			<h1>축하합니다!</h1>
-			<p>"${orders.num}"번째 후원자가 되셨습니다!</p>
+			<p>${orders.order_num}번째 후원자가 되셨습니다!</p>
 				<div id="rewardDetail">
 					<h4>리워드 세부항목</h4>
-					-후원금액:"${orders.price}"<br/>
-					-리워드:"${orders.content}"<br/>
+					-후원금액:${orders.order_price}<br/>
+					-리워드 세부내역:${orders.order_content}<br/>
 					-주소:<span id="address"></span>
 				</div>
 			<hr/>

@@ -11,11 +11,11 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.spring.client">
+	<logger name="com.dotori.client">
 		<level value="info" />
 	</logger>
 	
-	<logger name="com.spring.common">
+	<logger name="com.dotori.common">
 		<level value="info" />
 	</logger>
 	

@@ -109,8 +109,11 @@ public class ProjectController {
 		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
+		log.info("총 칼럼 갯수는 = "+total);
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+		
+		log.info("들어오는 값은 = "+new PageDTO(pvo,total,9));
 		return "project/projectList";
 	}
 	/********************************************************************************************
@@ -131,14 +134,17 @@ public class ProjectController {
 	 ********************************************************************************************/
 	@GetMapping(value="/getPatterns2"/*, produces = MediaType.APPLICATION_JSON_UTF8_VALUE*/)
 	public String navprojectList(@ModelAttribute ProjectVO pvo, Model model) {
+		
 		log.info("navprojectList 호출");
+		//검색 값 입력
 		pvo.setSearch("Patterns2");
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total));
+
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
 		
 		return "project/projectList";
 	}

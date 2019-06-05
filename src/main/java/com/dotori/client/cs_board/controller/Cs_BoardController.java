@@ -33,22 +33,22 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @AllArgsConstructor
 public class Cs_BoardController{
-	/*어노테이션 @AllArgsConstructor = 모든 필드변수를 의존성 주입시켜준다. 아니면 Setter쓰시던가*/
+	/*�뼱�끂�뀒�씠�뀡 @AllArgsConstructor = 紐⑤뱺 �븘�뱶蹂��닔瑜� �쓽議댁꽦 二쇱엯�떆耳쒖��떎. �븘�땲硫� Setter�벐�떆�뜕媛�*/
 	private Cs_BoardService cs_boardService;
 	
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------글쓰기 폼-----------------------------------------------------------
+	//------------------------------------湲��벐湲� �뤌-----------------------------------------------------------
 	@RequestMapping(value="/cs_writeForm")
 	public String cs_writeForm(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
 		
 		return "cs_board/cs_writeForm";
 	}
-	//------------------------------------글쓰기 폼-----------------------------------------------------------
+	//------------------------------------湲��벐湲� �뤌-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 
 	
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------사진 URL복사-----------------------------------------------------------
+	//------------------------------------�궗吏� URL蹂듭궗-----------------------------------------------------------
 	@RequestMapping(value="/cs_writeFormAction", method=RequestMethod.POST)
 	public String cs_writeFormAction(@RequestParam("cs_html") String html,RedirectAttributes redirectAttributes) {
 		String value = html;
@@ -95,14 +95,14 @@ public class Cs_BoardController{
 		}
 		return str;
 	}
-	//------------------------------------사진 URL복사-----------------------------------------------------------
+	//------------------------------------�궗吏� URL蹂듭궗-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 	
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------게시글 등록-----------------------------------------------------------
+	//------------------------------------寃뚯떆湲� �벑濡�-----------------------------------------------------------
 	@RequestMapping(value="/cs_boardInsert", method=RequestMethod.POST)
 	public String boardInsert(@ModelAttribute Cs_BoardVO bvo, Model model) {
-		log.info("boardInsert 호출 성공");
+		log.info("boardInsert �샇異� �꽦怨�");
 		
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/cs_board/"+getFolder("C:\\uploadStorage").replace("\\", "/")+"/"));
 		bvo.setEditor(bvo.getEditor().replaceAll("&nbsp;",""));
@@ -111,7 +111,7 @@ public class Cs_BoardController{
 		String url ="";
 		bvo.setT_editor(bvo.getEditor().replaceAll("[<][^>]*[>]", " ").trim());
 		System.out.println(bvo.getT_editor());
-		//임시 ID 닉네임----------------------------------------
+		//�엫�떆 ID �땳�꽕�엫----------------------------------------
 		bvo.setCs_name("testName");
 		bvo.setMember_id("testid");
 		result = cs_boardService.cs_boardInsert(bvo);
@@ -120,15 +120,15 @@ public class Cs_BoardController{
 			url ="/cs_board/cs_boardDetail_curr";
 		}
 		
-		//redirect: 를 쓰면 스프링 내부에서 자동적으로 response.sendRedirect(url)를 호출해준다.
+		//redirect: 瑜� �벐硫� �뒪�봽留� �궡遺��뿉�꽌 �옄�룞�쟻�쑝濡� response.sendRedirect(url)瑜� �샇異쒗빐以��떎.
 		return "redirect:"+url;
 	}
-	//------------------------------------게시글 등록-----------------------------------------------------------
+	//------------------------------------寃뚯떆湲� �벑濡�-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 
 	
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------글 상세정보-----------------------------------------------------------
+	//------------------------------------湲� �긽�꽭�젙蹂�-----------------------------------------------------------
 	@RequestMapping(value="/cs_boardDetail", method=RequestMethod.GET)
 	public String cs_boardDetail(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
 		Cs_BoardVO cs_detail = cs_boardService.cs_boardDetail(bvo.getCs_num());
@@ -145,12 +145,12 @@ public class Cs_BoardController{
 		
 		return "redirect:/cs_board/cs_boardDetail";
 	}
-	//------------------------------------글 상세정보-----------------------------------------------------------
+	//------------------------------------湲� �긽�꽭�젙蹂�-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 	
 	
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------글 목록-----------------------------------------------------------
+	//------------------------------------湲� 紐⑸줉-----------------------------------------------------------
 	@RequestMapping(value="/cs_boardList",method=RequestMethod.GET)
 	public String boardList(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
 				
@@ -168,17 +168,17 @@ public class Cs_BoardController{
 		
 		model.addAttribute("cs_boardList",cs_boardList);
 		
-		//전체 레코드 수 구현
+		//�쟾泥� �젅肄붾뱶 �닔 援ы쁽
 		int total = cs_boardService.cs_boardListCnt(bvo);
-		model.addAttribute("pageMaker",new PageDTO(bvo,total));
+		model.addAttribute("pageMaker",new PageDTO(bvo,total,10));
 		
 		return "cs_board/cs_boardList";
 	}
-	//------------------------------------글 목록-----------------------------------------------------------
+	//------------------------------------湲� 紐⑸줉-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------업데이트 뷰-----------------------------------------------------------
+	//------------------------------------�뾽�뜲�씠�듃 酉�-----------------------------------------------------------
 	@RequestMapping(value="/cs_updateForm")
 	public String updateForm(@ModelAttribute("data") Cs_BoardVO bvo,@RequestParam("cs_num") int cs_num, Model model) {
 		
@@ -188,14 +188,14 @@ public class Cs_BoardController{
 		return "cs_board/cs_updateForm";
 	}
 	
-	//------------------------------------업데이트 뷰-----------------------------------------------------------
+	//------------------------------------�뾽�뜲�씠�듃 酉�-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------------------------------------
-	//------------------------------------데이터 업데이트-----------------------------------------------------------
+	//------------------------------------�뜲�씠�꽣 �뾽�뜲�씠�듃-----------------------------------------------------------
 	@RequestMapping(value="/cs_boardUpdate", method=RequestMethod.POST)
 	public String updateForm(@ModelAttribute Cs_BoardVO bvo, RedirectAttributes ras) {
-		log.info("boardUpdate 호출 성공");
+		log.info("boardUpdate �샇異� �꽦怨�");
 		
 		int result = 0;
 		String url = "";
@@ -210,14 +210,14 @@ public class Cs_BoardController{
 		}
 		return "redirect:"+url;
 	}
-	//------------------------------------데이터 업데이트-----------------------------------------------------------
+	//------------------------------------�뜲�씠�꽣 �뾽�뜲�씠�듃-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------데이터 삭제-----------------------------------------------------------
+	//------------------------------------�뜲�씠�꽣 �궘�젣-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 	@RequestMapping(value="/cs_boardDelete")
 	public String boardDelete(@ModelAttribute Cs_BoardVO bvo) {
-		log.info("boardDelete 호출 성공");
+		log.info("boardDelete �샇異� �꽦怨�");
 		int result = 0;
 		String url = "";
 		//		result = boardService.boardDelete(bvo.getB_num());
@@ -234,24 +234,24 @@ public class Cs_BoardController{
 	@ResponseBody
 	@RequestMapping(value="/replyCnt")
 	public  String replyCnt(@RequestParam("cs_num") int cs_num) {
-		log.info("replyCnt 호출 성공");
+		log.info("replyCnt �샇異� �꽦怨�");
 		int result = 0;
 		result = cs_boardService.cs_replyCnt(cs_num);
 		return result+"";
 	}
 
 	
-	//------------------------------------데이터 삭제-----------------------------------------------------------
+	//------------------------------------�뜲�씠�꽣 �궘�젣-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 	
 	
 /*	
 
 
-	//글목록 구현하기
+	//湲�紐⑸줉 援ы쁽�븯湲�
 	@RequestMapping(value="/boardList",method=RequestMethod.GET)
 	public String boardList(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
-		log.info("boardList 호출 성공");
+		log.info("boardList �샇異� �꽦怨�");
 		//log.info("keyword : "+bvo.getKeyword());
 		//log.info("search : "+bvo.getSearch());
 		
@@ -259,10 +259,10 @@ public class Cs_BoardController{
 		List<Cs_BoardVO> boardList = boardService.boardList(bvo);
 		model.addAttribute("boardList",boardList);
 		
-		//전체 레코드 수 구현
+		//�쟾泥� �젅肄붾뱶 �닔 援ы쁽
 		int total = boardService.boardListCnt(bvo);
 		//int to = boardList.size();
-		//이래도 되지 않나? = 검색하면 10개 단위로만 가져와서 안돼더라~~
+		//�씠�옒�룄 �릺吏� �븡�굹? = 寃��깋�븯硫� 10媛� �떒�쐞濡쒕쭔 媛��졇���꽌 �븞�뤌�뜑�씪~~
 		model.addAttribute("pageMaker",new PageDTO(bvo,total));
 		return "board/boardList";
 	}
@@ -271,6 +271,6 @@ public class Cs_BoardController{
 	
 	
 	/////////////////////////////////////////////////////////
-	//글 insert 구현하기
+	//湲� insert 援ы쁽�븯湲�
 	*/
 }

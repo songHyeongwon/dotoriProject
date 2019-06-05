@@ -202,7 +202,7 @@
 	
 
 	<select id="projectListCnt" resultType="int" parameterType="Project">
-		select count(*) from project
+		select count(*) from project 
 		<trim prefix=" where (" suffix=")">
 			<include refid="projectSearch"></include>
 		</trim>

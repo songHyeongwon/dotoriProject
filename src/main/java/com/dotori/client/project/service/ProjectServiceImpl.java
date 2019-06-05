@@ -147,7 +147,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int projectListCnt(ProjectVO pvo) {
 		int result = projectDao.projectListCnt(pvo);
-		return 0;
+		return result;
 	}
 
 	@Override

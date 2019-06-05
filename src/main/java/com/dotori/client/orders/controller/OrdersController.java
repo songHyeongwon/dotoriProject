@@ -1,10 +1,18 @@
 package com.dotori.client.orders.controller;
 
+
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dotori.client.member.vo.MemberVO;
 import com.dotori.client.orders.service.OrdersService;
+import com.dotori.client.orders.vo.OrdersVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -17,16 +25,52 @@ public class OrdersController {
 
 	private OrdersService ordersService;
 	
+	//첫번째 결제창: 다른 주소 입력-배송사항 안내 페이지
 	@RequestMapping(value="/ordersForm")
-	public String ordersForm() {
+	public String ordersForm(@ModelAttribute OrdersVO ovo, Model model) {
+		
+		model.addAttribute("orders",ovo);
+		log.info(ovo);
+		log.info("프로젝트 번호:"+ovo.getProject_num());
+		
 		return "orders/ordersForm";
 	}
+	//두번째 결제창:후원사항 안내 동의여부 수집 페이지
 	@RequestMapping(value="/ordersFinal")
-	public String ordersFinal() {
+	public String ordersFinal(@ModelAttribute OrdersVO ovo, Model model) {
+		model.addAttribute("orders",ovo);
+		log.info(ovo);
+		log.info("프로젝트 번호:"+ovo.getProject_num());
 		return "orders/ordersFinal";
+		
 	}
-	@RequestMapping(value="/ordersConfirm")
-	public String ordersConfirm() {
-		return "orders/ordersConfirm";
+	
+	//최종 결제창: orders테이블에 주문내역 insert
+	@RequestMapping(value="/ordersInsert",method= {RequestMethod.POST,RequestMethod.GET})
+	public String ordersInsert(HttpSession session,@ModelAttribute OrdersVO ovo, Model model) {
+		model.addAttribute("orders",ovo);
+		log.info(ovo);
+		log.info("프로젝트 번호:"+ovo.getProject_num());
+		log.info("ordersInsert 호출");
+		
+		/*MemberVO mvo=(MemberVO)session.getAttribute("member_id");
+		String member_id=mvo.getMember_id();
+		
+		ovo.setMember_id(member_id);*/
+		int result=0;
+		String url="";
+		
+		result=ordersService.ordersInsert(ovo);
+		if(result==1) {
+			url="/orders/ordersInsert";
+		}
+		
+		return "redirect:"+url;
+	}
+	//마이페이지-후원내역 보기
+	@RequestMapping(value="/ordersDetail")
+	public String ordersDetail() {
+		
+		return "orders/ordersDetail";
 	}
 }

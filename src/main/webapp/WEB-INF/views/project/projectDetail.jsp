@@ -286,15 +286,15 @@ var optionCnt =0;
 								<input type="hidden" name="order_content" id="order_content">
 								<input type="hidden" name="project_num" id="project_num" value="${project.project_num}" >
 								<input type="hidden" name="content_num" id="content_num">
-								<input type="hidden" name="content_Kind" id="content_Kind">
-								<input type="hidden" name="content_MinPrice" id="content_MinPrice">
+								<input type="hidden" name="content_kind" id="content_Kind">
+								<input type="hidden" name="order_price" id="content_MinPrice">
 								<input type="text" readonly="readonly" name="content_name" id="content_name" class="form-control">
 							</form>
 						</div>
 						<div class="modal-footer">
 							<p id="content_MinPriceView" class="text-right"></p>
 							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" id="orderBtn">결재화면으로</button>
+							<button type="button" class="btn btn-primary" id="orderBtn">결제화면으로</button>
 						</div>
 					</div>
 				</div>

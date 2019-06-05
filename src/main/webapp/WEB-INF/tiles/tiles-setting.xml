@@ -54,12 +54,12 @@
 		<put-attribute name="title" value="도토리s펀딩s 홈페이지 마스터 계정"/>
 		<put-attribute name="nav" value="/WEB-INF/views/template/manager/nav.jsp"/>
 		<put-attribute name="header" value="/WEB-INF/views/template/manager/header.jsp"/>
-		<put-attribute name="bodyManager" value=""/>
+		<put-attribute name="body" value="/WEB-INF/views/template/manager/mainLayout.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/views/template/manager/footer.jsp"/>
 	</definition>
 	
 	<!-- 관리자 페이지 매핑 -->
 	<definition name="projectManager/*" extends="manager">
-		<put-attribute name="bodyManager" value="/WEB-INF/views/projectManager/{1}.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/projectManager/{1}.jsp"/>
 	</definition>
 </tiles-definitions>

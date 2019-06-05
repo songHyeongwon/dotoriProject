@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @AllArgsConstructor
 public class ProjectMController {
-	@RequestMapping(value="/insertForm")
+	@RequestMapping(value="/projectManagerForm")
 	public String projectInsertFrom() {
 		return "projectManager/projectManager";
 	}

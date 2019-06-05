@@ -20,7 +20,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/projectManager/insertForm">프로젝트 관리하기 <span
+					<li class="active"><a href="/projectManager/projectManagerForm">프로젝트 관리하기 <span
 							class="sr-only">(current)</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">고객센터

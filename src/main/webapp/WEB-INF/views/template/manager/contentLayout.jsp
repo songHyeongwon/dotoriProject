@@ -39,7 +39,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<tiles:insertAttribute name="nav" />
-		<tiles:insertAttribute name="bodyManager" />
+		<tiles:insertAttribute name="body" />
 	</div>
 	<footer>
 		<tiles:insertAttribute name="footer" />

@@ -41,212 +41,33 @@
 			            $("#cs_data").submit();
 				});
 		        $("#cs_boardDeleteBtn").click(function(){
-			            $("#cs_data").attr({
-			            	action : "/cs_board/cs_delete",
-			            	method : "get"				            	
-			            });
-			            alert("삭제가 되었습니다.");
-			            //폼 submit
-			            $("#cs_data").submit();
+		        		if(confirm("삭제하시겠습니까?")){
+			        		$("#cs_data").attr({
+				            	action : "/cs_board/cs_boardDelete",
+				            	method : "get"				            	
+				            });
+/* 							$.ajax({
+								url : "/cs_board/cs_replyCnt",
+								type : "post",
+								data : "cs_num="+$("#cs_num").val()+"",
+								dataType : "text",
+								error : function() {
+									alert("시스템 오류 입니다. 관리자에게 문의 하세요.")
+								},
+								success : function(resultData) {
+									alert("삭제")	;
+								}
+							});
+ */			        		alert("삭제가 되었습니다.");
+				            //폼 submit
+							$("#cs_data").submit();
+		        		}
 				});
 		        $("#cs_boardListBtn").click(function(){
 					var queryString = "?pageNum="+$("#pageNum").val()+"&amount="+$("#amount").val();
 					location.href = "/cs_board/cs_boardList"+queryString;
 				});
 			});
-			
-			var butChk = 0;
-			$(function() {
-				$("#pwdChk").css("visibility","hidden");
-				
-				//수정버튼 클릭시 처리 이벤트
-				$("#updateFormBtn").click(function() {
-					$("#pwdChk").css("visibility","visible");
-					$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-					butChk=1;
-				});
-				//삭제버튼 클릭시 처리 이벤트
-				//댓글기능 추가로 이벤트 변경함
-				/* $("#boardDeleteBtn").click(function() {
-					$("#pwdChk").css("visibility","visible");
-					$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-					butChk=2;
-				}); */
-				
-				//삭제버튼 클릭시 댓글 확인 후 처리 이벤트
-				$("#boardDeleteBtn").click(function() {
-					$.ajax({
-						url : "/board/replyCnt",
-						type : "post",
-						data : "b_num="+$("#b_num").val()+"",
-						dataType : "text",
-						error : function() {
-							alert("시스템 오류 입니다. 관리자에게 문의 하세요.")
-						},
-						success : function(resultData) {
-							if(resultData==0){
-								$("#pwdChk").css("visibility","visible");
-								$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-								butChk=2;
-							}else{
-								alert("댓글 존재시 게시물 삭제할 수가 없습니다. \n댓글 삭제 후 다시 확인해주세요");
-								return;
-							}
-						}
-					});
-				});
-				
-				//비밀번호 입력 양식 enter 제거
-				$("#b_pwd").bind("keydown", function(event) {
-					if(event.keyCode === 13){
-						event.preventDefault();
-					}
-				});
-				
-				//비밀번호 확인 버튼 클릭시 처리 이벤트
-				$("#pwdBtn").click(function() {
-					boardPwdConfirm();
-				});
-				//목록 버튼 클릭시 처리 이벤트
-				$("#boardListBtn").click(function() {
-					var queryString = "?pageNum="+$("#pageNum").val()+"&amount="+$("#amount").val();
-					location.href="/board/boardList"+queryString;
-				});
-			});
-			function boardPwdConfirm() {
-				if(!chkSubmit($("#b_pwd"),"비밀번호를")) return
-				else {
-					$.ajax({
-						url : "/board/pwdConfirm",
-						type : "post",
-						data : $("#f_pwd").serialize(),
-						dataType : "text",
-						error : function() {
-							alert("시스템 오류입니다. 관리자에게 문의하세요");
-						},
-						success : function(resultData) {
-							var goUrl="";
-							if(resultData=="실패"){
-								$("#msg").text("작성시 입력한 비밀번호가 일치하지 않습니다.").css("color","red");
-								$("#b_pwd").select();
-								$("#b_pwd").val("");
-							}else if(resultData=="성공"){
-								$("#msg").text("");
-								if(butChk==1){
-									goUrl = "/board/updateForm";
-								}else{
-									if(confirm("정말 삭제하시겠습니까??")){
-										goUrl = "/board/boardDelete";
-									}else {
-										$("#b_pwd").val("");
-										return;
-									}
-								}
-								$("#f_data").attr("action",goUrl);
-								$("#f_data").submit();
-							}
-						}
-					});
-				}
-			}
-			
-			////////////////////////////////////////////////////////////////////////////////////////////
-						var butChk = 0;
-			$(function() {
-				$("#pwdChk").css("visibility","hidden");
-				
-				//수정버튼 클릭시 처리 이벤트
-				$("#updateFormBtn").click(function() {
-					$("#pwdChk").css("visibility","visible");
-					$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-					butChk=1;
-				});
-				//삭제버튼 클릭시 처리 이벤트
-				//댓글기능 추가로 이벤트 변경함
-				/* $("#boardDeleteBtn").click(function() {
-					$("#pwdChk").css("visibility","visible");
-					$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-					butChk=2;
-				}); */
-				
-				//삭제버튼 클릭시 댓글 확인 후 처리 이벤트
-				$("#boardDeleteBtn").click(function() {
-					$.ajax({
-						url : "/board/replyCnt",
-						type : "post",
-						data : "b_num="+$("#b_num").val()+"",
-						dataType : "text",
-						error : function() {
-							alert("시스템 오류 입니다. 관리자에게 문의 하세요.")
-						},
-						success : function(resultData) {
-							if(resultData==0){
-								$("#pwdChk").css("visibility","visible");
-								$("#msg").text("작성시 입력한 비밀번호를 입력해주세요.").css("color","#000099");
-								butChk=2;
-							}else{
-								alert("댓글 존재시 게시물 삭제할 수가 없습니다. \n댓글 삭제 후 다시 확인해주세요");
-								return;
-							}
-						}
-					});
-				});
-				
-				//비밀번호 입력 양식 enter 제거
-				$("#b_pwd").bind("keydown", function(event) {
-					if(event.keyCode === 13){
-						event.preventDefault();
-					}
-				});
-				
-				//비밀번호 확인 버튼 클릭시 처리 이벤트
-				$("#pwdBtn").click(function() {
-					boardPwdConfirm();
-				});
-				//목록 버튼 클릭시 처리 이벤트
-				$("#boardListBtn").click(function() {
-					var queryString = "?pageNum="+$("#pageNum").val()+"&amount="+$("#amount").val();
-					location.href="/board/boardList"+queryString;
-				});
-			});
-			function boardPwdConfirm() {
-				if(!chkSubmit($("#b_pwd"),"비밀번호를")) return
-				else {
-					$.ajax({
-						url : "/board/pwdConfirm",
-						type : "post",
-						data : $("#f_pwd").serialize(),
-						dataType : "text",
-						error : function() {
-							alert("시스템 오류입니다. 관리자에게 문의하세요");
-						},
-						success : function(resultData) {
-							var goUrl="";
-							if(resultData=="실패"){
-								$("#msg").text("작성시 입력한 비밀번호가 일치하지 않습니다.").css("color","red");
-								$("#b_pwd").select();
-								$("#b_pwd").val("");
-							}else if(resultData=="성공"){
-								$("#msg").text("");
-								if(butChk==1){
-									goUrl = "/board/updateForm";
-								}else{
-									if(confirm("정말 삭제하시겠습니까??")){
-										goUrl = "/board/boardDelete";
-									}else {
-										$("#b_pwd").val("");
-										return;
-									}
-								}
-								$("#f_data").attr("action",goUrl);
-								$("#f_data").submit();
-							}
-						}
-					});
-				}
-			}
-
-
 		</script>
 	</head>
 	<body>

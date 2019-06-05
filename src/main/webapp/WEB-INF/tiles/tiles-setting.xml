@@ -18,35 +18,21 @@
 		<put-attribute name="body" value=""/>
 		<put-attribute name="footer" value="/WEB-INF/views/template/client/footer.jsp"/>
 	</definition>
-	
-	<!-- <definition name="manager" template="/WEB-INF/views/template/manager/contentLayout.jsp">
-		<put-attribute name="titleManager" value="도토리s펀딩s 홈페이지 마스터 계정"/>
-		<put-attribute name="navManager" value="/WEB-INF/views/template/manager/nav.jsp"/>
-		<put-attribute name="headerManager" value="/WEB-INF/views/template/manager/header.jsp"/>
-		<put-attribute name="bodyManager" value=""/>
-		<put-attribute name="footerManager" value="/WEB-INF/views/template/manager/footer.jsp"/>
-	</definition> -->
-	
-	<!-- <definition name="managerContent" template="/WEB-INF/views/template/manager/contentLayout.jsp">
-		<put-attribute name="title" value="도토리s펀딩s 홈페이지 마스터 계정"/>
-		<put-attribute name="nav" value="/WEB-INF/views/template/manager/nav.jsp"/>
-		<put-attribute name="header" value="/WEB-INF/views/template/manager/header.jsp"/>
-		<put-attribute name="body" value=""/>
-		<put-attribute name="footer" value="/WEB-INF/views/template/manager/footer.jsp"/>
-	</definition> -->
+
 	
 	<!-- 기본화면 설정 -->
 	<definition name="project/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
+	</definition>
+	<!-- 기본게시판 맵핑 설정 -->
+	<definition name="cs_board/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
 	</definition>
 	<definition name="member/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
 	</definition>
 	<definition name="orders/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/orders/{1}.jsp"/>
-	</definition>
-	<definition name="cs_board/*" extends="content">
-		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
 	</definition>
 	
 	<!-- 관리자 페이지 설정 -->
@@ -62,4 +48,5 @@
 	<definition name="projectManager/*" extends="manager">
 		<put-attribute name="body" value="/WEB-INF/views/projectManager/{1}.jsp"/>
 	</definition>
+
 </tiles-definitions>

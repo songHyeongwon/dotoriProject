@@ -23,6 +23,8 @@
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+		
 		<script type="text/javascript">
 			$(function() {
 				// -----------------네이버 에디터---------------------------
@@ -47,26 +49,43 @@
 
 				
 				//수정버튼을 눌렀을시 작업
-				$("#boardUpdateBtn").click(function() {
+				$("#cs_boardUpdateBtn").click(function() {
 		            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+					var ediVal = $("#editor").val();
+					if(!chkSubmit($("#cs_title"),"글제목을")) return;
+					else if( ediVal == ""  || ediVal == null || ediVal == '&nbsp;' || ediVal == '<p>&nbsp;</p>') {
+					    alert("내용을 입력하세요.");
+					    obj.getById["editor"].exec("FOCUS"); //포커싱				
+						return;
+					} else {
+			            $.ajax({
+			            	url : '/cs_board/cs_updateFormAction',
+			            	data : {
+			            		cs_html : $("#editor").val(),
+			            		cs_num : "${cs_updateData.cs_num}"
+			            	},
+			            	type : "POST",
+			            	success : function(result){
 
-					if(!chkSubmit($("#b_title"),"글제목을")) return
-					else if(!chkSubmit($("#b_content"),"글내용을")) return
-					else {
+			            	},
+			                error : function(request,status,error){
+			                
+			            	}
+			            });
+						
 						$("#f_updateForm").attr({
 							"method":"post",
-							"action":"/board/boardUpdate"
+							"action":"/cs_board/cs_boardUpdate"
 						});
 						$("#f_updateForm").submit();
 					}
 				});
 				
 				//취소버튼을 눌렀을시 작업
-				$("#boardCancelBtn").click(function() {
-					console.log("나오긴 함?")
-					/* history.back(); 이렇게 하면 안되나요? */
+				$("#cs_boardCancelBtn").click(function() {
 					$("#f_updateForm").each(function() {
 						this.reset();
+						obj.getById["editor"].exec("SET_IR", [""]);
 					});
 				});
 				//목록버튼 클릭시
@@ -83,6 +102,7 @@
 			<div class="contentTit page-header"><h3 class="text-center">게시판 글수정</h3></div>
 			
 			<div class="contentTB text-center">
+				<textarea name="prevEditor" id="prevEditor" hidden="hidden">${cs_updateData.editor}</textarea>
 				<form id="f_updateForm" name="f_updateForm">
 					<input type="hidden" name="cs_num" value="${cs_updateData.cs_num}"/>
 					<input type="hidden" name="pageNum" id="pageNum" value="${data.pageNum}"/>
@@ -123,9 +143,9 @@
 				</form>
 			</div>
 			<div class="contentBtn text-right">
-				<input type="button" value="수정" id="boardUpdateBtn" class="btn btn-success"/>
-				<input type="button" value="취소" id="boardCancelBtn" class="btn btn-success"/>
-				<input type="button" value="목록" id="boardListBtn" class="btn btn-success"/>
+				<input type="button" value="수정" id="cs_boardUpdateBtn" class="btn btn-success"/>
+				<input type="button" value="취소" id="cs_boardCancelBtn" class="btn btn-success"/>
+				<input type="button" value="목록" id="cs_boardListBtn" class="btn btn-success"/>
 			</div>
 		</div>
 	</body>

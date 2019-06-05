@@ -12,5 +12,6 @@
 		<typeAlias type="com.dotori.client.member.vo.MemberVO" alias="member"/>
 		<typeAlias type="com.dotori.client.cs_board.vo.Cs_BoardVO" alias="board"/>
 		<typeAlias type="com.dotori.manager.project.vo.ProjectMVO" alias="ProjectM"/>
+		<typeAlias type="com.dotori.client.cs_reply.vo.Cs_ReplyVO" alias="reply"/>
 	</typeAliases>
 </configuration>

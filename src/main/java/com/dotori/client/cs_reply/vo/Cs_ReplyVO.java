@@ -8,5 +8,5 @@ public class Cs_ReplyVO {
 	private int cs_r_num = 0;
 	private String cs_r_name ="";
 	private String cs_r_content ="";
-	private String cs_r_date="";
+	private String cs_r_recDate="";
 }

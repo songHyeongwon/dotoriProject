@@ -61,8 +61,7 @@
 								$(this).html($(this).html().replace(regex,"<span class='required'>"+word+"</span>"))
 							});
 						}
-					}
-							
+					}						
 				}
 				
 				$("#cs_insertFormBtn").click(function() {
@@ -175,6 +174,12 @@
 									<tr>
 										<td class="t_editor" colspan="5">${cs_board.t_editor}</td>
 									</tr>
+									<tr>
+										<td colspan="6">
+											<c:set var="cs_num" value="${cs_board.cs_num}" scope="request"></c:set>
+ 											<jsp:include page="cs_list_reply.jsp"></jsp:include>			
+										</td>
+									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
@@ -207,6 +212,7 @@
 				</c:if>
 			</ul>
 		</div>
+
  		<%--=========================글쓰기 버튼 출력 시작========================= --%>
 		<div class="contentBtn">
 			<input type="button" value="글쓰기" id="cs_insertFormBtn"	class="btn btn-primary">

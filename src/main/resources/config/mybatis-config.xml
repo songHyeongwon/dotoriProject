@@ -3,10 +3,9 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-<!-- 		<typeAlias type="com.spring.client.board.vo.BoardVO" alias="board"/>
-		<typeAlias type="com.spring.client.reply.vo.ReplyVO" alias="reply"/>
-		<typeAlias type="com.spring.client.gallery.vo.GalleryVO" alias="gallery"/> -->
-		<typeAlias type="com.dotori.client.project.vo.ProjectVO" alias="Project"/>
 		<typeAlias type="com.dotori.client.cs_board.vo.Cs_BoardVO" alias="board"/>
+		<typeAlias type="com.dotori.client.cs_reply.vo.Cs_ReplyVO" alias="reply"/>
+<!-- 		
+		<typeAlias type="com.spring.client.gallery.vo.GalleryVO" alias="gallery"/> -->
 	</typeAliases>
 </configuration>

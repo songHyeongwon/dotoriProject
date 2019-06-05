@@ -27,12 +27,6 @@
 		<put-attribute name="footerManager" value="/WEB-INF/views/template/manager/footer.jsp"/>
 	</definition> -->
 	
-	<!-- <definition name="manager"  extends="content">
-		<put-attribute name="title" value="도토리s펀딩s 홈페이지 마스터 계정"/>
-		<put-attribute name="nav" value="/WEB-INF/views/template/manager/nav.jsp"/>
-		<put-attribute name="header" value="/WEB-INF/views/template/manager/header.jsp"/>
-		<put-attribute name="footer" value="/WEB-INF/views/template/manager/footer.jsp"/>
-	</definition> -->
 	<!-- <definition name="managerContent" template="/WEB-INF/views/template/manager/contentLayout.jsp">
 		<put-attribute name="title" value="도토리s펀딩s 홈페이지 마스터 계정"/>
 		<put-attribute name="nav" value="/WEB-INF/views/template/manager/nav.jsp"/>
@@ -56,15 +50,16 @@
 	</definition>
 	
 	<!-- 관리자 페이지 설정 -->
-	<!-- <definition name="projectManager/*" extends="manager">
-		<put-attribute name="bodyManager" value="/WEB-INF/views/project/{1}.jsp"/>
-	</definition> -->
-	
-	<definition name="projectManager/*" extends="content">
+	<definition name="manager"  template="/WEB-INF/views/template/manager/contentLayout.jsp">
 		<put-attribute name="title" value="도토리s펀딩s 홈페이지 마스터 계정"/>
 		<put-attribute name="nav" value="/WEB-INF/views/template/manager/nav.jsp"/>
 		<put-attribute name="header" value="/WEB-INF/views/template/manager/header.jsp"/>
+		<put-attribute name="bodyManager" value=""/>
 		<put-attribute name="footer" value="/WEB-INF/views/template/manager/footer.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/project/{1}.jsp"/>
+	</definition>
+	
+	<!-- 관리자 페이지 매핑 -->
+	<definition name="projectManager/*" extends="manager">
+		<put-attribute name="bodyManager" value="/WEB-INF/views/projectManager/{1}.jsp"/>
 	</definition>
 </tiles-definitions>

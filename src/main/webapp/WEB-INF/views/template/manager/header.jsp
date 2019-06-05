@@ -31,13 +31,13 @@
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search" id="search" action="/projectM/listForm" method="get">
+				<!-- <form class="navbar-form navbar-left" role="search" id="search" action="/projectM/listForm" method="get">
 					<input type="hidden" value="b_title" name="search">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword">
 					</div>
 					<button type="submit" class="btn btn-default">검색</button>
-				</form>
+				</form> -->
 				<ul class="nav navbar-nav navbar-right">
 					<c:if test="${data==null}">
 					<li><a href="/member/login">로그인</a></li>
@@ -46,7 +46,7 @@
 					<c:if test="${data!=null }">
 						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
 					</c:if>
-					<li><a href="/orders/ordersForm">결재내역으로 이동</a></li>
+					<li><div>&nbsp;&nbsp;</div></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

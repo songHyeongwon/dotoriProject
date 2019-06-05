@@ -13,6 +13,6 @@ import lombok.extern.log4j.Log4j;
 public class ProjectMController {
 	@RequestMapping(value="/insertForm")
 	public String projectInsertFrom() {
-		return "project/projectManager";
+		return "projectManager/projectManager";
 	}
 }

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 	<!--최상단 네비게이션 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -28,7 +27,7 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">자주묻는 게시판</a></li>
+							<li><a href="/cs_board/cs_boardList">자주묻는 게시판</a></li>
 							<li><a href="#">문의하기</a></li>
 						</ul></li>
 				</ul>
@@ -44,10 +43,7 @@
 					<li><a href="/member/login">로그인</a></li>
 					<li><a href="/member/join">회원가입</a></li>
 					</c:if>
-					<c:if test="${data!=null }">
-						<c:if test="${data.member_id=='master'}">
-							<tiles:insertDefinition name="manager"/>
-						</c:if>
+					<c:if test="${data!=null}">
 						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
 					</c:if>
 					<li><a href="/orders/ordersForm">결제화면으로 이동</a></li>

@@ -33,5 +33,7 @@ public interface ProjectService {
 	public List<ProjectVO> mainList();
 
 	public List<OptionVO> getOptionValue(ContentVO cvo);
+	public int updateStatus();
 
+	
 }

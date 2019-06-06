@@ -103,14 +103,17 @@ public class ProjectController {
 	@RequestMapping(value="/listForm",method=RequestMethod.GET)
 	public String projectList(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("ProjectList 호출 성공");
-
+		projectService.updateStatus();
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
+		log.info("총 칼럼 갯수는 = "+total);
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
+		
+		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,10));
 		return "project/projectList";
 	}
 	/********************************************************************************************
@@ -118,6 +121,7 @@ public class ProjectController {
 	 ********************************************************************************************/
 	@RequestMapping(value="/detail",method=RequestMethod.POST)
 	public String projectDetail(@ModelAttribute ProjectVO pvo, Model model){
+		log.info("들어간 값 = "+pvo);
 		log.info("detail페이지 호출");
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);
@@ -131,14 +135,17 @@ public class ProjectController {
 	 ********************************************************************************************/
 	@GetMapping(value="/getPatterns2"/*, produces = MediaType.APPLICATION_JSON_UTF8_VALUE*/)
 	public String navprojectList(@ModelAttribute ProjectVO pvo, Model model) {
+		
 		log.info("navprojectList 호출");
+		//검색 값 입력
 		pvo.setSearch("Patterns2");
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total));
+
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
 		
 		return "project/projectList";
 	}

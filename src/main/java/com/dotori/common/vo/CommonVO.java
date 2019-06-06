@@ -12,11 +12,12 @@ public class CommonVO {
 	private int amount; // 페이지에 보여줄 데이터 수
 
 	public CommonVO() {
-		this(1, 10);
+		this(1, 9);
 	}
 
 	public CommonVO(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}
+	
 }

@@ -147,7 +147,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int projectListCnt(ProjectVO pvo) {
 		int result = projectDao.projectListCnt(pvo);
-		return 0;
+		return result;
 	}
 
 	@Override
@@ -175,5 +175,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<OptionVO> getOptionValue(ContentVO cvo) {
 		List<OptionVO> list = projectDao.getOprionList(cvo);
 		return list;
+	}
+
+	@Override
+	public int updateStatus() {
+		int result1 = projectDao.updateStatus1();
+		int result2 = projectDao.updateStatus2();
+		return result1+result2;
 	}
 }

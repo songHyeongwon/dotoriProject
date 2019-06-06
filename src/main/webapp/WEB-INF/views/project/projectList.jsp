@@ -30,15 +30,30 @@
 			});
 			form.submit();
 		});
-		
-		
+		$(".paginate_button a").click(function(e) {
+			//event.preventDefault() 이벤트를 보내지 않고 취소합니다.
+			e.preventDefault();
+			$("#f_search").find("input[name='pageNum']").val($(this).attr("href"));
+			goPage();
+		});
 	})
+	function goPage() {
+			if($("#search").val()=="all"){
+				$("#keyword").val("");
+			}
+			$("#search").attr({
+				"method" : "get",
+				"action" : "/board/boardList"
+			});
+			$("#f_search").submit();
+	}
 </script>
 <style type="text/css">
 	.hdpe{height: 400px;
 		width: 32%;
 		border: black 1px solid;
 		margin: 5px;}
+	#pagination{}
 </style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -46,6 +61,25 @@
 	<div class="contentContainer">
 		<div class="contentTit text-center">
 			<h1>프로젝트리스트</h1>
+		</div>
+		<div id="boardSearch" class="text-right">
+			<form id="f_search" name="f_search" class="form-inline">
+				<input type="hidden" name="pageNum" value="${pageMaker.cvo.pageNum}">
+				<input type="hidden" name="amount" value="${pageMaker.cvo.amount}">
+				<!-- <div class="form-group">
+					<label>검색조건 : </label>
+					<select id="search" name="search" class="form-control">
+						<option value="all">전체</option>
+						<option value="b_title">제목</option>
+						<option value="b_content">내용</option>
+						<option value="b_name">작성자</option>
+					</select> 
+					<input type="text" placeholder="검색어를 입력해주세요" id="keyword"
+						name="keyword" class="form-control"> 
+					<input type="button"
+						value="검색" class="btn btn-primary" id="searchData">
+				</div> -->
+			</form>
 		</div>
 		<form id="boardList">
 			<input type="hidden" id="b_num" name="b_num" /> <input type="hidden"
@@ -62,7 +96,27 @@
 							<form name="deteilGo">
 								<input type="hidden" name="project_num" value="${project.project_num}">
 							</form>
+			                <div style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute;">
+								<c:choose>
+									<c:when test="${project.project_status==0}">
+										관리자검수중
+									</c:when>
+									<c:when test="${project.project_status==1}">
+										진행중
+									</c:when>
+									<c:when test="${project.project_status==2}">
+										관리자거부
+									</c:when>
+									<c:when test="${project.project_status==3}">
+										펀딩 성공
+									</c:when>
+									<c:when test="${project.project_status==4}">
+										펀딩 실패
+									</c:when>
+								</c:choose>
+							</div>
 			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
+			                
 			                <div>
 								제목 : ${project.project_name}<br>
 								설명 : ${project.project_summary}<br>
@@ -84,9 +138,8 @@
 		</div>
 	</div>
 	<%--============================리스트 종료========================== --%>
-
 	<%--=========================페이징 처리 시작=========================== --%>
-	<div class="text-center">
+	<div class="text-center" id="pagination">
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev}">
 				<li class="paginate_button previous"><a

@@ -8,7 +8,7 @@
 		<meta charset="UTF-8">
 		<title>로그인 창</title>
 		
-		<link type="text/css" rel="stylesheet" href="/resources/include/css/memberJoin.css">
+		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/css/memberJoin.css">
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
@@ -17,7 +17,10 @@
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script> -->
+		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
+		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
+		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		
 		
 		<script type="text/javascript">

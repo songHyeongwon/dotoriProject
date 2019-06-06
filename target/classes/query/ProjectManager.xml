@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.manager.project.dao.ProjectMDao">
+	<sql id="projectSearch">
+		<if test="search=='b_title'">
+				<![CDATA[project_name like '%'|| #{keyword} ||'%']]>
+		</if>
+		<if test="search == 'Patterns2'">
+				<![CDATA[PROJECT_PATTERN2 like #{project_pattern2}]]>
+		</if>
+		<if test="search == 'b_name'">
+				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
+		</if>
+	</sql>
+	<select id="getProjectList" resultType="ProjectM" parameterType="ProjectM">
+		<![CDATA[
+		SELECT 
+			project_num,
+		    project_name,
+		    project_thumb,
+		    project_summary,
+		    project_targetmoney,
+		    project_summoney,
+		    to_char(project_enddate,'YYYY-MM-DD') as project_enddate,
+		    project_status,
+		    to_char(project_adddate,'YYYY-MM-DD') as project_adddate,
+		    member_id,
+		    project_pattern1,
+		    project_pattern2
+		FROM ( 
+			SELECT /*+INDEX_DESC(project project_pk)*/
+				rownum as rnum, 
+				project_num,
+			    project_name,
+			    project_thumb,
+			    project_summary,
+			    project_targetmoney,
+			    project_summoney,
+			    project_enddate,
+			    project_status,
+			    project_adddate,
+			    member_id,
+			    project_pattern1,
+			    project_pattern2
+			FROM project 
+			WHERE ]]>	
+			
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="projectSearch"></include>
+		</trim>
+		<![CDATA[ rownum <= #{pageNum} * #{amount}
+		) PROJECTlist
+		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	<select id="projectListCnt" resultType="int" parameterType="ProjectM">
+		select count(*) from project 
+		<trim prefix=" where (" suffix=")">
+			<include refid="projectSearch"></include>
+		</trim>
+	</select>
+	<update id="projectStatusYes" parameterType="int">
+		update project set PROJECT_STATUS = 1 where project_num=#{project_num}
+	</update>
+	<update id="projectStatusNo" parameterType="int">
+		update project set PROJECT_STATUS = 2 where project_num=#{project_num}
+	</update>
+</mapper>

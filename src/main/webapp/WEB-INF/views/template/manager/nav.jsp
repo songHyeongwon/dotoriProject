@@ -9,8 +9,8 @@
 			<div class="masthead">
 				<nav>
 					<ul class="nav nav-justified">
-						<li class="active"><a href="/project/listForm">관리자 홈으로</a></li>
-						<li class="dropdown"><a href="#">프로젝트 관리</a>
+						<li class="active"><a href="/">관리자 홈으로</a></li>
+						<li class="dropdown"><a href="/projectManager/projectManagerForm">프로젝트 관리</a>
 							</li>
 						<li class="dropdown"><a href="#">회원관리</a>
 							</li>

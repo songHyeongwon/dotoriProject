@@ -9,17 +9,16 @@ public class PageDTO {
 	private int startPage; // 화면에서 보여지는 페이지의 시작번호
 	private int endPage; // 화면에서 보여지는 페이지의 끝번호
 	private boolean prev, next;// 이전과 다음로 이동한 링크의 표시 여부
-
 	private int total;
 	private CommonVO cvo;
 
-	public PageDTO(CommonVO cvo, int total) {
+	public PageDTO(CommonVO cvo, int total, int cnt) {
 		this.cvo = cvo;
 		this.total = total;
-
+		this.cvo.setAmount(cnt);
 		// 페이지의 끝번호 구하기
 		// this.endPage = (int) (Math.ceil(페이지번호/10.0))*10;
-		this.endPage = (int) (Math.ceil(cvo.getPageNum() / 10.0)) * 10;
+		this.endPage = (int) (Math.ceil(cvo.getPageNum() /  10.0)) * 10;
 		// 페이지 시작번호 구하기
 		this.startPage = endPage - 9;
 

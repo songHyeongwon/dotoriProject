@@ -30,81 +30,91 @@ var optionCnt =0;
 	$(function() {
 		//모달 선택시
 		$(document).on("click","button[name='content']", function() {
-			//모달 초기화
-			$("#ordersForm").children("input[name='option']").remove();
-			$("#ordersForm").children("select[name='option']").remove();
-			fristName = "";
-			optionCnt =0;
-			
-			//값 찾아서 입력
-			var content_num = $(this).prev().prev().prev().prev().prev().prev("input[name='content_num']").val();
-			var content_name = $(this).prev().prev().prev().prev().prev("input[name='content_name']").val();
-			var content_MinPrice = $(this).prev().prev().prev().prev("input[name='content_MinPrice']").val();
-			var content_Kind = $(this).prev().prev().prev("input[name='content_Kind']").val();
-			var option_table_name = $(this).prev("input[name='option_table_name']").val();
-			
-			//버튼의 값 입력하기
-			$("#content_num").val(content_num);
-			$("#content_name").val(content_name);
-			$("#content_MinPrice").val(content_MinPrice);
-			$("#content_Kind").val(content_Kind);
-			$("#content_num").val(content_num);
-			$("#content_MinPriceView").html(content_MinPrice+"원");
-			
-			var data = ({
-					"content_num" : content_num,
-					"option_table_name" : option_table_name })
-			//ajax로 옵션 값 가져오기
-			$.ajax({
-				url: "/project/getOptionValue/",
-				type : "post",
-				dataType: 'json',
-				data: data,
-				success: function(data) {
-					var select ="";
-					$(data).each(function() {
-						var option_kind = this.option_kind;
-						var option_name = this.option_name;
-						var option_value = this.option_value;
-						if(option_kind==1){
-							if(option_name!=fristName){
-								//이번에 들어온 옵션의 이름이 이전것과 다를 경우
-								select = $("<select>");
-								select.attr("name","option");
-								select.addClass("form-control");
-								
-								//옵션에 첫번째 값 입력
-								var option = $("<option>");
-								option.html(option_value);
-								option.attr("value",option_value);
-								select.append(option);
-								
-								$("#ordersForm").append(select);
-								
-								fristName=option_name;
-								optionCnt++;
+			if($("#project_status").val()==0){
+				alert("승인되지 않은 프로젝트의 물품을 구매할수 없습니다.");
+			}else if($("#project_status").val()==2){
+				alert("관리자가 게시를 거부한 프로젝트의 물품을 구매할수 없습니다.");
+			}else if($("#project_status").val()==3){
+				alert("후원이 종료된 프로젝트의 물품을 구매할수 없습니다.")
+			}else if($("#project_status").val()==4){
+				alert("후원이 종료된 프로젝트의 물품을 구매할수 없습니다.")
+			}else{
+				//모달 초기화
+				$("#ordersForm").children("input[name='option']").remove();
+				$("#ordersForm").children("select[name='option']").remove();
+				fristName = "";
+				optionCnt =0;
+				
+				//값 찾아서 입력
+				var content_num = $(this).prev().prev().prev().prev().prev().prev("input[name='content_num']").val();
+				var content_name = $(this).prev().prev().prev().prev().prev("input[name='content_name']").val();
+				var content_MinPrice = $(this).prev().prev().prev().prev("input[name='content_MinPrice']").val();
+				var content_Kind = $(this).prev().prev().prev("input[name='content_Kind']").val();
+				var option_table_name = $(this).prev("input[name='option_table_name']").val();
+				
+				//버튼의 값 입력하기
+				$("#content_num").val(content_num);
+				$("#content_name").val(content_name);
+				$("#content_MinPrice").val(content_MinPrice);
+				$("#content_Kind").val(content_Kind);
+				$("#content_num").val(content_num);
+				$("#content_MinPriceView").html(content_MinPrice+"원");
+				
+				var data = ({
+						"content_num" : content_num,
+						"option_table_name" : option_table_name })
+				//ajax로 옵션 값 가져오기
+				$.ajax({
+					url: "/project/getOptionValue/",
+					type : "post",
+					dataType: 'json',
+					data: data,
+					success: function(data) {
+						var select ="";
+						$(data).each(function() {
+							var option_kind = this.option_kind;
+							var option_name = this.option_name;
+							var option_value = this.option_value;
+							if(option_kind==1){
+								if(option_name!=fristName){
+									//이번에 들어온 옵션의 이름이 이전것과 다를 경우
+									select = $("<select>");
+									select.attr("name","option");
+									select.addClass("form-control");
+									
+									//옵션에 첫번째 값 입력
+									var option = $("<option>");
+									option.html(option_value);
+									option.attr("value",option_value);
+									select.append(option);
+									
+									$("#ordersForm").append(select);
+									
+									fristName=option_name;
+									optionCnt++;
+								}else{
+									//옵션명이 같음으로 <option>태그만 생성
+									var option = $("<option>");
+									option.html(option_value);
+									option.attr("value",option_value);
+									select.append(option);
+								}
 							}else{
-								//옵션명이 같음으로 <option>태그만 생성
-								var option = $("<option>");
-								option.html(option_value);
-								option.attr("value",option_value);
-								select.append(option);
+								//직접입력 인풋을 생성합니다.
+								var inputOption = $("<input>");
+								inputOption.attr("type","text");
+								inputOption.attr("name","option");
+								inputOption.addClass("form-control");
+								inputOption.attr("placeholder",option_name+" 을/를 입력해주세요");
+								$("#ordersForm").append(inputOption);
 							}
-						}else{
-							//직접입력 인풋을 생성합니다.
-							var inputOption = $("<input>");
-							inputOption.attr("type","text");
-							inputOption.attr("name","option");
-							inputOption.addClass("form-control");
-							inputOption.attr("placeholder",option_name+" 을/를 입력해주세요");
-							$("#ordersForm").append(inputOption);
-						}
-					});
-					//data 반복문 종결
-				}
-			});
-			//ajax 종료
-			$('#myModal').modal();
+						});
+						//data 반복문 종결
+					}
+				});
+				//ajax 종료
+				$('#myModal').modal();
+			}
 		});
 		
 		//옵션값 선택시
@@ -126,8 +136,11 @@ var optionCnt =0;
 				"method":"post",
 				"action":"/orders/ordersForm"
 			});
-			$("#ordersForm").submit();
-			
+			if($("#member_id").val()!=""){
+				$("#ordersForm").submit();
+			}else{
+				alert("로그인 후 이용가능합니다.");
+			}
 		});
 	});
 </script>
@@ -163,11 +176,21 @@ var optionCnt =0;
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
 <body>
+	<!-- 로그인 세션내용을 받는 값 -->
+	<c:choose>
+		<c:when test="${not empty data}">
+			<input type="hidden" id="member_id" value="${data.member_id}">
+		</c:when>
+		<c:otherwise>
+			<input type="hidden" id="member_id">
+		</c:otherwise>
+	</c:choose>
 	<c:choose>
 		<c:when test="${not empty project}">
 			<%--헤더 시작 --%>
 			<div>
 				<div id="projectInfo1">
+					<input type="hidden" id="project_status" value="${project.project_status}">
 					<H4>${project.project_name}</H4>
 					<p>${project.member_id}님의 아이디어입니다.</p>
 					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb">
@@ -175,6 +198,23 @@ var optionCnt =0;
 					<a href="${project.project_URL}">${project.project_URL}로 이동</a>
 				</div>
 				<div id="projectInfo2">
+					<c:choose>
+						<c:when test="${project.project_status==0}">
+							<h1>관리자의 승인을 기다리고 있습니다.</h1>
+						</c:when>
+						<c:when test="${project.project_status==1}">
+							<h1>현재 진행중인 프로젝트</h1>
+						</c:when>
+						<c:when test="${project.project_status==2}">
+							<h1>부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h1>
+						</c:when>
+						<c:when test="${project.project_status==3}">
+							<h1>여러분에 성원에 성공한 프로젝트입니다.</h1>
+						</c:when>
+						<c:when test="${project.project_status==4}">
+							<h1>아쉽게도 달성되지 못한 프로젝트입니다.</h1>
+						</c:when>
+					</c:choose>
 					<h1>목표금액 : ${project.project_targetMoney}</h1>
 					<h1>현재까지 모음 : ${project.project_sumMoney}</h1>
 					<h1>이 아이디어를 ${project.project_count}명이 후원해주셨습니다.</h1>

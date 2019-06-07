@@ -15,4 +15,8 @@ public interface ProjectMService {
 
 	public int projectDelect(Integer project_num);
 
+	public int projectStatusAllYes(List<Integer> project_nums);
+
+	public int projectStatusAllNo(List<Integer> project_nums);
+
 }

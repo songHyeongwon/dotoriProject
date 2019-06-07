@@ -12,6 +12,8 @@
 <link rel="shortcut icon" href="../image/icon.png" />
 <link rel="apple-touch-icon" href="../image/icon.png" />
 <script type="text/javascript">
+var project_nums = [];//배열 선언
+var selectAll = false;//전체선택을 했는지 안했는지 알수있는 변수
 	$(function() {
 		$(".names").click(function() {
 			var form = $(this).next();
@@ -29,23 +31,26 @@
 						$(this).attr("href"));
 				goPage();
 		});
-		var project_num = [];//배열 선언
 		
+		//전부 ok버튼 구현 중
 		$("#selectYes").click(function() {
+			project_nums = [];//배열을 초기화 한다.
 			$("input[name='check']:checked").each(function() {//체크되어있는 값들을 배열에 담는다.
-				project_num.push($(this).val());
-				console.log($(this).val());
+				project_nums.push($(this).val());
 			});
+			
 			$.ajax({
 				url : "/projectManager/allYes",
-				type : "post",
+				type : "get",
 				dateType : "text",
 				data : {
-					"project_num" : project_num
+					"project_nums" : project_nums
 				},
 				success     : function(result) {
 					if(result=="SUCCESS"){
-						alert("완료되었습니다.");
+						//팝업 띄우고 창 다시시작
+						alert("전체 승인이 완료되었습니다.");
+						location.href = "/projectManager/projectManagerForm";
 					}     
 			    },
 				error : function(request, status, error) {
@@ -53,8 +58,43 @@
 				}
 			});
 		});
-		$("#allSelect").click(function() {
+		//전부 취소버튼 구현중
+		$("#selectNo").click(function() {
+			project_nums = [];//배열을 초기화 한다.
+			$("input[name='check']:checked").each(function() {//체크되어있는 값들을 배열에 담는다.
+				project_nums.push($(this).val());
+			});
 			
+			$.ajax({
+				url : "/projectManager/allNo",
+				type : "get",
+				dateType : "text",
+				data : {
+					"project_nums" : project_nums
+				},
+				success  : function(result) {
+					if(result=="SUCCESS"){
+						//팝업띄우고 창 다시시작
+						alert("전체 거부가 완료되었습니다.");
+						location.href = "/projectManager/projectManagerForm";
+					}
+			    },
+				error : function(request, status, error) {
+					alert("체크된 내용 처리중 오류 발생"+error);
+				}
+			});
+		});
+		//전체 체크 버튼 클릭시 해당 페이지 전부 체크
+		$("#allSelect").click(function() {
+			if(selectAll){
+				//선택변수를 바꾸고 모든 체크박스에 false를 준다.
+				selectAll = !selectAll;
+				$("input[name='check']").prop('checked',false);
+			}else{
+				//선택변수를 바꾸고 모든 체크박스에 true를 준다.
+				selectAll = !selectAll;
+				$("input[name='check']").prop('checked',true);
+			}
 		})
 	})
 	function goPage() {
@@ -91,9 +131,9 @@
 			</form>
 			<form>
 				<div class="form-group">
-					<button id="selectYes">선택승인</button>
-					<button id="selectNo">선택거부</button>
-					<button id="allSelect">전체선택</button>
+					<button id="selectYes" type="button">선택승인</button>
+					<button id="selectNo" type="button">선택거부</button>
+					<button id="allSelect" type="button">전체선택</button>
 				</div>
 			</form>
 		</div>
@@ -112,7 +152,7 @@
 						<td>후원자</td>
 						<td>상황</td>
 						<td>게시자</td>
-						<td>선택<input type="checkbox" id="allChekc"></td>
+						<td>선택</td>
 					</tr>
 				</thead>
 				<c:forEach var="project" items="${list}" varStatus="status">

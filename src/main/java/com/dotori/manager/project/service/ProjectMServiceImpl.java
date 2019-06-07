@@ -53,4 +53,22 @@ public class ProjectMServiceImpl implements ProjectMService{
 		result = projectDao.projectDel(delpvo);
 		return result;
 	}
+	@Override
+	public int projectStatusAllYes(List<Integer> project_nums) {
+		int result = 0;
+		for(Integer project_num : project_nums) {
+			result = projectDao.projectStatusYes(project_num);
+			if(result==0) return result;
+		}
+		return result;
+	}
+	@Override
+	public int projectStatusAllNo(List<Integer> project_nums) {
+		int result = 0;
+		for(Integer project_num : project_nums) {
+			result = projectDao.projectStatusNo(project_num);
+			if(result==0) return result;
+		}
+		return result;
+	}
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ProjectVO;
@@ -88,9 +89,21 @@ public class ProjectMController {
 	}
 	
 	@RequestMapping(value = "/allYes")
-	public String projectStatusAllYes(@RequestBody List<Integer> project_num) {
+	public ResponseEntity<String> projectStatusAllYes(@RequestParam(value="project_nums[]") List<Integer> project_nums) {
 		log.info("전체 처리에 들어왔습니다.");
-		log.info(project_num);
-		return "projectManager/projectManager";
+		log.info(project_nums);
+		int result = projectMService.projectStatusAllYes(project_nums);
+		
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@RequestMapping(value = "/allNo")
+	public ResponseEntity<String> projectStatusAllNo(@RequestParam(value="project_nums[]") List<Integer> project_nums) {
+		log.info("전체 처리에 들어왔습니다.");
+		log.info(project_nums);
+		int result = projectMService.projectStatusAllNo(project_nums);
+		
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

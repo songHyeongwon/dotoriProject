@@ -139,10 +139,8 @@ public class ProjectController {
 		log.info("navprojectList 호출");
 		//검색 값 입력
 		pvo.setSearch("Patterns2");
-		log.info("=====================================getAmount"+pvo);
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
-		log.info("리스트안에도 패턴이 있는가?"+list);
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
 		

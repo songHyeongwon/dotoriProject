@@ -99,7 +99,6 @@
 		</div>
 	<c:choose>
 		<c:when test="${not empty list}">
-			<form id="table">
 			<table class="table">
 				<thead>
 					<tr>
@@ -123,7 +122,9 @@
 							
 							<td>
 								<a href="#" class="names">${project.project_name}</a>
-								<form><input type="hidden" name="project_num" value="${project.project_num}"></form>
+								<form>
+									<input type="hidden" name="project_num" value="${project.project_num}">
+								</form>
 							</td>
 							
 							<td>${project.project_pattern1}</td>
@@ -159,7 +160,6 @@
 					</tbody>
 				</c:forEach>
 			</table>
-			</form>
 		</c:when>
 		<c:otherwise>
 			<h1>관련내용을 찾을수 없습니다.</h1>

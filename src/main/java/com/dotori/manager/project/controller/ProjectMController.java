@@ -79,9 +79,9 @@ public class ProjectMController {
 	}
 	
 	@PostMapping(value = "/del/{project_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> projectDelect(@PathVariable("project_num") String pvo) {
-		log.info("프로젝트 승인 페이지"+pvo);
-		int result = 1;/*projectMService.projectDelect(pvo);*/
+	public ResponseEntity<String> projectDelect(@PathVariable("project_num") Integer project_num) {
+		log.info("프로젝트 삭제 페이지"+project_num);
+		int result = projectMService.projectDelect(project_num);
 		
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);

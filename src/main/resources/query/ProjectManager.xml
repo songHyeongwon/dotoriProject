@@ -64,9 +64,32 @@
 	<update id="projectStatusNo" parameterType="int">
 		update project set PROJECT_STATUS = 2 where project_num=#{project_num}
 	</update>
-	<select id="getAllData" parameterType="int" resultType="int">
+	<select id="getAllData" parameterType="int" resultType="ProjectM">
 		select * from project where project_num = #{project_num}
 	</select>
 	
-	
+	<update id="projectDelContent" parameterType="ProjectM">
+		drop table ${content_table_name} 
+	</update>
+	<update id="projectDelOption" parameterType="ProjectM">
+		drop table ${option_table_name}
+	</update>
+	<update id="projectDelQna_board" parameterType="ProjectM">
+		drop table ${reply_table_name}
+	</update>
+	<update id="projectDelReply" parameterType="ProjectM">
+		drop table ${qna_board_table_name}
+	</update>
+	<update id="projectDelContentSeq" parameterType="ProjectM">
+		drop sequence ${content_table_name}_seq
+	</update>
+	<update id="projectDelQna_boardSeq" parameterType="ProjectM">
+		drop sequence ${qna_board_table_name}_seq
+	</update>
+	<update id="projectDelReplySeq" parameterType="ProjectM">
+		drop sequence ${reply_table_name}_seq
+	</update>
+	<delete id="projectDel" parameterType="ProjectM">
+		DELETE FROM PROJECT WHERE project_num = #{project_num}
+	</delete>
 </mapper>

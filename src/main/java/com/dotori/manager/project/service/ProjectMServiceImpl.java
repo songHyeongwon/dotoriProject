@@ -36,19 +36,21 @@ public class ProjectMServiceImpl implements ProjectMService{
 		return result;
 	}
 	@Override
-	public int projectDelect(ProjectMVO pvo) {
-		ProjectMVO delpvo = projectDao.getAllData(pvo);
+	public int projectDelect(Integer project_num) {
+		ProjectMVO delpvo = projectDao.getAllData(project_num);
 		log.info(delpvo);
-		int result =0;
 		
+		//상세내역을 뽑아냈으니 4개의 테이블과 3개의 시퀀스를 드롭해준다.
+		int result =0;
+		result = projectDao.projectDelContent(delpvo);
+		result = projectDao.projectDelOption(delpvo);
+		result = projectDao.projectDelQna_board(delpvo);
+		result = projectDao.projectDelReply(delpvo);
+		result = projectDao.projectDelContentSeq(delpvo);
+		result = projectDao.projectDelQna_boardSeq(delpvo);
+		result = projectDao.projectDelReplySeq(delpvo);
+		//지우고 나온 값을 넣어 준다.
+		result = projectDao.projectDel(delpvo);
 		return result;
 	}
-	/*@Override
-	public int projectDelect(Integer project_num) {
-		ProjectMVO pvo = projectDao.getAllData(project_num);
-		log.info(pvo);
-		int result =0;
-		
-		return result;
-	}*/
 }

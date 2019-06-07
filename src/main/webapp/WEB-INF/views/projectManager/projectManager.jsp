@@ -29,7 +29,28 @@
 						$(this).attr("href"));
 				goPage();
 		});
+		var project_num = [];//배열 선언
 		
+		$("#selectYes").click(function() {
+			$("input[name='check']:checked").each(function() {//체크되어있는 값들을 배열에 담는다.
+				project_num.push($(this).val());
+				console.log($(this).val());
+			});
+			$.ajax({
+				url : "/projectManager/allYes",
+				type : "post",
+				dataType : "text",
+				data : {
+					project_num : project_num
+				},
+				error : function() {
+					alert("체크된 내용 처리중 오류 발생");
+				}
+			});
+		});
+		$("#allSelect").click(function() {
+			
+		})
 	})
 	function goPage() {
 		if ($("#search").val() == "all") {
@@ -63,9 +84,17 @@
 						value="검색" class="btn btn-primary" id="searchData">
 				</div>
 			</form>
+			<form>
+				<div class="form-group">
+					<button id="selectYes">선택승인</button>
+					<button id="selectNo">선택거부</button>
+					<button id="allSelect">전체선택</button>
+				</div>
+			</form>
 		</div>
 	<c:choose>
 		<c:when test="${not empty list}">
+			<form id="table">
 			<table class="table">
 				<thead>
 					<tr>
@@ -79,7 +108,7 @@
 						<td>후원자</td>
 						<td>상황</td>
 						<td>게시자</td>
-						<td>선택(전체)<input type="checkbox" id="allChekc"></td>
+						<td>선택<input type="checkbox" id="allChekc"></td>
 					</tr>
 				</thead>
 				<c:forEach var="project" items="${list}" varStatus="status">
@@ -89,7 +118,7 @@
 							
 							<td>
 								<a href="#" class="names">${project.project_name}</a>
-								<form><input type="hidden" name="project_num" value="${project.project_num}"></form>
+								<input type="hidden" name="project_num" value="${project.project_num}">
 							</td>
 							
 							<td>${project.project_pattern1}</td>
@@ -118,11 +147,14 @@
 								</c:choose>
 							</td>
 							<td>${project.member_id}</td>
-							<td><input type="checkbox" name="check"></td>
+							<td>
+								<input type="checkbox" name="check" value="${project.project_num}">
+							</td>
 						</tr>
 					</tbody>
 				</c:forEach>
 			</table>
+			</form>
 		</c:when>
 		<c:otherwise>
 			<h1>관련내용을 찾을수 없습니다.</h1>

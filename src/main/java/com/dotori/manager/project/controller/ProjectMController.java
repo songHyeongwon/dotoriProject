@@ -1,5 +1,6 @@
 package com.dotori.manager.project.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,12 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ProjectVO;
@@ -31,6 +33,7 @@ public class ProjectMController {
 	
 	private ProjectMService projectMService;
 	private ProjectService projectService;
+	
 	@RequestMapping(value="/projectManagerForm")
 	public String projectInsertFrom(@ModelAttribute ProjectMVO pvo,Model model) {
 		log.info("관리자페이지 리스트에 들어왔습니다.");
@@ -40,7 +43,7 @@ public class ProjectMController {
 		int total = projectMService.projectListCnt(pvo);
 		
 		log.info("총 칼럼 갯수는 = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,15));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
 		
 		
 		return "projectManager/projectManager";
@@ -75,4 +78,17 @@ public class ProjectMController {
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@RequestMapping(value = "/allYes", method = RequestMethod.POST)
+	@ResponseBody
+	public void projectStatusAllYes(@RequestParam(value = "project_num[]") List<Integer> list){
+		log.info("allYes에 들어왔습니다.");
+		log.info(list);
+		int result = 0;
+
+		/*return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);*/
+	}
+	
+	
 }

@@ -35,12 +35,14 @@ public class OrdersController {
 		
 		return "orders/ordersForm";
 	}
-	//두번째 결제창:후원사항 안내 동의여부 수집 페이지
+	//두번째 결제창:후원사항 안내 동의여부 수집 페이지+결제
 	@RequestMapping(value="/ordersFinal")
 	public String ordersFinal(@ModelAttribute OrdersVO ovo, Model model) {
 		model.addAttribute("orders",ovo);
 		log.info(ovo);
 		log.info("프로젝트 번호:"+ovo.getProject_num());
+		log.info("ordersInsert 수행");
+		
 		return "orders/ordersFinal";
 		
 	}
@@ -51,21 +53,15 @@ public class OrdersController {
 		model.addAttribute("orders",ovo);
 		log.info(ovo);
 		log.info("프로젝트 번호:"+ovo.getProject_num());
-		log.info("ordersInsert 호출");
 		
-		/*MemberVO mvo=(MemberVO)session.getAttribute("member_id");
-		String member_id=mvo.getMember_id();
-		
-		ovo.setMember_id(member_id);*/
-		int result=0;
+		int result;
 		String url="";
 		
 		result=ordersService.ordersInsert(ovo);
 		if(result==1) {
-			url="/orders/ordersInsert";
+			url="/orders/ordersFinal";
 		}
-		
-		return "redirect:"+url;
+		return "orders/ordersInsert";
 	}
 	//마이페이지-후원내역 보기
 	@RequestMapping(value="/ordersDetail")

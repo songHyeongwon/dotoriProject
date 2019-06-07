@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -39,7 +40,8 @@
 		<title>결제완료</title>
 	</head>
 	<body>
-	<form id="f_orders">
+	<%-- <c:set var=point value="${data.member_point-orders.order_price}"/> --%>
+ 	<form id="f_orders">
 		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
 		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
@@ -47,7 +49,7 @@
 		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
 		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
 		<input type="hidden" name="order_infoAgree" id="order_infoAgree" value="${orders.order_infoAgree}"/> 
-	</form>
+		<input type="hidden" name="member_point" id="member_point" value="${point}"/>
 	<div id="container">
 		<header>
 			<h1>축하합니다!</h1>
@@ -65,5 +67,6 @@
 		<button id="backHome">홈으로 돌아가기</button>
 		<button id="myPunding">내 후원현황 보기</button>
 	</div>
+	</form>
 	</body>
 </html>

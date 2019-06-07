@@ -2,6 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<script type="text/javascript">
+var data = ${data.member_id}
+	$(function() {
+		$("#insertFormHerf").click(function(e) {
+			if(data!=null){
+				alert("로그인 후 이용가능합니다.");
+				e.preventDefault();//이벤트 막기
+			}
+		});
+	});
+</script>
 	<!--최상단 네비게이션 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -20,7 +32,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/project/insertForm">프로젝트 올리기 <span
+					<li class="active"><a href="/project/insertForm" id="insertFormHerf">프로젝트 올리기 <span
 							class="sr-only">(current)</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">고객센터

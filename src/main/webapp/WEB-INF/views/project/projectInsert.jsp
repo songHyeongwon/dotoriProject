@@ -324,7 +324,11 @@
 <body>
 	<h1>프로젝트의 내용을 입력해주세요</h1>
 	<form id="projectInsertForm">
-		<input type="hidden" value="testuser1" id="member_id" name="member_id">
+		<c:choose>
+			<c:when test="${not empty data}">
+				<input type="hidden" value="${data.member_id}" id="member_id" name="member_id">
+			</c:when>
+		</c:choose>
 		<div role="tabpanel" id="totalDiv">
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">

@@ -1,11 +1,13 @@
 package com.dotori.client.orders.vo;
 
+import com.dotori.client.delivery.vo.DeliveryVO;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class OrdersVO {
+public class OrdersVO extends DeliveryVO {
 	private int order_num;
 	private String member_id;
 	private int project_num;

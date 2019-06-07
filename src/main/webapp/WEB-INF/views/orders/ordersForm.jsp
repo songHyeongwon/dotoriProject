@@ -156,8 +156,8 @@
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
 		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
 		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
+		<input type="hidden" name="order_infoAgree" id="order_infoAgree" value="${orders.order_infoAgree}"/>
 		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
-	</form>
 	<div id="container">
 	<header>
 		<h3>프로젝트명:"${project.project_name}"</h3>
@@ -193,9 +193,9 @@
       <hr/>
       <div class="annotation">
       	
-		<label>배송 안내사항</label>
+		<h2>배송 안내사항</h2>
 		<br/>
-		<textarea rows="5" cols="50" readonly="readonly">
+		<p>
 		배송정보 제 3자(프로젝트 진행자) 제공 동의
 		회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
 
@@ -206,18 +206,17 @@
 		
 		※ 동의 거부권 등에 대한 고지
 		개인정보 제공은 서비스 이용을 위해 꼭 필요합니다. 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
-		</textarea>
+		</p>
 		
 		<br/>
 		<input type="checkbox" name="order_guideAgree" id="order_guideAgree"/>
-		<label>약관을 모두 읽었으며 이에 동의합니다.</label>
-		<br/>
+		<label>약관을 모두 읽었으며 이에 동의합니다.</label><br/>
 		<button type="button" name="support" id="support">후원하기</button>
 	
       </div>
    </div>
    </div>
-
+</form>
    <!-- /.container -->
 	
     <!-- Bootstrap core JavaScript

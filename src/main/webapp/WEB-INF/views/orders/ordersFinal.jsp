@@ -31,7 +31,8 @@
 				$("#finalConfirm").click(function(){
 					var project_num=$("input[name='project_num']").val();
 					$("#project_num").val(project_num);
-					if(!$("#order_infoAgree").prop("checked")){
+					
+					if(!$("input:checkbox[id='order_infoAgree']").is(":checked") == true){
 						alert("후원 관련 안내사항을 읽고 동의한 후 후원을 진행해주세요.");
 						$("#order_infoAgree").val("0");
 					}else{
@@ -40,7 +41,13 @@
 							"method":"post",
 							"action":"/orders/ordersInsert"
 						});
-						$("#f_orders").submit();	
+						$("#f_orders").submit();
+					}
+					if($("#member_point").val()<$("#order_point").val()){
+						alert("포인트가 부족합니다. 포인트를 충전 후 다시 결제해주세요.");
+					}
+					else{
+						alert("결제가 완료되었습니다.");
 					}
 				});
 			});
@@ -48,14 +55,22 @@
 		<title>배송/결제 안내사항 확인 페이지</title>
 	</head>
 	<body>
-	
+	<form id="f_project">
+		<input type="hidden" name="member_point" id="memeber_point" value="${data.member_point-orders.order_price}"/>
+		<input type="hidden" name="support_count" id="support_count" value="${project.project_count+1}"/>
+		<input type="hidden" name="project_sumMoney" id="project_sumMoney" value="${project.project_sumMoney+orders.order_price}"/>
+	</form>
 	<form id="f_orders">
 		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
 		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
 		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
-		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
 		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
+		<input type="hidden" name="order_infoAgree" id="order_infoAgree" value="${orders.order_infoAgree}"/>
+		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
+		<input type="hidden" name="member_point" id="memeber_point" value="${data.member_point-orders.order_price}"/>
+		<input type="hidden" name="support_count" id="support_count" value="${project.project_count+1}"/>
+		<input type="hidden" name="project_sumMoney" id="project_sumMoney" value="${project.project_sumMoney+orders.order_price}"/>
 		<div id="container">
 		<header></header>
 	<hr/>

@@ -18,5 +18,11 @@ public class OrdersServiceImpl implements OrdersService{
 		result=ordersDao.ordersInsert(ovo);
 		return result;
 	}
+	/*@Override
+	public int ordersUpdate(OrdersVO ovo) {
+		int updateResult=0;
+		updateResult=ordersDao.ordersUpdate(ovo);
+		return updateResult;
+	}*/
 
 }

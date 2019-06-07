@@ -11,4 +11,7 @@
 		#{order_price},#{order_guideAgree},
 		#{order_infoAgree},#{content_kind})
 </insert>
+<!-- <update id="ordersUpdate" parameterType="orders">
+	
+</update> -->
 </mapper>

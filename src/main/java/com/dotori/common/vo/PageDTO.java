@@ -19,9 +19,9 @@ public class PageDTO {
 		this.total = total;
 		// 페이지의 끝번호 구하기
 		// this.endPage = (int) (Math.ceil(페이지번호/10.0))*10;
-		this.endPage = (int) (Math.ceil(cvo.getPageNum() /  10.0)) * 10;
+		this.endPage = (int) (Math.ceil(cvo.getPageNum() /  (double)cnt)) * cnt;
 		// 페이지 시작번호 구하기
-		this.startPage = endPage - 9;
+		this.startPage = endPage - (cnt-1);
 
 		// 끝 페이지 구하기
 		int realEnd = (int) (Math.ceil((total * 1.0) / cvo.getAmount()));

@@ -144,7 +144,7 @@ public class ProjectController {
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
 		
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
 		
 		return "project/projectList";
 	}

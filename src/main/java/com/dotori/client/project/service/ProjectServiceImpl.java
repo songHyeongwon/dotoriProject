@@ -154,7 +154,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectVO projectDetail(ProjectVO pvo) {
 		ProjectVO result = projectDao.projectDetail(pvo);
 		//먼저 뽑아봅니다.
-		
+		log.info("=====================================================result의 값을 뽑아냅니다."+result);
 		//컨텐츠를 가져옵니다.
 		result.setList(projectDao.getContentList(result));
 		

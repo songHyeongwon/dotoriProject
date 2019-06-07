@@ -250,7 +250,7 @@
 	    option_table_name,
 	    reply_table_name,
 	    member_id
-	FROM project where project_num = #{project_num} and not PROJECT_STATUS=2
+	FROM project where project_num = #{project_num}
 	</select>
 	
 	<select id="getContentList" parameterType="Project" resultType="ContentVO">

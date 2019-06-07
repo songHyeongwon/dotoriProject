@@ -48,8 +48,8 @@ public class ProjectMController {
 	
 	@RequestMapping(value="/detail",method=RequestMethod.POST)
 	public String projectDetail(@ModelAttribute ProjectVO pvo, Model model){
-		log.info("들어간 값 = "+pvo);
 		log.info("detail페이지 호출");
+		log.info("========================값이 제대로 들어가는지 확인 들어간 값 = "+pvo);
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);
 		

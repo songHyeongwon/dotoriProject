@@ -22,13 +22,14 @@
 			form.submit();
 		});
 		$(".paginate_button a").click(
-				function(e) {
-					//event.preventDefault() 이벤트를 보내지 않고 취소합니다.
-					e.preventDefault();
-					$("#f_search").find("input[name='pageNum']").val(
-							$(this).attr("href"));
-					goPage();
-				});
+			function(e) {
+				//event.preventDefault() 이벤트를 보내지 않고 취소합니다.
+				e.preventDefault();
+				$("#f_search").find("input[name='pageNum']").val(
+						$(this).attr("href"));
+				goPage();
+		});
+		
 	})
 	function goPage() {
 		if ($("#search").val() == "all") {
@@ -52,9 +53,9 @@
 					<label>검색조건 : </label>
 					<select id="search" name="search" class="form-control">
 						<option value="all">전체</option>
-						<option value="b_title">제목</option>
-						<option value="b_content">내용</option>
-						<option value="b_name">작성자</option>
+						<option value="project_name">제목</option>
+						<option value="project_status">상황</option>
+						<option value="member_id">작성자</option>
 					</select> 
 					<input type="text" placeholder="검색어를 입력해주세요" id="keyword"
 						name="keyword" class="form-control"> 
@@ -97,7 +98,25 @@
 							<td>${project.project_sumMoney}</td>
 							<td>${project.project_endDate}</td>
 							<td>${project.project_count}</td>
-							<td>${project.project_status}</td>
+							<td>
+								<c:choose>
+									<c:when test="${project.project_status==0}">
+										승인대기
+									</c:when>
+									<c:when test="${project.project_status==1}">
+										승인완료
+									</c:when>
+									<c:when test="${project.project_status==2}">
+										게시거부
+									</c:when>
+									<c:when test="${project.project_status==3}">
+										후원성공
+									</c:when>
+									<c:when test="${project.project_status==4}">
+										후원실패
+									</c:when>
+								</c:choose>
+							</td>
 							<td>${project.member_id}</td>
 							<td><input type="checkbox" name="check"></td>
 						</tr>

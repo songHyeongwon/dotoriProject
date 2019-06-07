@@ -39,12 +39,17 @@
 			$.ajax({
 				url : "/projectManager/allYes",
 				type : "post",
-				dataType : "text",
+				dateType : "text",
 				data : {
-					project_num : project_num
+					"project_num" : project_num
 				},
-				error : function() {
-					alert("체크된 내용 처리중 오류 발생");
+				success     : function(result) {
+					if(result=="SUCCESS"){
+						alert("완료되었습니다.");
+					}     
+			    },
+				error : function(request, status, error) {
+					alert("체크된 내용 처리중 오류 발생"+error);
 				}
 			});
 		});
@@ -118,7 +123,7 @@
 							
 							<td>
 								<a href="#" class="names">${project.project_name}</a>
-								<input type="hidden" name="project_num" value="${project.project_num}">
+								<form><input type="hidden" name="project_num" value="${project.project_num}"></form>
 							</td>
 							
 							<td>${project.project_pattern1}</td>

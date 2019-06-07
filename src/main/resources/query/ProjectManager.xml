@@ -64,4 +64,9 @@
 	<update id="projectStatusNo" parameterType="int">
 		update project set PROJECT_STATUS = 2 where project_num=#{project_num}
 	</update>
+	<select id="getAllData" parameterType="int" resultType="int">
+		select * from project where project_num = #{project_num}
+	</select>
+	
+	
 </mapper>

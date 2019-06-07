@@ -14,4 +14,8 @@ public interface ProjectMDao {
 
 	public int projectStatusNo(Integer project_num);
 
+	public int projectDelect(Integer project_num);
+
+	public ProjectMVO getAllData(ProjectMVO project_num);
+
 }

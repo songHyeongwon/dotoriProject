@@ -28,6 +28,30 @@ var fristName ="";
 var optionCnt =0;
 //처음 셀렉트
 	$(function() {
+		
+		$("#delProject").click(function() {
+			console.log("삭제페이지에 들어갔다.");
+			var project_num = $("#project_num").val();
+			
+			$.ajax({
+				url: '/projectManager/del/'+project_num,
+				type: "post",
+				headers : {
+					"X-HTTP-Method-Override":"DELETE"
+				},
+				dateType : "text",
+				error : function() {
+					alert("전송중 예기치못한 오류가 발생하였습니다.");
+				},
+				success : function(result) {
+					console.log("result = "+result);
+					if(result=="SUCCESS"){
+						alert("삭제가 완료되었습니다.");
+						location.href = "/projectManager/projectManagerForm";
+					};
+				}
+			});
+		});
 		$("#yes").click(function() {
 			console.log("승인페이지에 들어갔다.")
 			var project_num = $("#project_num").val();
@@ -276,6 +300,7 @@ var optionCnt =0;
 							<button id="yes" class="btn btn-primary">승인하기</button>
 						</c:when>
 					</c:choose>
+					<button id="delProject" class="btn btn-default">프로젝트 삭제하기</button>
 				</div>
 			</div>
 			<%--헤더 종료 --%>

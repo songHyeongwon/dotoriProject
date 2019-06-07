@@ -13,4 +13,6 @@ public interface ProjectMService {
 
 	public int projectStatusNo(Integer project_num);
 
+	public int projectDelect(ProjectMVO pvo);
+
 }

@@ -1,6 +1,5 @@
 package com.dotori.client.member.controller;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -140,4 +139,71 @@ public class MemberController {
 			return "member/passwordConfirm";
 		}
 	}
+	
+	
+	// 회원 수정 컨트롤러
+	@PostMapping(value="memberUpdate")
+	public String memberUpdate(@ModelAttribute MemberVO mvo,Model model) {
+		
+		int result=memberService.memberUpdate(mvo);
+		
+		if(result==1) {
+			return "index";
+		}else {
+			model.addAttribute("fail",1);
+			return "member/personalModify";
+		}
+	}
+	
+	// 마이페이지 '펀딩 중' 클릭 시 컨트롤러
+	@PostMapping(value="memberFunding")
+	public String memberFunding(@ModelAttribute MemberVO mvo,Model model) {
+		String member_id = mvo.getMember_id();
+		
+		int result = memberService.memberFunding(member_id);
+		
+		model.addAttribute("decide",result);
+		return "member/memberFunding";
+		
+	}
+	
+	// 마이페이지 '사용한 도토리 내역' 클릭 시 화면 출력 컨트롤러
+	@PostMapping(value="usingDotori")
+	public String usingDotori(@ModelAttribute MemberVO mvo, Model model) {
+		String member_id = mvo.getMember_id();
+		
+		int result = memberService.usingDotori(member_id);
+		
+		model.addAttribute("judge",result);
+		
+		return "member/usingDotori";
+	}
+	
+	// 회원 탈퇴 컨트롤러
+	@PostMapping(value="deleteMember")
+	public int deleteMember(@ModelAttribute MemberVO mvo, Model model) {
+		
+		
+		int result = memberService.deleteMember(mvo);
+		
+		return result;
+	}
+	
+	// 회원 수정 시 전 비밀번호와 같은지 확인하는 컨트롤러
+	@PostMapping(value="confirmPwd")
+	public String confirmPwd(@ModelAttribute MemberVO mvo) {
+		
+		String member_pwd = mvo.getMember_pwd();
+		String mem="";
+		int result = memberService.passwordConfirm(member_pwd);
+		
+		if(result==1) {
+			mem="성공";
+			return mem;
+		}else {
+			mem="실패";
+			return mem;
+		}
+	}
+	
 }

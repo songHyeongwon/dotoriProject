@@ -31,7 +31,6 @@
 		 $(function(){
 			var member_eMail="";
 			var member_phone="";
-			var member_address="";
 			var sigNum="";
 			var sigNumFrontPattern = /^[0-9]{6}$/;	// 주민번호 앞자리 정규식
 			var sigNumBackPattern = /^[0-9]{7}$/;	// 주민번호 뒷자리 정규식
@@ -39,10 +38,68 @@
 			var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
 			var idchk = 0;
 			var member_kind=0;
+			var personalTag = <input type="text" id=>
+			var firstSigNum;
+			var middleSigNum;
+			var lastSigNum;
 			
 			$("#searchAddr").click(function(){
 				daumAddressPostCode();
 			})
+			
+			$("#personal").click(function(){
+				member_kind=0;
+			}
+			
+			$("#company").click(function(){
+				member_kind=1;
+			})
+			
+			if(member_kind=0){
+				firstSigNum=$("<input>");
+				firstSigNUm.attr({
+					"type" : "text" ,
+					"name" : "firstSigNum",
+					"id" : "firstSigNum"
+				});
+				firstSigNum.addClass("sigNum");
+				
+				lastSigNum=$("<input>");
+				lastSigNum.attr({
+					"type" : "text" ,
+					"name" : "lastSigNum",
+					"id" : "lastSigNum"
+				});
+				lastSigNum.addClass("sigNum");
+				
+				$("#sigNum").appnd(firstSigNum).append("-").append(lastSigNum);
+			}else{
+				firstSigNum=$("<input>");
+				firstSigNUm.attr({
+					"type" : "text" ,
+					"name" : "firstSigNum",
+					"id" : "firstSigNum"
+				});
+				firstSigNum.addClass("sigNum");
+				
+				middleSigNum=$("<input>");
+				middleSigNum.attr({
+					"type" : "text" ,
+					"name" : "middleSigNum",
+					"id" : "middleSigNum"
+				});
+				middleSigNum.addClass("sigNum");
+				
+				lastSigNum=$("<input>");
+				lastSigNum.attr({
+					"type" : "text" ,
+					"name" : "lastSigNum",
+					"id" : "lastSigNum"
+				});
+				lastSigNum.addClass("sigNum");
+				
+				$("#sigNum").appnd(firstSigNum).append("-").append("middleSigNum".appnd("-").append(lastSigNum);
+			}
 			 
 			 $("#idChkBtn").click(function(){
 				 $.ajax({
@@ -122,7 +179,7 @@
 					 	$("#phoneFirst").focus();
 					 	return;
 				 }else if(!checkForm("#address","주소를 ")) return;
-				 else if(!checkForm("#addressDetail","상세주소를 ")) return;
+				 else if(!checkForm("#member_detailaddress","상세주소를 ")) return;
 				 else if(!$("#member_infoAgree").prop("checked")){
 					 alert("개인정보 처리동의 여부를 선택해주세요.");
 					 $("#member_infoAgree").val('0');
@@ -160,14 +217,12 @@
 				 }else{
 					member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
 					member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
-					member_address=$("#address").val()+" "+$("#addressDetail").val();
 					member_sigNum=$("#frontSigNum").val()+"-"+$("#backSigNum").val();
 					$("#member_eMail").val(member_eMail);
 					$("#member_phone").val(member_phone);
-					$("#member_address").val(member_address);
 					$("#member_sigNum").val(member_sigNum);
 					$("#member_kind").val(member_kind);
-					 $("#joinForm").attr({
+					$("#joinForm").attr({
 						"method" : "post",
 					 	"action" : "/member/memberJoin"
 					 });
@@ -287,10 +342,8 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">주민등록번호(or 외국인번호)</td>
-							<td colspan="2">
-								<input type="text" id="frontSigNum" name="frontSigNum" maxlength="6"/> 
-								- 
-								<input type="password" id="backSigNum" name="backSigNum" maxlength="7"/>
+							<td colspan="2" id="sigNum">
+								
 							</td>
 						</tr>
 						<tr class="tb">
@@ -321,11 +374,11 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소</td>
-							<td colspan="2"><input type="text" name="address" id="address" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
+							<td colspan="2"><input type="text" name="member_address" id="member_address" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
 						</tr>
 						<tr class="tb">
-							<td class="tn">주소 세부사항</td>
-							<td colspan="2"><input type="text" name="addressDetail" id="addressDetail"/><span id="guide" style="color:#999;display:none"></span></td>
+							<td class="tn">상세주소</td>
+							<td colspan="2"><input type="text" name="member_detailaddress" id="member_detailaddress"/><span id="guide" style="color:#999;display:none"></span></td>
 						</tr>
 						<tr>
 							<td><h3 class="plusInfo">추가 정보</h3></td>
@@ -341,6 +394,7 @@
 					<input type="hidden" name="member_phone" id="member_phone" />
 					<input type="hidden" name="member_eMail" id="member_eMail" />
 					<input type="hidden" name="member_address" id="member_address" />
+					<input type="hidden" name="member_kind" id="member_kind" />
 				</form>
 				<div class="text-center">
 					<input type="button" class="btn" id="joinMemberBtn" name="joinMemberBtn" value="가입하기"/>

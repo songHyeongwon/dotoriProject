@@ -12,4 +12,12 @@ public interface MemberService {
 
 	int passwordConfirm(String member_pwd);
 
+	int memberUpdate(MemberVO mvo);
+
+	int memberFunding(String member_id);
+
+	int usingDotori(String member_id);
+
+	int deleteMember(MemberVO mvo);
+
 }

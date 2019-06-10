@@ -65,4 +65,48 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public int memberUpdate(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result=memberDao.memberUpdate(mvo);
+		
+		return result;
+	}
+
+	@Override
+	public int memberFunding(String member_id) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result=memberDao.memberFunding(member_id);
+		
+		return result;
+	}
+
+	@Override
+	public int usingDotori(String member_id) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result = memberDao.usingDotori(member_id);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteMember(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result = memberDao.deleteMemberInsert(mvo);
+		
+		result = memberDao.deleteMember(mvo);
+		
+		return result;
+	}
+
+	
+
 }

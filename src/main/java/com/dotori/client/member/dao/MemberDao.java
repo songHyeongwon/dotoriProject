@@ -12,4 +12,14 @@ public interface MemberDao {
 
 	public int passwordConfirm(String member_pwd);
 
+	public int memberUpdate(MemberVO mvo);
+
+	public int memberFunding(String member_id);
+
+	public int usingDotori(String member_id);
+
+	public int deleteMember(MemberVO mvo);
+
+	public int deleteMemberInsert(MemberVO mvo);
+
 }

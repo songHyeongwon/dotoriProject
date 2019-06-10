@@ -42,8 +42,7 @@
 	<body>
 	<%-- <c:set var=point value="${data.member_point-orders.order_price}"/> --%>
  	<form id="f_orders">
-		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
-		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
+	<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
 		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
 		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 

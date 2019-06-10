@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotori.client.orders.dao.OrdersDao">
-<insert id="ordersInsert" parameterType="orders">
-	insert into orders(
-		orders_num,member_id,project_num,orders_content,
-		orders_price,orders_guideAgree,
-		orders_infoAgree,content_kind
-	) 
-	values(orders_seq.nextval,#{member_id},project_seq.nextval,#{order_content},
-		#{order_price},#{order_guideAgree},
-		#{order_infoAgree},#{content_kind})
-</insert>
+	<select id="ordersInsert" parameterType="OptionVO" statementType="CALLABLE">
+		<if test="content_kind==1" >
+			{ CALL orders_kind_1(
+			#{member_id}, 
+			#{project_num}, 
+			#{order_content},
+			#{order_price},
+			#{order_infoAgree},
+			#{order_guideAgree},
+			#{content_kind},
+			#{delivery_recname},
+			#{delivery_recaddress},
+			#{delivery_recphone},
+			#{delivery_send}
+			) }
+		</if>
+		<if test="content_kind==0">
+			{ CALL orders_kind_0(
+			#{member_id}, 
+			#{project_num}, 
+			#{order_content},
+			#{order_price},
+			#{order_infoAgree},
+			#{order_guideAgree},
+			#{content_kind}
+			) }
+		</if>
+	</select>
 </mapper>

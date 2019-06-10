@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
-var data = ${data.member_id}
+var data = '${data.member_id}';
 	$(function() {
 		$("#insertFormHerf").click(function(e) {
 			if(data!=null){

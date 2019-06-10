@@ -107,6 +107,7 @@ var optionCnt =0;
 								inputOption.addClass("form-control");
 								inputOption.attr("placeholder",option_name+" 을/를 입력해주세요");
 								$("#ordersForm").append(inputOption);
+								optionCnt++;
 							}
 						});
 						//data 반복문 종결
@@ -137,6 +138,7 @@ var optionCnt =0;
 				"action":"/orders/ordersForm"
 			});
 			if($("#member_id").val()!=""){
+				//폼의 내용을 보내줌
 				$("#ordersForm").submit();
 			}else{
 				alert("로그인 후 이용가능합니다.");

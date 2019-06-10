@@ -13,10 +13,8 @@ public class OrdersServiceImpl implements OrdersService{
 	@Setter(onMethod_ = @Autowired)
 	private OrdersDao ordersDao;
 	@Override
-	public int ordersInsert(OrdersVO ovo) {
-		int result=0;
-		result=ordersDao.ordersInsert(ovo);
-		return result;
+	public void ordersInsert(OrdersVO ovo) {
+		ordersDao.ordersInsert(ovo);
 	}
 
 }

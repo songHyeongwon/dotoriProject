@@ -50,12 +50,23 @@
 	<body>
 	
 	<form id="f_orders">
-		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
 		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
 		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
 		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
 		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
+		<input type='hidden' name="member_id" id="member_id" value="${data.member_id}"/>
+		<%-- 4개의 인풋은 배송상품이 아니면 필요하지 않다. --%>
+		<c:choose>
+			<c:when test="${orders.content_kind==1}">
+				<input type="hidden" name="delivery_recname" id="delivery_recname" value="${orders.delivery_recname}">
+				<input type="hidden" name="delivery_recaddress" id="delivery_recaddress" value="${orders.delivery_recaddress}">
+				<input type="hidden" name="delivery_recphone" id="delivery_recphone" value="${orders.delivery_recphone}">
+				<input type="hidden" name="delivery_send" id="delivery_send" value="${orders.delivery_send}">
+			</c:when>
+		</c:choose>
+		
+		
 		<div id="container">
 		<header></header>
 	<hr/>
@@ -63,7 +74,7 @@
 		<h4>리워드 세부항목</h4>
 		-후원금액:${orders.order_price}<br/>
 		-리워드 세부내역:${orders.order_content}<br/>
-		-주소:<span id="address"></span>
+		-주소:<span id="address">${orders.delivery_recaddress}</span>
 	</div>
 	<hr/>
 		<h2>마지막으로 확인해주세요</h2>

@@ -28,15 +28,13 @@
 				background:#F2FBEF;
 			}
 		</style>
-		<%
-			String id=(String)session.getAttribute("member_id");
-			String address=(String)session.getAttribute("address");
-		%>
 		
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script type="text/javascript">
 		$(function(){
+			var point = ${data.member_point-orders.order_price};
+			
 			$("#f_address").hide();
 			
 			$("#addAddress").click(function(){
@@ -97,17 +95,20 @@
 				$("#addBtn").click(function(){
 					if($("#postcode").val().replace(/\s/g,"")==""){
 						alert("우편번호를 입력해주세요.");
+						return;
 					}else if($("#roadAddress").val().replace(/\s/g,"")==""){
 						alert("도로명 주소를 입력해주세요.");
+						return;
 					}else if($("#detailAddress").val().replace(/\s/g,"")==""){
 						alert("세부 주소를 입력해주세요.");
-					}
-					else{
+						return;
+					}else {
 						var address1=$("#roadAddress").val();
 						var address2=$("#detailAddress").val();
 						var address3=$("#postcode").val();
 						
-						$("#newAddress").append(address1+"&nbsp;").append(address2).append(" ("+address3+")");
+						//$("#newAddress").append(address1+"&nbsp;").append(address2).append(" ("+address3+")");
+						$("#newAddress").html(address1+"&nbsp;"+address2+" ("+address3+")")
 						$("#f_address").hide();
 						
 						$("#roadAddress").val("");
@@ -124,26 +125,37 @@
 				
 				if(!$("input:checkbox[id='order_guideAgree']").is(":checked") == true){
 					$("#order_guideAgree").val("0");
-					console.log("체크됨 온다");
 					alert("배송 관련 안내사항을 읽고 동의해주세요.");
-				}
-				else{
-					console.log("체크되지 않음");
-					$("#order_guideAgree").val("1");
+				} else if(point<0){
+					alert("잔액이 부족합니다.");
+				} else {
 					$("#f_orders").attr({
 						"method":"post",
 						"action":"/orders/ordersFinal"
 					});
+					//보내야하는 값들 설정
+					var recaddress=$("#newAddress").html();
+					var recphone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
+					$("#order_guideAgree").val("1");
+					$("#delivery_recname").val($("#recname").val());
+					$("#delivery_recaddress").val($("#newAddress").html());
+					$("#delivery_recphone").val(recphone);
+					$("#delivery_send").val($("#send").val());
+					
+					/* console.log($("#delivery_recname").val());
+					console.log($("#delivery_recaddress").val());
+					console.log($("#delivery_recphone").val());
+					console.log($("#delivery_send").val()); */
 					$("#f_orders").submit();
 				}
 				
 			});
 		});  
-		$(document).on("click","li",function(event){
+		/* $(document).on("click","li",function(event){
 			$(event.target).addClass("checked");
 			var address=$(event.target).val();
 			alert(address);
-		});
+		}); */
 		
 		</script>
 		<title>결제</title>
@@ -151,73 +163,89 @@
 	<body>
 	
 	<form id="f_orders">
-		<input type='hidden' name="member_id" id="member_id" value="testuser1"/>
+		<input type='hidden' name="member_id" id="member_id" value="${data.member_id}"/>
 		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
 		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
 		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
 		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
-		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
+		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/>
+		<%-- 4개의 인풋은 배송상품이 아니면 필요하지 않다. --%>
+		<input type="hidden" name="delivery_recname" id="delivery_recname">
+		<input type="hidden" name="delivery_recaddress" id="delivery_recaddress">
+		<input type="hidden" name="delivery_recphone" id="delivery_recphone">
+		<input type="hidden" name="delivery_send" id="delivery_send">
 	</form>
 	<div id="container">
 	<header>
-		<h3>프로젝트명:"${project.project_name}"</h3>
 		<hr/>
 		<div class="detailOrders">
-			<label>후원금액:${orders.order_price}</label><br/>
-			
-			<label>리워드 세부내역</label><br/>
-			<label>${orders.order_content}</label>
+			<label>후원금액 : ${orders.order_price}</label><br/>
+			<label>현재 포인트 : ${data.member_point}</label><br>
+			<label>결재 후 잔액 : ${data.member_point-orders.order_price}</label><br>
+			<label>리워드 세부내역 : ${orders.order_content}</label><br/>
 		</div>
 	</header>
-	
-	<hr/>
-      <div class="starter-template">
-        <label>배송지</label>
-        <ul id="addressList">
-        	<li>${member.address}</li>
-        	<li id="newAddress"></li>
-        </ul>
-        <button type="button" id="addAddress">다른 주소 입력</button>
-        <div id="f_address">
-        	<input type="text" id="postcode" placeholder="우편번호" readonly="readonly"/>
-        	<input type="button" id="searchPostCode" value="우편번호 찾기"/>
-        	<br/>
-			<input type="text" id="roadAddress" placeholder="도로명주소" readonly="readonly"/>
-			<input type="text" id="detailAddress" placeholder="상세주소">
-			<input type="button" id="addBtn" value="등록"/>
-			<span id="guide" style="color:#999"></span>
-        </div>
-		
-		<br/>
-     
-      <hr/>
-      <div class="annotation">
-      	
-		<label>배송 안내사항</label>
-		<br/>
-		<textarea rows="5" cols="50" readonly="readonly">
-		배송정보 제 3자(프로젝트 진행자) 제공 동의
-		회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
 
-		제공받는자:
-		제공목적: 선물 전달/배송과 관련된 상담 및 민원처리
-		제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)
-		보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)
-		
-		※ 동의 거부권 등에 대한 고지
-		개인정보 제공은 서비스 이용을 위해 꼭 필요합니다. 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
-		</textarea>
-		
-		<br/>
-		<input type="checkbox" name="order_guideAgree" id="order_guideAgree"/>
-		<label>약관을 모두 읽었으며 이에 동의합니다.</label>
-		<br/>
-		<button type="button" name="support" id="support">후원하기</button>
-	
-      </div>
-   </div>
-   </div>
+		<c:choose>
+			<c:when test="${orders.content_kind==1}">
+				<hr />
+				<div class="starter-template">
+					<label>수신자 이름</label><br>
+					<input type="text" placeholder="수신자이름" id="recname"><hr>
+					<label>수신자 전화번호</label><br>
+					<input type="text" class="phone" name="phoneFirst" id="phoneFirst" maxlength="3"/>
+					-
+					<input type="text" class="phone" name="phoneMiddle" id="phoneMiddle" maxlength="4"/>
+					-
+					<input type="text" class="phone" name="phoneLast" id="phoneLast" maxlength="4"/><hr>
+					<label>배송지</label>
+					<ul id="addressList">
+						<li id="newAddress">${data.member_address} ${data.member_detailaddress}</li>
+					</ul>
+					<button type="button" id="addAddress">다른 주소 입력</button>
+					<div id="f_address">
+						<input type="text" id="postcode" placeholder="우편번호" readonly="readonly" /> 
+						<input type="button" id="searchPostCode" value="우편번호 찾기" /><br/> 
+						<input type="text" id="roadAddress" placeholder="도로명주소" readonly="readonly" /> 
+						<input type="text" id="detailAddress" placeholder="상세주소"> 
+						<input type="button" id="addBtn" value="등록" /> 
+						<span id="guide" style="color: #999"></span>
+					</div>
+					<br />
+					<hr />
+					
+					<label>발신자 이름</label><br>
+					<input type="text" placeholder="발신자이름" id="send" value="${data.member_name}"><hr>
+					<div class="annotation">
+					
+						<label>배송 안내사항</label> <br />
+						<textarea rows="5" cols="50" readonly="readonly">
+							배송정보 제 3자(프로젝트 진행자) 제공 동의
+							회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
+					
+							제공받는자:
+							제공목적: 선물 전달/배송과 관련된 상담 및 민원처리
+							제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)
+							보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)
+							
+							※ 동의 거부권 등에 대한 고지
+							개인정보 제공은 서비스 이용을 위해 꼭 필요합니다. 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
+						</textarea>
 
+						<br /> <input type="checkbox" name="order_guideAgree"
+							id="order_guideAgree" /> <label>약관을 모두 읽었으며 이에 동의합니다.</label> <br />
+						<button type="button" name="support" id="support">후원하기</button>
+
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<br /> <input type="checkbox" name="order_guideAgree"
+							id="order_guideAgree" /> <label>세부사항을 모두 확인하였습니다.</label> <br />
+						<button type="button" name="support" id="support0">후원하기</button>
+			</c:otherwise>
+		</c:choose>
+	</div>
    <!-- /.container -->
 	
     <!-- Bootstrap core JavaScript

@@ -21,4 +21,5 @@ public class MemberVO {
 	private String member_nickName;		// 회원 닉네임
 	private int member_infoAgree;		// 회원 정보처리 동의여부
 	private int member_evenAgree;		// 회원 메시지,이메일에 정보를 주기 위한 동의여부
+	private String member_detailaddress;// 회원 상세주소
 }

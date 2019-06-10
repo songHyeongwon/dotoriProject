@@ -24,7 +24,6 @@
 				margin:0px auto;
 			}
 		</style>
-		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript">
 			$(function(){
 				$("#backHome").click(function(){
@@ -38,32 +37,21 @@
 		<title>결제완료</title>
 	</head>
 	<body>
-	<%-- <c:set var=point value="${data.member_point-orders.order_price}"/> --%>
- 	<form id="f_orders">
-		<input type='hidden' name="project_num" id="project_num" value="${orders.project_num}"/>
-		<input type="hidden" name="order_content" id="order_content" value="${orders.order_content}"/>
-		<input type="hidden" name="order_price" id="order_price" value="${orders.order_price}"/>
-		<input type="hidden" name="content_kind" id="content_kind" value="${orders.content_kind}"/> 
-		<input type="hidden" name="order_guideAgree" id="order_guideAgree" value="${orders.order_guideAgree}"/>
-		<input type="hidden" name="order_infoAgree" id="order_infoAgree" value="${orders.order_infoAgree}"/> 
-		<input type="hidden" name="member_point" id="member_point" value="${point}"/>
-	<div id="container">
-		<header>
-			<h1>축하합니다!</h1>
-			<p>${orders.order_num}번째 후원자가 되셨습니다!</p>
-				<div id="rewardDetail">
-					<h4>리워드 세부항목</h4>
-					-후원금액:${orders.order_price}<br/>
-					-리워드 세부내역:${orders.order_content}<br/>
-					-주소:<span id="address"></span>
-				</div>
+		<div id="container">
+			<header>
+				<h1>축하합니다!</h1>
+				<p>${orders.order_num}번째 후원자가 되셨습니다!</p>
+					<div id="rewardDetail">
+						<h4>리워드 세부항목</h4>
+						-후원금액:${orders.order_price}<br/>
+						-리워드 세부내역:${orders.order_content}<br/>
+					</div>
+				<hr/>
+				프로젝트 목표액에 미달할 경우 진행된 모든 결제는 자동으로 취소됩니다.
+			</header>
 			<hr/>
-			프로젝트 목표액에 미달할 경우 진행된 모든 결제는 자동으로 취소됩니다.
-		</header>
-		<hr/>
-		<button id="backHome">홈으로 돌아가기</button>
-		<button id="myPunding">내 후원현황 보기</button>
-	</div>
-	</form>
+			<button id="backHome">홈으로 돌아가기</button>
+			<button id="myPunding">내 후원현황 보기</button>
+		</div>
 	</body>
 </html>

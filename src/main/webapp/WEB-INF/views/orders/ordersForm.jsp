@@ -242,7 +242,7 @@
 			<c:otherwise>
 				<br /> <input type="checkbox" name="order_guideAgree"
 							id="order_guideAgree" /> <label>세부사항을 모두 확인하였습니다.</label> <br />
-						<button type="button" name="support" id="support0">후원하기</button>
+						<button type="button" name="support" id="support">후원하기</button>
 			</c:otherwise>
 		</c:choose>
 	</div>

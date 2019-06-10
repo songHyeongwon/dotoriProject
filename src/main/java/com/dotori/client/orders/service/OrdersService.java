@@ -4,6 +4,8 @@ import com.dotori.client.orders.vo.OrdersVO;
 
 public interface OrdersService {
 
-	public void ordersInsert(OrdersVO ovo);
+	public int ordersInsert(OrdersVO ovo);
+
+	public OrdersVO getOrders(OrdersVO ovo);
 
 }

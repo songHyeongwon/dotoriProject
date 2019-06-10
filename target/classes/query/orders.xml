@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotori.client.orders.dao.OrdersDao">
-	<select id="ordersInsert" parameterType="OptionVO" statementType="CALLABLE">
+	<resultMap id="test" type="hashmap"></resultMap>
+	
+	<update id="ordersInsert" parameterType="orders" statementType="CALLABLE">
 		<if test="content_kind==1" >
 			{ CALL orders_kind_1(
 			#{member_id}, 
@@ -28,5 +30,22 @@
 			#{content_kind}
 			) }
 		</if>
-	</select>
+	</update>
+	
+	<!-- <select id="getOrders" parameterType="orders" resultType="orders">
+		select    
+		* 
+		from 
+		(select /*+INDEX_DESC(orders orders_pk)*/   
+		orders_num,      
+		member_id,      
+		project_num,      
+		orders_content,      
+		orders_price,      
+		to_char(orders_date,'YYYY-MM-DD') as orders_date,      
+		orders_infoagree,      
+		orders_guideagree,      
+		content_kind   
+		from orders where MEMBER_ID = #{member_id}   ) where rownum=1
+	</select> -->
 </mapper>

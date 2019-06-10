@@ -1,20 +1,25 @@
 package com.dotori.client.orders.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dotori.client.orders.dao.OrdersDao;
 import com.dotori.client.orders.vo.OrdersVO;
 
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class OrdersServiceImpl implements OrdersService{
-	@Setter(onMethod_ = @Autowired)
 	private OrdersDao ordersDao;
 	@Override
-	public void ordersInsert(OrdersVO ovo) {
-		ordersDao.ordersInsert(ovo);
+	public int ordersInsert(OrdersVO ovo) {
+		int result = ordersDao.ordersInsert(ovo);
+		return result;
+	}
+	@Override
+	public OrdersVO getOrders(OrdersVO ovo) {
+		OrdersVO result = ordersDao.getOrders(ovo);
+		return result;
 	}
 
 }

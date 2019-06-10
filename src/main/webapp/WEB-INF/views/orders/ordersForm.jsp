@@ -190,15 +190,15 @@
 			<c:when test="${orders.content_kind==1}">
 				<hr />
 				<div class="starter-template">
-					<label>수신자 이름</label><br>
-					<input type="text" placeholder="수신자이름" id="recname"><hr>
-					<label>수신자 전화번호</label><br>
+					<label>받는사람 이름</label><br>
+					<input type="text" placeholder="받는사람 이름" id="recname"><hr>
+					<label>받는사람 전화번호</label><br>
 					<input type="text" class="phone" name="phoneFirst" id="phoneFirst" maxlength="3"/>
 					-
 					<input type="text" class="phone" name="phoneMiddle" id="phoneMiddle" maxlength="4"/>
 					-
 					<input type="text" class="phone" name="phoneLast" id="phoneLast" maxlength="4"/><hr>
-					<label>배송지</label>
+					<label>받는사람 주소</label>
 					<ul id="addressList">
 						<li id="newAddress">${data.member_address} ${data.member_detailaddress}</li>
 					</ul>
@@ -214,8 +214,8 @@
 					<br />
 					<hr />
 					
-					<label>발신자 이름</label><br>
-					<input type="text" placeholder="발신자이름" id="send" value="${data.member_name}"><hr>
+					<label>보내는사람 이름</label><br>
+					<input type="text" placeholder="보내는사람 이름" id="send" value="${data.member_name}"><hr>
 					<div class="annotation">
 					
 						<label>배송 안내사항</label> <br />

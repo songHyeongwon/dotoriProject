@@ -59,7 +59,7 @@ public class OrdersController {
 	
 	//최종 결제창: orders테이블에 주문내역 insert
 	@RequestMapping(value="/ordersInsert",method= {RequestMethod.POST,RequestMethod.GET})
-	public String ordersInsert(HttpSession session,@ModelAttribute OrdersVO ovo, Model model) {
+	public String ordersInsert(HttpSession session, @ModelAttribute OrdersVO ovo, Model model) {
 		log.info("프로젝트 번호:"+ovo.getProject_num());
 		log.info(ovo);
 		log.info("final페이지에 넘겨받은 값 = "+ovo.getDelivery_recaddress()+" "+ovo.getDelivery_recname()+" "+ovo.getDelivery_recphone()+" "+ovo.getDelivery_send());
@@ -78,5 +78,9 @@ public class OrdersController {
 	public String ordersDetail() {
 		
 		return "orders/ordersDetail";
+	}
+	@RequestMapping(value="/ordersEnd")
+	public String ordersEnd() { 
+		return "index";
 	}
 }

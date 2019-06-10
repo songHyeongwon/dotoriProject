@@ -203,7 +203,7 @@
 		</trim>
 		<![CDATA[ rownum <= #{pageNum} * #{amount}
 		) PROJECTlist
-		WHERE rnum > (#{pageNum} - 1) * #{amount} and not PROJECT_STATUS=2]]>
+		WHERE rnum > (#{pageNum} - 1) * #{amount} and not PROJECT_STATUS=2 and not PROJECT_STATUS=0]]>
 	</select>
 	
 
@@ -308,7 +308,7 @@
 			    project_pattern2
 			FROM project 
 			WHERE	
-				rownum <= 3 and not PROJECT_STATUS=2
+				rownum <= 3 and not PROJECT_STATUS=2 and not PROJECT_STATUS=0
 		)
 		]]>
 	</select>

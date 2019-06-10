@@ -1,5 +1,7 @@
 package com.dotori.client.orders.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.dotori.client.orders.dao.OrdersDao;
@@ -17,9 +19,10 @@ public class OrdersServiceImpl implements OrdersService{
 		return result;
 	}
 	@Override
-	public OrdersVO getOrders(OrdersVO ovo) {
-		OrdersVO result = ordersDao.getOrders(ovo);
+	public int getOrders() {
+		int result = ordersDao.getOrders();
 		return result;
 	}
+
 
 }

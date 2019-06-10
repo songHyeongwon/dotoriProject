@@ -32,11 +32,9 @@
 		</if>
 	</update>
 	
-	<!-- <select id="getOrders" parameterType="orders" resultType="orders">
-		select    
-		* 
-		from 
-		(select /*+INDEX_DESC(orders orders_pk)*/   
+	<select id="getOrders" resultType="int">
+<!-- 		select * from (  
+select 
 		orders_num,      
 		member_id,      
 		project_num,      
@@ -45,7 +43,9 @@
 		to_char(orders_date,'YYYY-MM-DD') as orders_date,      
 		orders_infoagree,      
 		orders_guideagree,      
-		content_kind   
-		from orders where MEMBER_ID = #{member_id}   ) where rownum=1
-	</select> -->
+		content_kind 
+		from orders where member_id = #{member_id} order by orders_num desc)
+        where rownum=1 -->
+        SELECT ORDERS_SEQ.CURRVAL FROM DUAL
+	</select>
 </mapper>

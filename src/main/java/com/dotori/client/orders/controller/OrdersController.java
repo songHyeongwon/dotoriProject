@@ -2,6 +2,8 @@ package com.dotori.client.orders.controller;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -73,10 +75,9 @@ public class OrdersController {
 			//여기에 에러페이지를 넣어준다.
 			url="index";
 		}
-		log.info("나온값음 : ================================================"+result);
-		//OrdersVO resultVO = ordersService.getOrders(ovo);
-		//log.info("조회해서 나온값 = "+resultVO);
-		//model.addAttribute("orders", resultVO);
+		int resultNum = ordersService.getOrders();
+		ovo.setOrder_num(resultNum);
+		model.addAttribute("orders", ovo);
 		return url;
 	}
 	//마이페이지-후원내역 보기

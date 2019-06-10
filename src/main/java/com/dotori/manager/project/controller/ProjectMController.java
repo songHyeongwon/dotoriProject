@@ -61,6 +61,20 @@ public class ProjectMController {
 		return "projectManager/projectDetail";
 	}
 	
+	@RequestMapping(value="/details/{project_num}")
+	public String projectDetails(@PathVariable("project_num") Integer project_num, Model model){
+		//log.info("들어간 값 = "+pvo);
+		//log.info("detail페이지 호출");
+		ProjectVO pvo = new ProjectVO();
+		pvo.setProject_num(project_num);
+		ProjectVO result = projectService.projectDetail(pvo);
+		model.addAttribute("project", result);
+		
+		log.info(result);
+		
+		return "projectManager/projectDetail";
+	}
+	
 	@PostMapping(value = "/yes/{project_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> projectStatusYes(@PathVariable("project_num") Integer project_num) {
 		log.info("프로젝트 승인 페이지"+project_num);

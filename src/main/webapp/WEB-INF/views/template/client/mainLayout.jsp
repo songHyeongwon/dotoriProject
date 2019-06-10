@@ -63,14 +63,29 @@
 			<div id="carousel-example-generic" class="carousel slide"
 				data-ride="carousel">
 				<ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="3"></li>
+					<c:choose>
+						<c:when test="${not empty viewList}">
+							<c:forEach var="project" items="${viewList}" varStatus="status">
+								<!-- <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li> -->
+								<li data-target="#carousel-example-generic" data-slide-to="${project.project_num}"></li>
+							</c:forEach>
+						</c:when>
+					</c:choose>
 				</ol>
 
 				<div class="carousel-inner" role="listbox">
-					<div class="item active">
+					<c:choose>
+						<c:when test="${not empty viewList}">
+							<c:forEach var="project" items="${viewList}" varStatus="status">
+								<div class="item active">
+									<a href="/project/details/${project.project_num}"> 
+										<img src="/uploadStorage/gallery/${project.project_thumb}" data-src="holder.js/1140x500/auto/#777:#555/text:First slide" alt="First slide">
+									</a>
+								</div>
+							</c:forEach>
+						</c:when>
+					</c:choose>
+					<!-- <div class="item active">
 						<a href="#"> <img
 							data-src="holder.js/1140x500/auto/#777:#555/text:First slide"
 							alt="First slide">
@@ -93,7 +108,7 @@
 							data-src="holder.js/1140x500/auto/#555:#333/text:Third slide"
 							alt="fors slide">
 						</a>
-					</div>
+					</div> -->
 				</div>
 				<a class="left carousel-control" href="#carousel-example-generic"
 					role="button" data-slide="prev"> <span

@@ -30,7 +30,7 @@
 					location.href="/";
 				});
 				$("#myPunding").click(function(){
-					location.href="/orders/ordersDetail";
+					location.href="/member/memberMyPage";
 				});
 			});
 		</script>

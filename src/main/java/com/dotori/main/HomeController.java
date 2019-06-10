@@ -54,10 +54,11 @@ public class HomeController {
 	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String main(Model model) {
 		//가장 최근것 3가지 반영
-		
 		List<ProjectVO> list = projectService.mainList();
 		model.addAttribute("mainList",list);
+		
 		//가장 
+		model.addAttribute("viewList",list);
 		return "index";
 	}
 }

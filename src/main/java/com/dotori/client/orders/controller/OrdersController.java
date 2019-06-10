@@ -59,26 +59,30 @@ public class OrdersController {
 	
 	//최종 결제창: orders테이블에 주문내역 insert
 	@RequestMapping(value="/ordersInsert",method= {RequestMethod.POST,RequestMethod.GET})
-	public String ordersInsert(HttpSession session, @ModelAttribute OrdersVO ovo, Model model) {
+	public String ordersInsert(@ModelAttribute OrdersVO ovo, Model model) {
 		log.info("프로젝트 번호:"+ovo.getProject_num());
 		log.info(ovo);
 		log.info("final페이지에 넘겨받은 값 = "+ovo.getDelivery_recaddress()+" "+ovo.getDelivery_recname()+" "+ovo.getDelivery_recphone()+" "+ovo.getDelivery_send());
 		
-		int result =1;
 		String url="";
 		
-		ordersService.ordersInsert(ovo);
-		/*if(result==1) {
-			url="/orders/ordersFinal";
-		}*/
-		return "orders/ordersInsert";
+		try{
+			ordersService.ordersInsert(ovo);
+			url="orders/ordersInsert";
+		}catch(Exception e) {
+			e.printStackTrace();
+			//여기에 에러페이지를 넣어준다.
+			url="index";
+		}
+		model.addAttribute("orders", ovo);
+		return url;
 	}
 	//마이페이지-후원내역 보기
 	@RequestMapping(value="/ordersDetail")
 	public String ordersDetail() {
-		
 		return "orders/ordersDetail";
 	}
+	
 	@RequestMapping(value="/ordersEnd")
 	public String ordersEnd() { 
 		return "index";

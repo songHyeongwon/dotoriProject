@@ -10,7 +10,7 @@ public interface MemberService {
 
 	MemberVO memberSession(String member_id,String member_pwd);
 
-	int passwordConfirm(String member_pwd);
+	int passwordConfirm(MemberVO mvo);
 
 	int memberUpdate(MemberVO mvo);
 
@@ -19,5 +19,7 @@ public interface MemberService {
 	int usingDotori(String member_id);
 
 	int deleteMember(MemberVO mvo);
+
+	int updatePasswordConfirm(MemberVO mvo);
 
 }

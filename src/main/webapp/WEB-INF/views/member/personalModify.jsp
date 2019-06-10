@@ -15,37 +15,34 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-		
+		<!-- <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"> -->
 		
 		<script type="text/javascript">
 			$(function(){
-				if(${fail==1}){
-					alert("수정 중 오류가 발생했습니다. 관리자에게 문의하세요.");
-				}
 				
 				var Pattern = /^[0-9a-zA-Z]{5,20}$/;	// 아이디 및 비밀번호 패턴 정규식
+				var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
 				
-				var phone = ${data.member_phone};
-				//var email = ${data.member_eMail};
+				var phone = "${data.member_phone}";
+				var email = "${data.member_eMail}";
 				
 				var phoneNum = phone.split('-');
-				var emailAdd = email.split("@");
+				var emailAdd = email.split('@');
+				var agree = ${data.member_evenAgree};
 				var member_chPwd=0; 
-				
-				console.log(phoneNum);
 				
 				$("#phoneFirst").val(phoneNum[0]);
 				$("#phoneMiddle").val(phoneNum[1]);
 				$("#phoneLast").val(phoneNum[2]);
 				$("#eMailFront").val(emailAdd[0]);
-				$("#eMailBack").val(emailAdd[1]); 
+				$("#eMailBack").val(emailAdd[1]);  
 				
 				// session값인 ${data.member_evenAgree} (이메일,문자 이벤트 발송 처리 변수)값에 따른 id="member_evenAgree"에 check가 되냐 안되냐의 함수
-				if(${data.member_evenAgree==1}){
+				if(agree==1){
 					$("#member_evenAgree").prop("checked");
 				}else{
-					$("#member_evenAgree").pop("checked","false");
-				}
+					$("#member_evenAgree").prop('checked', false);
+				} 
 				
 				// 주소 찾기 클릭 시 처리 함수
 				$("#searchAddr").click(function(){
@@ -74,7 +71,7 @@
 					$.ajax({
 						url : "/member/confirmPwd",
 						type : "post",
-						data : "member_pwd="+$("#member_pwd"),
+						data : "member_pwd="+$("#member_pwd").val()+"&member_id="+$("#member_id").val(),
 						dataType : "text",
 						error : function(){
 							alert("비밀번호 확인 중 에러 발생. 관리자에게 문의 바랍니다.");
@@ -83,9 +80,12 @@
 							if(data=="성공"){
 								member_chPwd = 1;
 								alert("이 비밀번호는 사용 가능합니다.");
-							}else{
+							}else if(data=="실패" && $("#member_pwd").val()!=""){
 								member_chPwd = 0;
 								alert("전 비밀번호와 같습니다. 다르게 적어주세요.");
+								$("#member_pwd").val("");
+							}else if($("#member_pwd").val()==""){
+								alert("비밀번호를 입력해주세요.");
 							}
 						}
 					
@@ -101,6 +101,7 @@
 					 }
 					 
 					 if(!checkForm("#member_pwd","비밀번호를 ")) return;
+					 else if(!checkForm("#member_cofirmPwd","확인 비밀번호를")) return;
 					 else if(!checkForm("#member_nickName","닉네임을 ")) return;
 					 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
 						 	alert("이메일을 입력해주세요.");
@@ -115,8 +116,7 @@
 						 	$("#phoneLast").val("");
 						 	$("#phoneFirst").focus();
 						 	return;
-					 }else if(!checkForm("#address","주소를 ")) return;
-					 else if(!checkForm("#member_detailaddress","상세주소를 ")) return;
+					 }else if(!checkForm("#member_address","주소를 ")) return;
 					 else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
 						 alert("비밀번호가 같지 않습니다. 확인 부탁드립니다.");
 						 $("#cofirmPwd").val("");
@@ -134,11 +134,14 @@
 						 $("#phoneLast").val("");
 						 $("#phoneFirst").focus();
 						 return;
+					 }else if(member_chPwd==0){
+						 alert("비밀번호 확인 버튼을 눌러서 확인해 주세요.");
 					 }else{
 						member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
 						member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
 						$("#member_eMail").val(member_eMail);
 						$("#member_phone").val(member_phone);
+						$("#member_chPwd").val(member_chPwd);
 						$("#joinForm").attr({
 							"method" : "post",
 						 	"action" : "/member/memberUpdate"
@@ -151,23 +154,11 @@
 				 // 탈퇴하기 버튼 클릭 시 
 				 $("#deleteBtn").click(function(){
 					 if(confirm("탈퇴하시겠습니까?")){
-						 $.ajax({
-							url : "/member/deleteMember",
-						 	type : "post",
-						 	data : "member_id="+$("member_id").val(),
-						 	dataType : "text",
-						 	error : function(){
-						 		alert("회원 탈퇴 중 오류 발생. 관리자에게 문의 바랍니다.");
-						 	},
-						 	success : function(data){
-						 		if(data==1){
-						 			alert("탈퇴에 성공하였습니다.");
-						 			location.href="/";
-						 		}else if(data==0){
-						 			alert("회원 탈퇴에 실패하였습니다.");
-						 		}
-						 	}
-						 })
+						 $("#joinForm").attr({
+								"method" : "post",
+							 	"action" : "/member/deleteMember"
+							 });
+							 $("#joinForm").submit(); 
 					 }
 				 })
 					
@@ -203,7 +194,7 @@
 							 
 							 var addr = roadAddr+" "+data.jibunAddress;
 							 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-							 $("#address").val(addr);
+							 $("#member_address").val(addr);
 							 
 							 var guideTextBox = $("#guide").val();
 							 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
@@ -237,6 +228,7 @@
 					 
 					})
 				}
+			
 		</script>
 	</head>
 	<body>
@@ -245,8 +237,6 @@
 			</div>
 			<div class="form-group">
 				<form class="joinForm" id="joinForm">
-					<input type="hidden" id="member_chPwd" name="member_chPwd"/>
-					<input type="hidden" id="member_kind" name="member_kind"/>
 					<table class="table .table-striped">
 						<tr class="tb">
 							<td class="tn">아이디</td>
@@ -256,7 +246,7 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">비밀번호</td>
-							<td colspan="2"><input type="password" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력" maxlength="20"/><input type="button" id="confirmPwd" name="confirmPwd" value="비밀번호 확인"></td>
+							<td colspan="2"><input type="password" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력" maxlength="20"/>&nbsp;&nbsp;<input type="button" id="confirmPwd" name="confirmPwd" value="비밀번호 확인"></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -277,7 +267,7 @@
 								@
 								<input type="text" id="eMailBack" name="eMailBack"/>
 								<select id="email">
-									<option value="empty"></option>
+									<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hanmail.net">hamail.net</option>
 									<option value="google.co.kr">google.co.kr</option>
@@ -298,11 +288,11 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소</td>
-							<td colspan="2"><input type="text" name="member_address" id="member_addres" value="${data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
+							<td colspan="2"><input type="text" name="member_address" id="member_address" value="${data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소 세부사항</td>
-							<td colspan="2"><input type="text" name="member_detailaddress" id="member_detailaddress" value="${data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
+							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress" value="${data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
 						</tr>
 						<tr>
 							<td><h3 class="plusInfo">추가 정보</h3></td>
@@ -314,7 +304,8 @@
 						</tr>	
 					</table>
 					<input type="hidden" name="member_phone" id="member_phone" />
-					<input type="hidden" name="member_eMail" id="member_eMail" />
+					<input type="hidden" id="member_chPwd" name="member_chPwd"/>
+					<input type="hidden" name="member_eMail" id="member_eMail"/>
 				</form>
 				<div class="text-center">
 					<input type="button" class="btn" id="modifyBtn" name="modifyBtn" value="수정하기"/>

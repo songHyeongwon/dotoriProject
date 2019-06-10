@@ -38,7 +38,7 @@ public class MemberController {
 		return "member/memberJoin";
 	}
 	
-	// 회원의 비밀번호 확인페이지로 이동
+	// 회원의 마이페이지로 이동
 	@RequestMapping(value="/memberMyPage",method=RequestMethod.GET)
 	public String memberMyPage() {
 		return "member/memberMyPage";
@@ -81,7 +81,7 @@ public class MemberController {
 		result=memberService.memberJoin(mvo);
 		if(result==1) {
 			model.addAttribute("success",1);
-			url="/member/memberLogin";
+			url="/insert";
 		}else {
 			url="/member/memberJoin";
 		}
@@ -124,13 +124,10 @@ public class MemberController {
 	}
 		
 	// 비밀번호 확인 창 컨트롤러
-	@PostMapping(value="passwordConfirm")
+	@PostMapping(value="/passwordConfirm")
 	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
-		String member_pwd=mvo.getMember_pwd();
 		
-		int result=0;
-		
-		result=memberService.passwordConfirm(member_pwd);
+		int result=memberService.passwordConfirm(mvo);
 		
 		if(result==1) {
 			return "member/personalModify";
@@ -142,7 +139,7 @@ public class MemberController {
 	
 	
 	// 회원 수정 컨트롤러
-	@PostMapping(value="memberUpdate")
+	@PostMapping(value="/memberUpdate")
 	public String memberUpdate(@ModelAttribute MemberVO mvo,Model model) {
 		
 		int result=memberService.memberUpdate(mvo);
@@ -156,7 +153,7 @@ public class MemberController {
 	}
 	
 	// 마이페이지 '펀딩 중' 클릭 시 컨트롤러
-	@PostMapping(value="memberFunding")
+	@PostMapping(value="/memberFunding")
 	public String memberFunding(@ModelAttribute MemberVO mvo,Model model) {
 		String member_id = mvo.getMember_id();
 		
@@ -168,7 +165,7 @@ public class MemberController {
 	}
 	
 	// 마이페이지 '사용한 도토리 내역' 클릭 시 화면 출력 컨트롤러
-	@PostMapping(value="usingDotori")
+	@PostMapping(value="/usingDotori")
 	public String usingDotori(@ModelAttribute MemberVO mvo, Model model) {
 		String member_id = mvo.getMember_id();
 		
@@ -180,29 +177,33 @@ public class MemberController {
 	}
 	
 	// 회원 탈퇴 컨트롤러
-	@PostMapping(value="deleteMember")
-	public int deleteMember(@ModelAttribute MemberVO mvo, Model model) {
+	@PostMapping(value="/deleteMember")
+	public String deleteMember(@ModelAttribute MemberVO mvo,Model model,HttpSession session) {
+			
+		// MemberVO mvo = (MemberVO)session.getAttribute("data");
 		
+		log.info(mvo);
 		
 		int result = memberService.deleteMember(mvo);
 		
-		return result;
+		if(result==1) {
+			return "index";
+			
+		}else {
+			return "/member/personalModify";
+		}
 	}
 	
 	// 회원 수정 시 전 비밀번호와 같은지 확인하는 컨트롤러
-	@PostMapping(value="confirmPwd")
+	@ResponseBody
+	@PostMapping(value="/confirmPwd", produces="text/plain; charset=UTF-8")
 	public String confirmPwd(@ModelAttribute MemberVO mvo) {
-		
-		String member_pwd = mvo.getMember_pwd();
-		String mem="";
-		int result = memberService.passwordConfirm(member_pwd);
+		int result = memberService.updatePasswordConfirm(mvo);
 		
 		if(result==1) {
-			mem="성공";
-			return mem;
+			return "성공";
 		}else {
-			mem="실패";
-			return mem;
+			return "실패";
 		}
 	}
 	

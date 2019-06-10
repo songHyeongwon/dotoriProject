@@ -10,7 +10,7 @@ public interface MemberDao {
 
 	public MemberVO memberSession(MemberVO ivo);
 
-	public int passwordConfirm(String member_pwd);
+	public int passwordConfirm(MemberVO mvo);
 
 	public int memberUpdate(MemberVO mvo);
 
@@ -21,5 +21,9 @@ public interface MemberDao {
 	public int deleteMember(MemberVO mvo);
 
 	public int deleteMemberInsert(MemberVO mvo);
+
+	public int updatePasswordConfirm(MemberVO mvo);
+
+	public MemberVO memberAll(MemberVO mvo);
 
 }

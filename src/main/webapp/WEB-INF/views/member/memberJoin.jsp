@@ -12,6 +12,12 @@
 				width : 100px;
 				border-radius: 20px; 
 			}
+			
+			.sig{
+				border: none;
+			}
+			
+			#personal
 		</style>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
@@ -28,6 +34,8 @@
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		
 		<script type="text/javascript">
+
+		var member_kind=0;
 		 $(function(){
 			var member_eMail="";
 			var member_phone="";
@@ -37,11 +45,11 @@
 			var Pattern = /^[0-9a-zA-Z]{5,20}$/;	// 아이디 및 비밀번호 패턴 정규식
 			var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
 			var idchk = 0;
-			var member_kind=0;
-			var personalTag = <input type="text" id=>
 			var firstSigNum;
 			var middleSigNum;
 			var lastSigNum;
+			var siglang;
+			var slide;
 			
 			$("#searchAddr").click(function(){
 				daumAddressPostCode();
@@ -49,18 +57,15 @@
 			
 			$("#personal").click(function(){
 				member_kind=0;
-			}
-			
-			$("#company").click(function(){
-				member_kind=1;
-			})
-			
-			if(member_kind=0){
+				$("#sig").html("");
+				$("#sigNum").html("");
+				
 				firstSigNum=$("<input>");
-				firstSigNUm.attr({
+				firstSigNum.attr({
 					"type" : "text" ,
 					"name" : "firstSigNum",
-					"id" : "firstSigNum"
+					"id" : "firstSigNum",
+					"maxlength" : "6"
 				});
 				firstSigNum.addClass("sigNum");
 				
@@ -68,17 +73,26 @@
 				lastSigNum.attr({
 					"type" : "text" ,
 					"name" : "lastSigNum",
-					"id" : "lastSigNum"
+					"id" : "lastSigNum",
+					"maxlength" : "7"
 				});
 				lastSigNum.addClass("sigNum");
 				
-				$("#sigNum").appnd(firstSigNum).append("-").append(lastSigNum);
-			}else{
+				$("#sig").append("주민번호 or 외국인 등록번호");
+				$("#sigNum").append(firstSigNum).append("-").append(lastSigNum);
+			})
+			
+			$("#company").click(function(){
+				member_kind=1;
+				$("#sig").html("");
+				$("#sigNum").html("");
+				
 				firstSigNum=$("<input>");
-				firstSigNUm.attr({
+				firstSigNum.attr({
 					"type" : "text" ,
 					"name" : "firstSigNum",
-					"id" : "firstSigNum"
+					"id" : "firstSigNum",
+					"maxlength" : "3"
 				});
 				firstSigNum.addClass("sigNum");
 				
@@ -86,7 +100,8 @@
 				middleSigNum.attr({
 					"type" : "text" ,
 					"name" : "middleSigNum",
-					"id" : "middleSigNum"
+					"id" : "middleSigNum",
+					"maxlength" : "2"
 				});
 				middleSigNum.addClass("sigNum");
 				
@@ -94,12 +109,14 @@
 				lastSigNum.attr({
 					"type" : "text" ,
 					"name" : "lastSigNum",
-					"id" : "lastSigNum"
+					"id" : "lastSigNum",
+					"maxlength" : "5"
 				});
 				lastSigNum.addClass("sigNum");
 				
-				$("#sigNum").appnd(firstSigNum).append("-").append("middleSigNum".appnd("-").append(lastSigNum);
-			}
+				$("#sig").append("사업자 번호");
+				$("#sigNum").append(firstSigNum).append("-").append(middleSigNum).append("-").append(lastSigNum);
+			})
 			 
 			 $("#idChkBtn").click(function(){
 				 $.ajax({
@@ -143,6 +160,42 @@
     		});
 			 
 			 $("#joinMemberBtn").click(function(){
+				 if(member_kind==0){
+					 	if($("#firstSigNum").val().replace(/\s/g,"")=="" || $("#lastSigNum").val().replace(/\s/g,"")==""){
+						 	alert("주민번호를 입력해주세요.");
+						 	$("#firstSigNum").val("");
+							 $("#lastSigNum").val("");
+							 $("#firstSigNum").focus();
+						 	return;
+						 }
+					 
+						 if($("#firstSigNum").val().search(sigNumFrontPattern)<0 || $("#lastSigNum").val().search(sigNumBackPattern)<0){
+							 alert("번호를 정확히 입력해주세요.");
+							 $("#firstSigNum").val("");
+							 $("#lastSigNum").val("");
+							 $("#firstSigNum").focus();
+							 return;
+						 }
+				 }else if(member_kind==1){
+					 if($("#firstSigNum").val().replace(/\s/g,"")=="" || $("#middleSigNum").val().replace(/\s/g,"")=="" || $("#lastSigNum").val().replace(/\s/g,"")==""){
+						 	alert("사업자 등록번호를 입력해주세요.");
+						 	$("#firstSigNum").val("");
+							 $("#middleSigNum").val("");
+							 $("#lastSigNum").val("");
+							 $("#firstSigNum").focus();
+						 	return;
+						 }
+					 
+					  if($("#firstSigNum").val().search(sigNumFrontPattern)<0 || $("#middleSigNum").val.search(sigNumFrontPattern)<0 || $("#lastSigNum").val().search(sigNumBackPattern)<0){
+						 alert("번호를 정확히 입력해주세요.");
+						 $("#firstSigNum").val("");
+						 $("#middleSigNum").val("");
+						 $("#lastSigNum").val("");
+						 $("#firstSigNum").focus();
+						 return;
+					 }
+			 	}
+				 
 				 if($("#member_infoAgree").prop("checked")){
 					 $("#member_infoAgree").val('1');
 				 }else{
@@ -157,15 +210,10 @@
 				 
 				 if(!checkForm("#member_id","아이디를 ")) return;
 				 else if(!checkForm("#member_pwd","비밀번호를 ")) return;
+				 else if(!checkForm("#member_cofirmPwd","확인 비밀번호를")) return;
 				 else if(!checkForm("#member_name","이름을 ")) return;
 				 else if(!checkForm("#member_nickName","닉네임을 ")) return;
-				 else if($("#frontSigNum").val().replace(/\s/g,"")=="" || $("#backSigNum").val().replace(/\s/g,"")==""){
-				 	alert("주민번호를 입력해주세요.");
-				 	$("#frontSigNum").val("");
-				 	$("#backSigNum").val("");
-				 	$("#frontSigNum").focus();
-				 	return;
-				 }else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
+				 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
 					 	alert("이메일을 입력해주세요.");
 					 	$("#eMailFront").val("");
 					 	$("#eMailBack").val("");
@@ -178,8 +226,7 @@
 					 	$("#phoneLast").val("");
 					 	$("#phoneFirst").focus();
 					 	return;
-				 }else if(!checkForm("#address","주소를 ")) return;
-				 else if(!checkForm("#member_detailaddress","상세주소를 ")) return;
+				 }else if(!checkForm("#member_address","주소를 ")) return;
 				 else if(!$("#member_infoAgree").prop("checked")){
 					 alert("개인정보 처리동의 여부를 선택해주세요.");
 					 $("#member_infoAgree").val('0');
@@ -206,18 +253,17 @@
 					 $("#phoneLast").val("");
 					 $("#phoneFirst").focus();
 					 return;
-				 }else if($("#frontSigNum").val().search(sigNumFrontPattern)<0 || $("#backSigNum").val().search(sigNumBackPattern)<0){
-					 alert("번호를 정확히 입력해주세요.");
-					 $("#frontSigNum").val("");
-					 $("#backSigNum").val("");
-					 $("#frontSigNum").focus();
-					 return;
 				 }else if(idchk==0){
-					 alert("아이디 중복을 확인해 주세요.");
+					 alert("아이디 중복을 확인해 주세요."); 
 				 }else{
+					 console.log(member_kind);
 					member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
 					member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
-					member_sigNum=$("#frontSigNum").val()+"-"+$("#backSigNum").val();
+					if(member_kind==0){
+						member_sigNum=$("#firstSigNum").val()+"-"+$("#lastSigNum").val();
+					}else if(member_kind==1){
+						member_sigNum=$("#firstSigNum").val()+"-"+$("middleSigNum").val()+$("#lastSigNum").val();
+					}
 					$("#member_eMail").val(member_eMail);
 					$("#member_phone").val(member_phone);
 					$("#member_sigNum").val(member_sigNum);
@@ -262,7 +308,7 @@
 					 
 					 var addr = roadAddr+" "+data.jibunAddress;
 					 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-					 $("#address").val(addr);
+					 $("#member_address").val(addr);
 					 
 					 var guideTextBox = $("#guide").val();
 					 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
@@ -302,12 +348,11 @@
 		<div>
 			<h1>회원 가입</h1>
 			<div class="form-group">
-				<input type="button" id="personal" name="personal" value="개인 회원"/>
-				<input type="button" id="company" name="company" value="법인 회원"/>
+				<input type="button" id="personal" name="personal" class="btn btn-warning" value="개인 회원"/>
+				<input type="button" id="company" name="company" class="btn btn-primary" value="법인 회원"/>
 			</div>
 			<div class="form-group">
 				<form class="joinForm" id="joinForm">
-					<input type="hidden" id="member_kind" name="member_kind"/>
 					<table class="table .table-striped">
 						<tr class="tb">
 							<td class="tn">아이디</td>
@@ -334,17 +379,18 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">이름</td>
-							<td colspan="2"><input type="text" id="member_name" name="member_name"/></td>
+							<td colspan="2"><input type="text" id="member_name" name="member_name" /></td>
 						</tr>
 						<tr class="tb">	
 							<td class="tn">닉네임</td>
 							<td colspan="2"><input type="text" id="member_nickName" name="member_nickName"/></td>
 						</tr>
 						<tr class="tb">
-							<td class="tn">주민등록번호(or 외국인번호)</td>
+							<td id="sig">주민번호 or 외국인 등록번호</td>
 							<td colspan="2" id="sigNum">
-								
-							</td>
+								<input type="text" id="firstSigNum" name="firstSigNum" maxlength="6"/>-
+								<input type="text" id="lastSigNum" name="lastSigNum" maxlength="7"/>
+							</td> 
 						</tr>
 						<tr class="tb">
 							<td class="tn">이메일</td>
@@ -353,7 +399,7 @@
 								@
 								<input type="text" id="eMailBack" name="eMailBack"/>
 								<select id="email">
-									<option value="empty"></option>
+									<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hanmail.net">hamail.net</option>
 									<option value="google.co.kr">google.co.kr</option>
@@ -378,7 +424,7 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">상세주소</td>
-							<td colspan="2"><input type="text" name="member_detailaddress" id="member_detailaddress"/><span id="guide" style="color:#999;display:none"></span></td>
+							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress"/><span id="guide" style="color:#999;display:none"></span></td>
 						</tr>
 						<tr>
 							<td><h3 class="plusInfo">추가 정보</h3></td>
@@ -393,7 +439,6 @@
 					<input type="hidden" name="member_sigNum" id="member_sigNum" />
 					<input type="hidden" name="member_phone" id="member_phone" />
 					<input type="hidden" name="member_eMail" id="member_eMail" />
-					<input type="hidden" name="member_address" id="member_address" />
 					<input type="hidden" name="member_kind" id="member_kind" />
 				</form>
 				<div class="text-center">

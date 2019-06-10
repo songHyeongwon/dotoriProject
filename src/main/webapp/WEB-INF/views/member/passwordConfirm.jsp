@@ -47,6 +47,7 @@
 			<h2>비밀번호 확인</h2>
 			<div>
 				<form id="pwdConfirm">
+					<input type="hidden" id="member_id" name="member_id" value="${data.member_id}"/>
 					<div class="form-group">
 						<input type="password" class="text" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력"/>
 					</div>

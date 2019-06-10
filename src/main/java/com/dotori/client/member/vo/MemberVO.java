@@ -22,4 +22,5 @@ public class MemberVO {
 	private int member_infoAgree;		// 회원 정보처리 동의여부
 	private int member_evenAgree;		// 회원 메시지,이메일에 정보를 주기 위한 동의여부
 	private String member_detailAddress;	// 회원 상세 주소
+	private int member_chPwd;			// 회원 비밀번호 변경 확인 
 }

@@ -56,11 +56,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int passwordConfirm(String member_pwd) {
+	public int passwordConfirm(MemberVO mvo) {
 		// TODO Auto-generated method stub
 		int result;
 		
-		result=memberDao.passwordConfirm(member_pwd);
+		result=memberDao.passwordConfirm(mvo);
 		
 		return result;
 	}
@@ -100,9 +100,21 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		int result;
 		
-		result = memberDao.deleteMemberInsert(mvo);
+		MemberVO memvo = memberDao.memberAll(mvo);
 		
-		result = memberDao.deleteMember(mvo);
+		result = memberDao.deleteMember(memvo);
+		
+		result = memberDao.deleteMemberInsert(memvo);
+		
+		return result;
+	}
+
+	@Override
+	public int updatePasswordConfirm(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		int result;
+		
+		result = memberDao.updatePasswordConfirm(mvo);
 		
 		return result;
 	}

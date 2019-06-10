@@ -1,9 +1,13 @@
 package com.dotori.manager.orders.vo;
 
+import com.dotori.common.vo.CommonVO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class OrdersMVO {
+@EqualsAndHashCode(callSuper=false)
+public class OrdersMVO extends CommonVO {
 	private int order_num;
 	private String member_id;
 	private int project_num;

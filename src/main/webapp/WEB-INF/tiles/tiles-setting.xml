@@ -48,5 +48,9 @@
 	<definition name="projectManager/*" extends="manager">
 		<put-attribute name="body" value="/WEB-INF/views/projectManager/{1}.jsp"/>
 	</definition>
+	<!-- 결제부(관리자 모드) 맵핑 -->
+	<definition name="ordersManager/*" extends="manager">
+		<put-attribute name="body" value="/WEB-INF/views/ordersManager/{1}.jsp"/>
+	</definition>
 
 </tiles-definitions>

@@ -272,7 +272,34 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
-
+	<!-- 엑셀 처리 라이브러리 -->
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>3.9</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi-ooxml</artifactId>
+		<version>3.9</version>
+	</dependency>
+	<dependency>
+		<groupId>net.sf.jxls</groupId>
+		<artifactId>jxls-core</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+	<dependency>
+		<groupId>net.sf.jxls</groupId>
+		<artifactId>jxls-reader</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+	
+	<!-- jfreeChart 처리 -->
+	<dependency>
+		<groupId>org.jfree</groupId>
+		<artifactId>jfreechart</artifactId>
+		<version>1.0.19</version>
+	</dependency>
 		   
 	</dependencies>
     <build>

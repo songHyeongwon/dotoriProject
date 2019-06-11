@@ -160,4 +160,18 @@ public class ProjectController {
 		entity = new ResponseEntity<>(projectService.getOptionValue(cvo), HttpStatus.OK);
 		return entity;
 	}
+	
+	@RequestMapping(value="/details/{project_num}")
+	public String projectDetails(@PathVariable("project_num") Integer project_num, Model model){
+		//log.info("들어간 값 = "+pvo);
+		//log.info("detail페이지 호출");
+		ProjectVO pvo = new ProjectVO();
+		pvo.setProject_num(project_num);
+		ProjectVO result = projectService.projectDetail(pvo);
+		model.addAttribute("project", result);
+		
+		log.info(result);
+		
+		return "project/projectDetail";
+	}
 }

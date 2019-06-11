@@ -16,10 +16,10 @@
 		/* member - memberJoin */
 		insert into member(member_num,member_id,member_pwd,member_name,
 		member_address,member_phone,member_email,member_kind,member_signum,
-		member_nickname,member_infoagree,member_evenagree) 
+		member_nickname,member_infoagree,member_evenagree,member_detailaddress,member_addDate) 
 		values(member_seq.nextval,#{member_id},#{member_pwd},#{member_name},
 		#{member_address},#{member_phone},#{member_eMail},#{member_kind},
-		#{member_sigNum},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+		#{member_sigNum},#{member_nickName},#{member_infoAgree},#{member_evenAgree},#{member_detailAddress},sysdate)
 	</insert>
 	
 	<!-- 회원 로그인 -->
@@ -29,17 +29,78 @@
 		as state from dual
 	</select> -->
 	
+	<!-- 회원 정보 전체 가져오기 -->
+	<select id="memberAll" parameterType="member" resultType="member">
+		/* member - memberAll */
+		select * from member where member_id=#{member_id}
+	</select>
+	
 	<!-- 회원 정보 가져오기 -->
 	<select id="memberSession" parameterType="member" resultType="member">
-		/* member - memberAll */
-		select member_id,member_name,member_address,member_phone,member_eMail,member_kind,member_sigNum,member_point,member_nickName 
+		/* member - memberSession */
+		select member_id,member_name,member_address,member_detailaddress,member_phone,member_eMail,member_kind,member_sigNum,member_point,member_nickName,member_infoAgree,member_evenAgree 
 		from member where member_id=#{member_id} and member_pwd=#{member_pwd}
 	</select>
 	
 	<!-- 회원 비밀번호 확인 -->
 	<select id="passwordConfirm" parameterType="member" resultType="int">
 		/* member - memberPasswordConfrim */
-		select nvl((select 1 from member where member_pwd=#{member_pwd}),0) 
+		select nvl((select 1 from member where member_pwd=#{member_pwd} and member_id=#{member_id}),0) 
 		as state from dual
 	</select>
+	
+	<!-- 회원 정보 업데이트 쿼리 -->
+	<update id="memberUpdate" parameterType="member">
+		/* member - memberUpdate */
+		update member set  
+		member_pwd=#{member_pwd},member_nickName=#{member_nickName},member_email=#{member_eMail},
+		member_phone=#{member_phone},member_address=#{member_address},member_detailaddress=#{member_detailAddress},member_evenagree=#{member_evenAgree}  
+		<if test="#{member_chPwd==1}">
+		,member_mPwdDate=sysdate 
+		</if>
+		where member_id=#{member_id}
+	</update>
+	
+	<!-- 회원 테이블에서 회원 탈퇴 -->
+	<delete id="deleteMember" parameterType="member">
+		delete from member where member_id=#{member_id}
+	</delete>
+	
+	<!-- 삭제회원 테이블에 값 입력 -->
+	<insert id="deleteMemberInsert" parameterType="member">
+		/* member - deleteMemberInsert */
+		insert into DELMEMBER(member_num,member_id,member_pwd,member_name,member_address,member_detailAddress,member_phone,member_eMail,member_kind,
+		member_sigNum,member_point,member_addDate,member_nickName,member_infoAgree,member_evenAgree) 
+		values(delmember_seq.nextval,#{member_id},#{member_pwd},#{member_name},#{member_address}
+		<if test="member_detailAddress!=''">
+		,#{member_detailAddress}
+		</if>
+		<if test="member_detailAddress==''">
+		,''
+		</if>
+		,#{member_phone},#{member_eMail},#{member_kind},#{member_sigNum},#{member_point},#{member_addDate},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+	</insert>
+	
+	<!-- 수정 폼에서 회원 비밀번호 확인 -->
+	<select id="updatePasswordConfirm" parameterType="member" resultType="int">
+		/* member - memberPasswordConfrim */
+		select nvl((select 1 from member where member_pwd!=#{member_pwd} and member_id=#{member_id}),0) 
+		as state from dual
+	</select>
+	
+	<!-- 회원 마이페이지 '펀딩 중' 쿼리 -->	
+	<select id="memberFunding" parameterType="member" resultType="int">
+		/* member - memberFunding */
+		select pj.project_thumb, pj.project_url
+		from project pj inner join member mem
+		on mem.member_id=#{member_id} 
+	</select>
+	
+	<!-- 도토리 충전 쿼리 -->
+	<update id="dotoriCharge" parameterType="member">
+		/* member - dotoriCharge */
+		update member set 
+		member_point = #{member_point}+#{member_pointCharge} 
+		where member_id = #{member_id}
+	</update>
 </mapper>

@@ -30,18 +30,28 @@
 						$("#pwdConf").val("");
 						$("#member_pwd").focus();
 					}else{
-						$("#pwdConfirm").attr({
-							"method" : "post",
-							"action" : "/member/passwordConfirm"
+						$.ajax({
+							url : "/member/passwordConfirm",
+							type : "post",
+							data : "member_pwd="+$("#member_pwd").val()+"&member_id="+$("#member_id").val(),
+							dataType : "text",
+							error : function(){
+								alert("비밀번호 확인 중 오류 발생 관리자에게 문의 바랍니다.");
+							},
+							success : function(data){
+								if(data="성공"){
+									alert("비밀번호 확인되었습니다.");
+									location.href = "/member/personalModify";
+								}else{
+									alert("비밀번호 확인 중 오류 발생 잠시 후 다시 시도해 주세요.");
+									$("#member_pwd").val("");
+									$("#pwdConf").val("");
+									$("#member_pwd").focus();
+								}
+							}
 						})
-						
-						$("#pwdConfirm").submit();
 					}
 				});
-				
-				if("${fail}"==1){
-					alert("비밀번호 확인 중 시스템 오류 발생. 관리자에게 문의 바랍니다.");
-				}
 			});
 		</script>
 	</head>
@@ -50,6 +60,7 @@
 			<h2>비밀번호 확인</h2>
 			<div>
 				<form id="pwdConfirm">
+					<input type="hidden" id="member_id" name="member_id" value="${data.member_id}"/>
 					<div class="form-group">
 						<input type="password" class="text" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력"/>
 					</div>

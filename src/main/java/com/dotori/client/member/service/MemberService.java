@@ -10,6 +10,18 @@ public interface MemberService {
 
 	MemberVO memberSession(String member_id,String member_pwd);
 
-	int passwordConfirm(String member_pwd);
+	int passwordConfirm(MemberVO mvo);
+
+	int memberUpdate(MemberVO mvo);
+
+	int memberFunding(String member_id);
+
+	int usingDotori(String member_id);
+
+	int deleteMember(String member_id);
+
+	int updatePasswordConfirm(MemberVO mvo);
+
+	int dotoriCharge(MemberVO mvo);
 
 }

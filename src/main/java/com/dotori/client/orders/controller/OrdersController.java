@@ -48,7 +48,6 @@ public class OrdersController {
 		log.info("프로젝트 번호:"+ovo.getProject_num());
 		log.info(ovo);
 		log.info(dvo);
-		
 		if(ovo.getContent_kind()==1) {
 			//배송물품이다.
 			//ovo에 dvo의 값들을 넣어준다. dvo -> ovo 상속관계

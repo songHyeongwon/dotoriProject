@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.client.cs_reply.dao.Cs_ReplyDao">
+	
+	<select id="cs_replyList" parameterType="reply" resultType="reply">
+		select cs_r_num, cs_num, cs_r_name, cs_r_content,
+			to_char(cs_r_recDate, 'YYYY-MM-DD HH24:MI:SS') as cs_r_recDate,member_id 
+		from cs_reply where cs_num = #{cs_num} order by cs_r_num desc
+	</select>
+	<insert id="cs_replyInsert" parameterType="reply">
+		INSERT INTO cs_reply (
+		    cs_num,
+		    cs_r_num,
+		    cs_r_name,
+		    member_id,
+		    cs_r_content
+		) VALUES (
+		    #{cs_num},
+		    cs_reply_seq.nextval,
+		    #{cs_r_name},
+		    #{member_id},
+		    #{cs_r_content}
+		)
+	</insert>
+	
+	<update id="cs_replyUpdate" parameterType="reply">
+		UPDATE cs_reply 
+		SET 
+		    cs_r_content = #{cs_r_content},
+		    cs_r_mDate = sysdate 
+		WHERE 
+		    cs_r_num = #{cs_r_num}
+	</update>
+	
+	<delete id="cs_replyDelete" parameterType="int">
+		delete from cs_reply where cs_r_num = #{cs_r_num}
+	</delete>
+
+	<delete id="cs_replyAllDelete" parameterType="int">
+		delete from cs_reply where cs_num = #{cs_num}
+	</delete>
+	
+	<select id="cs_replySelect" parameterType="int" resultType="reply">
+		select cs_num,cs_r_num,cs_r_name,cs_r_content,cs_r_recDate from cs_reply where cs_r_num = #{cs_r_num}
+	</select>	
+</mapper>

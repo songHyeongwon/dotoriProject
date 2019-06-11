@@ -16,6 +16,6 @@
 		<typeAlias type="com.dotori.client.cs_reply.vo.Cs_ReplyVO" alias="reply"/>
 		<typeAlias type="com.dotori.client.project.vo.ReplyVO" alias="projectReply"/>
 		<typeAlias type="com.dotori.manager.orders.vo.OrdersMVO" alias="ordersM"/>
-
+		<typeAlias type="com.dotori.client.faq_board.vo.Faq_BoardVO" alias="faq_board"/>
 	</typeAliases>
 </configuration>

@@ -20,11 +20,8 @@ public class Cs_BoardVO extends CommonVO{
 	private String cs_name    = "";
 	private String editor    = "";
 	private String t_editor    = "";
-	private String cs_conf    = "";
 	private String member_id    = "";
 	private String cs_regDate    = "";
 	private String cs_mDate    = "";
 	private int cs_hits    = 0;
-	private int cs_r_cnt    = 0;
-	private String member_name;
 }

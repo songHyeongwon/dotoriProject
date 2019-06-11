@@ -1,40 +1,28 @@
 package com.dotori.main;
 
-
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dotori.client.cs_board.controller.Cs_BoardController;
-import com.dotori.client.cs_board.service.Cs_BoardService;
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ProjectVO;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-@Log4j
 @AllArgsConstructor
 public class HomeController {
-	private ProjectService projectService;
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	ProjectService projectService;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -69,8 +57,7 @@ public class HomeController {
 		pvo.setSearch("summoney");
 		List<ProjectVO> summoneylList = projectService.mainList(pvo);
 		model.addAttribute("summoneyList",summoneylList);
-		
-		
 		return "index";
+
 	}
 }

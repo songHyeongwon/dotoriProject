@@ -13,19 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dotori.client.cs_reply.vo.Cs_ReplyVO;
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
-import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.vo.PageDTO;
 
 import lombok.AllArgsConstructor;
@@ -117,6 +112,7 @@ public class ProjectController {
 		log.info("============================================="+pvo);
 		log.info("ÃÑ Ä®·³ °¹¼ö´Â = "+total);
 		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+
 		
 		//log.info("µé¾î¿À´Â °ªÀº = "+new PageDTO(pvo,total,10));
 		return "project/projectList";

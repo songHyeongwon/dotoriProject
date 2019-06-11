@@ -3,7 +3,6 @@ package com.dotori.common.controller;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,25 +23,24 @@ public class HandcodingController {
  
     @RequestMapping(value = "/insertBoard.do", method = RequestMethod.POST)
     public String insertBoard(String editor) {
-        System.err.println("¾Ë¼ö¾ø´Â°ª : " + editor);
+        System.err.println("ì €ì¥í•  ë‚´ìš© : " + editor);
         return "redirect:/coding.do";
     }
  
-    // ´ÙÁßÆÄÀÏ¾÷·Îµå
-    @RequestMapping(value = "/file_uploader_html5.do",
-                  method = RequestMethod.POST)
+    // ë‹¤ì¤‘íŒŒì¼ì—…ë¡œë“œ
+    @RequestMapping(value = "/file_uploader_html5.do", method = RequestMethod.POST)
     @ResponseBody
     public String multiplePhotoUpload(HttpServletRequest request) {
-        // ¾Ë¼ö¾øÀ½
+        // íŒŒì¼ì •ë³´
         StringBuffer sb = new StringBuffer();
         try {
-            // ÆÄÀÏ¸íÀ» ¹Ş´Â´Ù - ÀÏ¹İ ¿øº»ÆÄÀÏ¸í
-            String oldName = request.getHeader("file-name");
-            // ÆÄÀÏ ±âº»°æ·Î _ »ó¼¼°æ·Î
-            String filePath = "C:/uploadStorage/smartBoard/";
-            String saveName = sb.append(new SimpleDateFormat("yyyyMMddHHmmss")
-                          .format(System.currentTimeMillis()))
-                          .append(UUID.randomUUID().toString())
+            // íŒŒì¼ëª…ì„ ë°›ëŠ”ë‹¤ - ì¼ë°˜ ì›ë³¸íŒŒì¼ëª…
+            String oldName = request.getHeader("file-name").replaceAll("%20", " ");
+            // íŒŒì¼ ê¸°ë³¸ê²½ë¡œ _ ìƒì„¸ê²½ë¡œ
+            
+            String filePath = "C:/uploadStorage/";
+            				//"D:/workspace/Spring/src/main/webapp/resources/photoUpload/";
+            String saveName = sb.append(UUID.randomUUID().toString())
                           .append(oldName.substring(oldName.lastIndexOf("."))).toString();
             
             
@@ -55,13 +53,14 @@ public class HandcodingController {
             }
             os.flush();
             os.close(); 
-            // ¾Ë¼ö¾øÀ½
+            // ì •ë³´ ì¶œë ¥
             sb = new StringBuffer();
             sb.append("&bNewLine=true")
               .append("&sFileName=").append(oldName)
-              .append("&sFileURL=").append("http://192.168.0.120:8080/uploadStorage/smartBoard/")
-        .append(saveName);
-
+              .append("&sFileURL=").append("http://localhost:8080/uploadStorage/")
+              								//http://localhost:8080/resources/image/
+                                          //http://localhost:8090/Spring/resources/photoUpload/
+              .append(saveName);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,4 +9,5 @@ public class Cs_ReplyVO {
 	private String cs_r_name ="";
 	private String cs_r_content ="";
 	private String cs_r_recDate="";
+	private String member_id = "";
 }

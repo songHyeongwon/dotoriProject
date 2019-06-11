@@ -41,9 +41,9 @@
 					
 						//contains()는 특정 텍스트를 포함한 요소 반환
 					if($("#search").val()!='all'){
-						if($("#search").val()=='cs_title') value = "#list tr td.goDetail a";
-						else if($("#search").val()=='cs_name') value = "#list tr td.name";
-						else if($("#search").val()=='editor') value = "#list tr td.t_editor"
+						if($("#search").val()=='cs_title') value = "#list div div.goDetail a";
+						else if($("#search").val()=='cs_name') value = "#list div div.name";
+						else if($("#search").val()=='editor') value = "#list div div.t_editor"
 						
 						$(value+":contains('"+word+"')").each(function() {
 							//정규표현식
@@ -51,7 +51,7 @@
 							$(this).html($(this).html().replace(regex,"<span class='required'>"+word+"</span>"))
 						});
 					} else {
-						value = new Array("#list tr td.goDetail a","#list tr td.name","#list tr td.t_editor");
+						value = new Array("#list div div.goDetail a","#list div div.name","#list div div.t_editor");
 						
 						for(var i = 0;i < 3;i++){
 							value[i];
@@ -70,12 +70,12 @@
 				});
 		
 				$(".goDetail").click(function() {
-					var cs_num = $(this).parents("tr").attr("data-num");
+					var cs_num = $(this).parents("div").attr("data-num");
 					$("#cs_num").val(cs_num);
 		
 					$("#cs_boardList").attr({
 						"method" : "get",
-						"action" : "/cs_board/cs_boardDetail"
+						"action" : "/cs_board/cs_boardDetailHits"
 					});
 					$("#cs_boardList").submit();
 				});
@@ -94,6 +94,12 @@
 					$("#f_search").find("input[name='pageNum']").val($(this).attr("href"));
 					goPage();
 				});
+				//--------회원 분류--------------			
+				if ($("#member_id").val().trim()==""){					
+					$("#cs_insertFormBtn").hide();
+				}
+				
+				$("#list").stop().animate({ "opacity": "1", "margin-top" : "-20px" }, 'slow');
 			});
 			function goPage() {
 				$("#search").attr({
@@ -103,11 +109,114 @@
 				$("#f_search").submit();
 			}
 		</script>
+		<style type="text/css">
+			#cs_boardList {
+				width: 100%;
+				margin-top: 30px;
+			}
+			#list {
+				opacity : 0;
+				margin-top: 20px;
+			}
+			
+			#list_title > div {
+				display: inline-block;
+				margin: 0 65px;				
+			}
+			#list_title > div:nth-child(1) {
+				margin-left: 20px;	
+			}
+			#list_title > div:nth-child(2) {
+				margin-left: 60px;	
+				margin-right: 250px; 
+			}
+			
+			#list > div {
+				border : 1px solid #EAEAEA;
+				box-shadow : 0px 0px 10px 3px #EAEAEA;
+				margin: 30px 0;
+				padding: 20px;
+				padding-bottom: 0;
+			}
+			#list > div > div {
+				display: inline-block;
+				vertical-align: text-top;
+				margin-left: 80px;					
+			}
+			#list > div > div:nth-child(1) {
+				margin-left: 0px;
+			}
+			#list > div > div:nth-child(1),#list > div > div:nth-child(5) {
+				width: 70px;
+			}
+			#list > div > div:nth-child(2) {
+				width: 300px;				
+			}
+			#list > div > div:nth-child(3),#list > div > div:nth-child(4) {
+				width: 100px;
+			}
+			#list > div > div:nth-child(6) {
+				width: 100px;
+				height: 100px;
+				background-color: #EAEAEA;
+				margin: 0 auto;
+			}
+			#list > div > div:nth-child(7) {
+				display: block;
+				position:relative;
+				top:-30px;
+				height: 30px;
+				margin-left: 0px;
+			}
+			#list > div > div:nth-child(8) {
+				border-top:0.5px solid #EAEAEA;
+				position:relative;
+				top:-20px;
+				width: 98%;
+				height: auto;
+				margin-left: 0px;
+				padding-top: 10px;		
+			}
+			#defaultTr {
+				width: 100%;
+				height: 60px;
+			}
+			.writebtn {
+				border: 1px solid #EAEAEA;
+				border-radius : 5px;
+				width: 60px;
+				height: 35px;
+			}
+			.writebtn:hover {
+				color: rgba(30, 22, 54, 0.6);
+				box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px ;			
+			}
+			.writebtn:focus {
+				outline: none;
+			}
+			.searchbtn:focus {
+				outline: none;
+			}
+			.searchbtn:hover {
+				transform:scale(1.1);          /*  default */
+				-webkit-transform:scale(1.1);  /*  크롬 */
+				-moz-transform:scale(1.1);     /* FireFox */
+				-o-transform:scale(1.1);  
+			}
+			.searchbtn {
+				vertical-align: middle;
+			}
+			.paginate_button{
+				color: red;
+				background: red;
+			}
+		</style>
 	</head>
 	<body>
+		<input type="hidden" name="member_id" id="member_id" value="master"/>
 		<div class="contentContainer">
 			<div class="contentTit text-center">
-				<h1>게시판 리스트</h1>
+				<h1>문의 게시판</h1>
 			</div>
 			<form id="cs_boardList">
 				<input type="hidden" id="cs_num" name="cs_num" />
@@ -128,68 +237,66 @@
 							<option value="cs_name">작성자</option>
 						</select> 
 						<input type="text" placeholder="검색어를 입력해주세요" id="keyword" name="keyword" class="form-control"> 
-						<input type="button" value="검색" class="btn btn-primary" id="searchData">
+						<input type="image" value="검색" class="searchbtn" src="/resources/image/cs_board/-search_90025.ico" id="searchData">
 					</div>
 				</form>
 			</div>
 			<%--============리스트 시작=========== --%>
 			<div id="cs_boardList">
-				<table summary="게시판리스트" class="table table-striped">
-					<colgroup>
-						<col width="10%" />
-						<col width="42%" />
-						<col width="10%" />
-						<col width="10%" />
-						<col width="8%" />
-						<col width="20%" />
-					</colgroup>
-					<thead>
-						<tr>
-							<th data-value="cs_num" class="order">글번호</th>
-							<th>글제목</th>
-							<th data-value="cs_regDate" class="order">작성일</th>
-							<th class="borcle">작성자</th>
-							<th>조회수</th>
-						</tr>
-					</thead>
-					<tbody id="list">
+				<div>
+					<div id="list_title">
+						<div data-value="cs_num" class="order">글번호</div>
+						<div>글제목</div>
+						<div data-value="cs_regDate" class="order">작성일</div>
+						<div>작성자</div>
+						<div>조회수</div>
+					</div>
 						<!-- 데이터 출력 -->
+					<div id="master_list">
+						<c:choose>
+							<c:when test="${not empty master_cs_boardList}">
+								<c:forEach var="master_cs_board" items="${master_cs_boardList}" varStatus="status">
+									<div class="tac" data-num="${master_cs_board.cs_num}">
+										<div>${master_cs_board.cs_num}</div>
+										<div class="goDetail tal"><a href="#">${master_cs_board.cs_title}</a></div>
+										<div>${master_cs_board.cs_regDate}</div>
+										<div class="name">${master_cs_board.cs_name}</div>
+										<div>${master_cs_board.cs_hits}</div>
+										<div>${master_cs_board.editor}</div>
+										<div class="t_editor">${master_cs_board.t_editor}</div>
+									</div>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+					</div>
+					<div id="list">
 						<c:choose>
 							<c:when test="${not empty cs_boardList}">
 								<c:forEach var="cs_board" items="${cs_boardList}" varStatus="status">
-									<tr class="tac" data-num="${cs_board.cs_num}">
-										<td>${cs_board.cs_num}</td>
-										<td class="goDetail tal">
-											<a href="#">${cs_board.cs_title}</a>
-											&nbsp;
-											<c:if test="${cs_board.cs_r_cnt > 0}">
-												<span>[${cs_board.cs_r_cnt}]</span>
-											</c:if>
-										</td>
-										<td>${cs_board.cs_regDate}</td>
-										<td class="name">${cs_board.cs_name}</td>
-										<td>${cs_board.cs_hits}</td>
-										<td rowspan="2">${cs_board.editor}</td>
-									</tr>
-									<tr>
-										<td class="t_editor" colspan="5">${cs_board.t_editor}</td>
-									</tr>
-									<tr>
-										<td colspan="6">
+									<div class="tac" data-num="${cs_board.cs_num}">
+										<div>${cs_board.cs_num}</div>
+										<div class="goDetail tal"><a href="#">${cs_board.cs_title}</a></div>
+										<div>${cs_board.cs_regDate}</div>
+										<div class="name">${cs_board.cs_name}</div>
+										<div>${cs_board.cs_hits}</div>
+										<div>${cs_board.editor}</div>
+										<div class="t_editor">${cs_board.t_editor}</div>
+										<div>
+											<c:set var="member_id" scope="request" value="$('member_id').val()"></c:set>
 											<c:set var="cs_num" value="${cs_board.cs_num}" scope="request"></c:set>
- 											<jsp:include page="cs_list_reply.jsp"></jsp:include>			
-										</td>
-									</tr>
+											<jsp:include page="cs_list_reply.jsp"></jsp:include>			
+										</div>	
+									</div>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<tr>
-									<td colspan="4" class="tac">등록된 게시물이 없습니다.</td>
-								</tr>
+								<div class="defaultTr" id="defaultTr">
+									<span class="tac">등록된 게시물이 없습니다.</span>
+								</div>
 							</c:otherwise>
 						</c:choose>
-					</tbody>
-				</table>
+					</div>
+				</div>
 			</div>
 		</div>
 		<%--============================리스트 종료========================== --%>
@@ -215,7 +322,7 @@
 
  		<%--=========================글쓰기 버튼 출력 시작========================= --%>
 		<div class="contentBtn">
-			<input type="button" value="글쓰기" id="cs_insertFormBtn"	class="btn btn-primary">
+			<input type="button" value="글쓰기" id="cs_insertFormBtn"	class="writebtn">
 		</div>
 		<%--=========================글쓰기 버튼 출력 종료========================= --%>
 	</body>

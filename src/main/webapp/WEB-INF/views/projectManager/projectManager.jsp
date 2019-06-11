@@ -105,8 +105,8 @@ var selectAll = false;//전체선택을 했는지 안했는지 알수있는 변�
 			$("#keyword").val("");
 		}
 		$("#search").attr({
-			"method" : "get",
-			"action" : "/board/boardList"
+			"method" : "post",
+			"action" : "/projectManager/projectManagerForm"
 		});
 		$("#f_search").submit();
 	}

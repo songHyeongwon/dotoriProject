@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dotori.client.cs_reply.vo.Cs_ReplyVO;
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.vo.PageDTO;
 
 import lombok.AllArgsConstructor;
@@ -125,6 +130,9 @@ public class ProjectController {
 		log.info("detail페이지 호출");
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);
+		
+		//리플레이 ArrayList를 담는다.
+		
 		
 		log.info(result);
 		

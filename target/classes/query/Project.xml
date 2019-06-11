@@ -320,4 +320,34 @@
 		) WHERE ROWNUM <= 3 and not PROJECT_STATUS=2 and not PROJECT_STATUS=0 and not PROJECT_STATUS=3 and not PROJECT_STATUS=4]]>
 		
 	</select>
+	
+	<insert id="replyInsert" parameterType="projectReply">
+		INSERT INTO ${reply_table_name} (
+		    reply_num,
+		    project_num,
+		    member_id,
+		    reply_content
+		) VALUES (
+		    ${reply_table_name}_seq.nextval,
+		    #{project_num},
+		    #{member_id},
+		    #{reply_content}
+		)
+	</insert>
+	<select id="replyList" parameterType="projectReply" resultType="projectReply">
+		SELECT
+		    reply_num,
+		    project_num,
+		    member_id,
+		    reply_content,
+		    to_char(reply_recdate,'YYYY-MM-DD') as reply_recdate
+		FROM
+		    ${reply_table_name} order by reply_num desc
+	</select>
+	
+	<delete id="replyDelete" parameterType="projectReply">
+		 DELETE FROM ${reply_table_name}
+		WHERE
+		    reply_num = #{reply_num}
+	</delete>
 </mapper>

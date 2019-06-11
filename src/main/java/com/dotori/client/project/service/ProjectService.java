@@ -6,6 +6,7 @@ import java.util.List;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.ReplyVO;
 
 public interface ProjectService {
 
@@ -34,6 +35,12 @@ public interface ProjectService {
 
 	public List<OptionVO> getOptionValue(ContentVO cvo);
 	public int updateStatus();
+
+	public List<ReplyVO> replyList(ReplyVO rvo);
+
+	public int replyInsert(ReplyVO rvo);
+
+	public int replyDelete(ReplyVO rvo);
 
 	
 }

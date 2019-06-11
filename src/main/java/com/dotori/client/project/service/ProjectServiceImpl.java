@@ -9,6 +9,7 @@ import com.dotori.client.project.dao.ProjectDao;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.file.FileUploadUtil;
 
 import lombok.AllArgsConstructor;
@@ -182,5 +183,27 @@ public class ProjectServiceImpl implements ProjectService {
 		int result1 = projectDao.updateStatus1();
 		int result2 = projectDao.updateStatus2();
 		return result1+result2;
+	}
+
+	
+/********************************************************************************************
+ * 프로젝트의 댓글과 관련된 기능																		*
+ ********************************************************************************************/
+	@Override
+	public List<ReplyVO> replyList(ReplyVO rvo) {
+		List<ReplyVO> list = projectDao.replyList(rvo);
+		return list;
+	}
+
+	@Override
+	public int replyInsert(ReplyVO rvo) {
+		int result = projectDao.replyInsert(rvo);
+		return result;
+	}
+
+	@Override
+	public int replyDelete(ReplyVO rvo) {
+		int result = projectDao.replyDelete(rvo);
+		return result;
 	}
 }

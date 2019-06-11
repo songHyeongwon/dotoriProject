@@ -4,10 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
-var data = '${data.member_id}';
+	var data = '${data.member_id}';
 	$(function() {
 		$("#insertFormHerf").click(function(e) {
-			if(data!=null){
+			if(data==""){
 				alert("로그인 후 이용가능합니다.");
 				e.preventDefault();//이벤트 막기
 			}

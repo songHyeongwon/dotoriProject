@@ -24,6 +24,59 @@
 var reply_table_name = "${project.reply_table_name}";
 	$(function() {
 		listAll(reply_table_name);
+		var cs_r_num = 0;
+		var cs_r_content = "";
+		var cs_r_name = "";
+		
+		//업데이트 버튼 클릭시
+		$("#updateBtn").click(function() {
+			if(!checkForm("#cs_r_content2","댓글 내용을")) return;
+			else{
+				//var insertUrl = "/replies/replyUpdate";
+				if(confirm("댓글 수정하시겠습니까?")){
+					$.ajax({
+						url : "/projectReply/"+cs_r_num+"/"+reply_table_name,
+						type : "put",
+						headers : {
+							"Content-Type":"application/json",
+							"X-HTTP-Method-Override" : "PUT"
+						},
+						dataType:"text",
+						data: JSON.stringify({
+							reply_num : cs_r_num,
+							reply_content:$("#cs_r_content2").val()
+						}),
+						error : function() {
+							alert("시스템 오류입니다. 관리자에게 문의 하세요");
+						},
+						success : function(result) {
+							if(result=="SUCCESS"){
+								alert("댓글 수정이 완료되었습니다.");
+								dataReset();
+								$("#updateModalForm").modal('hide');
+								listAll(reply_table_name);
+							}
+						}
+					});
+				}
+			}
+		});
+		
+		//수정클릭시 창
+		$(document).on("click","input[data-upbtn]",function(){
+			cs_r_num = $(this).parent("div").parent("div").attr("data-num");				
+			cs_r_name = $(this).parent("div").children().eq(0).html();
+			cs_r_content = $(this).parent("div").parent("div").children().eq(1).html();
+			cs_r_content = cs_r_content.replace(/<br>/g,"\n").trim();
+			$("#cs_r_name2").html(cs_r_name);
+			$("#cs_r_content2").html(cs_r_content);
+			$("#updateModalForm").modal();
+
+			var form = $(".modal-body").children("form");
+			form.each(function() {
+				this.reset();
+			});
+		});
 		
 		//삭제 클릭시
 		$(document).on("click","input[data-delbtn]",function(){

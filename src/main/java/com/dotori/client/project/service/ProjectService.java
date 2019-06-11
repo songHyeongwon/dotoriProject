@@ -3,6 +3,7 @@ package com.dotori.client.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dotori.client.cs_reply.vo.Cs_ReplyVO;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
@@ -41,6 +42,8 @@ public interface ProjectService {
 	public int replyInsert(ReplyVO rvo);
 
 	public int replyDelete(ReplyVO rvo);
+
+	public int replyUpdate(ReplyVO rvo);
 
 	
 }

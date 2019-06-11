@@ -206,4 +206,10 @@ public class ProjectServiceImpl implements ProjectService {
 		int result = projectDao.replyDelete(rvo);
 		return result;
 	}
+
+	@Override
+	public int replyUpdate(ReplyVO rvo) {
+		int result = projectDao.replyUpdate(rvo);
+		return result;
+	}
 }

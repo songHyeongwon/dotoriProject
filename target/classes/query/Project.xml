@@ -350,4 +350,11 @@
 		WHERE
 		    reply_num = #{reply_num}
 	</delete>
+	<update id="replyUpdate" parameterType="projectReply">
+		UPDATE ${reply_table_name}
+		SET
+		    reply_content = #{reply_content}
+		WHERE
+		    reply_num = #{reply_num}
+	</update>
 </mapper>

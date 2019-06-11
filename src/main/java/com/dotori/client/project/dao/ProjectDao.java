@@ -54,4 +54,6 @@ public interface ProjectDao {
 
 	public int replyDelete(ReplyVO rvo);
 
+	public int replyUpdate(ReplyVO rvo);
+
 }

@@ -30,6 +30,7 @@
 	</definition>
 	<definition name="member/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
+		
 	</definition>
 	<definition name="orders/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/orders/{1}.jsp"/>

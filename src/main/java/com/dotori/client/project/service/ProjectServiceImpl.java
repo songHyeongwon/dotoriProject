@@ -166,8 +166,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<ProjectVO> mainList() {
-		ArrayList<ProjectVO> list = projectDao.mainList();
+	public List<ProjectVO> mainList(ProjectVO pvo) {
+		ArrayList<ProjectVO> list = projectDao.mainList(pvo);
 		return list;
 	}
 

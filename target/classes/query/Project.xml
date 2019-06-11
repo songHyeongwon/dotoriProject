@@ -292,7 +292,7 @@
 		    project_pattern1,
 		    project_pattern2
 		FROM ( 
-			SELECT /*+INDEX_DESC(project project_pk)*/
+			SELECT
 				rownum as rnum, 
 				project_num,
 			    project_name,
@@ -307,9 +307,17 @@
 			    project_pattern1,
 			    project_pattern2
 			FROM project 
-			WHERE	
-				rownum <= 3 and not PROJECT_STATUS=2 and not PROJECT_STATUS=0
-		)
-		]]>
+			]]>
+			<if test="search == 'main'">
+				<![CDATA[order by project_num desc]]>
+			</if>
+			<if test="search == 'carousel'">
+				<![CDATA[order by PROJECT_COUNT desc]]>
+			</if>
+			<if test="search == 'summoney'">
+				<![CDATA[order by project_summoney desc]]>
+			</if><![CDATA[
+		) WHERE ROWNUM <= 3 and not PROJECT_STATUS=2 and not PROJECT_STATUS=0 and not PROJECT_STATUS=3 and not PROJECT_STATUS=4]]>
+		
 	</select>
 </mapper>

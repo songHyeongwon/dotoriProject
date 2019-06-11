@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dotori.client.member.service.MemberService;
 import com.dotori.client.member.vo.MemberVO;
+import com.dotori.client.project.vo.ProjectVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -48,6 +49,12 @@ public class MemberController {
 	@GetMapping(value="/confirmPassword")
 	public String confirmPassword() {
 		return "member/passwordConfirm";
+	}
+	
+	// 개인 정보 수정 페이지로 이동
+	@RequestMapping(value="/personalModify")
+	public String personalModify() {
+		return "member/personalModify";
 	}
 	
 	// 회원가입 중 ID 중복체크 버튼 컨트롤러
@@ -114,51 +121,57 @@ public class MemberController {
 	}
 	
 	// 회원의 로그아웃으로 인한 session값 상실
-	@PostMapping(value="memberLogout")
+	@ResponseBody
+	@PostMapping(value="memberLogout", produces="text/plain; charset=UTF-8")
 	public String memberLogout(@ModelAttribute MemberVO mvo,HttpSession session) {
 		session.invalidate();
 		
-		return "index";
+		return "성공";
 	}
 		
 	// 비밀번호 확인 창 컨트롤러
-	@PostMapping(value="/passwordConfirm")
+	@ResponseBody
+	@PostMapping(value="/passwordConfirm", produces="text/plain; charset=UTF-8")
 	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
 		
 		int result=memberService.passwordConfirm(mvo);
 		
 		if(result==1) {
-			return "member/personalModify";
+			return "성공";
 		}else {
-			model.addAttribute("fail",1);
-			return "member/passwordConfirm";
+			return "실패";
 		}
 	}
 	
 	
 	// 회원 수정 컨트롤러
-	@PostMapping(value="/memberUpdate")
-	public String memberUpdate(@ModelAttribute MemberVO mvo,Model model) {
+	@ResponseBody
+	@PostMapping(value="/memberUpdate", produces="text/plain; charset=UTF-8")
+	public String memberUpdate(@ModelAttribute MemberVO mvo) {
 		
 		int result=memberService.memberUpdate(mvo);
 		
 		if(result==1) {
-			return "index";
+			return "성공";
 		}else {
-			model.addAttribute("fail",1);
-			return "member/personalModify";
+			return "실패";
 		}
 	}
 	
 	// 마이페이지 '펀딩 중' 클릭 시 컨트롤러
-	@PostMapping(value="/memberFunding")
+	@ResponseBody
+	@PostMapping(value="/memberFunding",produces="text/plain; charset=UTF-8")
 	public String memberFunding(@ModelAttribute MemberVO mvo,Model model) {
 		String member_id = mvo.getMember_id();
 		
 		int result = memberService.memberFunding(member_id);
 		
-		model.addAttribute("decide",result);
-		return "member/memberFunding";
+		
+		if(result==1) {
+			return "성공";
+		}else {
+			return "실패";
+		}
 		
 	}
 	
@@ -175,7 +188,8 @@ public class MemberController {
 	}
 	
 	// 회원 탈퇴 컨트롤러
-	@RequestMapping(value="/deleteMember")
+	@ResponseBody
+	@RequestMapping(value="/deleteMember", produces = "text/plain; charset=UTF-8")
 	public String deleteMember(Model model,HttpSession session) {
 			
 		MemberVO mvo = (MemberVO)session.getAttribute("data");
@@ -185,12 +199,10 @@ public class MemberController {
 		int result = memberService.deleteMember(member_id);
 		
 		if(result==1) {
-			model.addAttribute("성공",1);
 			session.invalidate();
-			return "index";
+			return "성공";
 		}else {
-			model.addAttribute("실패",0);
-			return "/member/personalModify";
+			return "실패";
 		}
 	}
 	
@@ -200,6 +212,22 @@ public class MemberController {
 	public String confirmPwd(@ModelAttribute MemberVO mvo) {
 		int result = memberService.updatePasswordConfirm(mvo);
 		
+		if(result==1) {
+			return "성공";
+		}else {
+			return "실패";
+		}
+	}
+	
+	// 마이 페이지에서 도토리 충전 시 사용되는 컨트롤러
+	@ResponseBody
+	@PostMapping(value="/dotoriCharge",produces="text/plain; charset=UTF-8")
+	public String dotoriCharge(@ModelAttribute MemberVO mvo,HttpSession session) {
+		int result = memberService.dotoriCharge(mvo);
+		MemberVO mvo2 = (MemberVO)session.getAttribute("data");
+		mvo2.setMember_point(mvo.getMember_point()+mvo.getMember_pointCharge());
+		
+		session.setAttribute("data", mvo2);
 		if(result==1) {
 			return "성공";
 		}else {

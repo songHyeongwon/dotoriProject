@@ -61,11 +61,6 @@
 		where member_id=#{member_id}
 	</update>
 	
-	<!-- 회원 마이페이지 '펀딩 중' 쿼리 -->
-	<select id="memberFunding" parameterType="member" resultType="int">
-		/* member - memberFunding */
-	</select>
-	
 	<!-- 회원 테이블에서 회원 탈퇴 -->
 	<delete id="deleteMember" parameterType="member">
 		delete from member where member_id=#{member_id}
@@ -92,4 +87,20 @@
 		select nvl((select 1 from member where member_pwd!=#{member_pwd} and member_id=#{member_id}),0) 
 		as state from dual
 	</select>
+	
+	<!-- 회원 마이페이지 '펀딩 중' 쿼리 -->	
+	<select id="memberFunding" parameterType="member" resultType="int">
+		/* member - memberFunding */
+		select pj.project_thumb, pj.project_url
+		from project pj inner join member mem
+		on mem.member_id=#{member_id} 
+	</select>
+	
+	<!-- 도토리 충전 쿼리 -->
+	<update id="dotoriCharge" parameterType="member">
+		/* member - dotoriCharge */
+		update member set 
+		member_point = #{member_point}+#{member_pointCharge} 
+		where member_id = #{member_id}
+	</update>
 </mapper>

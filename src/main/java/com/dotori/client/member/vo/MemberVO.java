@@ -15,7 +15,7 @@ public class MemberVO {
 	private String member_eMail="";		// 회원 이메일
 	private int member_kind=0;			// 법인,개인 구분
 	private String member_sigNum="";		// 회원 주민번호 or 사업자 번호
-	private String member_point="";		// 회원 도토리 개수
+	private int member_point=0;		// 회원 도토리 개수
 	private Date member_addDate;		// 회원 등록일
 	private Date member_mPwdDate;		// 회원 비밀번호 변경일
 	private String member_nickName="";		// 회원 닉네임
@@ -23,4 +23,5 @@ public class MemberVO {
 	private int member_evenAgree=0;		// 회원 메시지,이메일에 정보를 주기 위한 동의여부
 	private String member_detailAddress="";	// 회원 상세 주소
 	private int member_chPwd=0;			// 회원 비밀번호 변경 확인 
+	private int member_pointCharge=0;	// 회원이 충전할 도토리 개수
 }

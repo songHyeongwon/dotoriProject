@@ -119,6 +119,16 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public int dotoriCharge(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		String member_id = mvo.getMember_id();
+		
+		int result = memberDao.dotoriCharge(mvo);
+		
+		return result;
+	}
+
 	
 
 }

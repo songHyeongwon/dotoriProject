@@ -22,4 +22,6 @@ public interface MemberService {
 
 	int updatePasswordConfirm(MemberVO mvo);
 
+	int dotoriCharge(MemberVO mvo);
+
 }

@@ -26,4 +26,6 @@ public interface MemberDao {
 
 	public MemberVO memberAll(String member_id);
 
+	public int dotoriCharge(MemberVO mvo);
+
 }

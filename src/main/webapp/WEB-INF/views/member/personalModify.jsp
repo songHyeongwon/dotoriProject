@@ -6,13 +6,14 @@
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 
-		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
-		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
+		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
 	
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
-		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
+		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script> -->
+		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
+		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -142,7 +143,24 @@
 						$("#member_eMail").val(member_eMail);
 						$("#member_phone").val(member_phone);
 						$("#member_chPwd").val(member_chPwd);
-						$("#joinForm").attr({
+						$.ajax({
+							url : "/member/memberUpdate",
+							type : "post",
+							data : $("#modifyForm").serialize(),
+							dataType : "text",
+							error : function(){
+								alert("정보 수정 중 오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
+							},
+							success : function(data){
+								if(data=="성공"){
+									alert("정보 수정이 완료되었습니다.");
+									location.href="/";
+								}else{
+									alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
+								}
+							}
+						})
+						$("#modifyForm").attr({
 							"method" : "post",
 						 	"action" : "/member/memberUpdate"
 						 });
@@ -154,11 +172,22 @@
 				 // 탈퇴하기 버튼 클릭 시 
 				 $("#deleteBtn").click(function(){
 					 if(confirm("탈퇴하시겠습니까?")){
-						 $("#joinForm").attr({
-								"method" : "post",
-							 	"action" : "/member/deleteMember"
-							 });
-						 $("#joinForm").submit();
+						 $.ajax({
+							url : "/member/deleteMember",
+						 	type : "post",
+						 	dataType : "text",
+						 	error : function(){
+						 		alert("탈퇴 중 시스템 오류가 발생하였습니다. 관리자에게 문의바랍니다.");
+						 	},
+						 	success : function(data){
+						 		if(data=="성공"){
+						 			alert("탈퇴가 완료되었습니다.");
+						 			location.href = "/";
+						 		}else{
+						 			alert("탈퇴 중 오류가 발생했습니다. 잠시 후 다시 시도해 보세요.");
+						 		}
+						 	}
+						 })
 					 }
 				 })
 					
@@ -236,7 +265,7 @@
 			<div class="form-group" id="memberClassify">
 			</div>
 			<div class="form-group">
-				<form class="joinForm" id="joinForm">
+				<form class="modifyForm" id="modifyForm">
 					<table class="table .table-striped">
 						<tr class="tb">
 							<td class="tn">아이디</td>

@@ -4,7 +4,7 @@
 <html>
 	<head>	
 		
-		<style type="text/css">
+		<!-- <style type="text/css">
 			.phone{
 				width: 100px;
 			}
@@ -12,6 +12,7 @@
 				width : 100px;
 				border-radius: 20px; 
 			}
+<<<<<<< HEAD
 			
 			.sig{
 				border: none;
@@ -19,10 +20,13 @@
 			
 			#personal
 		</style>
+=======
+		</style> -->
+>>>>>>> refs/remotes/choose_remote_name/2019.06.07
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 
-		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
+		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
 	
@@ -31,7 +35,10 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> -->
+		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
+		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
+		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		
 		<script type="text/javascript">
 

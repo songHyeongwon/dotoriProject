@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.dotori.client.cs_reply.vo.Cs_ReplyVO;
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ReplyVO;
 

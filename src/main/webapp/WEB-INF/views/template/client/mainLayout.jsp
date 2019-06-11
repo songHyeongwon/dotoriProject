@@ -73,11 +73,11 @@
 <body>
 
 	<!-- Fixed navbar -->
-	<header>
+	<header >
 		<tiles:insertAttribute name="header" />
 	</header>
 
-	<div class="container">
+	<div class="container" style="padding-top: 0; margin-top: 0;">
 		<tiles:insertAttribute name="nav" />
 		<section>
 			<!-- 호버 이미지 영역 -->

@@ -66,7 +66,6 @@ var data = '${data.member_id}';
 		<!-- /.container-fluid -->
 	</nav>
 	<!--최상단 네비게이션  종료-->
-	<div class="jumbotron container theme-showcase">
-		<h1>토토리s 펀딩s에 어서오세요</h1>
-		<p>이곳은 귀찮으므로 차후에 채우도록 하겠습니다.</p>
+	<div class="jumbotron container theme-showcase" style="margin-bottom: 20; padding-bottom: 0;">
+		<img src="/uploadStorage/smartBoard/2019052914253963f3731c-ce84-4238-b206-83e11100a517.jpg" style="height: 350px; width: 100%; margin: 0;">
 	</div>

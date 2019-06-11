@@ -175,6 +175,7 @@
 		<input type="hidden" name="delivery_recphone" id="delivery_recphone">
 		<input type="hidden" name="delivery_send" id="delivery_send">
 	</form>
+
 	<div id="container">
 	<header>
 		<hr/>
@@ -185,7 +186,40 @@
 			<label>리워드 세부내역 : ${orders.order_content}</label><br/>
 		</div>
 	</header>
+<<<<<<< HEAD
+=======
+	
+	<hr/>
+      <div class="starter-template">
+        <label>배송지</label>
+        <ul id="addressList">
+        	<li>${member.address}</li>
+        	<li id="newAddress"></li>
+        </ul>
+        <button type="button" id="addAddress">다른 주소 입력</button>
+        <div id="f_address">
+        	<input type="text" id="postcode" placeholder="우편번호" readonly="readonly"/>
+        	<input type="button" id="searchPostCode" value="우편번호 찾기"/>
+        	<br/>
+			<input type="text" id="roadAddress" placeholder="도로명주소" readonly="readonly"/>
+			<input type="text" id="detailAddress" placeholder="상세주소">
+			<input type="button" id="addBtn" value="등록"/>
+			<span id="guide" style="color:#999"></span>
+        </div>
+		
+		<br/>
+     
+      <hr/>
+      <div class="annotation">
+      	
+		<h2>배송 안내사항</h2>
+		<br/>
+		<p>
+		배송정보 제 3자(프로젝트 진행자) 제공 동의
+		회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
+>>>>>>> refs/remotes/origin/im12weol
 
+<<<<<<< HEAD
 		<c:choose>
 			<c:when test="${orders.content_kind==1}">
 				<hr />
@@ -246,6 +280,26 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+=======
+		제공받는자:
+		제공목적: 선물 전달/배송과 관련된 상담 및 민원처리
+		제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)
+		보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)
+		
+		※ 동의 거부권 등에 대한 고지
+		개인정보 제공은 서비스 이용을 위해 꼭 필요합니다. 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
+		</p>
+		
+		<br/>
+		<input type="checkbox" name="order_guideAgree" id="order_guideAgree"/>
+		<label>약관을 모두 읽었으며 이에 동의합니다.</label><br/>
+		<button type="button" name="support" id="support">후원하기</button>
+	
+      </div>
+   </div>
+   </div>
+</form>
+>>>>>>> refs/remotes/origin/im12weol
    <!-- /.container -->
 	
     <!-- Bootstrap core JavaScript

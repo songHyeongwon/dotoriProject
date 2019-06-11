@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.manager.orders.dao.OrdersManagerDao">
+<sql id="ordersSearch">
+	<if test="search=='project_num'">
+			<![CDATA[project_num like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search=='orders_content'">
+			<![CDATA[orders_content like '%' || #{keyword} || '%' ]]>
+		</if>
+		<if test="search=='member_id'">
+			<![CDATA[member_id like '%' || #{keyword} || '%' ]]>
+		</if>
+</sql>
+<select id="ordersManagerView" parameterType="ordersM" resultType="ordersM">
+	<![CDATA[
+		SELECT 
+			orders_num,
+		    project_num,
+		    to_char(orders_date,'YYYY-MM-DD') as orders_date,
+		    member_id,
+		    orders_content,
+		    orders_price
+		FROM ( 
+			SELECT /*+INDEX_DESC(orders orders_pk)*/
+				rownum as rnum, 
+				orders_num,
+			    project_num,
+			    orders_date,
+			    member_id,
+			    orders_content,
+			    orders_price
+				FROM orders 
+			WHERE ]]>	
+			
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="ordersSearch"></include>
+		</trim>
+		<![CDATA[ rownum <= #{pageNum} * #{amount}
+		) ordersList
+		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+</select>
+<select id="ordersListCnt" parameterType="ordersM" resultType="int">
+	select count(*) from orders
+	<trim prefix=" where (" suffix=")">
+			<include refid="ordersSearch"></include>
+		</trim>
+</select>
+
+</mapper>

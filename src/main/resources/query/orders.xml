@@ -48,15 +48,4 @@ select
         where rownum=1 -->
         SELECT ORDERS_SEQ.CURRVAL FROM DUAL
 	</select>
-	
-	<!-- <insert id="ordersInsert" parameterType="orders">
-		insert into orders(
-			orders_num,member_id,project_num,orders_content,
-			orders_price,orders_guideAgree,
-			orders_infoAgree,content_kind
-		) 
-		values(orders_seq.nextval,#{member_id},project_seq.nextval,#{order_content},
-			#{order_price},#{order_guideAgree},
-			#{order_infoAgree},#{content_kind})
-	</insert> -->
 </mapper>

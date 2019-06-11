@@ -24,6 +24,6 @@ public interface MemberDao {
 
 	public int updatePasswordConfirm(MemberVO mvo);
 
-	public MemberVO memberAll(MemberVO mvo);
+	public MemberVO memberAll(String member_id);
 
 }

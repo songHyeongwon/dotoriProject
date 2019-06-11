@@ -25,6 +25,7 @@
 	<!-- 로그인 화면 맵핑 설정 -->
 	<definition name="member/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
+		<put-attribute name="nav" value=""/>
 	</definition>
 <!-- 	<definition name="member/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>

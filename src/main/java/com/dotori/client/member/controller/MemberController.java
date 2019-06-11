@@ -73,20 +73,18 @@ public class MemberController {
 	
 	
 	// 회원가입 컨트롤러
-	@RequestMapping(value="/memberJoin",method=RequestMethod.POST)
+	@ResponseBody
+	@RequestMapping(value="/memberJoin",method=RequestMethod.POST,produces="text/plain; charset=UTF-8")
 	public String memberJoin(@ModelAttribute MemberVO mvo, Model model) {
 		int result = 0;
-		String url="";
 		
 		result=memberService.memberJoin(mvo);
 		if(result==1) {
 			model.addAttribute("success",1);
-			url="/insert";
+			return "성공";
 		}else {
-			url="/member/memberJoin";
+			return "실패";
 		}
-		
-		return url; 
 		
 	}
 	
@@ -177,19 +175,21 @@ public class MemberController {
 	}
 	
 	// 회원 탈퇴 컨트롤러
-	@PostMapping(value="/deleteMember")
-	public String deleteMember(@ModelAttribute MemberVO mvo,Model model,HttpSession session) {
+	@RequestMapping(value="/deleteMember")
+	public String deleteMember(Model model,HttpSession session) {
 			
-		// MemberVO mvo = (MemberVO)session.getAttribute("data");
+		MemberVO mvo = (MemberVO)session.getAttribute("data");
 		
-		log.info(mvo);
+		String member_id = mvo.getMember_id();
 		
-		int result = memberService.deleteMember(mvo);
+		int result = memberService.deleteMember(member_id);
 		
 		if(result==1) {
+			model.addAttribute("성공",1);
+			session.invalidate();
 			return "index";
-			
 		}else {
+			model.addAttribute("실패",0);
 			return "/member/personalModify";
 		}
 	}

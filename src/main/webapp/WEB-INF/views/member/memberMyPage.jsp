@@ -56,7 +56,10 @@
 						type : "post",
 						dataType : "text",
 						error : function(){
-							alert("시스템 오류입니다. 관리자에게 문의 바랍니다.");
+							alert("펀딩 중 상품 로딩 중 시스템 오류입니다. 관리자에게 문의 바랍니다.");
+						},
+						success : function(data){
+							
 						}
 					})
 				})
@@ -99,7 +102,6 @@
 				<div>
 					<ul class="li">
 						<li class="list"><input type="button" class="btn" id="funding" name="funding" value="펀딩 중 상품"/></li>
-						<li class="list"><input type="button" class="btn" id="interested" name="interested" value="관심있는 펀딩"/></li>
 						<li class="list"><input type="button" class="btn" id="usingDotori" name="usingDotori" value="사용한 도토리 내역"/></li>
 						<li class="list"><input type="button" class="btn" id="makeFund" name="makeFund" value="내가 만든 펀딩"/></li>
 						<li class="list"><input type="button" class="btn" id="modifyPerson" name="modifyPerson" value="개인 정보 수정"/></li>

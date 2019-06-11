@@ -20,14 +20,7 @@
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
 		
 		
-		<script type="text/javascript">
-			if("${success}"==1){
-				alert("도토리 펀딩's 가입이 완료되었습니다. 많은 이용 부탁드립니다.");
-			} 		
-			
-			/* if("${fail}"==0){
-				alert("비밀번호 또는 ID가 일치하지 않습니다.\n다시 확인 부탁드립니다.");
-			} */
+		<script type="text/javascript">	
 			$(function(){
 				// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감
 				var userInputId = getCookie("userInputId");

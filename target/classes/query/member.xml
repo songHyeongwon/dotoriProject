@@ -32,7 +32,7 @@
 	<!-- 회원 정보 전체 가져오기 -->
 	<select id="memberAll" parameterType="member" resultType="member">
 		/* member - memberAll */
-		select * from member where member_id=#{member_id};
+		select * from member where member_id=#{member_id}
 	</select>
 	
 	<!-- 회원 정보 가져오기 -->
@@ -74,10 +74,16 @@
 	<!-- 삭제회원 테이블에 값 입력 -->
 	<insert id="deleteMemberInsert" parameterType="member">
 		/* member - deleteMemberInsert */
-		insert into DELMEMBER(member_num,member_id,member_pwd,member_name,member_address,member_detailaddress,member_phone,member_eMail,member_kind,
+		insert into DELMEMBER(member_num,member_id,member_pwd,member_name,member_address,member_detailAddress,member_phone,member_eMail,member_kind,
 		member_sigNum,member_point,member_addDate,member_nickName,member_infoAgree,member_evenAgree) 
-		values(delmember_seq.nextval,#{member_id},#{member_pwd},#{member_name},#{member_address},#{member_detalAddress},
-		#{member_phone},#{member_eMail},#{member_kind},#{member_sigNum},#{member_point},#{member_addDate},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+		values(delmember_seq.nextval,#{member_id},#{member_pwd},#{member_name},#{member_address}
+		<if test="member_detailAddress!=''">
+		,#{member_detailAddress}
+		</if>
+		<if test="member_detailAddress==''">
+		,''
+		</if>
+		,#{member_phone},#{member_eMail},#{member_kind},#{member_sigNum},#{member_point},#{member_addDate},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
 	</insert>
 	
 	<!-- 수정 폼에서 회원 비밀번호 확인 -->

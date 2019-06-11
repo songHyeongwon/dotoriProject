@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-		<!-- <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"> -->
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		
 		<script type="text/javascript">
 			$(function(){
@@ -63,7 +63,7 @@
 				
 				// 이메일 뒤 select문 선택 시 처리 함수
 				$("#email").on("change",function(){
-					$("#emailBack").val($(this).val());
+					$("#eMailBack").val($(this).val());
 				})
 				
 				// 비밀번호 확인 버튼 클릭 시 처리 함수
@@ -158,7 +158,7 @@
 								"method" : "post",
 							 	"action" : "/member/deleteMember"
 							 });
-							 $("#joinForm").submit(); 
+						 $("#joinForm").submit();
 					 }
 				 })
 					

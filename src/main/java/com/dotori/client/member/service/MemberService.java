@@ -18,7 +18,7 @@ public interface MemberService {
 
 	int usingDotori(String member_id);
 
-	int deleteMember(MemberVO mvo);
+	int deleteMember(String member_id);
 
 	int updatePasswordConfirm(MemberVO mvo);
 

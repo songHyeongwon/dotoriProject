@@ -96,15 +96,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int deleteMember(MemberVO mvo) {
+	public int deleteMember(String member_id) {
 		// TODO Auto-generated method stub
 		int result;
 		
-		MemberVO memvo = memberDao.memberAll(mvo);
-		
-		result = memberDao.deleteMember(memvo);
+		MemberVO memvo = memberDao.memberAll(member_id);
 		
 		result = memberDao.deleteMemberInsert(memvo);
+		
+		result = memberDao.deleteMember(memvo);
 		
 		return result;
 	}

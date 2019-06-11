@@ -40,8 +40,8 @@
 			var member_eMail="";
 			var member_phone="";
 			var sigNum="";
-			var sigNumFrontPattern = /^[0-9]{6}$/;	// 주민번호 앞자리 정규식
-			var sigNumBackPattern = /^[0-9]{7}$/;	// 주민번호 뒷자리 정규식
+			var sigNumPersonalPattern = /^[0-9]{6,7}$/;	// 주민번호 정규식
+			var sigNumCompanyPattern = /^[0-9]{2,5}$/;	// 사업자 등록번호 정규식
 			var Pattern = /^[0-9a-zA-Z]{5,20}$/;	// 아이디 및 비밀번호 패턴 정규식
 			var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
 			var idchk = 0;
@@ -169,7 +169,7 @@
 						 	return;
 						 }
 					 
-						 if($("#firstSigNum").val().search(sigNumFrontPattern)<0 || $("#lastSigNum").val().search(sigNumBackPattern)<0){
+						 if($("#firstSigNum").val().search(sigNumPersonalPattern)<0 || $("#lastSigNum").val().search(sigNumPersonalPattern)<0){
 							 alert("번호를 정확히 입력해주세요.");
 							 $("#firstSigNum").val("");
 							 $("#lastSigNum").val("");
@@ -186,7 +186,7 @@
 						 	return;
 						 }
 					 
-					  if($("#firstSigNum").val().search(sigNumFrontPattern)<0 || $("#middleSigNum").val.search(sigNumFrontPattern)<0 || $("#lastSigNum").val().search(sigNumBackPattern)<0){
+					  if($("#firstSigNum").val().search(sigNumCompanyPattern)<0 || $("#middleSigNum").val().search(sigNumCompanyPattern)<0 || $("#lastSigNum").val().search(sigNumCompanyPattern)<0){
 						 alert("번호를 정확히 입력해주세요.");
 						 $("#firstSigNum").val("");
 						 $("#middleSigNum").val("");
@@ -256,23 +256,34 @@
 				 }else if(idchk==0){
 					 alert("아이디 중복을 확인해 주세요."); 
 				 }else{
-					 console.log(member_kind);
 					member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
 					member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
 					if(member_kind==0){
 						member_sigNum=$("#firstSigNum").val()+"-"+$("#lastSigNum").val();
 					}else if(member_kind==1){
-						member_sigNum=$("#firstSigNum").val()+"-"+$("middleSigNum").val()+$("#lastSigNum").val();
+						member_sigNum=$("#firstSigNum").val()+"-"+$("#middleSigNum").val()+"-"+$("#lastSigNum").val();
 					}
 					$("#member_eMail").val(member_eMail);
 					$("#member_phone").val(member_phone);
 					$("#member_sigNum").val(member_sigNum);
 					$("#member_kind").val(member_kind);
-					$("#joinForm").attr({
-						"method" : "post",
-					 	"action" : "/member/memberJoin"
-					 });
-					 $("#joinForm").submit();
+					$.ajax({
+						url : "/member/memberJoin",
+						type : "post",
+						data : $("#joinForm").serialize(),
+						dataType : "text",
+						error : function(){
+							alert("회원 가입 중 오류 발생, 관리자에게 문의바랍니다.");
+						},
+						success : function(data){
+							if(data=="성공"){
+								alert("도토리 펀딩's 가입이 완료되었습니다. 많은 이용 부탁드립니다.");
+								location.href = "/";
+							}else if(data=="실패"){
+								alert("회원가입에 실패하였습니다. 잠시후 다시 시도해 주새요.");
+							}
+						}
+					})
 					 
 				 }
 			 })

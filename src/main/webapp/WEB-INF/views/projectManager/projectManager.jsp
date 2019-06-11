@@ -95,6 +95,9 @@ var selectAll = false;//전체선택을 했는지 안했는지 알수있는 변�
 				selectAll = !selectAll;
 				$("input[name='check']").prop('checked',true);
 			}
+		});
+		$("#search").on("change", function() {
+			goPage();
 		})
 	})
 	function goPage() {
@@ -116,24 +119,27 @@ var selectAll = false;//전체선택을 했는지 안했는지 알수있는 변�
 				<input type="hidden" name="pageNum" value="${pageMaker.cvo.pageNum}">
 				<input type="hidden" name="amount" value="${pageMaker.cvo.amount}">
 				<div class="form-group">
-					<label>검색조건 : </label>
+					<label>프로젝트 상황 : </label>
 					<select id="search" name="search" class="form-control">
+						<option value="">선택하세요</option>
 						<option value="all">전체</option>
-						<option value="project_name">제목</option>
-						<option value="project_status">상황</option>
-						<option value="member_id">작성자</option>
+						<option value="Waiting">승인대기</option>
+						<option value="Progress">진행중</option>
+						<option value="denial">게시거부</option>
+						<option value="success">후원성공</option>
+						<option value="failure">후원실패</option>
 					</select> 
-					<input type="text" placeholder="검색어를 입력해주세요" id="keyword"
+					<!-- <input type="text" placeholder="제목으로 검색하기" id="keyword"
 						name="keyword" class="form-control"> 
 					<input type="button"
-						value="검색" class="btn btn-primary" id="searchData">
+						value="검색" class="btn btn-primary" id="searchData"> -->
 				</div>
 			</form>
 			<form>
 				<div class="form-group">
-					<button id="selectYes" type="button">선택승인</button>
-					<button id="selectNo" type="button">선택거부</button>
-					<button id="allSelect" type="button">전체선택</button>
+					<button id="selectYes" type="button" class="btn btn-primary">선택승인</button>
+					<button id="selectNo" type="button" class="btn btn-primary">선택거부</button>
+					<button id="allSelect" type="button" class="btn btn-primary">전체선택</button>
 				</div>
 			</form>
 		</div>

@@ -236,7 +236,6 @@
 				</c:choose>
 				
 			</div>
-				summoneyList
 		</section>
 	</div>
 	<footer>

@@ -26,8 +26,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.dotori.**" />
+	<context:component-scan base-package="com.dotori.**" />
 
 	<!-- 타일즈 설정 - ViewResolver는 타일즈를 통해서, 설정파일에 존재하지 않으면 우선순위 2위로 -->
 	<beans:bean id="tilesConfigurer"

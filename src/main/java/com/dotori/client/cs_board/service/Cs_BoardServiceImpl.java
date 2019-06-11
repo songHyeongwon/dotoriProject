@@ -44,9 +44,6 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 	public Cs_BoardVO cs_boardDetail(int cs_num) {
 		Cs_BoardVO cs_detail = new Cs_BoardVO();
 		cs_detail = cs_boardDao.cs_boardDetail(cs_num);
-		if(cs_detail!=null) {
-			//cs_detail.setB_content(detail.getB_content().toString().replaceAll("\n", "<br>"));
-		}
 		return cs_detail;
 	}
 
@@ -77,20 +74,8 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 	@Override
 	public int cs_boardDelete(int cs_num) {
 		int result = 0;
+		cs_replyDao.cs_replyAllDelete(cs_num);
 		result = cs_boardDao.cs_boardDelete(cs_num);
-		return result;
-	}
-
-	@Override
-	public int cs_replyCnt(int b_num) {
-		int result = 0;
-		List<Cs_ReplyVO> list = cs_replyDao.cs_replyList(b_num);
-		if(!list.isEmpty()) {
-			result = list.size();
-		}else {
-			result = 0;
-		}
-		//result = replyDao.replyCnt(b_num);
 		return result;
 	}
 
@@ -105,5 +90,34 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 		int result = 0;
 		result = cs_boardDao.cs_boardDetail_currnum();
 		return result;
+	}
+
+	@Override
+	public int cs_hitsUpdate(Cs_BoardVO bvo) {
+		int result = 0;
+		result = cs_boardDao.cs_hitsUpdate(bvo);
+		return result;
+	}
+
+	@Override
+	public int cs_hits(int cs_num) {
+		int result = 0;
+		result = cs_boardDao.cs_hits(cs_num);
+		return result;
+	}
+
+	@Override
+	public int master_cs_boardInsert(Cs_BoardVO bvo) {
+		int result = 0;
+		result = cs_boardDao.master_cs_boardInsert(bvo);
+		return result;
+	}
+
+	@Override
+	public List<Cs_BoardVO> master_cs_boardList(Cs_BoardVO bvo) {
+		List<Cs_BoardVO> List = null;
+		List = new ArrayList<Cs_BoardVO>();
+		List = cs_boardDao.master_cs_boardList(bvo);
+		return List;
 	}
 }

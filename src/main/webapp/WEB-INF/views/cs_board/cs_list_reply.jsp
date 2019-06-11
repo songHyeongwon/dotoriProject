@@ -33,7 +33,6 @@
 			var cs_r_content = "";
 			var cs_r_recDate = "";
 			var cs_showBtn = 0;
-
 			
 		
 //----------------------------------------------------------------------------------------------------------------------
@@ -70,8 +69,8 @@
 							dataType:"text",
 							data: JSON.stringify({
 								cs_num : cs_num,
-								cs_r_name : "testName",
-								cs_r_content:$("#cs_writeText${cs_num}").val()
+								cs_r_content:$("#cs_writeText${cs_num}").val().trim(),
+								member_id : $("#member_id").val().trim()
 							}),
 							error : function() {
 								alert("시스템 오류입니다. 관리자에게 문의 하세요");
@@ -98,10 +97,6 @@
 			$("#cs_writeReply${cs_num}").on("click","input[data-upbtn]",function(){
 				cs_r_content = $(this).prev().html();
 				cs_r_content = cs_r_content.replace(/<br>/g,"\n").trim();
-				$("input[data-upbtn]").show();
-				$("input[data-delbtn]").show();
-				$("input[data-upInp]").hide();
-				$("input[data-aftBtn]").hide();							
 				$(this).prev().hide();
 				$(this).hide();
 				$(this).next().hide();
@@ -113,6 +108,11 @@
 			//댓글 수정버튼
 			$("#cs_writeReply${cs_num}").on("click","input[data-aftBtn]",function(){
 				cs_r_num = $(this).parent("div").parent("div").attr("data-num");
+				cs_r_content = $(this).prev().val();
+				if(cs_r_content.length <= 0){
+					alert("내용을 작성해주세요.");
+					return;
+				}
 				if(confirm("댓글 수정하시겠습니까?")){
 					$.ajax({
 						url : "/replies/"+cs_r_num,
@@ -174,8 +174,7 @@
 								}
 							}
 					});
-				}
-				
+				}				
 			});	
 //-----------------------------------------------댓글 삭제-----------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
@@ -203,9 +202,16 @@
 			//댓글리스트		
 			$("#cs_writeReply${cs_num}").append(listAll(cs_num));			
 			$("#cs_reply_table${cs_num}").hide();
+			
+			//계정 분류
+			if($("#member_id").val().trim() == ''){
+				$("#cs_writeBtn${cs_num}").hide();
+				$("#cs_writeText${cs_num}").hide();
+				$("#cs_reply_text${cs_num}").hide();
+			}
 		});
 		
-		function addItem(cs_r_num, cs_r_name, cs_r_content, cs_r_recDate) {//새로운 댓글 객체 추가		
+		function addItem(cs_r_num, cs_r_name, cs_r_content, cs_r_recDate,member_id) {//새로운 댓글 객체 추가		
 			//새로운 글이 추가될 div 태그 객체
 			var wrapper_div = $("<div>");
 			wrapper_div.attr("data-num",cs_r_num);
@@ -237,41 +243,50 @@
 			
 			//내용 바꿀 텍스트
 			var upInput = $("<input>");
-			upInput.attr({"type" : "text"});
-			upInput.attr("data-upInp","upInp");
-			upInput.attr("maxlength","500");
+			upInput.attr({"type" : "text","data-upInp":"upInp","maxlength":"500"});
 			
 			//수정 후 버튼
 			var aftBtn = $("<input>");
 			aftBtn.attr({"type" : "image", "src" : "/resources/image/cs_board/inclinedpencil_122017.ico"});
 			aftBtn.attr("data-aftBtn","aftBtn");
 			
-
+			//계정
+			var member_input = $("<input>");
+			member_input.attr("type" , "hidden");
+			member_input.val(member_id);
+			
 			//조립하기
 			new_div.append(content_div).append(upBtn).append(delBtn).append(upInput).append(aftBtn);
-			wrapper_div.append(new_div).append(name_span).append(date_span);			
+			wrapper_div.append(new_div).append(name_span).append(date_span).append(member_input);			
 
 			return wrapper_div;
 		}
 		
+		//리스트출력
 		function listAll(cs_num) {
 			$("#cs_writeText${cs_num}").val("");
 			var url = "/replies/all/"+cs_num+".json";
 			var div = $("<div>");
-
 			$.getJSON(url, function(data) {
 				$(data).each(function() {
 					var cs_r_num = this.cs_r_num;
 					var cs_r_name = this.cs_r_name;
 					var cs_r_content = this.cs_r_content;
 					var cs_r_recDate = this.cs_r_recDate;
+					var member_id = this.member_id.trim();
 					cs_r_content = cs_r_content.replace(/(\r\n|\r|\n)/g,"<br/>");
-					div.append(addItem(cs_r_num,cs_r_name,cs_r_content,cs_r_recDate));
+					div.append(addItem(cs_r_num,cs_r_name,cs_r_content,cs_r_recDate,member_id));
+					if($("#member_id").val().trim() != member_id){						
+						$("div[data-num="+cs_r_num+"]").children().children("input").hide();						
+					}
+					if($("#member_id").val().trim() == 'master'){						
+						$("div[data-num="+cs_r_num+"]").children().children("input[data-delbtn]").show();											
+					} 
 					$("input[data-upInp]").hide();
 					$("input[data-aftBtn]").hide();
 				})
 			}).fail(function() {
-				alert("댓글목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요");
+				
 			});
 			return div;
 		}
@@ -373,11 +388,12 @@
 	</style>
 	</head>
 	<body>
+		<input type="hidden" name="member_id" id="member_id" value="${member_id}"/>						
 		<input id="cs_reply_show${cs_num}" class="cs_reply_show" type="image" src="/resources/image/cs_board/down-arrow_icon-icons.com_64915.ico"/>
-		댓글
+		댓글<div id="cs_reply_cnt${cs_num}"></div>
 		<table id="cs_reply_table${cs_num}" class="cs_reply_table">			
 			<tr>
-				<td><label>빠른 답변</label></td>
+				<td id="cs_reply_text${cs_num}"><label>빠른 답변</label></td>
 			</tr>
 			<tr>
 				<td>

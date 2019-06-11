@@ -111,7 +111,7 @@ public class ProjectController {
 		int total = projectService.projectListCnt(pvo);
 		
 		log.info("총 칼럼 갯수는 = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
 		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,10));
 		return "project/projectList";
@@ -145,7 +145,7 @@ public class ProjectController {
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
 
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
 		return "project/projectList";
 	}

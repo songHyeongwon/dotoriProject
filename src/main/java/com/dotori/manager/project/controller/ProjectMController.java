@@ -40,7 +40,7 @@ public class ProjectMController {
 		int total = projectMService.projectListCnt(pvo);
 		
 		log.info("ÃÑ Ä®·³ °¹¼ö´Â = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total));
 		
 		
 		return "projectManager/projectManager";

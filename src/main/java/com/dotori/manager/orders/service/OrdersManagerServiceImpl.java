@@ -15,13 +15,14 @@ public class OrdersManagerServiceImpl implements OrdersManagerService {
 	private OrdersManagerDao ordersManagerDao;
 	
 	@Override
-	public List<OrdersMVO> ordersManagerView(OrdersMVO ovo) {
-		List<OrdersMVO>list=ordersManagerDao.ordersManagerView(ovo);
+	public List<OrdersMVO> ordersManagerView(OrdersMVO omvo) {
+		List<OrdersMVO>list=ordersManagerDao.ordersManagerView(omvo);
 		return list;
 	}
 	@Override
-	public int ordersListCnt(OrdersMVO ovo) {
-		return ordersManagerDao.ordersListCnt(ovo);
+	public int ordersListCnt(OrdersMVO omvo) {
+		int result=ordersManagerDao.ordersListCnt(omvo);
+		return result;
 	}
-
+	
 }

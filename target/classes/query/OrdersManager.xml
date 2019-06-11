@@ -5,8 +5,8 @@
 	<if test="search=='project_num'">
 			<![CDATA[project_num like '%' || #{keyword} || '%' ]]>
 		</if>
-		<if test="search=='project_pattern1'">
-			<![CDATA[project_pattern1 like '%' || #{keyword} || '%' ]]>
+		<if test="search=='orders_content'">
+			<![CDATA[orders_content like '%' || #{keyword} || '%' ]]>
 		</if>
 		<if test="search=='member_id'">
 			<![CDATA[member_id like '%' || #{keyword} || '%' ]]>
@@ -25,22 +25,26 @@
 			SELECT /*+INDEX_DESC(orders orders_pk)*/
 				rownum as rnum, 
 				orders_num,
-		    project_num,
-		    orders_date,
-		    member_id,
-		    orders_content,
-		    orders_price
-			FROM orders 
+			    project_num,
+			    orders_date,
+			    member_id,
+			    orders_content,
+			    orders_price
+				FROM orders 
 			WHERE ]]>	
 			
 		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
 			<include refid="ordersSearch"></include>
 		</trim>
 		<![CDATA[ rownum <= #{pageNum} * #{amount}
-		) orderslist
+		) ordersList
 		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
 </select>
 <select id="ordersListCnt" parameterType="ordersM" resultType="int">
 	select count(*) from orders
+	<trim prefix=" where (" suffix=")">
+			<include refid="ordersSearch"></include>
+		</trim>
 </select>
+
 </mapper>

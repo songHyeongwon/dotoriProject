@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class OrdersMVO extends CommonVO {
-	private int order_num;
+	private int orders_num;
 	private String member_id;
 	private int project_num;
-	private String order_content;
-	private int order_price;
-	private String order_date;
-	private int order_guideAgree;
-	private int order_infoAgree;
+	private String orders_content;
+	private int orders_price;
+	private String orders_date;
+	private int orders_guideAgree;
+	private int orders_infoAgree;
 	private int content_kind;
 }

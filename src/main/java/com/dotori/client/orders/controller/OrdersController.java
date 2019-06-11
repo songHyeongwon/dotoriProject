@@ -36,35 +36,21 @@ public class OrdersController {
 		
 		return "orders/ordersForm";
 	}
-<<<<<<< HEAD
-=======
+
 	//두번째 결제창:후원사항 안내 동의여부 수집 페이지+결제
->>>>>>> refs/remotes/origin/im12weol
+
 	@RequestMapping(value="/ordersFinal")
 	public String ordersFinal(@ModelAttribute OrdersVO ovo, ProjectVO pvo,Model model) {
 		model.addAttribute("orders",ovo);
 		model.addAttribute("project",pvo);
 		log.info(ovo);
-<<<<<<< HEAD
 		log.info("ordersFinal 프로젝트 번호:"+ovo.getProject_num());
 		log.info("ordersInsert 수행");
-=======
+
 		log.info("프로젝트 번호:"+ovo.getProject_num());
 		log.info("ordersInsert 수행");
 		
-		return "orders/ordersFinal";
->>>>>>> refs/remotes/origin/im12weol
-		
-		int result=0;
-		//int updateResult=0;
-		String url="";
-		result=ordersService.ordersInsert(ovo);
-		//updateResult=ordersService.ordersUpdate(ovo);
-		if(result==1) {
-			url="orders/ordersFinal";
-		}
-		
-		return url; 
+		return "orders/ordersFinal"; 
 	}
 	
 	//최종 결제창: orders테이블에 주문내역 insert
@@ -73,10 +59,8 @@ public class OrdersController {
 		model.addAttribute("orders",ovo);
 		model.addAttribute("data",mvo);
 		log.info(ovo);
-<<<<<<< HEAD
 		log.info("ordersInsert 프로젝트 번호:"+ovo.getProject_num());
 
-=======
 		log.info("프로젝트 번호:"+ovo.getProject_num());
 		
 		int result;
@@ -86,7 +70,6 @@ public class OrdersController {
 		if(result==1) {
 			url="/orders/ordersFinal";
 		}
->>>>>>> refs/remotes/origin/im12weol
 		return "orders/ordersInsert";
 	}
 	//마이페이지-후원내역 보기

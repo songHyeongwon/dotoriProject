@@ -31,9 +31,68 @@
 			var qna_r_title = "";
 			var qna_r_content = "";
 			var qna_r_hidden = "";
-			
+			var member_id_r =""
 			listAllboard(qna_board_table_name);
 			
+			//수정기능
+			//업데이트 버튼 클릭시
+			$("#updateBoardBtn").click(function() {
+				if(!checkForm("#qna_r_content","게시글 내용을")) return;
+				else if(!checkForm("#qna_r_title","게시글 제목을")) return;{
+					if(confirm("댓글 수정하시겠습니까?")){
+						$.ajax({
+							url : "/projectboard/"+qna_num+"/"+qna_board_table_name,
+							type : "put",
+							headers : {
+								"Content-Type":"application/json",
+								"X-HTTP-Method-Override" : "PUT"
+							},
+							dataType:"text",
+							data: JSON.stringify({
+								qna_num : qna_num,
+								qna_title : $("#qna_r_title").val(),
+								qna_content : $("#qna_r_content").val()
+							}),
+							error : function() {
+								alert("시스템 오류입니다. 관리자에게 문의 하세요");
+							},
+							success : function(result) {
+								if(result=="SUCCESS"){
+									alert("댓글 수정이 완료되었습니다.");
+									dataResetBoard();
+									$("#updateBoardForm").modal('hide');
+									listAllboard(qna_board_table_name);
+								}
+							}
+						});
+					}
+				}
+			});
+		
+			//수정클릭시 창
+			$(document).on("click","input[data-upbtnBoard]",function(){
+				qna_num = $(this).parent("div").parent("div").attr("data-num");		
+				qna_r_title = $(this).parent("div").children().eq(0).html();
+				member_id_r = $(this).parent("div").children().eq(1).html();
+				qna_r_content = $(this).parent("div").parent("div").children().eq(1).html();
+				qna_r_content = qna_r_content.replace(/<br>/g,"\n").trim();
+				
+				console.log("qna_num = "+qna_num);
+				console.log("qna_r_title = "+qna_r_title);
+				console.log("member_id_r = "+member_id_r);
+				console.log("qna_r_content = "+qna_r_content);
+				
+				var form = $(".modal-body").children("form");
+				form.each(function() {
+					this.reset();
+				});
+				$("#board_r_name").html(member_id_r);
+				$("#qna_r_content").html(qna_r_content);
+				$("#qna_r_title").val(qna_r_title);
+				$("#updateBoardForm").modal();
+	
+			});
+			//삭제기능
 			$(document).on("click","input[data-delbtnBoard]",function(){
 				if(confirm("게시글을 삭제하시겠습니까?")){					
 					qna_num = $(this).parent("div").parent("div").attr("data-num");
@@ -309,18 +368,20 @@
 						<form id="updateBoardForm" name="updateBoardForm">
 							<div class="form-group">
 								<label for="recipient-name" class="control-label">작성자: <span
-									id="cs_r_name2"></span></label>
+									id="board_r_name"></span></label>
 							</div>
 							<div class="form-group">
+								<label for="message-text" class="control-label">글제목 : </label>
+								<input type="text" class="form-control" id="qna_r_title" name="qna_r_title">
 								<label for="message-text" class="control-label">글내용: </label>
-								<textarea class="form-control" id="cs_r_content2"
-									name="cs_r_content2" rows="5"></textarea>
+								<textarea class="form-control" id="qna_r_content"
+									name="qna_r_content" rows="5"></textarea>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary" id="updateBtn">수정</button>
+						<button type="button" class="btn btn-primary" id="updateBoardBtn">수정</button>
 					</div>
 				</div>
 			</div>

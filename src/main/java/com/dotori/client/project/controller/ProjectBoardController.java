@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,5 +59,16 @@ public class ProjectBoardController {
 		int result = projectService.boardDelete(qvo);
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 					: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 댓글 업데이트 구현하기
+	@PutMapping(value = "/{qna_num}/{qna_board_table_name}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> replyUpdate(@RequestBody QnaBoard qvo, @PathVariable("qna_num") Integer qna_num, @PathVariable("qna_board_table_name") String qna_board_table_name) {
+		log.info("replyUpdate 호출 성공");
+		qvo.setQna_num(qna_num);
+		qvo.setQna_board_table_name(qna_board_table_name);
+		int result = projectService.boardUpdate(qvo);
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

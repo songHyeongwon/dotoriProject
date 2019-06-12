@@ -52,5 +52,7 @@ public interface ProjectService {
 
 	public int boardDelete(QnaBoard qvo);
 
+	public int boardUpdate(QnaBoard qvo);
+
 	
 }

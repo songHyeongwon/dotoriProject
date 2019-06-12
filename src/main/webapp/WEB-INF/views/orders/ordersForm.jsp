@@ -234,7 +234,7 @@
 					<input type="text" class="phone" name="phoneLast" id="phoneLast" maxlength="4"/><hr>
 					<label>받는사람 주소</label>
 					<ul id="addressList">
-						<li id="newAddress">${data.member_address} ${data.member_detailaddress}</li>
+						<li id="newAddress">${data.member_address} ${data.member_detailAddress}</li>
 					</ul>
 					<button type="button" id="addAddress">다른 주소 입력</button>
 					<div id="f_address">

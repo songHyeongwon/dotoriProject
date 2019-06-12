@@ -63,4 +63,6 @@ public interface ProjectDao {
 
 	public int boardDelete(QnaBoard qvo);
 
+	public int boardUpdate(QnaBoard qvo);
+
 }

@@ -12,7 +12,6 @@
 				width : 100px;
 				border-radius: 20px; 
 			}
-<<<<<<< HEAD
 			
 			.sig{
 				border: none;
@@ -20,9 +19,7 @@
 			
 			#personal
 		</style>
-=======
 		</style> -->
->>>>>>> refs/remotes/choose_remote_name/2019.06.07
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 

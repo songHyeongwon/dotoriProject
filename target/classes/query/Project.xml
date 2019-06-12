@@ -401,4 +401,13 @@
 		WHERE
 		    qna_num = #{qna_num}
 	</delete>
+	<update id="boardUpdate" parameterType="qnaBoard">
+     UPDATE ${qna_board_table_name}
+		SET
+		    qna_title = #{qna_title},
+		    qna_content =#{qna_content},
+		    qna_mdate = sysdate
+		WHERE
+		    qna_num = #{qna_num}   
+	</update>
 </mapper>

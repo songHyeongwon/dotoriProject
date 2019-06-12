@@ -235,4 +235,10 @@ public class ProjectServiceImpl implements ProjectService {
 		int result = projectDao.boardDelete(qvo);
 		return result;
 	}
+
+	@Override
+	public int boardUpdate(QnaBoard qvo) {
+		int result = projectDao.boardUpdate(qvo);
+		return result;
+	}
 }

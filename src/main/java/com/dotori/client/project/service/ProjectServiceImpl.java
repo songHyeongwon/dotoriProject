@@ -9,6 +9,7 @@ import com.dotori.client.project.dao.ProjectDao;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.QnaBoard;
 import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.file.FileUploadUtil;
 
@@ -211,5 +212,27 @@ public class ProjectServiceImpl implements ProjectService {
 	public int replyUpdate(ReplyVO rvo) {
 		int result = projectDao.replyUpdate(rvo);
 		return result;
+	}
+
+	
+	/********************************************************************************************
+	 * 프로젝트의 문의글과 관련된 기능																		*
+	 ********************************************************************************************/
+	@Override
+	public int boardInsert(QnaBoard qvo) {
+		int result = projectDao.boardInsert(qvo);
+		return result;
+	}
+
+	@Override
+	public List<QnaBoard> boardList(QnaBoard qvo) {
+		List<QnaBoard> list = projectDao.boardList(qvo);
+		return list;
+	}
+
+	@Override
+	public int boardDelete(QnaBoard qvo) {
+		int result = projectDao.boardDelete(qvo);
+		return 0;
 	}
 }

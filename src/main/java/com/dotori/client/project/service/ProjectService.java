@@ -7,6 +7,7 @@ import com.dotori.client.cs_reply.vo.Cs_ReplyVO;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.QnaBoard;
 import com.dotori.client.project.vo.ReplyVO;
 
 public interface ProjectService {
@@ -44,6 +45,12 @@ public interface ProjectService {
 	public int replyDelete(ReplyVO rvo);
 
 	public int replyUpdate(ReplyVO rvo);
+
+	public int boardInsert(QnaBoard qvo);
+
+	public List<QnaBoard> boardList(QnaBoard qvo);
+
+	public int boardDelete(QnaBoard qvo);
 
 	
 }

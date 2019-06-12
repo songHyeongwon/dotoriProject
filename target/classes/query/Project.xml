@@ -321,6 +321,10 @@
 		
 	</select>
 	
+	<!--==============================================================================================
+	=======================================이 라인부터 댓글 관리==============================================
+	================================================================================================-->
+	
 	<insert id="replyInsert" parameterType="projectReply">
 		INSERT INTO ${reply_table_name} (
 		    reply_num,
@@ -357,4 +361,44 @@
 		WHERE
 		    reply_num = #{reply_num}
 	</update>
+	
+	<!--==============================================================================================
+	=======================================이 라인부터 문의글 관리=============================================
+	================================================================================================-->
+	
+	<insert id="boardInsert" parameterType="qnaBoard">
+		INSERT INTO ${qna_board_table_name} (
+		    qna_num,
+		    qna_title,
+		    qna_content,
+		    member_id,
+		    qna_hidden
+		) VALUES (
+		    ${qna_board_table_name}_seq.nextval,
+		    #{qna_title},
+		    #{qna_content},
+		    #{member_id},
+		    #{qna_hidden}
+		)
+	</insert>
+	<select id="boardList" parameterType="qnaBoard" resultType="qnaBoard">
+	
+		SELECT
+		    qna_num,
+		    qna_title,
+		    qna_content,
+		    member_id,
+		    to_char(qna_regdate,'YYYY-MM-DD') as qna_regdate,
+		    to_char(qna_mdate,'YYYY-MM-DD') as qna_mdate,
+		    nvl(qna_reproot,0) as qna_reproot,
+		    nvl(qna_repindent,0) as qna_repindent,
+		    qna_hidden
+		FROM
+		    ${qna_board_table_name} order by qna_num desc
+	</select>
+	<delete id="boardDelete" parameterType="qnaBoard">
+		DELETE FROM ${qna_board_table_name}
+		WHERE
+		    qna_num = #{qna_num}
+	</delete>
 </mapper>

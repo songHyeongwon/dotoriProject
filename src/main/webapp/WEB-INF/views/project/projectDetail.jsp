@@ -245,7 +245,7 @@ var optionCnt =0;
 					
 					<%--문의사항 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane" id="profile">
-						<%-- <jsp:include page="projectBoard.jsp"></jsp:include> --%>
+						<jsp:include page="projectBoard.jsp"></jsp:include>
 					</div>
 					<%--문의사항 폼 종료 --%>
 					

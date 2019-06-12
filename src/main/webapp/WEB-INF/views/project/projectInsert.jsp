@@ -165,7 +165,7 @@
 			else {
 				//스마트 에디터 내용 삽입
 				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-				//url 에 조건으로 https붙이기
+				//url 에 조건으로 https붙이기 
 				var url = $("#Project_URL").val();
 				if(url.indexOf("http://")==-1){
 					if(url.indexOf("https://"==-1)){

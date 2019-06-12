@@ -3,16 +3,16 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.dotori.client.faq_board.vo.Faq_BoardVO" alias="faq_board"/>
+		<typeAlias type="com.dotori.manager.orders.vo.OrdersMVO" alias="ordersM"/>
+		<typeAlias type="com.dotori.client.orders.vo.OrdersVO" alias="orders"/>
 		<typeAlias type="com.dotori.client.project.vo.ProjectVO" alias="Project"/>
 		<typeAlias type="com.dotori.client.project.vo.ContentVO" alias="ContentVO"/>
 		<typeAlias type="com.dotori.client.project.vo.OptionVO" alias="OptionVO"/>
 		<typeAlias type="com.dotori.client.member.vo.MemberVO" alias="member"/>
 		<typeAlias type="com.dotori.client.cs_board.vo.Cs_BoardVO" alias="board"/>
+		<typeAlias type="com.dotori.manager.project.vo.ProjectMVO" alias="ProjectM"/>
 		<typeAlias type="com.dotori.client.cs_reply.vo.Cs_ReplyVO" alias="reply"/>
 		<typeAlias type="com.dotori.client.project.vo.ReplyVO" alias="projectReply"/>
-		<typeAlias type="com.dotori.client.orders.vo.OrdersVO" alias="orders"/>
-		<typeAlias type="com.dotori.client.faq_board.vo.Faq_BoardVO" alias="faq_board"/>
-		<typeAlias type="com.dotori.manager.orders.vo.OrdersMVO" alias="ordersM"/>
-		<typeAlias type="com.dotori.manager.project.vo.ProjectMVO" alias="ProjectM"/>
 	</typeAliases>
 </configuration>

@@ -172,13 +172,14 @@
 						$("#Project_URL").val("http://"+url);
 					}
 				}
-				
+
 				$("#projectInsertForm").attr({
 					"method" : "post",
 					"action" : "/project/insertProject",
 					"enctype" : "multipart/form-data"
 				});
 				$("#projectInsertForm").submit();
+				
 			}
 		})
 

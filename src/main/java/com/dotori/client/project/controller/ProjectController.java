@@ -64,7 +64,7 @@ public class ProjectController {
 	 * 프로젝트 insert 폼에서 서브밋하면 값을 받아 처리하는 메서드													*
 	 ********************************************************************************************/
 	@RequestMapping(value="/insertProject")
-	public String projectInsert(@ModelAttribute ProjectVO pvo) {
+	public String projectInsert(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("insert 안에 들어 왔습니다.");
 		log.info("들어온값"+pvo);
 		
@@ -95,6 +95,22 @@ public class ProjectController {
 		if(result==0) {
 			log.info("======================================아마오류?=================================");
 		}
+		
+		ProjectVO pvos = new ProjectVO();
+		//가장 최근것 3가지 반영 메인 리스트
+		pvo.setSearch("main");
+		List<ProjectVO> mainList = projectService.mainList(pvos);
+		model.addAttribute("mainList",mainList);
+		
+		//메인 캐러셀에 반환할 값을 골라넣음 인기있는 메뉴(진행중이며, 후원자수가 가장 많음
+		pvo.setSearch("carousel");
+		List<ProjectVO> carouselList = projectService.mainList(pvos);
+		model.addAttribute("viewList",carouselList);
+		
+		//최고액 후원 반환
+		pvo.setSearch("summoney");
+		List<ProjectVO> summoneylList = projectService.mainList(pvos);
+		model.addAttribute("summoneyList",summoneylList);
 		return "index";
 	}
 	/********************************************************************************************

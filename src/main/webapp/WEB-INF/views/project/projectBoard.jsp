@@ -34,18 +34,21 @@
 			var member_id_r =""
 			listAllboard(qna_board_table_name);
 			
+			$(document).on("click","input[data-Qna]",function(){
+				$("#QnaboardMadel").modal();
+			});
 			//수정기능
 			//업데이트 버튼 클릭시
 			$("#updateBoardBtn").click(function() {
 				if(!checkForm("#qna_r_content","게시글 내용을")) return;
 				else if(!checkForm("#qna_r_title","게시글 제목을")) return;{
-					if(confirm("댓글 수정하시겠습니까?")){
+					if(confirm("게시글을 수정하시겠습니까?")){
 						$.ajax({
-							url : "/projectboard/"+qna_num+"/"+qna_board_table_name,
+							url : "/projectBoard/update/"+qna_num+"/"+qna_board_table_name,
 							type : "put",
 							headers : {
 								"Content-Type":"application/json",
-								"X-HTTP-Method-Override" : "PUT"
+								"X-HTTP-Method-Override" : "put"
 							},
 							dataType:"text",
 							data: JSON.stringify({
@@ -58,7 +61,7 @@
 							},
 							success : function(result) {
 								if(result=="SUCCESS"){
-									alert("댓글 수정이 완료되었습니다.");
+									alert("게시글 수정이 완료되었습니다.");
 									dataResetBoard();
 									$("#updateBoardForm").modal('hide');
 									listAllboard(qna_board_table_name);
@@ -68,7 +71,8 @@
 					}
 				}
 			});
-		
+			
+			
 			//수정클릭시 창
 			$(document).on("click","input[data-upbtnBoard]",function(){
 				qna_num = $(this).parent("div").parent("div").attr("data-num");		
@@ -127,7 +131,7 @@
 				   // alert(this.value);
 			}).change();
 			
-			//댓글 등록
+			//게시글 등록
 			$("#boardInsertBtn").click(function() {
 				if(!checkForm("#boardMember_id","작성자명을")) return;
 				else if(!checkForm("#qna_title","제목을")) return;
@@ -155,7 +159,7 @@
 							},
 							success : function(result) {
 								if(result=="SUCCESS"){
-									alert("댓글 등록이 완료되었습니다.");
+									alert("게시글 등록이 완료되었습니다.");
 									dataResetBoard();
 									$("#boardMadel").modal('hide');
 									listAllboard(qna_board_table_name);
@@ -166,7 +170,7 @@
 				}
 			});
 			
-			//등록 선택시 댓글  모달 폼 가져옴
+			//등록 선택시 게시글  모달 폼 가져옴
 			$("#boardInsertFormBtn").click(function() {
 				$("#boardMadel").modal();
 			});
@@ -174,8 +178,8 @@
 			
 		});
 		
-		//댓글 폼
-		function addItemBoard(qna_num,qna_title,qna_content,member_id,qna_regdate,qna_reproot,qna_repindent,qna_hidden) {//새로운 댓글 객체 추가	
+		//게시글 폼
+		function addItemBoard(qna_num,qna_title,qna_content,member_id,qna_regdate,qna_reproot,qna_repindent,qna_hidden) {//새로운 게시글 객체 추가	
 			//새로운 글이 추가될 div 태그 객체
 			var wrapper_div = $("<div>");
 			wrapper_div.attr("data-num",qna_num);
@@ -202,7 +206,7 @@
 			if(qna_reproot!=1&&$("#boardMember_id").val()=="${project.member_id}"){
 				//답글이 아니고 로그인 한사람과 제작자가 같으면
 				var qnaBtn = $("<input>");
-				qnaBtn.attr({"type" : "button", "value" : "답글"});
+				qnaBtn.attr({"type" : "button", "value" : "답변하기"});
 				qnaBtn.attr("data-Qna","qnaBtn");
 				qnaBtn.addClass("btn btn-primary gap");
 			}
@@ -224,8 +228,8 @@
 			
 			if(qna_hidden==1){
 				//비밀글이면
-				if(member_id==$("#boardMember_id").val()){
-					//본인이면
+				if(member_id==$("#boardMember_id").val()||$("#boardMember_id").val()=="${project.member_id}"){
+					//본인이나 게시물 관리자라면
 					//제목
 					var titleP = $("<p>");
 					titleP.html(qna_title)
@@ -273,7 +277,7 @@
 			$("#qna_hidden").prop('checked',false);
 		}
 		
-		//댓글 리스트 출력
+		//게시글 리스트 출력
 		function listAllboard(qna_board_table_name) {
 			$("#boardList").empty();
 			var url = "/projectBoard/allboard/"+qna_board_table_name+".json";
@@ -300,7 +304,7 @@
 		</script>
 	</head>
 	<body>
-		<!-- 로그인 하지 않으면 댓글 등록 버튼이 없다. -->
+		<!-- 로그인 하지 않으면 게시글 등록 버튼이 없다. -->
 		<c:choose>
 			<c:when test="${not empty data}">
 				<p>
@@ -387,5 +391,41 @@
 			</div>
 		</div>
 		<%--업데이트용 모달폼  종료--%>
+		
+		<%--답글화면 모달 --%>
+		<div class="modal fade" id="QnaboardMadel" tabindex="-1" role="dialog"
+			aria-labelledby="boardModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="boardModalLabel">제작자의 답변하기</h4>
+					</div>
+					<div class="modal-body">
+						<form id="boardForm" name="boardForm">
+							<div class="form-group">
+								<input type="hidden" name="qna_board_table_name" value="${project.qna_board_table_name}" id="qna_board_table_name">
+								<label for="recipient-name" class="control-label">작성자: </label> 
+								<input type="text" class="form-control" id="boardMember_id" name="member_id" value="${data.member_id}" readonly="readonly"/>
+								<label for="recipient-name" class="control-label">글제목: </label> 
+								<input type="text" class="form-control" id="qna_title" name="qna_title"/>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="control-label">글내용: </label>
+								<textarea class="form-control" id="qna_content" name="qna_content" rows="5"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary" id="qnaInsertBtn">등록</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%--답글화면 모달 종료--%>
 	</body>
 </html>

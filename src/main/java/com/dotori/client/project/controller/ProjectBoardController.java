@@ -62,7 +62,7 @@ public class ProjectBoardController {
 	}
 	
 	// 댓글 업데이트 구현하기
-	@PutMapping(value = "/{qna_num}/{qna_board_table_name}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	@PutMapping(value = "/update/{qna_num}/{qna_board_table_name}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> replyUpdate(@RequestBody QnaBoard qvo, @PathVariable("qna_num") Integer qna_num, @PathVariable("qna_board_table_name") String qna_board_table_name) {
 		log.info("replyUpdate 호출 성공");
 		qvo.setQna_num(qna_num);

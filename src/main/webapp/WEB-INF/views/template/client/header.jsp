@@ -58,7 +58,8 @@
 					<c:if test="${data!=null}">
 						<li><jsp:include page="/WEB-INF/views/member/loginSuccess.jsp" /></li>
 					</c:if>
-					<li><a href="/orders/ordersForm">결제화면으로 이동</a></li>
+					<li><div>&nbsp;&nbsp;</div></li>
+					<!-- <li><a href="/orders/ordersForm">결제화면으로 이동</a></li> -->
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

@@ -233,6 +233,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int boardDelete(QnaBoard qvo) {
 		int result = projectDao.boardDelete(qvo);
-		return 0;
+		return result;
 	}
 }

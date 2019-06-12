@@ -383,18 +383,18 @@
 	</insert>
 	<select id="boardList" parameterType="qnaBoard" resultType="qnaBoard">
 	
-		SELECT
-		    qna_num,
-		    qna_title,
-		    qna_content,
-		    member_id,
-		    to_char(qna_regdate,'YYYY-MM-DD') as qna_regdate,
-		    to_char(qna_mdate,'YYYY-MM-DD') as qna_mdate,
-		    nvl(qna_reproot,0) as qna_reproot,
-		    nvl(qna_repindent,0) as qna_repindent,
-		    qna_hidden
-		FROM
-		    ${qna_board_table_name} order by qna_num desc
+    SELECT
+	    qna_num,
+	    qna_title,
+	    qna_content,
+	    member_id,
+	    to_char(qna_regdate,'YYYY-MM-DD') as qna_regdate,
+	    to_char(qna_mdate,'YYYY-MM-DD') as qna_mdate,
+	    nvl(qna_reproot,0) as qna_reproot,
+	    nvl(qna_repindent,0) as qna_repindent,
+	    qna_hidden
+	FROM
+    ${qna_board_table_name} order by qna_repindent desc, qna_reproot asc, qna_num DESC
 	</select>
 	<delete id="boardDelete" parameterType="qnaBoard">
 		DELETE FROM ${qna_board_table_name}

@@ -27,7 +27,7 @@ public class ProjectBoardController {
 	private ProjectService projectService;
 	
 	@RequestMapping(value = "/boardInsert", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> replyInsert(@RequestBody QnaBoard qvo) {
+	public ResponseEntity<String> boardInsert(@RequestBody QnaBoard qvo) {
 		log.info("프로젝트 replyInsert 호출 성공");
 		log.info("QnaBoard : " + qvo);
 		int result = 0;
@@ -39,7 +39,7 @@ public class ProjectBoardController {
 	}
 	
 	@GetMapping(value = "/allboard/{qna_board_table_name}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<QnaBoard>> replyList(@PathVariable("qna_board_table_name") String tableName) {
+	public ResponseEntity<List<QnaBoard>> boardList(@PathVariable("qna_board_table_name") String tableName) {
 		log.info("list 호출 성공");
 		QnaBoard qvo = new QnaBoard();
 		qvo.setQna_board_table_name(tableName);
@@ -49,8 +49,8 @@ public class ProjectBoardController {
 	}
 	
 	//댓글 삭제
-	@DeleteMapping(value = "/{qna_num}/{qna_board_table_name}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> replyDelete(@PathVariable("qna_num") Integer qna_num, @PathVariable("qna_board_table_name") String qna_board_table_name) {
+	@DeleteMapping(value = "/board/{qna_num}/{qna_board_table_name}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> boardDelete(@PathVariable("qna_num") Integer qna_num, @PathVariable("qna_board_table_name") String qna_board_table_name) {
 		log.info("boardDelete 호출 성공");
 		QnaBoard qvo = new QnaBoard();
 		qvo.setQna_num(qna_num);

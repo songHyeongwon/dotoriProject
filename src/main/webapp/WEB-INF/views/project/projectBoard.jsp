@@ -19,6 +19,10 @@
 		<link rel="shortcut icon" href="../image/icon.png"/>
 		<link rel="apple-touch-icon" href="../image/icon.png"/>
 		<!--모바일 웹 페이지 설정 끝 -->
+		<style type="text/css">
+			.reproot{
+				margin-left: 60px;}
+		</style>
 		<script type="text/javascript">
 		var qna_board_table_name = "${project.qna_board_table_name}";
 		
@@ -34,19 +38,19 @@
 				if(confirm("게시글을 삭제하시겠습니까?")){					
 					qna_num = $(this).parent("div").parent("div").attr("data-num");
 					$.ajax({
-						url: '/projectBoard/'+qna_num+"/"+qna_board_table_name,
-						type: "delete",
+						url: '/projectBoard/board/'+qna_num+"/"+qna_board_table_name,
+						type: "DELETE",
 						headers : {
 							"X-HTTP-Method-Override":"DELETE"
 						},
 						dateType: "text",
 						error : function() {
-							alert("댓글을 삭제하는중 예기치못한 오류가 발생하였습니다.");
+							alert("게시글을 삭제하는중 예기치못한 오류가 발생하였습니다.");
 						},
 						success : function(result) {
 							console.log("result = "+result)
 							if(result=="SUCCESS"){
-								alert("댓글 삭제가 완료되었습니다.");
+								alert("게시글의 삭제가 완료되었습니다.");
 								listAllboard(qna_board_table_name);
 							}
 						}
@@ -113,16 +117,6 @@
 		
 		//댓글 폼
 		function addItemBoard(qna_num,qna_title,qna_content,member_id,qna_regdate,qna_reproot,qna_repindent,qna_hidden) {//새로운 댓글 객체 추가	
-			
-			qna_num
-			qna_title
-			qna_content
-			member_id
-			qna_regdate
-			qna_reproot
-			qna_repindent
-			qna_hidden
-			
 			//새로운 글이 추가될 div 태그 객체
 			var wrapper_div = $("<div>");
 			wrapper_div.attr("data-num",qna_num);

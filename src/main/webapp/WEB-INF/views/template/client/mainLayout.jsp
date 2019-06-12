@@ -147,7 +147,7 @@
 										value="${project.project_num}">
 								</form>
 								<div
-									style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute;">
+									style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute; color: white;">
 									<c:choose>
 										<c:when test="${project.project_status==0}">
 										관리자검수중
@@ -197,7 +197,7 @@
 										value="${project.project_num}">
 								</form>
 								<div
-									style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute;">
+									style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute; color: white;">
 									<c:choose>
 										<c:when test="${project.project_status==0}">
 										관리자검수중

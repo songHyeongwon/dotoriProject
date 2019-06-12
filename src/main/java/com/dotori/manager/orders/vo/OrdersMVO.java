@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+//(callSuper=false)
 public class OrdersMVO extends CommonVO {
 	private int orders_num;
 	private String member_id;

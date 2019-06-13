@@ -330,10 +330,10 @@
 					upBtn.addClass("btn btn-primary gap");
 					
 					//삭제하기 버튼
-					var delBtn = $("<input>");
-					delBtn.attr({"type":"button", "value" : "삭제하기"});
-					delBtn.attr("data-delbtnBoard","delBtn");
-					delBtn.addClass("btn btn-default gap");
+					//var delBtn = $("<input>");
+					//delBtn.attr({"type":"button", "value" : "삭제하기"});
+					//delBtn.attr("data-delbtnBoard","delBtn");
+					//delBtn.addClass("btn btn-default gap");
 				}
 			}
 			//조립하기

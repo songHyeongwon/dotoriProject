@@ -64,7 +64,7 @@ public class ProjectController {
 	 * 프로젝트 insert 폼에서 서브밋하면 값을 받아 처리하는 메서드													*
 	 ********************************************************************************************/
 	@RequestMapping(value="/insertProject")
-	public String projectInsert(@ModelAttribute ProjectVO pvo) {
+	public String projectInsert(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("insert 안에 들어 왔습니다.");
 		log.info("들어온값"+pvo);
 		
@@ -95,6 +95,22 @@ public class ProjectController {
 		if(result==0) {
 			log.info("======================================아마오류?=================================");
 		}
+		
+		ProjectVO pvos = new ProjectVO();
+		//가장 최근것 3가지 반영 메인 리스트
+		pvo.setSearch("main");
+		List<ProjectVO> mainList = projectService.mainList(pvos);
+		model.addAttribute("mainList",mainList);
+		
+		//메인 캐러셀에 반환할 값을 골라넣음 인기있는 메뉴(진행중이며, 후원자수가 가장 많음
+		pvo.setSearch("carousel");
+		List<ProjectVO> carouselList = projectService.mainList(pvos);
+		model.addAttribute("viewList",carouselList);
+		
+		//최고액 후원 반환
+		pvo.setSearch("summoney");
+		List<ProjectVO> summoneylList = projectService.mainList(pvos);
+		model.addAttribute("summoneyList",summoneylList);
 		return "index";
 	}
 	/********************************************************************************************
@@ -109,9 +125,10 @@ public class ProjectController {
 		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-		
+		log.info("============================================="+pvo);
 		log.info("총 칼럼 갯수는 = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+
 		
 		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,10));
 		return "project/projectList";
@@ -125,6 +142,9 @@ public class ProjectController {
 		log.info("detail페이지 호출");
 		ProjectVO result = projectService.projectDetail(pvo);
 		model.addAttribute("project", result);
+		
+		//리플레이 ArrayList를 담는다.
+		
 		
 		log.info(result);
 		
@@ -141,10 +161,9 @@ public class ProjectController {
 		pvo.setSearch("Patterns2");
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
-		
 		//전체 레코드 수 구현
 		int total = projectService.projectListCnt(pvo);
-
+		
 		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
 		
 		return "project/projectList";
@@ -160,5 +179,19 @@ public class ProjectController {
 		ResponseEntity<List<OptionVO>> entity = null;
 		entity = new ResponseEntity<>(projectService.getOptionValue(cvo), HttpStatus.OK);
 		return entity;
+	}
+	
+	@RequestMapping(value="/details/{project_num}")
+	public String projectDetails(@PathVariable("project_num") Integer project_num, Model model){
+		//log.info("들어간 값 = "+pvo);
+		//log.info("detail페이지 호출");
+		ProjectVO pvo = new ProjectVO();
+		pvo.setProject_num(project_num);
+		ProjectVO result = projectService.projectDetail(pvo);
+		model.addAttribute("project", result);
+		
+		log.info(result);
+		
+		return "project/projectDetail";
 	}
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.QnaBoard;
+import com.dotori.client.project.vo.ReplyVO;
 
 public interface ProjectDao {
 
@@ -40,11 +42,27 @@ public interface ProjectDao {
 
 	public List<OptionVO> getOprionList(ContentVO contentVO);
 
-	public ArrayList<ProjectVO> mainList();
+	public ArrayList<ProjectVO> mainList(ProjectVO pvo);
 
 	public ArrayList<OptionVO> getOptionValue(ContentVO cvo);
 
 	public int updateStatus1();
 	public int updateStatus2();
+
+	public List<ReplyVO> replyList(ReplyVO rvo);
+
+	public int replyInsert(ReplyVO rvo);
+
+	public int replyDelete(ReplyVO rvo);
+
+	public int replyUpdate(ReplyVO rvo);
+
+	public int boardInsert(QnaBoard qvo);
+
+	public List<QnaBoard> boardList(QnaBoard qvo);
+
+	public int boardDelete(QnaBoard qvo);
+
+	public int boardUpdate(QnaBoard qvo);
 
 }

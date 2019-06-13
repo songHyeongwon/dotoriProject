@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.client.faq_board.dao.Faq_BoardDao">
+				
+	<!-- 검색 조건이 사용되었을때 사용 -->
+	<sql id="faq_boardSearch">
+		<if test="search=='all'">
+				<![CDATA[
+					(faq_title like '%'|| #{keyword} ||'%') or (t_editor like '%'|| #{keyword} ||'%')
+				]]>
+		</if>
+		<if test="search=='faq_title'">
+				<![CDATA[
+					faq_title like '%'|| #{keyword} ||'%'
+				]]>
+		</if>
+		<if test="search == 'editor'">
+				<![CDATA[
+					t_editor like '%'|| #{keyword} ||'%'
+				]]>
+		</if>
+	</sql>
+
+
+	<select id="faq_boardList" resultType="faq_board" parameterType="faq_board">
+		<![CDATA[
+		SELECT 
+			faq_num,faq_title,to_char(faq_regDate,'YYYY-MM-DD') as faq_regDate,editor,t_editor,member_id
+ 			FROM ( 
+			SELECT /*+INDEX_DESC(faq_board faq_board_pk)*/
+				rownum as rnum, faq_num, faq_title, faq_regDate,editor,t_editor,member_id 
+			FROM faq_board 
+			WHERE 
+		]]>
+<!-- 		
+			안에 조건이 만족되면 (b_title like '%'|| #{keyword}||'%') and 가 추가된다. trim 
+			= 안에 if가 만족되면 앞부분과 뒷부분을 붙혀준다. prefix = 앞에 추가되는 구분 suffix = 뒤에 추가되는 구분 prefixOverrides 
+			= 조건이 만족되지 않았을때 AND까지의 내용을 지우도록 명명
+ -->		
+ 		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="faq_boardSearch"></include>
+		</trim>
+
+		<![CDATA[ 
+			rownum <= #{pageNum} * #{amount}
+			) boardlist
+			WHERE rnum > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+
+		<!--게시물 등록 1-->	
+	<insert id="faq_boardInsert" parameterType="faq_board">
+		<![CDATA[
+			Insert into faq_board(faq_num,faq_title,editor,t_editor,member_id) 
+			values(faq_board_seq.nextval,#{faq_title},#{editor},#{t_editor},#{member_id})
+		]]>
+	</insert>
+
+
+	<select id="faq_boardDetail_currnum" resultType="int">
+		select /*+INDEX_DESC(faq_board faq_board_pk)*/ faq_num from faq_board where rownum = 1	
+	</select>
+
+	<select id="faq_boardDetail" parameterType="int" resultType="faq_board">
+		<![CDATA[
+			SELECT faq_num,faq_title,editor,member_id,to_char(faq_regDate,'YYYY-MM-DD') as faq_regDate,
+			to_char(faq_mDate,'YYYY-MM-DD') as faq_mDate 
+			FROM faq_board 
+			where faq_num = #{faq_num}
+		]]>
+	</select>
+
+	<update id="faq_boardUpdate" parameterType="faq_board">
+		/* faq_board - faq_boardUpdate */
+		UPDATE faq_board SET 
+		faq_title = #{faq_title} 
+		,editor = #{editor} 
+		,t_editor = #{t_editor} 
+		,faq_mDate = sysdate 
+		WHERE 
+		faq_num = #{faq_num}
+	</update>
+
+	<delete id="faq_boardDelete" parameterType="faq_board">
+		DELETE FROM faq_board
+		WHERE
+		faq_num = #{faq_num}
+	</delete>
+
+
+	<!-- 검색된 레코드의 갯수를 반환받는다.-->	
+	<select id="faq_boardListCnt" parameterType="faq_board" resultType="int">
+		select count(*) from faq_board
+		<trim prefix=" where (" suffix=")">
+			<include refid="faq_boardSearch"></include>
+		</trim>
+	</select> 
+</mapper>

@@ -9,7 +9,8 @@
     <c:when test="${data.member_id=='master'}">
 		<tiles:insertDefinition name="manager"/>
     </c:when>
+    
     <c:otherwise>
-	<tiles:insertDefinition name="intro"/>
+		<tiles:insertDefinition name="intro"/>
     </c:otherwise>
 </c:choose>

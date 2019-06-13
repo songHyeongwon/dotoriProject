@@ -11,4 +11,5 @@ public interface Cs_ReplyService {
 	public int cs_replyUpdate(Cs_ReplyVO rvo);
 	public int cs_replyDelete(Integer r_num);
 	public Cs_ReplyVO cs_replySelect(Integer r_num);
+	public int cs_replyAllDelete(int cs_num);
 }

@@ -97,12 +97,22 @@
 	</select>
 	
 	<!-- 회원 마이페이지 '도토리 사용내역' 쿼리 -->
-	<select id="usingDotori" parameterType="member" resultType="orders">
+	<select id="usingDotori" parameterType="member" resultType="ordersM">
 		/* member - usingDotori */
 		select od.project_num, orders_price, project_name ,orders_date,orders_num, od.member_id, orders_content 
 		from orders od inner join project pj   
 		on od.project_num = pj.project_num  
 		where od.member_id=#{member_id}
+	</select>
+	
+	<!-- 마이페이지 '펀딩 중' 쿼리 -->
+	<select id="fundingProcess" parameterType="member" resultType="Project">
+		select project_name, sum(orders_price) orders_price,pj.project_num,  
+		project_summoney,project_targetmoney,project_enddate,pj.member_id 
+		from orders od inner join project pj 
+		on od.project_num = pj.project_num 
+		where od.member_id = #{member_id} 
+		group by project_name,project_summoney,project_targetmoney,project_enddate,pj.member_id,pj.project_num
 	</select>
 	
 	<!-- 도토리 충전 쿼리 -->
@@ -133,4 +143,5 @@
 	<select id="logPasswordCheck" parameterType="member" resultType="String">
 		select member_pwd from member where member_eMail = #{member_eMail} and member_id=#{member_id}
 	</select>
+
 </mapper>

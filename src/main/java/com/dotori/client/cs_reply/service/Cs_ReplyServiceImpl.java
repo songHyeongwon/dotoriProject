@@ -23,17 +23,7 @@ public class Cs_ReplyServiceImpl implements Cs_ReplyService{
 	public List<Cs_ReplyVO> cs_replyList(Integer cs_num) {
 		List<Cs_ReplyVO> list = null;
 		list = new ArrayList<Cs_ReplyVO>();
-		
-		for(int i = 0; i < 50; i++) {
-			Cs_ReplyVO crv = new Cs_ReplyVO();
-			crv.setCs_num(3);
-			crv.setCs_r_name("ggggg");
-			crv.setCs_r_date("8kkk");
-			crv.setCs_r_content("afsdfdsf");
-			crv.setCs_r_num(i);
-			list.add(crv);
-		}
-//		list = replyDao.cs_replyList(b_num);
+		list = replyDao.cs_replyList(cs_num);
 		return list;
 	}
 
@@ -70,5 +60,12 @@ public class Cs_ReplyServiceImpl implements Cs_ReplyService{
 		Cs_ReplyVO rvo = null;
 		rvo = replyDao.cs_replySelect(r_num);
 		return rvo;
+	}
+
+	@Override
+	public int cs_replyAllDelete(int cs_num) {
+		int result = 0;
+		result = replyDao.cs_replyAllDelete(cs_num);
+		return result;
 	}
 }

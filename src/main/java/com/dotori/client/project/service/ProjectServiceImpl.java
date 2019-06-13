@@ -9,6 +9,8 @@ import com.dotori.client.project.dao.ProjectDao;
 import com.dotori.client.project.vo.ContentVO;
 import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.client.project.vo.QnaBoard;
+import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.file.FileUploadUtil;
 
 import lombok.AllArgsConstructor;
@@ -154,7 +156,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectVO projectDetail(ProjectVO pvo) {
 		ProjectVO result = projectDao.projectDetail(pvo);
 		//먼저 뽑아봅니다.
-		
+		log.info("=====================================================result의 값을 뽑아냅니다."+result);
 		//컨텐츠를 가져옵니다.
 		result.setList(projectDao.getContentList(result));
 		
@@ -166,8 +168,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<ProjectVO> mainList() {
-		ArrayList<ProjectVO> list = projectDao.mainList();
+	public List<ProjectVO> mainList(ProjectVO pvo) {
+		ArrayList<ProjectVO> list = projectDao.mainList(pvo);
 		return list;
 	}
 
@@ -182,5 +184,61 @@ public class ProjectServiceImpl implements ProjectService {
 		int result1 = projectDao.updateStatus1();
 		int result2 = projectDao.updateStatus2();
 		return result1+result2;
+	}
+
+	
+/********************************************************************************************
+ * 프로젝트의 댓글과 관련된 기능																		*
+ ********************************************************************************************/
+	@Override
+	public List<ReplyVO> replyList(ReplyVO rvo) {
+		List<ReplyVO> list = projectDao.replyList(rvo);
+		return list;
+	}
+
+	@Override
+	public int replyInsert(ReplyVO rvo) {
+		int result = projectDao.replyInsert(rvo);
+		return result;
+	}
+
+	@Override
+	public int replyDelete(ReplyVO rvo) {
+		int result = projectDao.replyDelete(rvo);
+		return result;
+	}
+
+	@Override
+	public int replyUpdate(ReplyVO rvo) {
+		int result = projectDao.replyUpdate(rvo);
+		return result;
+	}
+
+	
+	/********************************************************************************************
+	 * 프로젝트의 문의글과 관련된 기능																		*
+	 ********************************************************************************************/
+	@Override
+	public int boardInsert(QnaBoard qvo) {
+		int result = projectDao.boardInsert(qvo);
+		return result;
+	}
+
+	@Override
+	public List<QnaBoard> boardList(QnaBoard qvo) {
+		List<QnaBoard> list = projectDao.boardList(qvo);
+		return list;
+	}
+
+	@Override
+	public int boardDelete(QnaBoard qvo) {
+		int result = projectDao.boardDelete(qvo);
+		return result;
+	}
+
+	@Override
+	public int boardUpdate(QnaBoard qvo) {
+		int result = projectDao.boardUpdate(qvo);
+		return result;
 	}
 }

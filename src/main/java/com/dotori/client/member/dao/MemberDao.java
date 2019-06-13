@@ -41,4 +41,6 @@ public interface MemberDao {
 
 	public String logPasswordCheck(MemberVO mvo);
 
+	public List<ProjectVO> fundingProcess(String member_id);
+
 }

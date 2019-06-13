@@ -165,20 +165,21 @@
 			else {
 				//스마트 에디터 내용 삽입
 				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-				//url 에 조건으로 https붙이기
+				//url 에 조건으로 https붙이기 
 				var url = $("#Project_URL").val();
 				if(url.indexOf("http://")==-1){
 					if(url.indexOf("https://"==-1)){
 						$("#Project_URL").val("http://"+url);
 					}
 				}
-				
+
 				$("#projectInsertForm").attr({
 					"method" : "post",
 					"action" : "/project/insertProject",
 					"enctype" : "multipart/form-data"
 				});
 				$("#projectInsertForm").submit();
+				
 			}
 		})
 
@@ -324,7 +325,11 @@
 <body>
 	<h1>프로젝트의 내용을 입력해주세요</h1>
 	<form id="projectInsertForm">
-		<input type="hidden" value="testuser1" id="member_id" name="member_id">
+		<c:choose>
+			<c:when test="${not empty data}">
+				<input type="hidden" value="${data.member_id}" id="member_id" name="member_id">
+			</c:when>
+		</c:choose>
 		<div role="tabpanel" id="totalDiv">
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">

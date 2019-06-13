@@ -35,26 +35,112 @@
 		</if>
 	</sql>
 
+	<sql id="cs_boardOrder">
+		<if test="path=='cs_numDesc'">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board cs_board_pk)*/
+				]]>
+		</if>
+		<if test="path=='cs_titleDesc'">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board IDX_CS_TITLE)*/					
+				]]>
+		</if>
+		<if test="path=='cs_regDateDesc'">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board IDX_CS_REGDATE)*/					
+				]]>
+		</if>
+		<if test="path=='cs_nameDesc'">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board IDX_CS_NAME)*/					
+				]]>
+		</if>
+		<if test="path=='cs_hitsDesc'">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board IDX_CS_HITS)*/					
+				]]>
+		</if>
+		<if test="path=='cs_numAsc'">
+				<![CDATA[
+					/*+INDEX_ASC(cs_board cs_board_pk)*/
+				]]>
+		</if>
+		<if test="path=='cs_titleAsc'">
+				<![CDATA[
+					/*+INDEX_ASC(cs_board IDX_CS_TITLE)*/					
+				]]>
+		</if>
+		<if test="path=='cs_regDateAsc'">
+				<![CDATA[
+					/*+INDEX_ASC(cs_board IDX_CS_REGDATE)*/					
+				]]>
+		</if>
+		<if test="path=='cs_nameAsc'">
+				<![CDATA[
+					/*+INDEX_ASC(cs_board IDX_CS_NAME)*/					
+				]]>
+		</if>
+		<if test="path=='cs_hitsAsc'">
+				<![CDATA[
+					/*+INDEX_ASC(cs_board IDX_CS_HITS)*/					
+				]]>
+		</if>
+		<if test="path==null or ''">
+				<![CDATA[
+					/*+INDEX_DESC(cs_board cs_board_pk)*/					
+				]]>
+		</if>
+		
+	</sql>
+	
+	<sql id="cs_boardOrderOption">
+		<if test="path=='cs_regDateDesc'">
+				<![CDATA[
+					cs_regdate > '1900/01/01'
+				]]>
+		</if>
+		<if test="path=='cs_hitsDesc'">
+				<![CDATA[
+					cs_hits >= 0
+				]]>
+		</if>
+		<if test="path=='cs_regDateAsc'">
+				<![CDATA[
+					cs_regdate > '1900/01/01'
+				]]>
+		</if>
+		<if test="path=='cs_hitsAsc'">
+				<![CDATA[
+					cs_hits >= 0
+				]]>
+		</if>
+	</sql>
+
 	<select id="cs_boardList" resultType="board" parameterType="board">
-			<!-- 			
-			,(SELECT COUNT(cs_r_num) FROM cs_reply WHERE cs_num = boardlist.cs_num) as cs_r_cnt 
- 			-->		
 		<![CDATA[
 		SELECT 
-			cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor 
+			cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor,member_id
  			FROM ( 
-			SELECT /*+INDEX_DESC(cs_board cs_board_pk)*/
-				rownum as rnum, cs_num, cs_name, cs_title, cs_regDate,cs_hits,editor,t_editor 
+			SELECT 
+		]]>
+				<include refid="cs_boardOrder"></include>
+		<![CDATA[
+				rownum as rnum, cs_num, cs_name, cs_title, cs_regDate,cs_hits,editor,t_editor,member_id 
 			FROM cs_board 
 			WHERE 
 		]]>
-<!-- 		
+
+	<!-- 		
 			안에 조건이 만족되면 (b_title like '%'|| #{keyword}||'%') and 가 추가된다. trim 
 			= 안에 if가 만족되면 앞부분과 뒷부분을 붙혀준다. prefix = 앞에 추가되는 구분 suffix = 뒤에 추가되는 구분 prefixOverrides 
 			= 조건이 만족되지 않았을때 AND까지의 내용을 지우도록 명명
- -->		
+ 	-->		
  		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
 			<include refid="cs_boardSearch"></include>
+		</trim>
+ 		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="cs_boardOrderOption"></include>
 		</trim>
 
 		<![CDATA[ 
@@ -64,26 +150,28 @@
 		]]>
 	</select>
 	
+	<select id="master_cs_boardList" resultType="board" parameterType="board">
+		<![CDATA[
+		SELECT /*+INDEX_DESC(master_cs_board master_cs_board_pk)*/
+			cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor,member_id
+ 		FROM master_cs_board where rownum >= 1 and rownum < 4
+		]]>
+
+	</select>
+	
 
 		<!--게시물 등록 1-->	
 	<insert id="cs_boardInsert" parameterType="board">
 		<![CDATA[
-			Insert into cs_board(cs_num,cs_name,cs_title,editor,t_editor,cs_conf,member_id) 
-			values(cs_board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{cs_conf},#{member_id})
+			Insert into cs_board(cs_num,cs_name,cs_title,editor,t_editor,member_id) 
+			values(cs_board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{member_id})
 		]]>
 	</insert>
-
-
-
-	<!--  게시물 등록 2 selectKey 앞에 먼저 수행되는 내용 즉 검색후 인설트 할수 있음 -->
-	<insert id="" parameterType="board">
-		/* board - boardInsert */
-		<selectKey keyProperty="cs_num" resultType="int" order="BEFORE">
-			select cs_board_seq.nextval from dual
-		</selectKey>
-
-		Insert into cs_board(cs_num,cs_name,cs_title,editor,t_editor,cs_conf,member_id)
-		values(#{cs_num},#{cs_name},#{cs_title},#{editor},#{t_editor},#{cs_conf},${member_id})
+	<insert id="master_cs_boardInsert" parameterType="board">
+		<![CDATA[
+			Insert into master_cs_board(cs_num,cs_name,cs_title,editor,t_editor,member_id) 
+			values(master_CS_Board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{member_id})
+		]]>
 	</insert>
 
 	<select id="cs_boardDetail_currnum" resultType="int">
@@ -92,7 +180,7 @@
 
 	<select id="cs_boardDetail" parameterType="int" resultType="board">
 		<![CDATA[
-			SELECT cs_num,cs_name,cs_title,editor,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,
+			SELECT cs_num,cs_name,cs_title,editor,member_id,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,
 			to_char(cs_mDate,'YYYY-MM-DD') as cs_mDate,cs_hits 
 			FROM cs_board 
 			where cs_num = #{cs_num}
@@ -100,11 +188,12 @@
 	</select>
 
 	<update id="cs_boardUpdate" parameterType="board">
-		/* board - boardUpdate */
-		UPDATE cs_board SET
-		cs_title = #{cs_title}
-		,editor = #{editor}
-		,cs_mDate = sysdate
+		/* cs_board - cs_boardUpdate */
+		UPDATE cs_board SET 
+		cs_title = #{cs_title} 
+		,editor = #{editor} 
+		,t_editor = #{t_editor} 
+		,cs_mDate = sysdate 
 		WHERE 
 		cs_num = #{cs_num}
 	</update>
@@ -123,5 +212,17 @@
 			<include refid="cs_boardSearch"></include>
 		</trim>
 	</select> 
+	<!-- 조회수  업데이트 -->
+	<update id="cs_hitsUpdate" parameterType="board">
+		/* cs_board - cs_boardUpdate */
+		UPDATE cs_board SET 
+		cs_hits = #{cs_hits} 
+		WHERE 
+		cs_num = #{cs_num}
+	</update>
 
+	<!-- 조회수  조회 -->
+	<select id="cs_hits" parameterType="int" resultType="int">
+		select cs_hits from cs_board where cs_num = #{cs_num}
+	</select> 
 </mapper>

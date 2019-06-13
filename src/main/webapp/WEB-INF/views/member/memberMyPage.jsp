@@ -52,7 +52,7 @@
 				var bank = ["우리","국민","기업","농협","신한","KEB하나","한국씨티","SC제일","경남","광주","대구","도이치","부산","비엔피파리바","산림조합","산업","수협","신협","우체국","카카오뱅크"];
 				var chooseBtn = 0;
 				var chooseConfirmBtn=0;
-				var Pattern = /^[0-9]$/;
+				var Pattern = /^[0-9]*$/;
 				
 				$("#card").click(function(){
 					$("#bankName").hide();
@@ -82,25 +82,14 @@
 					$("#transact_method").append("은행계좌");
 				})
 				
+				$('#myTab a').click(function (e) {
+				  e.preventDefault()
+				  $(this).tab('show')
+				})
+				
 				// 정보 수정 버튼 클릭 시 함수 
 				$("#modifyPerson").click(function(){
 					location.href="/member/confirmPassword"
-				})
-				
-				
-				// 펀딩중 클릭 시 함수
-				$("#funding").click(function(){
-				})
-				
-				
-				// 도토리 사용내역
-				$("#usingDotori").click(function(){
-					usingDotoriListData();
-				})
-				
-				// 내가 만든 펀딩
-				$("#makeFund").click(function(){
-					fundingListData();
 				})
 				
 				// '도토리 충전' 버튼 클릭 시 함수
@@ -143,7 +132,7 @@
 					else if(chooseConfirmBtn==0){
 						alert("비밀번호 확인 버튼을 눌러주세요.");
 					}else if($("#member_pointCharge").val().search(Pattern)<0 || $("#transact_num").val().search(Pattern)<0){
-						alert("정확하게 입력해주세요.");	
+						alert("정확하게 입력해주세요.");
 					}else{
 						$.ajax({
 							url : "/member/dotoriCharge",
@@ -173,219 +162,14 @@
 				})
 				
 				
-			})
-			
-			
-			// 내가 만든 펀딩 동적 생성을 위한 함수
-			function fundingListData(){
-				$("#listArea").html("");
-				$.getJSON("/member/myFunding", $("#myPageForm").serialize(), function(data){
-					console.log("length : "+data.length);
-					$(data).each(function(index){
-						var project_num = this.prject_num;
-						var project_name = this.project_name;
-						var project_thumb = this.project_thumb;
-						var project_url = this.project_url;
-						var project_summary = this.project_summary;
-						var member_id = this.member_id;
-						var project_content = this.project_content;
-						var project_addDate = this.project_addDate;
-						
-						console.log("index : "+index);
-						thumbnailList(project_num,member_id,project_content,project_addDate,project_name,project_thumb,project_url,project_summary,index);
-					});
-				}).fail(function(){
-					alert("목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요.");
-				});
-			}
-			
-			function thumbnailList(project_num,member_id,project_content,project_addDate,project_name,project_thumb,project_url,project_summary,index){
-				var column = $("<div>");
-				column.attr("data-num",project_num);
-				column.addClass("col-sm-6 col-md-4");
-				
-				var thumbnail = $("<div>");
-				thumbnail.addClass("thumbnail");
-				
-				var img = $("<img>");
-				img.attr("src","/uploadStorage/project/thumbnail/"+project_thumb);
-				console.log(img.attr("src"));
-				
-				
-				var caption = $("<div>");
-				caption.addClass("caption");
-				
-				var h3 = $("<h3>")
-				h3.html(project_name.substring(0,12)+"...");
-				
-				var pInfo = $("<p>");
-				pInfo.html("작성자 : "+member_id+"/ 등록일 : "+project_addDate);
-				
-				var pContent = $("<p>");
-				pContent.html(project_content.substring(0,24)+"...");
-				
-				var pBtnArea = $("<p>");
-				
-				var upBtn = $("<a>");
-				upBtn.attr({"data-btn" : "upBtn",
-							"role" : "button" });
-				upBtn.addClass("btn btn-primary gap");
-				upBtn.html("수정");
-				
-				var delBtn = $("<a>");
-				delBtn.attr({"data-btn" : "delBtn",
-							 "role" : "button" });
-				delBtn.addClass("btn btn-default");
-				delBtn.html("중지");
-				
-				caption.append(h3).append(pInfo).append(pContent).append(pBtnArea.append(upBtn).append(delBtn));
-				column.append(thumbnail.append(img).append(caption));
-				
-				$("#listArea").append(column);
-			}
-			
-			// 펀딩 중 화면 동적 생성을 위한 함수
-			/* function fundingListData(){
-				$("#listArea").html("");
-				$.getJSON("/member/memberFunding", $("#myPageForm").serialize(), function(data){
-					console.log("length : "+data.length);
-					$(data).each(function(index){
-						var orders_num = this.prject_num;
-						var orders_name = this.project_name;
-						var orders_content = this.project_thumb;
-						var project_url = this.project_url;
-						var project_summary = this.project_summary;
-						var member_id = this.member_id;
-						var project_content = this.project_content;
-						var project_addDate = this.project_addDate;
-						
-						console.log("index : "+index);
-						thumbnailList(project_num,member_id,project_content,project_addDate,project_name,project_thumb,project_url,project_summary,index);
-						//makePaging(listArea);
-					});
-				}).fail(function(){
-					alert("목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요.");
-				});
-			}
-			
-			function thumbnailList(project_num,member_id,project_content,project_addDate,project_name,project_thumb,project_url,project_summary,index){
-				var column = $("<div>");
-				column.attr("data-num",project_num);
-				column.addClass("col-sm-6 col-md-4");
-				
-				var thumbnail = $("<div>");
-				thumbnail.addClass("thumbnail");
-				
-				var img = $("<img>");
-				img.attr("src","/uploadStorage/project/thumbnail/"+project_thumb);
-				console.log(img.attr("src"));
-				
-				
-				var caption = $("<div>");
-				caption.addClass("caption");
-				
-				var h3 = $("<h3>")
-				h3.html(project_name.substring(0,12)+"...");
-				
-				var pInfo = $("<p>");
-				pInfo.html("작성자 : "+member_id+"/ 등록일 : "+project_addDate);
-				
-				var pContent = $("<p>");
-				pContent.html(project_content.substring(0,24)+"...");
-				
-				var pBtnArea = $("<p>");
-				
-				var upBtn = $("<a>");
-				upBtn.attr({"data-btn" : "upBtn",
-							"role" : "button" });
-				upBtn.addClass("btn btn-primary gap");
-				upBtn.html("이동");
-				
-				var delBtn = $("<a>");
-				delBtn.attr({"data-btn" : "delBtn",
-							 "role" : "button" });
-				delBtn.addClass("btn btn-default");
-				delBtn.html("환불");
-				
-				caption.append(h3).append(pInfo).append(pContent).append(pBtnArea.append(upBtn).append(delBtn));
-				column.append(thumbnail.append(img).append(caption));
-				
-				$("#listArea").append(column);
-			} */
-			
-			// 사용한 도토리 내역 동적 생성을 위한 함수
-			function usingDotoriListData(){
-				$("#listArea").html("");
-				$.getJSON("/member/usingDotori", $("#myPageForm").serialize(), function(data){
-					console.log("length : "+data.length);
-					$(data).each(function(index){
-						var order_num = this.order_num;
-						var project_num = this.prject_num;
-						var project_name = this.project_name;
-						var member_id = this.member_id;
-						var order_content = this.order_content;
-						var order_price = this.order_price;
-						var order_date = this.order_date;
-						
-						console.log("index : "+index);
-						thumbnailList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,index);
-						//makePaging(listArea);
-					});
-				}).fail(function(){
-					alert("목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요.");
-				});
-			}
-			
-			function thumbnailList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,index){
-				var column = $("<div>");
-				column.attr("data-num",order_num);
-				column.addClass("col-sm-6 col-md-4");
-				
-				var table = $("<table>");
-				table.addClass("table");
-				
-				var thead=$("<thead>");
-				
-				var htr = $("<tr>");
-				
-				var th1=$("<th>");
-				th1.html("프로젝트 이름");
-				
-				var th2=$("<th>");
-				th2.html("프로젝트 내용");
-				
-				var th3=$("<th>");
-				th3.html("사용한 도토리 개수");
-				
-				var th4=$("<th>");
-				th4.html("도토리 사용 날짜");
-				
-				var tbody = $("<tbody>");
-				
-				var btr=$("<tr>");
-				
-				var td1 = $("<td>");
-				td1.html(project_name);
-				
-				var td2= $("<td>");
-				td2.html(project_content);
-				
-				var td3=$("<td>");
-				td3.html(order_price);
-				
-				var td4=$("<td>");
-				td4.html(order_date);
-				
-				table.append(thead.append(htr).append(th1).append(th2).append(th3).append(th4).append(tbody).append(btr).append(td1).append(td2).append(td3).append(td4));
-				column.append(table);
-				
-				$("#listArea").append(column);
-			} 
-				
+			})				
 		</script>
 	</head>
 	<body>
 		<div>
+			<div class="text-right">
+				<input type="button" id="modifyPerson" name="modifyPerson" value="개인 정보 수정"/>
+			</div>
 			<form id="myPageForm">
 				<input type="hidden" id="member_id" name="member_id" value="${data.member_id }"/>
 				<%-- <input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cvo.pageNum }"/>
@@ -405,16 +189,29 @@
 				</div>
 				
 				<div>
-					<ul class="li">
-						<li class="list"><input type="button" class="btn" id="funding" name="funding" value="펀딩 중 상품"/></li>
-						<li class="list"><input type="button" class="btn" id="usingDotori" name="usingDotori" value="사용한 도토리 내역"/></li>
-						<li class="list"><input type="button" class="btn" id="makeFund" name="makeFund" value="내가 만든 펀딩"/></li>
-						<li class="list"><input type="button" class="btn" id="modifyPerson" name="modifyPerson" value="개인 정보 수정"/></li>
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="list" role="presentation"><a href="#fundings" aria-controls="fundings" role="tab" data-toggle="tab">펀딩 중</a></li>
+						<li class="list" role="presentation"><a href="#usingDotori" aria-controls="usingDotori" role="tab" data-toggle="tab">사용한 도토리 내역</a></li>
+						<li class="list" role="presentation"><a href="#myFund" aria-controls="myFund" role="tab" data-toggle="tab">내가 만든 펀딩</a></li>
+						<li class="list" role="presentation"><a href="#personalModify" aria-controls="personalModify" role="tab" data-toggle="tab">개인 정보 수정</a></li>
 					</ul>
 				</div>
 				
-				<div id="listArea">
+				<div class="tab-content">
+				    <div role="tabpanel" class="tab-pane" id="fundings">
+				    	<jsp:include page="fundings.jsp"/>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="usingDotori">
+				    	<jsp:include page="usingDotori.jsp"/>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="myFund">
+				    	<jsp:include page="myFund.jsp"/> 
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="personalModify">
+				    </div>
 				</div>
+				
+				
 			</form>
 			
 			<%-- 등록 화면 영역(modal) --%>

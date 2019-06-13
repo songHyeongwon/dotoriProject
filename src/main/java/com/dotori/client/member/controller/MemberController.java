@@ -84,6 +84,12 @@ public class MemberController {
 		return "member/passwordSearch";
 	}
 	
+	// 사용한 도토리 내역 페이지 출력
+	@RequestMapping(value="/usingDotori")
+	public String usingDotori() {
+		return "member/usingDotori";
+	}
+	
 	// 회원가입 중 ID 중복체크 버튼 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="/idCheck", produces="text/plain; charset=UTF-8")
@@ -203,11 +209,25 @@ public class MemberController {
 	
 	// 마이페이지 '사용한 도토리 내역' 클릭 시 화면 출력 컨트롤러
 	@ResponseBody
-	@PostMapping(value="/usingDotori",produces="text/plain; charset=UTF-8")
+	@RequestMapping(value="/usingDotoriList",produces="text/plain; charset=UTF-8")
 	public String usingDotori(@ModelAttribute MemberVO mvo, Model model) {
+		log.info("usingDotoriList 출력");
+		String member_id = mvo.getMember_id();
+		log.info(member_id);
+		String listData = memberService.usingDotori(member_id);
+		
+		return listData;
+	}
+	
+	// 마이페이지 '펀딩중' 클릭 시 화면 출력 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="/fundingProcess",produces="text/plain; charset=UTF-8")
+	public String fundingProcess(@ModelAttribute MemberVO mvo) {
+		log.info("fundingProcess 출력");
+		
 		String member_id = mvo.getMember_id();
 		
-		String listData = memberService.usingDotori(member_id);
+		String listData = memberService.fundingProcess(member_id);
 		
 		return listData;
 	}

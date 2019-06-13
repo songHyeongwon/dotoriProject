@@ -107,6 +107,7 @@ var optionCnt =0;
 								inputOption.addClass("form-control");
 								inputOption.attr("placeholder",option_name+" 을/를 입력해주세요");
 								$("#ordersForm").append(inputOption);
+								optionCnt++;
 							}
 						});
 						//data 반복문 종결
@@ -137,6 +138,7 @@ var optionCnt =0;
 				"action":"/orders/ordersForm"
 			});
 			if($("#member_id").val()!=""){
+				//폼의 내용을 보내줌
 				$("#ordersForm").submit();
 			}else{
 				alert("로그인 후 이용가능합니다.");
@@ -243,13 +245,13 @@ var optionCnt =0;
 					
 					<%--문의사항 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane" id="profile">
-					
+						<jsp:include page="projectBoard.jsp"></jsp:include>
 					</div>
 					<%--문의사항 폼 종료 --%>
 					
 					<%--리뷰 폼 시작--%>
 					<div role="tabpanel" class="tab-pane" id="settings">
-					
+						<jsp:include page="projectReply.jsp"></jsp:include>
 					</div>
 					<%--리뷰 폼 종료--%>
 				</div>			

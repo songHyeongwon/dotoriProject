@@ -32,12 +32,12 @@
 <body>
 
 	<!-- Fixed navbar -->
-	<header>
+	<header style="margin-bottom: 0; padding-bottom: 0;">
 		<tiles:insertAttribute name="header" />
 	</header>
 
 	<!-- Begin page content -->
-	<div class="container">
+	<div class="container" style="padding-top: 0; margin-top: 0;">
 		<tiles:insertAttribute name="nav" />
 		<tiles:insertAttribute name="body" />
 	</div>

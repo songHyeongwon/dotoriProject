@@ -23,6 +23,8 @@
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+		
 		<script type="text/javascript">
 			$(function() {
 				// -----------------네이버 에디터---------------------------
@@ -39,7 +41,7 @@
 		                // 입력창 크기 조절바 사용 여부
 		                bUseVerticalResizer : true,    
 		                // 모드 탭(Editor | HTML | TEXT) 사용 여부
-		                bUseModeChanger : true,
+		                bUseModeChanger : false,
 		            }
 		        });
 				// -----------------네이버 에디터---------------------------
@@ -47,42 +49,93 @@
 
 				
 				//수정버튼을 눌렀을시 작업
-				$("#boardUpdateBtn").click(function() {
+				$("#cs_boardUpdateBtn").click(function() {
 		            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-
-					if(!chkSubmit($("#b_title"),"글제목을")) return
-					else if(!chkSubmit($("#b_content"),"글내용을")) return
-					else {
-						$("#f_updateForm").attr({
-							"method":"post",
-							"action":"/board/boardUpdate"
-						});
-						$("#f_updateForm").submit();
+					var ediVal = $("#editor").val();
+					var ediText = ediVal.replace(/[<][^>]*[>]/gi, "").replace(/&nbsp;/gi,"");
+					var imgCnt = 0;
+					if(ediVal.match(/<img src/g)!=null){
+						imgCnt = ediVal.match(/<img src/g).length;						
+					}
+					if(!chkSubmit($("#cs_title"),"글제목을")) return;
+					else if(ediText.trim().length < 10 ){
+						alert("내용을 10자 이상 작성해주세요");
+						return;
+					} else if(ediText.trim().length > 1000) {
+						alert("내용을 1000자 이하로 작성해주세요");
+						return;
+					} else if (imgCnt > 10){
+						alert("사진을 10개 이상 등록을 할 수 없습니다");
+					} else if( ediVal == ""  || ediVal == null || ediVal == '&nbsp;' || ediVal == '<p>&nbsp;</p>'){
+						    alert("내용을 입력하세요.");
+						    obj.getById["editor"].exec("FOCUS"); //포커싱				
+							return;
+					} else {
+						if(confirm("업데이트를 하시겠습니까?")){ 							
+				            $.ajax({
+				            	url : '/cs_board/cs_updateFormAction',
+				            	data : {
+				            		cs_html : $("#editor").val(),
+				            		cs_num : "${cs_updateData.cs_num}"
+				            	},
+				            	type : "POST",
+				            	success : function(result){
+	
+				            	},
+				                error : function(request,status,error){
+				                
+				            	}
+				            });
+							
+							$("#f_updateForm").attr({
+								"method":"post",
+								"action":"/cs_board/cs_boardUpdate"
+							});
+							$("#f_updateForm").submit();
+						}
 					}
 				});
 				
 				//취소버튼을 눌렀을시 작업
-				$("#boardCancelBtn").click(function() {
-					console.log("나오긴 함?")
-					/* history.back(); 이렇게 하면 안되나요? */
-					$("#f_updateForm").each(function() {
-						this.reset();
-					});
+				$("#cs_boardCancelBtn").click(function() {
+					$("#cs_title").val("");
+					obj.getById["editor"].exec("SET_IR", [""]);
 				});
+				
+				
 				//목록버튼 클릭시
-				$("#boardListBtn").click(function() {
+				$("#cs_boardListBtn").click(function() {
+					if(confirm("작성을 그만하시겠습니까?")){								
 					var queryString = "?pageNum="+$("#pageNum").val()+"&amount="+$("#amount").val();
-					location.href = "/board/boardList"+queryString;
+					location.href = "/cs_board/cs_boardList"+queryString;
+					}				
 				})
 			})
 		</script>
 		<!--모바일 웹 페이지 설정 끝 -->
+		
+		<style type="text/css">
+			.cs_updateBtn {
+				border: 1px solid #EAEAEA;
+				border-radius : 5px;
+				width: 60px;
+				height: 35px;
+			}
+			.cs_updateBtn:hover {
+				color: rgba(30, 22, 54, 0.6);
+				box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px ;			
+			}
+			.cs_updateBtn:focus {
+				outline: none;
+			}			
+		</style>
 	</head>
 	<body>
 		<div class="contentContainer container-fiuid">
 			<div class="contentTit page-header"><h3 class="text-center">게시판 글수정</h3></div>
 			
 			<div class="contentTB text-center">
+				<textarea name="prevEditor" id="prevEditor" hidden="hidden">${cs_updateData.editor}</textarea>
 				<form id="f_updateForm" name="f_updateForm">
 					<input type="hidden" name="cs_num" value="${cs_updateData.cs_num}"/>
 					<input type="hidden" name="pageNum" id="pageNum" value="${data.pageNum}"/>
@@ -97,12 +150,8 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<td>글번호</td>
-								<td class="text-left">${cs_updateData.cs_num}</td>
 								<td>작성일</td>
 								<td class="text-left">${cs_updateData.cs_regDate}</td>
-							</tr>
-							<tr>
 								<td>작성자</td>
 								<td colspan="3" class="text-left">${cs_updateData.cs_name}</td>
 							</tr>
@@ -115,7 +164,7 @@
 							<tr class="table-height">
 								<td>내 용</td>
 								<td colspan="3" class="text-left">
-									<textarea name="editor" id="editor" style="width: 700px; height: 400px;">${cs_updateData.editor}</textarea>
+									<textarea name="editor" id="editor" style="width: 100%; height: 400px;">${cs_updateData.editor}</textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -123,9 +172,9 @@
 				</form>
 			</div>
 			<div class="contentBtn text-right">
-				<input type="button" value="수정" id="boardUpdateBtn" class="btn btn-success"/>
-				<input type="button" value="취소" id="boardCancelBtn" class="btn btn-success"/>
-				<input type="button" value="목록" id="boardListBtn" class="btn btn-success"/>
+				<input type="button" value="수정" id="cs_boardUpdateBtn" class="cs_updateBtn"/>
+				<input type="button" value="초기화" id="cs_boardCancelBtn" class="cs_updateBtn"/>
+				<input type="button" value="목록" id="cs_boardListBtn" class="cs_updateBtn"/>
 			</div>
 		</div>
 	</body>

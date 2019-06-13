@@ -12,16 +12,20 @@
 				width : 100px;
 				border-radius: 20px; 
 			}
-<<<<<<< HEAD
 			
 			.sig{
 				border: none;
 			}
 			
 			#personal
+<<<<<<< HEAD
 		</style>
 =======
 		</style> -->
+=======
+		</style>
+		</style> -->
+>>>>>>> refs/remotes/choose_remote_name/HyeonGwon
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 

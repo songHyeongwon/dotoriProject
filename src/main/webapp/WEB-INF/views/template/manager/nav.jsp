@@ -16,7 +16,7 @@
 							</li>
 						<li class="dropdown"><a href="#">게시판 글 관리</a>
 							</li>
-						<li class="dropdown"><a href="#">결재내역 관리</a>
+						<li class="dropdown"><a href="/ordersManager/ordersManagerView">결제내역 관리</a>
 							</li>
 						<li class="dropdown"><a href="#">기타 관리</a>
 							</li>

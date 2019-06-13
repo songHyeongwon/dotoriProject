@@ -36,6 +36,8 @@ public interface MemberService {
 
 	String logPasswordCheck(MemberVO mvo);
 
+	String fundingProcess(String member_id);
+
 	
 
 

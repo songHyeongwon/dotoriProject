@@ -14,4 +14,18 @@ public interface ProjectMDao {
 
 	public int projectStatusNo(Integer project_num);
 
+	public int projectDelect(Integer project_num);
+
+	public ProjectMVO getAllData(Integer project_num);
+
+	public int projectDelContent(ProjectMVO delpvo);
+	public int projectDelOption(ProjectMVO delpvo);
+	public int projectDelQna_board(ProjectMVO delpvo);
+	public int projectDelReply(ProjectMVO delpvo);
+	public int projectDelContentSeq(ProjectMVO delpvo);
+	public int projectDelQna_boardSeq(ProjectMVO delpvo);
+	public int projectDelReplySeq(ProjectMVO delpvo);
+
+	public int projectDel(ProjectMVO delpvo);
+
 }

@@ -2,14 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotori.manager.project.dao.ProjectMDao">
 	<sql id="projectSearch">
-		<if test="search=='b_title'">
-				<![CDATA[project_name like '%'|| #{keyword} ||'%']]>
+		<if test="search=='Waiting'">
+				<![CDATA[PROJECT_STATUS =0]]>
 		</if>
-		<if test="search == 'Patterns2'">
-				<![CDATA[PROJECT_PATTERN2 like #{project_pattern2}]]>
+		<if test="search=='Progress'">
+				<![CDATA[PROJECT_STATUS =1]]>
 		</if>
-		<if test="search == 'b_name'">
-				<![CDATA[b_name like '%'|| #{keyword} ||'%']]>
+		<if test="search=='denial'">
+				<![CDATA[PROJECT_STATUS =2]]>
+		</if>
+		<if test="search=='success'">
+				<![CDATA[PROJECT_STATUS =3]]>
+		</if>
+		<if test="search=='failure'">
+				<![CDATA[PROJECT_STATUS =4]]>
 		</if>
 	</sql>
 	<select id="getProjectList" resultType="ProjectM" parameterType="ProjectM">
@@ -64,4 +70,32 @@
 	<update id="projectStatusNo" parameterType="int">
 		update project set PROJECT_STATUS = 2 where project_num=#{project_num}
 	</update>
+	<select id="getAllData" parameterType="int" resultType="ProjectM">
+		select * from project where project_num = #{project_num}
+	</select>
+	
+	<update id="projectDelContent" parameterType="ProjectM">
+		drop table ${content_table_name} 
+	</update>
+	<update id="projectDelOption" parameterType="ProjectM">
+		drop table ${option_table_name}
+	</update>
+	<update id="projectDelQna_board" parameterType="ProjectM">
+		drop table ${reply_table_name}
+	</update>
+	<update id="projectDelReply" parameterType="ProjectM">
+		drop table ${qna_board_table_name}
+	</update>
+	<update id="projectDelContentSeq" parameterType="ProjectM">
+		drop sequence ${content_table_name}_seq
+	</update>
+	<update id="projectDelQna_boardSeq" parameterType="ProjectM">
+		drop sequence ${qna_board_table_name}_seq
+	</update>
+	<update id="projectDelReplySeq" parameterType="ProjectM">
+		drop sequence ${reply_table_name}_seq
+	</update>
+	<delete id="projectDel" parameterType="ProjectM">
+		DELETE FROM PROJECT WHERE project_num = #{project_num}
+	</delete>
 </mapper>

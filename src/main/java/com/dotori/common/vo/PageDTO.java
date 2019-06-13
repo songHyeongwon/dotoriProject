@@ -13,9 +13,10 @@ public class PageDTO {
 	private CommonVO cvo;
 
 	public PageDTO(CommonVO cvo, int total, int cnt) {
+		cvo.setAmount(cnt);
 		this.cvo = cvo;
+		//this.cvo.setAmount(cnt);
 		this.total = total;
-		this.cvo.setAmount(cnt);
 		// 페이지의 끝번호 구하기
 		// this.endPage = (int) (Math.ceil(페이지번호/10.0))*10;
 		this.endPage = (int) (Math.ceil(cvo.getPageNum() /  10.0)) * 10;

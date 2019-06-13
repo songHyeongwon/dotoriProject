@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 	
-	// '펀딩중' 리스트
+	// '마이 펀딩' 리스트
 	@Override
 	public String myFunding(String member_id) {
 		// TODO Auto-generated method stub
@@ -136,6 +136,25 @@ public class MemberServiceImpl implements MemberService{
 		return listData;
 		
 	}
+	
+	// '펀딩 중' 리스트
+		@Override
+		public String fundingProcess(String member_id) {
+			// TODO Auto-generated method stub
+			List<ProjectVO> list = null;
+			ObjectMapper mapper = new ObjectMapper();
+			String listData ="";
+			
+			list = memberDao.fundingProcess(member_id);
+			
+			try {
+				listData = mapper.writeValueAsString(list);
+			}catch(JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
+			return listData;
+		}
 
 	// 회원 탈퇴
 	@Override
@@ -174,8 +193,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	// 펀딩 중 리스트 회원 아이디에 따른 개수 구하기
-	/*@Override
-	public int memberListCnt(String member_id) {
+	//@Override
+	/*public int memberListCnt(String member_id) {
 		// TODO Auto-generated method stub
 		int result = memberDao.memberListCnt(member_id);
 		

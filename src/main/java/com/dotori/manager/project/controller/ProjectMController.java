@@ -1,5 +1,6 @@
 package com.dotori.manager.project.controller;
 
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,12 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ProjectVO;
@@ -58,6 +59,8 @@ public class ProjectMController {
 		return "projectManager/projectDetail";
 	}
 	
+
+	
 	@PostMapping(value = "/yes/{project_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> projectStatusYes(@PathVariable("project_num") Integer project_num) {
 		log.info("프로젝트 승인 페이지"+project_num);
@@ -71,6 +74,34 @@ public class ProjectMController {
 	public ResponseEntity<String> projectStatusNo(@PathVariable("project_num") Integer project_num) {
 		log.info("프로젝트 승인 페이지"+project_num);
 		int result = projectMService.projectStatusNo(project_num);
+		
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping(value = "/del/{project_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> projectDelect(@PathVariable("project_num") Integer project_num) {
+		log.info("프로젝트 삭제 페이지"+project_num);
+		int result = projectMService.projectDelect(project_num);
+		
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping(value = "/allYes")
+	public ResponseEntity<String> projectStatusAllYes(@RequestParam(value="project_nums[]") List<Integer> project_nums) {
+		log.info("전체 처리에 들어왔습니다.");
+		log.info(project_nums);
+		int result = projectMService.projectStatusAllYes(project_nums);
+		
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@RequestMapping(value = "/allNo")
+	public ResponseEntity<String> projectStatusAllNo(@RequestParam(value="project_nums[]") List<Integer> project_nums) {
+		log.info("전체 처리에 들어왔습니다.");
+		log.info(project_nums);
+		int result = projectMService.projectStatusAllNo(project_nums);
 		
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);

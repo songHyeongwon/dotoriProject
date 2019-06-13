@@ -66,6 +66,11 @@
 			<form id="f_search" name="f_search" class="form-inline">
 				<input type="hidden" name="pageNum" value="${pageMaker.cvo.pageNum}">
 				<input type="hidden" name="amount" value="${pageMaker.cvo.amount}">
+				<c:choose>
+					<c:when test="${not empty listProject}">
+						<input type="hidden" name="project_pattern2" value="${listProject[0].project_pattern2}">
+					</c:when>
+				</c:choose>
 				<!-- <div class="form-group">
 					<label>검색조건 : </label>
 					<select id="search" name="search" class="form-control">
@@ -96,7 +101,7 @@
 							<form name="deteilGo">
 								<input type="hidden" name="project_num" value="${project.project_num}">
 							</form>
-			                <div style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute;">
+			                <div style="left: 15px; width: 450px; bottom: 200px; font-size: 1.8em; font-weight: bold; position: absolute; color: white;">
 								<c:choose>
 									<c:when test="${project.project_status==0}">
 										관리자검수중

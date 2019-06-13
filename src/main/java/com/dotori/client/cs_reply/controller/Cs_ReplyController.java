@@ -44,52 +44,39 @@ public class Cs_ReplyController {
 	public ResponseEntity<String> replyInsert(@RequestBody Cs_ReplyVO rvo) {
 		log.info("replyInsert 호출 성공");
 		log.info("ReplyVO : " + rvo);
+		rvo.setCs_r_name("testName");
 		int result = 0;
-
+		//cs_board/cs_boardList
 		result = replyService.cs_replyInsert(rvo);
 		return result == 1 ? 
 				new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	// 댓글 비밀번호 확인
-	@RequestMapping(value = "/pwdConfirm")
-	public ResponseEntity<Integer> pwdConfirm(@ModelAttribute Cs_ReplyVO rvo) {
-		log.info("pwdConfirm 호출 성공");
-		ResponseEntity<Integer> entity = null;
-		int result = 0;
-
-		result = replyService.cs_pwdConfirm(rvo);
-		entity = new ResponseEntity<Integer>(result, HttpStatus.OK);
-		log.info(entity);
-		return entity;
-	}
-
 	//댓글 삭제
-	@DeleteMapping(value = "/{r_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> replyDelete(@PathVariable("r_num") Integer r_num) {
+	@DeleteMapping(value = "/{cs_r_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> replyDelete(@PathVariable("cs_r_num") Integer cs_r_num) {
 		log.info("replyDelete 호출 성공");
 
-		int result = replyService.cs_replyDelete(r_num);
+		int result = replyService.cs_replyDelete(cs_r_num);
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	//수정 전 댓글 정보 조회하기
-	@GetMapping(value = "/{r_num}", produces = { MediaType.APPLICATION_XHTML_XML_VALUE,
-			MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Cs_ReplyVO> replySelect(@PathVariable("r_num") Integer r_num) {
+	@GetMapping(value = "/{cs_r_num}", produces = { MediaType.APPLICATION_XHTML_XML_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Cs_ReplyVO> replySelect(@PathVariable("cs_r_num") Integer cs_r_num) {
 		log.info("replySelect 호출 성공");
 		ResponseEntity<Cs_ReplyVO> entity = null;
-		entity = new ResponseEntity<Cs_ReplyVO>(replyService.cs_replySelect(r_num), HttpStatus.OK);
+		entity = new ResponseEntity<Cs_ReplyVO>(replyService.cs_replySelect(cs_r_num), HttpStatus.OK);
 		return entity;
 	}
 
 	// 댓글 업데이트 구현하기
-	@PutMapping(value = "/{r_num}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> replyUpdate(@RequestBody Cs_ReplyVO rvo, @PathVariable("r_num") Integer r_num) {
+	@PutMapping(value = "/{cs_r_num}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> replyUpdate(@RequestBody Cs_ReplyVO rvo, @PathVariable("cs_r_num") Integer cs_r_num) {
 		log.info("replyUpdate 호출 성공");
-		log.info("파라메터 값 = " + rvo + " "+r_num);
+		log.info("파라메터 값 = " + rvo + " "+cs_r_num);
 
 		int result = replyService.cs_replyUpdate(rvo);
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)

@@ -34,7 +34,8 @@ public class ProjectMVO extends CommonVO{
 	private String reply_table_name;
 	private String member_id;
 	private MultipartFile file=null;
-	private List<ContentVO> list;
+	private List<ContentVO> list;		
+	
 	
 	public ProjectMVO() {
 		list = new ArrayList<ContentVO>();

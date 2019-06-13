@@ -203,7 +203,7 @@
 		</trim>
 		<![CDATA[ rownum <= #{pageNum} * #{amount}
 		) PROJECTlist
-		WHERE rnum > (#{pageNum} - 1) * #{amount} and not PROJECT_STATUS=2]]>
+		WHERE rnum > (#{pageNum} - 1) * #{amount} and not PROJECT_STATUS=2 and not PROJECT_STATUS=0]]>
 	</select>
 	
 
@@ -250,7 +250,7 @@
 	    option_table_name,
 	    reply_table_name,
 	    member_id
-	FROM project where project_num = #{project_num} and not PROJECT_STATUS=2
+	FROM project where project_num = #{project_num}
 	</select>
 	
 	<select id="getContentList" parameterType="Project" resultType="ContentVO">
@@ -292,7 +292,7 @@
 		    project_pattern1,
 		    project_pattern2
 		FROM ( 
-			SELECT /*+INDEX_DESC(project project_pk)*/
+			SELECT
 				rownum as rnum, 
 				project_num,
 			    project_name,
@@ -307,9 +307,107 @@
 			    project_pattern1,
 			    project_pattern2
 			FROM project 
-			WHERE	
-				rownum <= 3 and not PROJECT_STATUS=2
-		)
-		]]>
+			]]>
+			<if test="search == 'main'">
+				<![CDATA[order by project_num desc]]>
+			</if>
+			<if test="search == 'carousel'">
+				<![CDATA[order by PROJECT_COUNT desc]]>
+			</if>
+			<if test="search == 'summoney'">
+				<![CDATA[order by project_summoney desc]]>
+			</if><![CDATA[
+		) WHERE ROWNUM <= 3 and not PROJECT_STATUS=2 and not PROJECT_STATUS=0 and not PROJECT_STATUS=3 and not PROJECT_STATUS=4]]>
+		
 	</select>
+	
+	<!--==============================================================================================
+	=======================================이 라인부터 댓글 관리==============================================
+	================================================================================================-->
+	
+	<insert id="replyInsert" parameterType="projectReply">
+		INSERT INTO ${reply_table_name} (
+		    reply_num,
+		    project_num,
+		    member_id,
+		    reply_content
+		) VALUES (
+		    ${reply_table_name}_seq.nextval,
+		    #{project_num},
+		    #{member_id},
+		    #{reply_content}
+		)
+	</insert>
+	<select id="replyList" parameterType="projectReply" resultType="projectReply">
+		SELECT
+		    reply_num,
+		    project_num,
+		    member_id,
+		    reply_content,
+		    to_char(reply_recdate,'YYYY-MM-DD') as reply_recdate
+		FROM
+		    ${reply_table_name} order by reply_num desc
+	</select>
+	
+	<delete id="replyDelete" parameterType="projectReply">
+		 DELETE FROM ${reply_table_name}
+		WHERE
+		    reply_num = #{reply_num}
+	</delete>
+	<update id="replyUpdate" parameterType="projectReply">
+		UPDATE ${reply_table_name}
+		SET
+		    reply_content = #{reply_content}
+		WHERE
+		    reply_num = #{reply_num}
+	</update>
+	
+	<!--==============================================================================================
+	=======================================이 라인부터 문의글 관리=============================================
+	================================================================================================-->
+	
+	<insert id="boardInsert" parameterType="qnaBoard">
+		INSERT INTO ${qna_board_table_name} (
+		    qna_num,
+		    qna_title,
+		    qna_content,
+		    member_id,
+		    qna_hidden
+		) VALUES (
+		    ${qna_board_table_name}_seq.nextval,
+		    #{qna_title},
+		    #{qna_content},
+		    #{member_id},
+		    #{qna_hidden}
+		)
+	</insert>
+	<select id="boardList" parameterType="qnaBoard" resultType="qnaBoard">
+	
+    SELECT
+	    qna_num,
+	    qna_title,
+	    qna_content,
+	    member_id,
+	    to_char(qna_regdate,'YYYY-MM-DD') as qna_regdate,
+	    to_char(qna_mdate,'YYYY-MM-DD') as qna_mdate,
+	    nvl(qna_reproot,0) as qna_reproot,
+	    nvl(qna_repindent,0) as qna_repindent,
+	    qna_hidden
+	FROM
+    ${qna_board_table_name} order by qna_repindent desc, qna_reproot asc, qna_num DESC
+	</select>
+	<delete id="boardDelete" parameterType="qnaBoard">
+		DELETE FROM ${qna_board_table_name}
+		WHERE
+		    qna_num = #{qna_num}
+	</delete>
+	<update id="boardUpdate" parameterType="qnaBoard">
+     UPDATE ${qna_board_table_name}
+		SET
+		    qna_title = #{qna_title},
+		    qna_content =#{qna_content},
+		    qna_mdate = sysdate
+		WHERE
+		    qna_num = #{qna_num}   
+	</update>
 </mapper>

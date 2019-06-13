@@ -59,7 +59,6 @@ public class MemberMController {
 	@ResponseBody
 	@RequestMapping(value="/del/{member_num}")
 	public String deleteMember(@PathVariable("member_num") int member_num) {
-		System.out.println("삭제할 번호 = "+member_num);
 		log.info("삭제할 번호는 = "+member_num);
 		MemberMVO mvo= new MemberMVO();
 		mvo.setMember_num(member_num);

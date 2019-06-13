@@ -22,7 +22,6 @@ public class PageDTO {
 		this.endPage = (int) (Math.ceil(cvo.getPageNum() /  (cnt*1.0))) * cnt;
 		// 페이지 시작번호 구하기
 		this.startPage = endPage - (cnt-1);
-		System.out.println("시작페이지 번호 = "+startPage);
 		// 끝 페이지 구하기
 		int realEnd = (int) (Math.ceil((total * 1.0) / cvo.getAmount()));
 

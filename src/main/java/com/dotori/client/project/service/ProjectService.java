@@ -54,5 +54,7 @@ public interface ProjectService {
 
 	public int boardUpdate(QnaBoard qvo);
 
+	public int qnaInsert(QnaBoard qvo);
+
 	
 }

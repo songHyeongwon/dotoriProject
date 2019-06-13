@@ -57,7 +57,7 @@ public class ProjectBoardController {
 		qvo.setQna_num(qna_num);
 		qvo.setQna_board_table_name(qna_board_table_name);
 		int result = projectService.boardDelete(qvo);
-		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+		return result >= 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 					: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -68,6 +68,18 @@ public class ProjectBoardController {
 		qvo.setQna_num(qna_num);
 		qvo.setQna_board_table_name(qna_board_table_name);
 		int result = projectService.boardUpdate(qvo);
+		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping(value = "/QnaInsert", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> qnaInsert(@RequestBody QnaBoard qvo) {
+		log.info("프로젝트 replyInsert 호출 성공");
+		log.info("QnaBoard : " + qvo);
+		int result = 0;
+		
+		
+		result = projectService.qnaInsert(qvo);
 		return result == 1 ? new ResponseEntity<String>("SUCCESS", HttpStatus.OK)
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

@@ -241,4 +241,10 @@ public class ProjectServiceImpl implements ProjectService {
 		int result = projectDao.boardUpdate(qvo);
 		return result;
 	}
+
+	@Override
+	public int qnaInsert(QnaBoard qvo) {
+		int result = projectDao.qnaInsert(qvo);
+		return result;
+	}
 }

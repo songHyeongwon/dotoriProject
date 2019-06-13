@@ -32,9 +32,59 @@
 			var qna_r_content = "";
 			var qna_r_hidden = "";
 			var member_id_r =""
+			var qna_hidden = 0
 			listAllboard(qna_board_table_name);
 			
+			
+			//답변하기 클릭시
+			$("#qnaInsertBtn").click(function() {
+				if(!checkForm("#qna_a_Member_id","작성자명을")) return;
+				else if(!checkForm("#qna_a_title","제목을")) return;
+				else if(!checkForm("#qna_a_content","내용을")) return;
+				else{
+					if(confirm("등록하시겠습니까?")){												
+						var insertUrl = "/projectBoard/QnaInsert";	
+						$.ajax({
+							url : insertUrl,
+							type : "post",
+							headers : {
+								"Content-Type":"application/json",
+								"X-HTTP-Method-Override" : "POST"
+							},
+							dataType:"text",
+							data: JSON.stringify({
+								qna_num : qna_num,
+								qna_title : $("#qna_a_title").val(),
+								qna_content : $("#qna_a_content").val(),
+								member_id : member_id_r,
+								qna_board_table_name : $("#qna_board_table_name").val(),
+								qna_hidden : qna_hidden,
+							}),
+							error : function() {
+								alert("시스템 오류입니다. 관리자에게 문의 하세요");
+							},
+							success : function(result) {
+								if(result=="SUCCESS"){
+									alert("게시글 등록이 완료되었습니다.");
+									dataResetBoard();
+									$("#QnaboardMadel").modal('hide');
+									listAllboard(qna_board_table_name);
+								}							
+							}
+						});
+					}
+				}
+			});
+			
+			
+			
 			$(document).on("click","input[data-Qna]",function(){
+				qna_num = $(this).parent("div").parent("div").attr("data-num");
+				member_id_r = $(this).parent("div").children().eq(1).html();
+				qna_r_content = $(this).parent("div").parent("div").children().eq(1).html();
+				qna_r_content = qna_r_content.replace(/<br>/g,"\n").trim();
+				qna_hidden = $(this).parent("div").parent("div").children().eq(2).val();
+				console.log("비밀글인가?" + qna_hidden);
 				$("#QnaboardMadel").modal();
 			});
 			//수정기능
@@ -78,6 +128,7 @@
 				qna_num = $(this).parent("div").parent("div").attr("data-num");		
 				qna_r_title = $(this).parent("div").children().eq(0).html();
 				member_id_r = $(this).parent("div").children().eq(1).html();
+				
 				qna_r_content = $(this).parent("div").parent("div").children().eq(1).html();
 				qna_r_content = qna_r_content.replace(/<br>/g,"\n").trim();
 				
@@ -98,6 +149,7 @@
 			});
 			//삭제기능
 			$(document).on("click","input[data-delbtnBoard]",function(){
+				console.log($(this).parent("div").parent("div").attr("data-num")+"번 게시글을 삭제합니다.")
 				if(confirm("게시글을 삭제하시겠습니까?")){					
 					qna_num = $(this).parent("div").parent("div").attr("data-num");
 					$.ajax({
@@ -184,10 +236,7 @@
 			var wrapper_div = $("<div>");
 			wrapper_div.attr("data-num",qna_num);
 			wrapper_div.addClass("panel panel-default");
-			//답글이면 새로운 클래스 입력
-			if(qna_reproot==1){
-				wrapper_div.addClass("reproot");
-			}
+			
 			
 			//작성자 정보가 지정될 <div>태그
 			var new_div = $("<div>");
@@ -196,13 +245,16 @@
 			//작성자 정보의 이름
 			var name_span = $("<span>");
 			name_span.addClass("name");
-			name_span.html(member_id+"님");
+			name_span.html(member_id);
 			
 			//작성일자
 			var date_span = $("<span>");
 			date_span.html(" / "+qna_regdate+" ");
+			
+			var qna_hiddenin = $("<input>");
+			qna_hiddenin.attr("type","hidden");
+			qna_hiddenin.attr("value",qna_hidden);
 			//비밀글인가?
-
 			if(qna_reproot!=1&&$("#boardMember_id").val()=="${project.member_id}"){
 				//답글이 아니고 로그인 한사람과 제작자가 같으면
 				var qnaBtn = $("<input>");
@@ -210,9 +262,8 @@
 				qnaBtn.attr("data-Qna","qnaBtn");
 				qnaBtn.addClass("btn btn-primary gap");
 			}
-			//온 아이디와 멤버 id가 같은 경우에만 수정 삭제를 만든다.
-			if(member_id==$("#boardMember_id").val()){
-				
+			//온 아이디와 멤버 id가 같은 경우+답변글이 아닌 경우에만 수정 삭제를 만든다. 
+			if(member_id==$("#boardMember_id").val()&&qna_reproot!=1){
 				//수정하기 버튼
 				var upBtn = $("<input>");
 				upBtn.attr({"type" : "button", "value" : "수정하기"});
@@ -263,10 +314,32 @@
 				content_div.html(qna_content);
 				content_div.addClass("panel-body");
 			}
+			//답글이면 새로운 클래스 입력
+			if(qna_reproot==1){
+				wrapper_div.addClass("reproot");
+				name_span.html(member_id);
+				var spenas = $("<span>");
+				spenas.html("의 글의 답변입니다.");
+				name_span.append(spenas);
+				if("${data.member_id}"=="${project.member_id}"){
+					
+					//수정하기 버튼
+					var upBtn = $("<input>");
+					upBtn.attr({"type" : "button", "value" : "수정하기"});
+					upBtn.attr("data-upbtnBoard","upBtn");
+					upBtn.addClass("btn btn-primary gap");
+					
+					//삭제하기 버튼
+					var delBtn = $("<input>");
+					delBtn.attr({"type":"button", "value" : "삭제하기"});
+					delBtn.attr("data-delbtnBoard","delBtn");
+					delBtn.addClass("btn btn-default gap");
+				}
+			}
 			//조립하기
 			new_div.append(titleP).append(name_span).append(date_span).append(upBtn).append(delBtn).append(qnaBtn);
 			
-			wrapper_div.append(new_div).append(content_div);
+			wrapper_div.append(new_div).append(content_div).append(qna_hiddenin);
 			$("#boardList").append(wrapper_div);
 		}
 		
@@ -405,17 +478,21 @@
 						<h4 class="modal-title" id="boardModalLabel">제작자의 답변하기</h4>
 					</div>
 					<div class="modal-body">
-						<form id="boardForm" name="boardForm">
+						<form id="qnaForm" name="boardForm">
 							<div class="form-group">
 								<input type="hidden" name="qna_board_table_name" value="${project.qna_board_table_name}" id="qna_board_table_name">
 								<label for="recipient-name" class="control-label">작성자: </label> 
-								<input type="text" class="form-control" id="boardMember_id" name="member_id" value="${data.member_id}" readonly="readonly"/>
+								<input type="text" class="form-control" id="qna_a_Member_id" name="member_id" value="${data.member_id}" readonly="readonly"/>
 								<label for="recipient-name" class="control-label">글제목: </label> 
-								<input type="text" class="form-control" id="qna_title" name="qna_title"/>
+								<input type="text" class="form-control" id="qna_a_title" name="qna_title"/>
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="control-label">글내용: </label>
-								<textarea class="form-control" id="qna_content" name="qna_content" rows="5"></textarea>
+								<textarea class="form-control" id="qna_a_content" name="qna_content" rows="5"></textarea>
+							</div>
+							<div>
+								<label for="message-text" class="control-label">비밀문의</label>
+								<input type="hidden" class="form-control" name="qna_hidden" id="qna_a_hidden" value="0">
 							</div>
 						</form>
 					</div>

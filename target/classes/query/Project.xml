@@ -372,13 +372,15 @@
 		    qna_title,
 		    qna_content,
 		    member_id,
-		    qna_hidden
+		    qna_hidden,
+		    QNA_REPINDENT
 		) VALUES (
 		    ${qna_board_table_name}_seq.nextval,
 		    #{qna_title},
 		    #{qna_content},
 		    #{member_id},
-		    #{qna_hidden}
+		    #{qna_hidden},
+		    ${qna_board_table_name}_seq.currval
 		)
 	</insert>
 	<select id="boardList" parameterType="qnaBoard" resultType="qnaBoard">
@@ -394,12 +396,12 @@
 	    nvl(qna_repindent,0) as qna_repindent,
 	    qna_hidden
 	FROM
-    ${qna_board_table_name} order by qna_repindent desc, qna_reproot asc, qna_num DESC
+    ${qna_board_table_name} order by qna_repindent desc, qna_reproot asc
 	</select>
 	<delete id="boardDelete" parameterType="qnaBoard">
 		DELETE FROM ${qna_board_table_name}
 		WHERE
-		    qna_num = #{qna_num}
+		    QNA_REPINDENT = #{qna_num}
 	</delete>
 	<update id="boardUpdate" parameterType="qnaBoard">
      UPDATE ${qna_board_table_name}
@@ -410,4 +412,23 @@
 		WHERE
 		    qna_num = #{qna_num}   
 	</update>
+	<insert id="qnaInsert" parameterType="qnaBoard">
+		INSERT INTO ${qna_board_table_name} (
+		    qna_num,
+		    qna_title,
+		    qna_content,
+		    member_id,
+		    qna_hidden,
+		    QNA_REPINDENT,
+		    QNA_REPROOT
+		) VALUES (
+		    ${qna_board_table_name}_seq.nextval,
+		    #{qna_title},
+		    #{qna_content},
+		    #{member_id},
+		    #{qna_hidden},
+		    #{qna_num},
+		    1
+		)
+	</insert>
 </mapper>

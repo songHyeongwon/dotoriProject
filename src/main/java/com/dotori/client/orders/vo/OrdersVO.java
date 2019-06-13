@@ -17,5 +17,4 @@ public class OrdersVO extends DeliveryVO{
 	private int order_guideAgree;
 	private int order_infoAgree;
 	private int content_kind;
-	
 }

@@ -184,6 +184,7 @@ public class ProjectController {
 		
 		log.info("navprojectList 호출");
 		//검색 값 입력
+		pvo.setAmount(9);
 		pvo.setSearch("Patterns2");
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);

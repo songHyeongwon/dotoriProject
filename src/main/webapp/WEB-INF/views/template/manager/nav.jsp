@@ -12,14 +12,14 @@
 						<li class="active"><a href="/">관리자 홈으로</a></li>
 						<li class="dropdown"><a href="/projectManager/projectManagerForm">프로젝트 관리</a>
 							</li>
-						<li class="dropdown"><a href="#">회원관리</a>
+						<li class="dropdown"><a href="/memberManager/memberManagerForm">회원관리</a>
 							</li>
 						<li class="dropdown"><a href="#">게시판 글 관리</a>
 							</li>
 						<li class="dropdown"><a href="/ordersManager/ordersManagerView">결제내역 관리</a>
 							</li>
-						<li class="dropdown"><a href="#">기타 관리</a>
-							</li>
+						<!-- <li class="dropdown"><a href="#">기타 관리</a>
+							</li> -->
 					</ul>
 				</nav>
 			</div>

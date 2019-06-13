@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotori.manager.member.dao.MemberMDao">
+	<sql id="memberSearch">
+		<if test="search=='member_id'">
+				<![CDATA[member_id like '%'|| #{keyword} ||'%']]>
+		</if>
+		<if test="search=='member_name'">
+				<![CDATA[member_name like '%'|| #{keyword} ||'%']]>
+		</if>
+	</sql>
+	
+	<select id="getMemberList" parameterType="memberM" resultType="memberM">
+		<![CDATA[
+		SELECT 
+		    member_num,
+		    member_id,
+		    member_name,
+		    member_address,
+		    member_phone,
+		    member_email,
+		    member_kind,
+		    member_point,
+		    to_char(member_adddate,'YYYY-MM-DD') as member_adddate,
+		    to_char(member_mpwddate,'YYYY-MM-DD') as member_mpwddate,
+		    member_nickname,
+		    member_detailaddress
+		    
+		FROM ( 
+			SELECT /*+INDEX_DESC(member member_pk)*/
+				rownum as rnum, 
+				member_num,
+			    member_id,
+			    member_name,
+			    member_address,
+			    member_phone,
+			    member_email,
+			    member_kind,
+			    member_point,
+			    member_adddate,
+			    member_mpwddate,
+			    member_nickname,
+			    member_detailaddress
+			FROM member 
+			WHERE ]]>	
+			
+		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="memberSearch"></include>
+		</trim>
+		<![CDATA[ rownum <= #{pageNum} * #{amount}
+		) PROJECTlist
+		WHERE rnum > (#{pageNum} - 1) * #{amount}]]>
+	</select>
+	
+	<select id="memberListCnt" parameterType="memberM" resultType="int">
+		select count(*) from member 
+		<trim prefix=" where (" suffix=")">
+			<include refid="memberSearch"></include>
+		</trim>
+	</select>
+	<select id="memberDetail" parameterType="memberM" resultType="memberM">
+		SELECT 
+		    member_num,
+		    member_id,
+		    member_name,
+		    member_address,
+		    member_phone,
+		    member_email,
+		    member_kind,
+		    member_point,
+		    to_char(member_adddate,'YYYY-MM-DD') as member_adddate,
+		    to_char(member_mpwddate,'YYYY-MM-DD') as member_mpwddate,
+		    member_nickname,
+		    member_detailaddress
+		FROM member where member_num=#{member_num}
+	</select>
+	
+	<delete id="deleteMember" parameterType="memberM">
+		delete from member where member_id=#{member_id}
+	</delete>
+	
+	<!-- 삭제회원 테이블에 값 입력 -->
+	<insert id="deleteMemberInsert" parameterType="memberM">
+		/* member - deleteMemberInsert */
+		insert into DELMEMBER(member_num,member_id,member_pwd,member_name,member_address,member_detailAddress,member_phone,member_eMail,member_kind,
+		member_sigNum,member_point,member_addDate,member_nickName,member_infoAgree,member_evenAgree) 
+		values(delmember_seq.nextval,#{member_id},#{member_pwd},#{member_name},#{member_address}
+		<if test="member_detailAddress!=''">
+		,#{member_detailAddress}
+		</if>
+		<if test="member_detailAddress==''">
+		,''
+		</if>
+		,#{member_phone},#{member_eMail},#{member_kind},#{member_sigNum},#{member_point},#{member_addDate2},#{member_nickName},#{member_infoAgree},#{member_evenAgree})
+	</insert>
+	
+		<select id="memberAll" parameterType="memberM" resultType="memberM">
+		/* member - memberAll */
+		SELECT
+		    member_num,
+		    member_id,
+		    member_pwd,
+		    member_name,
+		    member_address,
+		    member_phone,
+		    member_email,
+		    member_kind,
+		    member_signum,
+		    member_point,
+		    member_adddate as member_adddate2,
+		    member_mpwddate as member_mpwddate2,
+		    member_nickname,
+		    member_infoagree,
+		    member_evenagree,
+		    member_authen,
+		    member_detailaddress
+		 from member where member_num = #{member_num}
+	</select>
+</mapper>

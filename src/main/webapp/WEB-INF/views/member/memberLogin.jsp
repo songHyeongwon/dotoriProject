@@ -25,6 +25,7 @@
 		
 		<script type="text/javascript">	
 			$(function(){
+				
 				// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감
 				var userInputId = getCookie("userInputId");
 				$("#member_id").val(userInputId);
@@ -113,7 +114,8 @@
 				</form>
 				<div class="form-group">	
 					<input type="checkbox" id="saveId" name="saveId"/>&nbsp;<label for="saveId">아이디 저장</label>
-					<a href="#" class="idPwdLink">아이디/비밀번호 찾기</a>
+					<a href="/member/idSearch" class="idLink">아이디</a>
+					<a href="/member/passwordSearch" class="PwdLink"> 비밀번호 찾기</a>
 				</div>
 				<div class="form-group">	
 					<input type="button" class="btn btn-warning" id="loginBtn" name="loginBtn" value="로그인"/>

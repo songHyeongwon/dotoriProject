@@ -74,3 +74,54 @@ function chkFile(item){
 	}
 }
 
+function makePaging(area){
+	console.log("들어오냐????");
+	var column = $("<div>");
+	cloumn.addClass("text-center");
+	
+	var ulist = $("<ul>");
+	ulist.addClass("pagination");
+	
+	var ifc = $("<c:if>");
+	ifc.attr("test","${pageMaker.prev}");
+	
+	var list = $("<li>");
+	list.addClass("paginate_button previous");
+	
+	var a = $("<a>");
+	a.attr("href","${pageMaker.startPage-1}");
+	a.html("Previous");
+	
+	var rep = $("<c:forEach>");
+	rep.attr({
+		"var" : "num",
+		"begin" : "${pageMaker.startPage}",
+		"end" : "${pageMaker.endPage}"
+	});
+	
+	var list1 = $("<li>");
+	list1.addClass("paginate_button ${pageMaker.cvo.pageNum == num ? 'active' : '' }");
+	
+	var a1 = $("<a>");
+	a1.attr("href","${num}");
+	a1.html("${num}");
+	
+	var ifc1 = $("<c:if>");
+	ifc1.attr("test","${pageMaker.next}");
+	
+	var list2 = $("<li>");
+	list2.addClass("paginate_button next");
+	
+	var a2 = $("<a>");
+	a2.attr("href","${pageMaker.endPage+1}");
+	a2.html("Next");
+	
+	
+	ifc.append(list).append(a);
+	rep.append(list1).append(a1);
+	ifc1.append(list2).append(a2);
+	
+	column.append(ul.append(ifc).append(rep).append(ifc2));
+	
+	$("'#"+area+"'").append(column);
+}

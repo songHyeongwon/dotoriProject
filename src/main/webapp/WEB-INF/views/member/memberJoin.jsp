@@ -22,11 +22,10 @@
 		</style>
 =======
 		</style> -->
->>>>>>> refs/remotes/choose_remote_name/2019.06.07
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 
-		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
+		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
 	
@@ -35,7 +34,7 @@
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
 		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> -->
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
@@ -51,10 +50,11 @@
 			var sigNumCompanyPattern = /^[0-9]{2,5}$/;	// 사업자 등록번호 정규식
 			var Pattern = /^[0-9a-zA-Z]{5,20}$/;	// 아이디 및 비밀번호 패턴 정규식
 			var phonePattern = /^[0-9]{3,4}$/;		// 전화번호 정규식
-			var idchk = 0;
-			var firstSigNum;
-			var middleSigNum;
-			var lastSigNum;
+			var idchk = 0;							// 아이디 중복확인 버튼 클릭 변수
+			var eMailChk							// 이메일 중복 확인 버튼 클릭 변수
+			var firstSigNum;						// 구분번호 동적 생성 맨앞 변수
+			var middleSigNum;						// 구분번호 동적 생성 중간 변수
+			var lastSigNum;							// 구분번호 동적 생성 마지막 변수
 			var siglang;
 			var slide;
 			
@@ -78,7 +78,7 @@
 				
 				lastSigNum=$("<input>");
 				lastSigNum.attr({
-					"type" : "text" ,
+					"type" : "password" ,
 					"name" : "lastSigNum",
 					"id" : "lastSigNum",
 					"maxlength" : "7"
@@ -407,7 +407,7 @@
 							<td id="sig">주민번호 or 외국인 등록번호</td>
 							<td colspan="2" id="sigNum">
 								<input type="text" id="firstSigNum" name="firstSigNum" maxlength="6"/>-
-								<input type="text" id="lastSigNum" name="lastSigNum" maxlength="7"/>
+								<input type="password" id="lastSigNum" name="lastSigNum" maxlength="7"/>
 							</td> 
 						</tr>
 						<tr class="tb">

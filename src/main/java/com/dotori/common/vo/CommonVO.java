@@ -12,7 +12,7 @@ public class CommonVO {
 	private int amount; // 페이지에 보여줄 데이터 수
 
 	public CommonVO() {
-		this(1, 9);
+		this(1, 10);
 	}
 
 	public CommonVO(int pageNum, int amount) {

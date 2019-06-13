@@ -1,20 +1,28 @@
 package com.dotori.client.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dotori.client.member.email.Email;
+import com.dotori.client.member.email.EmailSender;
 import com.dotori.client.member.service.MemberService;
 import com.dotori.client.member.vo.MemberVO;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.common.vo.PageDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -26,7 +34,13 @@ import lombok.extern.log4j.Log4j;
 public class MemberController {
 
 	private MemberService memberService;
-
+	
+	@Autowired
+	private EmailSender emailSender;
+	
+	@Autowired
+	private Email email;
+	
 	// 로그인 화면으로 전송
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String memberLogin() {
@@ -55,6 +69,19 @@ public class MemberController {
 	@RequestMapping(value="/personalModify")
 	public String personalModify() {
 		return "member/personalModify";
+	}
+	
+	// 아이디 찾기 페이지로 이동
+	@RequestMapping(value="/idSearch")
+	public String idSearch() {
+		return "member/idSearch";
+	}
+	
+	// 비밀번호 찾기 페이지로 이동
+	@RequestMapping(value="/passwordSearch")
+	public String passwordSearch() {
+		log.info("왜 안들어감?");
+		return "member/passwordSearch";
 	}
 	
 	// 회원가입 중 ID 중복체크 버튼 컨트롤러
@@ -158,33 +185,31 @@ public class MemberController {
 		}
 	}
 	
-	// 마이페이지 '펀딩 중' 클릭 시 컨트롤러
+	// 마이페이지 '내가 만든 펀딩' 클릭 시 컨트롤러
 	@ResponseBody
-	@PostMapping(value="/memberFunding",produces="text/plain; charset=UTF-8")
+	@RequestMapping(value="/myFunding",produces="text/plain; charset=UTF-8")
 	public String memberFunding(@ModelAttribute MemberVO mvo,Model model) {
 		String member_id = mvo.getMember_id();
 		
-		int result = memberService.memberFunding(member_id);
+		String listData = memberService.myFunding(member_id);
 		
-		
-		if(result==1) {
-			return "성공";
-		}else {
-			return "실패";
-		}
+		// 레코드 숫자 찾기
+		/*int memberTotal = memberService.memberListCnt(member_id);
+		model.addAttribute("pageMaker",new PageDTO(mvo, memberTotal, 10));*/
+	
+		return listData;
 		
 	}
 	
 	// 마이페이지 '사용한 도토리 내역' 클릭 시 화면 출력 컨트롤러
-	@PostMapping(value="/usingDotori")
+	@ResponseBody
+	@PostMapping(value="/usingDotori",produces="text/plain; charset=UTF-8")
 	public String usingDotori(@ModelAttribute MemberVO mvo, Model model) {
 		String member_id = mvo.getMember_id();
 		
-		int result = memberService.usingDotori(member_id);
+		String listData = memberService.usingDotori(member_id);
 		
-		model.addAttribute("judge",result);
-		
-		return "member/usingDotori";
+		return listData;
 	}
 	
 	// 회원 탈퇴 컨트롤러
@@ -235,4 +260,82 @@ public class MemberController {
 		}
 	}
 	
+	// 이메일 체크 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="/emailCheck",produces="text/plain; charset=UTF-8")
+	public String emailCheck(@ModelAttribute MemberVO mvo, Model model) {
+		String member_eMail = mvo.getMember_eMail();
+		log.info("member_eMail : "+member_eMail);
+		
+		int result = memberService.emailCheck(member_eMail);
+		
+		if(result==1) {
+			return "성공";
+		}else {
+			return "실패";
+		}
+	}
+	
+	// 이메일 아이디 전송
+	@ResponseBody
+	@RequestMapping(value="/logIdCheck",produces="text/plain; charset=UTF-8")
+	public String logIdCheck(@ModelAttribute MemberVO mvo,Model model) throws Exception{
+		ModelAndView mav;
+		String member_eMail = mvo.getMember_eMail(); 
+		
+		MemberVO mvoSId = memberService.logIdCheck(mvo);
+		
+		String member_id = mvoSId.getMember_id();
+		String member_name = mvoSId.getMember_name();
+		
+		log.info(member_id);
+		
+		if(member_id!=null) {
+			email.setContent("아이디는 " + member_id+" 입니다.");
+			email.setReceiver(member_eMail);
+			email.setSubject(member_name+"님 Dotori's Funding 아이디 찾기 메일입니다.");
+			emailSender.SendEmail(email);	
+			return "성공";
+		}else {
+			return "실패";
+		}
+	}
+	
+	// 이메일,아이디 확인 컨트롤러
+	@ResponseBody
+	@RequestMapping(value="/eMailIdCheck",produces="text/plain; charset=UTF-8")
+	public String eMailIdCheck(@ModelAttribute MemberVO mvo, Model model) {
+		log.info("eMailIdCheck 컨트롤러");
+		log.info(mvo.getMember_id());
+		log.info(mvo.getMember_eMail());
+		
+		int result = memberService.eMailIdCheck(mvo);
+		
+		if(result==1) {
+			return "성공";
+		}else {
+			return "실패";
+		}
+	}
+	
+	// 이메일 비밀번호 전송
+	@ResponseBody
+	@RequestMapping(value="/logPasswordCheck",produces="text/plain; charset=UTF-8")
+	public String logPasswordCheck(@ModelAttribute MemberVO mvo,Model model) throws Exception{
+		String member_eMail = mvo.getMember_eMail();
+		String member_id = mvo.getMember_id();
+		String member_pwd = memberService.logPasswordCheck(mvo);
+		
+		log.info(member_id);
+		
+		if(member_pwd!=null) {
+			email.setContent("비밀번호는 " + member_pwd+" 입니다.");
+			email.setReceiver(member_eMail);
+			email.setSubject(member_id+"님 Dotori's Funding 비밀번호 찾기 메일입니다.");
+			emailSender.SendEmail(email);		
+			return "성공";
+		}else {
+			return "실패";
+		}
+	}
 }

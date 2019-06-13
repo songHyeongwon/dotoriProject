@@ -15,4 +15,5 @@ public class OrdersVO {
 	private int order_guideAgree;
 	private int order_infoAgree;
 	private int content_kind;
+	private String project_name;
 }

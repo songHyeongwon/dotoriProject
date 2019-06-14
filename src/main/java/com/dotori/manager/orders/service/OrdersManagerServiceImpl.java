@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dotori.manager.orders.dao.OrdersManagerDao;
 import com.dotori.manager.orders.vo.OrdersMVO;
+import com.dotori.manager.project.vo.ProjectMVO;
 
 import lombok.Setter;
 @Service
@@ -24,5 +25,10 @@ public class OrdersManagerServiceImpl implements OrdersManagerService {
 		int result=ordersManagerDao.ordersListCnt(omvo);
 		return result;
 	}
-	
+	@Override
+	public List<ProjectMVO> ordersRatio() {
+		List<ProjectMVO> resultList=ordersManagerDao.ordersRatio();
+		return resultList;
+	}
+		
 }

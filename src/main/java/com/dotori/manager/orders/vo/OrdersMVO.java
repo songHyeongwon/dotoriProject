@@ -3,10 +3,8 @@ package com.dotori.manager.orders.vo;
 import com.dotori.common.vo.CommonVO;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-//(callSuper=false)
 public class OrdersMVO extends CommonVO {
 	private int orders_num;
 	private String member_id;

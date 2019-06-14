@@ -155,7 +155,7 @@ public class ProjectController {
 		int total = projectService.projectListCnt(pvo);
 		log.info("============================================="+pvo);
 		log.info("ÃÑ Ä®·³ °¹¼ö´Â = "+total);
-		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
+		model.addAttribute("pageMaker",new PageDTO(pvo,total,10));
 		//log.info("µé¾î¿À´Â °ªÀº = "+new PageDTO(pvo,total,9));
 		return "project/projectList";
 	}

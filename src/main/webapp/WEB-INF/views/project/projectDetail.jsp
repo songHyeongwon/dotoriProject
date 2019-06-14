@@ -202,24 +202,24 @@ var optionCnt =0;
 				<div id="projectInfo2">
 					<c:choose>
 						<c:when test="${project.project_status==0}">
-							<h1>관리자의 승인을 기다리고 있습니다.</h1>
+							<h2>관리자의 승인을 기다리고 있습니다.</h2>
 						</c:when>
 						<c:when test="${project.project_status==1}">
-							<h1>현재 진행중인 프로젝트</h1>
+							<h2>현재 진행중인 프로젝트</h2>
 						</c:when>
 						<c:when test="${project.project_status==2}">
-							<h1>부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h1>
+							<h2>부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h2>
 						</c:when>
 						<c:when test="${project.project_status==3}">
-							<h1>여러분에 성원에 성공한 프로젝트입니다.</h1>
+							<h2>여러분에 성원에 성공한 프로젝트입니다.</h2>
 						</c:when>
 						<c:when test="${project.project_status==4}">
-							<h1>아쉽게도 달성되지 못한 프로젝트입니다.</h1>
+							<h2>아쉽게도 달성되지 못한 프로젝트입니다.</h2>
 						</c:when>
 					</c:choose>
-					<h1>목표금액 : ${project.project_targetMoney}</h1>
-					<h1>현재까지 모음 : ${project.project_sumMoney}</h1>
-					<h1>이 아이디어를 ${project.project_count}명이 후원해주셨습니다.</h1>
+					<h2>목표금액 : ${project.project_targetMoney}</h2>
+					<h3>현재까지 모음 : ${project.project_sumMoney}</h3>
+					<h3>이 아이디어를 ${project.project_count}명이 <br>후원해주셨습니다.</h3>
 				</div>
 			</div>
 			<%--헤더 종료 --%>

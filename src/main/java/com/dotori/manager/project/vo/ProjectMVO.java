@@ -6,11 +6,14 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dotori.client.project.vo.ContentVO;
+import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.common.vo.CommonVO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class ProjectMVO extends CommonVO{
 	private int project_num; //프로젝트 번호
 	private String project_name; //프로젝트 이름

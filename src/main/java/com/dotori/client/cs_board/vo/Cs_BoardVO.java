@@ -24,4 +24,5 @@ public class Cs_BoardVO extends CommonVO{
 	private String cs_regDate    = "";
 	private String cs_mDate    = "";
 	private int cs_hits    = 0;
+	private String member_name;
 }

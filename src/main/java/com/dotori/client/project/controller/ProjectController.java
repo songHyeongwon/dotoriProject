@@ -68,33 +68,59 @@ public class ProjectController {
 		log.info("insert 안에 들어 왔습니다.");
 		log.info("들어온값"+pvo);
 		
-		//pk키 가져오기
-		int Pknum = projectService.getProjectPKNum();
-		
-		String id = pvo.getMember_id();
-		pvo.setProject_num(Pknum);
-		pvo.setReply_table_name(id+"_"+Pknum+"_reply");
-		pvo.setOption_table_name(id+"_"+Pknum+"_option");
-		pvo.setContent_table_name(id+"_"+Pknum+"_content");
-		pvo.setQna_board_table_name(id+"_"+Pknum+"_qna_board");
-		
-		//각각 테이블 생성하기
-		int result = 0;
-		result = projectService.createContentTable(pvo);
-		result = projectService.createReplyTable(pvo);
-		result = projectService.createOptionTable(pvo);
-		result = projectService.createQna_boardTable(pvo);
-		
-		result = projectService.createContentTableSeq(pvo);
-		result = projectService.createReplyTableSeq(pvo);
-		result = projectService.createQna_boardTableSeq(pvo);
-		
-		//프로젝트 인설트
-		result = projectService.insertProject(pvo);
-		result = projectService.insertProjectContentTable(pvo);
-		if(result==0) {
-			log.info("======================================아마오류?=================================");
+		try {
+			//pk키 가져오기
+			int Pknum = projectService.getProjectPKNum();
+			
+			String id = pvo.getMember_id();
+			pvo.setProject_num(Pknum);
+			pvo.setReply_table_name(id+"_"+Pknum+"_reply");
+			pvo.setOption_table_name(id+"_"+Pknum+"_option");
+			pvo.setContent_table_name(id+"_"+Pknum+"_content");
+			pvo.setQna_board_table_name(id+"_"+Pknum+"_qna_board");
+			
+			//각각 테이블 생성하기
+			int result = 0;
+			result = projectService.createContentTable(pvo);
+			result = projectService.createReplyTable(pvo);
+			result = projectService.createOptionTable(pvo);
+			result = projectService.createQna_boardTable(pvo);
+			
+			result = projectService.createContentTableSeq(pvo);
+			result = projectService.createReplyTableSeq(pvo);
+			result = projectService.createQna_boardTableSeq(pvo);
+			
+			//프로젝트 인설트
+			result = projectService.insertProject(pvo);
+			result = projectService.insertProjectContentTable(pvo);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			//메세지를 반환
+			model.addAttribute("msg", "서버에 오류가 생겨 입력에 실패하였습니다. 다시 확인후 진행해주십시오"); 
+			model.addAttribute("url", "saveok.jsp"); 
+			
+			ProjectVO pvos = new ProjectVO();
+			//가장 최근것 3가지 반영 메인 리스트
+			pvo.setSearch("main");
+			List<ProjectVO> mainList = projectService.mainList(pvos);
+			model.addAttribute("mainList",mainList);
+			
+			//메인 캐러셀에 반환할 값을 골라넣음 인기있는 메뉴(진행중이며, 후원자수가 가장 많음
+			pvo.setSearch("carousel");
+			List<ProjectVO> carouselList = projectService.mainList(pvos);
+			model.addAttribute("viewList",carouselList);
+			
+			//최고액 후원 반환
+			pvo.setSearch("summoney");
+			List<ProjectVO> summoneylList = projectService.mainList(pvos);
+			model.addAttribute("summoneyList",summoneylList);
+			return "index";
 		}
+
+		//메세지를 반환
+		model.addAttribute("msg", "입력에 성공하였습니다."); 
+		model.addAttribute("url", "saveok.jsp"); 
 		
 		ProjectVO pvos = new ProjectVO();
 		//가장 최근것 3가지 반영 메인 리스트
@@ -120,6 +146,8 @@ public class ProjectController {
 	public String projectList(@ModelAttribute ProjectVO pvo, Model model) {
 		log.info("ProjectList 호출 성공");
 		projectService.updateStatus();
+		//처음 객체생성시 Amount의 기본값은 10이기때문에 9로 설정해줘야 화면에 9개의 값만 받아옴
+		pvo.setAmount(9);
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);
 		
@@ -128,9 +156,7 @@ public class ProjectController {
 		log.info("============================================="+pvo);
 		log.info("총 칼럼 갯수는 = "+total);
 		model.addAttribute("pageMaker",new PageDTO(pvo,total,9));
-
-		
-		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,10));
+		//log.info("들어오는 값은 = "+new PageDTO(pvo,total,9));
 		return "project/projectList";
 	}
 	/********************************************************************************************
@@ -158,6 +184,7 @@ public class ProjectController {
 		
 		log.info("navprojectList 호출");
 		//검색 값 입력
+		pvo.setAmount(9);
 		pvo.setSearch("Patterns2");
 		List<ProjectVO> list = projectService.projectList(pvo);
 		model.addAttribute("listProject",list);

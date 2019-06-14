@@ -117,7 +117,8 @@
 		</style>
 	</head>
 	<body>
-		<input type="hidden" name="member_id" id="member_id" value="master"/>						
+	
+		<input type="hidden" name="member_id" id="member_id" value="${data.member_id}"/>						
 		<div class="contentContainer container-fiuid">
 			<div class="contentTit page-header">
 				<h3 class="text-center">문의 게시판 상세보기</h3>

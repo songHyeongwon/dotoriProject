@@ -87,8 +87,8 @@
 				  $(this).tab('show')
 				})
 				
-				// 정보 수정 버튼 클릭 시 함수 
-				$("#modifyPerson").click(function(){
+				// 개인 정보 수정 클릭 시 함수 
+				$(".personalModify").click(function(){
 					location.href="/member/confirmPassword"
 				})
 				
@@ -146,7 +146,7 @@
 								if(data=="성공"){
 									alert("도토리 충전이 완료되었습니다.");
 									$("#dotoriModal").modal('hide');
-									location.href = "/member/memberMyPage"
+									location.href = "/member/memberMyPage";
 								}else{
 									alert("도토리 충전 중 오류 발생 잠시 후 다시 시도해 주세요.");
 								}
@@ -162,7 +162,8 @@
 				})
 				
 				
-			})				
+				
+			})
 		</script>
 	</head>
 	<body>
@@ -182,7 +183,7 @@
 						</tr>
 						<tr>
 							<td><span class="dotori">${data.member_name}</span>님</td>
-							<td><span class="dotori">${data.member_point}</span>개
+							<td><span class="dotori" id="member_point">${data.member_point}</span>개
 								<input type="button" id="dotoriCharge" name="dotoriCharge" value="도토리 충전"></td>
 						</tr>
 					</table>
@@ -193,7 +194,7 @@
 						<li class="list" role="presentation"><a href="#fundings" aria-controls="fundings" role="tab" data-toggle="tab">펀딩 중</a></li>
 						<li class="list" role="presentation"><a href="#usingDotori" aria-controls="usingDotori" role="tab" data-toggle="tab">사용한 도토리 내역</a></li>
 						<li class="list" role="presentation"><a href="#myFund" aria-controls="myFund" role="tab" data-toggle="tab">내가 만든 펀딩</a></li>
-						<li class="list" role="presentation"><a href="#personalModify" aria-controls="personalModify" role="tab" data-toggle="tab">개인 정보 수정</a></li>
+						<li class="list" role="presentation"><a href="#personalModify" aria-controls="personalModify" class="personalModify" role="tab" data-toggle="tab">개인 정보 수정</a></li>
 					</ul>
 				</div>
 				
@@ -206,8 +207,6 @@
 				    </div>
 				    <div role="tabpanel" class="tab-pane" id="myFund">
 				    	<jsp:include page="myFund.jsp"/> 
-				    </div>
-				    <div role="tabpanel" class="tab-pane" id="personalModify">
 				    </div>
 				</div>
 				

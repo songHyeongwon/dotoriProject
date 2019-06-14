@@ -21,8 +21,10 @@ import com.dotori.client.member.email.Email;
 import com.dotori.client.member.email.EmailSender;
 import com.dotori.client.member.service.MemberService;
 import com.dotori.client.member.vo.MemberVO;
+import com.dotori.client.orders.vo.OrdersVO;
 import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.common.vo.PageDTO;
+import com.dotori.manager.orders.vo.OrdersMVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -80,7 +82,6 @@ public class MemberController {
 	// 비밀번호 찾기 페이지로 이동
 	@RequestMapping(value="/passwordSearch")
 	public String passwordSearch() {
-		log.info("왜 안들어감?");
 		return "member/passwordSearch";
 	}
 	
@@ -201,7 +202,7 @@ public class MemberController {
 		
 		// 레코드 숫자 찾기
 		/*int memberTotal = memberService.memberListCnt(member_id);
-		model.addAttribute("pageMaker",new PageDTO(mvo, memberTotal, 10));*/
+		model.addAttribute("myFundPageMaker",new PageDTO(mvo, memberTotal, 10));*/
 	
 		return listData;
 		
@@ -222,12 +223,15 @@ public class MemberController {
 	// 마이페이지 '펀딩중' 클릭 시 화면 출력 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="/fundingProcess",produces="text/plain; charset=UTF-8")
-	public String fundingProcess(@ModelAttribute MemberVO mvo) {
+	public String fundingProcess(@ModelAttribute MemberVO mvo,Model model) {
 		log.info("fundingProcess 출력");
 		
 		String member_id = mvo.getMember_id();
 		
 		String listData = memberService.fundingProcess(member_id);
+		
+		/*int memberTotal = memberService.memberfundingListCnt(member_id);
+		model.addAttribute("fundingPageMaker",new PageDTO(mvo, memberTotal, 10));*/
 		
 		return listData;
 	}
@@ -355,6 +359,34 @@ public class MemberController {
 			emailSender.SendEmail(email);		
 			return "성공";
 		}else {
+			return "실패";
+		}
+	}
+	
+	// 마이 페이지 '사용한 도토리 내역' 환불 요청 
+	@ResponseBody
+	@RequestMapping(value="/refund", produces="text/plain; charset=UTF-8")
+	public String refund(@ModelAttribute OrdersMVO omvo,HttpSession session) {
+		int orders_num = omvo.getOrders_num();
+		MemberVO mvo = (MemberVO)session.getAttribute("data");
+		
+		log.info("변경 전 : " +mvo.getMember_point());
+		
+		mvo.setMember_point(mvo.getMember_point()+omvo.getOrders_price());
+		
+		log.info("변경 후 : "+mvo.getMember_point());
+		
+		session.setAttribute("data", mvo);
+		
+		MemberVO mvo1 = (MemberVO)session.getAttribute("data");
+		
+		log.info("갱신 후 : " +mvo1.getMember_point());
+		
+		try {
+			memberService.refund(orders_num);
+			return "성공";
+		}catch(Exception e) {
+			e.printStackTrace();
 			return "실패";
 		}
 	}

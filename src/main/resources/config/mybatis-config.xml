@@ -16,5 +16,7 @@
 		<typeAlias type="com.dotori.client.project.vo.ReplyVO" alias="projectReply"/>
 		
 		<typeAlias type="com.dotori.client.project.vo.QnaBoard" alias="qnaBoard"/>
+		
+		<typeAlias type="com.dotori.manager.member.vo.MemberMVO" alias="memberM"/>
 	</typeAliases>
 </configuration>

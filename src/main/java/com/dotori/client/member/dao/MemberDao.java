@@ -43,4 +43,8 @@ public interface MemberDao {
 
 	public List<ProjectVO> fundingProcess(String member_id);
 
+	public int refund(int orders_num);
+
+	//public int memberfundingListCnt(String member_id);
+
 }

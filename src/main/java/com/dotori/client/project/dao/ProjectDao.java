@@ -65,4 +65,6 @@ public interface ProjectDao {
 
 	public int boardUpdate(QnaBoard qvo);
 
+	public int qnaInsert(QnaBoard qvo);
+
 }

@@ -19,9 +19,35 @@
 		<script type="text/javascript">
 			$(function(){
 				usingDotoriListData();
-			})
+				
+				var orders_num = $(this).parents().parents().children("td:eq(5)").children("input.oN_hidden").attr("value");
+				var project_status = $(this).parents().parents().children("td:eq(5)").children("input.ps_hidden").attr("value");
+				var orders_price = $(this).parents().parents().children("td:eq(5)").children("input.oP_hidden").attr("value");
+				
+				$(document).on("click","a[data-btn='refundBtn']",function(){
+					$.ajax({
+						url : "/member/refund",
+						data : "orders_num="+$(this).parents().parents().children("td:eq(5)").children("input.oN_hidden").attr("value")+"&orders_price="+ $(this).parents().parents().children("td:eq(5)").children("input.oP_hidden").attr("value"),
+						dataType : "text",
+						type : "get",
+						error : function(){
+							alert("환불 중 시스템 오류 발생. 관리자에게 문의바랍니다.");
+						},
+						success : function(data){
+							if(data=="성공"){
+								usingDotoriListData();
+								alert("환불이 완료되었습니다.");
+							}else{
+								alert("환불 중 오류 발생. 잠시후 다시 시도해 주세요.");
+							}
+							rebootDotori();
+						}
+					})
+				});
+			})	
 			
 			function usingDotoriListData(){
+				$("#tableBody").html("");
 				$.getJSON("/member/usingDotoriList", $("#myPageForm").serialize(), function(data){
 					console.log("length : "+data.length);
 					$(data).each(function(index){
@@ -32,18 +58,20 @@
 						var order_content = this.orders_content;
 						var order_price = this.orders_price;
 						var order_date = this.orders_date;
+						var project_status = this.project_status;
+						var refundOk = this.refundOk;
 						
 						
 						console.log("index : "+index);
-						DotoriList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,index);
-						//makePaging(listArea);
+						DotoriList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,project_status,refundOk,index);
+						
 					});
 				}).fail(function(){
 					alert("목록을 불러오는데 실패하였습니다. 잠시후에 다시 시도해 주세요.");
 				});
 			}
 			
-			function DotoriList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,index){
+			function DotoriList(order_num,project_num,project_name,member_id,order_content,order_price,order_date,project_status,refundOk,index){
 				console.log("들어오니?");
 				var btr=$("<tr>");
 				
@@ -60,18 +88,59 @@
 				var td4=$("<td>");
 				td4.html(order_date);
 				
-				btr.append(td1).append(td2).append(td3).append(td4);
+				var pBtnArea = $("<td>");
+				
+				if(order_price>0 && project_status==1){
+					if(refundOk==0){
+						var refundBtn = $("<a>");
+						refundBtn.attr({"data-btn" : "refundBtn",
+									"role" : "button" });
+						refundBtn.addClass("btn btn-primary gap");
+						refundBtn.html("환불하기");
+						
+					}
+					
+				}
+				
+				var hiddenTd = $("<td>");
+				
+				var orderNum = $("<input>");
+				orderNum.attr({
+					"type" : "hidden",
+					"value" : order_num
+				});
+				orderNum.addClass("oN_hidden");
+				
+				var projectStatus = $("<input>");
+				projectStatus.attr({
+					"type" : "hidden",
+					"value" : project_status
+				});
+				projectStatus.addClass("ps_hidden")
+				
+				var orderPoint = $("<input>");
+				orderPoint.attr({
+					"type" : "hidden",
+					"value" : order_price
+				});
+				orderPoint.addClass("oP_hidden")
+				
+				btr.append(td1).append(td2).append(td3).append(td4).append(pBtnArea.append(refundBtn)).append(hiddenTd.append(orderNum).append(projectStatus).append(orderPoint));;
 				
 				$("#tableBody").append(btr);
 			} 
+			
+			function rebootDotori(){
+				console.log("안나오니?");
+				console.log("${data.member_point}");
+				$("#member_point").html("");
+				$("#member_point").html("${data.member_point}");
+			}
 		</script>
 		
 	</head>
 	<body>
 		<div>
-			<%-- <form id="usingDotoriForm">
-				<input type="hidden" id="usingDotoriId" name="member_id" value="${data.member_id }"/>
-			</form> --%>
 			<div>
 				<table class="table table-bordered">
 					<thead>
@@ -80,6 +149,7 @@
 							<th>프로젝트 내용</th>
 							<th>사용한 도토리 개수</th>
 							<th>도토리 사용 날짜</th>
+							<th>환불하기</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">

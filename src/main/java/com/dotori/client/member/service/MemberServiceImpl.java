@@ -237,6 +237,24 @@ public class MemberServiceImpl implements MemberService{
 		
 		return result;
 	}
+
+	@Override
+	public int refund(int orders_num) {
+		// TODO Auto-generated method stub
+		int result = memberDao.refund(orders_num);
+		
+		return result;
+	}
+
+	/*@Override
+	public int memberfundingListCnt(String member_id) {
+		// TODO Auto-generated method stub
+		int result = memberDao.memberfundingListCnt(member_id);
+		
+		return result;
+	}*/
+
+	
 	
 
 }

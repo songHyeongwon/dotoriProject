@@ -53,5 +53,8 @@
 	<definition name="ordersManager/*" extends="manager">
 		<put-attribute name="body" value="/WEB-INF/views/ordersManager/{1}.jsp"/>
 	</definition>
-
+	
+	<definition name="memberManager/*" extends="manager">
+		<put-attribute name="body" value="/WEB-INF/views/memberManager/{1}.jsp"/>
+	</definition>
 </tiles-definitions>

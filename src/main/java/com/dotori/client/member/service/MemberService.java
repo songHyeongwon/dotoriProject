@@ -38,6 +38,10 @@ public interface MemberService {
 
 	String fundingProcess(String member_id);
 
+	int refund(int orders_num);
+
+	//int memberfundingListCnt(String member_id);
+
 	
 
 

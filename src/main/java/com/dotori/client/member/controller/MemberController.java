@@ -58,6 +58,7 @@ public class MemberController {
 	// 회원의 마이페이지로 이동
 	@RequestMapping(value="/memberMyPage",method=RequestMethod.GET)
 	public String memberMyPage() {
+		
 		return "member/memberMyPage";
 	}
 	
@@ -230,8 +231,10 @@ public class MemberController {
 		
 		String listData = memberService.fundingProcess(member_id);
 		
-		/*int memberTotal = memberService.memberfundingListCnt(member_id);
-		model.addAttribute("fundingPageMaker",new PageDTO(mvo, memberTotal, 10));*/
+		int memberTotal = memberService.memberfundingListCnt(member_id);
+		log.info(mvo.getPageNum());
+		log.info(mvo.getAmount());
+		model.addAttribute("fundingPageMaker",new PageDTO(mvo, memberTotal, 10));
 		
 		return listData;
 	}
@@ -270,8 +273,9 @@ public class MemberController {
 	
 	// 마이 페이지에서 도토리 충전 시 사용되는 컨트롤러
 	@ResponseBody
-	@PostMapping(value="/dotoriCharge",produces="text/plain; charset=UTF-8")
+	@RequestMapping(value="/dotoriCharge",produces="text/plain; charset=UTF-8")
 	public String dotoriCharge(@ModelAttribute MemberVO mvo,HttpSession session) {
+		log.info("들어왔니????");
 		int result = memberService.dotoriCharge(mvo);
 		MemberVO mvo2 = (MemberVO)session.getAttribute("data");
 		mvo2.setMember_point(mvo.getMember_point()+mvo.getMember_pointCharge());

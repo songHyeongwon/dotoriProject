@@ -45,6 +45,6 @@ public interface MemberDao {
 
 	public int refund(int orders_num);
 
-	//public int memberfundingListCnt(String member_id);
+	public int memberfundingListCnt(String member_id);
 
 }

@@ -40,7 +40,7 @@ public interface MemberService {
 
 	int refund(int orders_num);
 
-	//int memberfundingListCnt(String member_id);
+	int memberfundingListCnt(String member_id);
 
 	
 

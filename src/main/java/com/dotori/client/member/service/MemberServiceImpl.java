@@ -246,13 +246,13 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
-	/*@Override
+	@Override
 	public int memberfundingListCnt(String member_id) {
 		// TODO Auto-generated method stub
 		int result = memberDao.memberfundingListCnt(member_id);
 		
 		return result;
-	}*/
+	}
 
 	
 	

@@ -140,7 +140,7 @@
 							data : "member_id="+$("#member_id").val()+"&member_pointCharge="+$("#member_pointCharge").val()+"&member_point="+$("#member_point").val(),
 							dataType : "text",
 							error : function(){
-								alert("도토리 충전 중 시스템 오류 발생 관리자에게 문의바랍니다. ");
+								alert("도토리 충전 중 시스템 오류 발생. 관리자에게 문의바랍니다. ");
 							},
 							success : function(data){
 								if(data=="성공"){
@@ -168,9 +168,6 @@
 	</head>
 	<body>
 		<div>
-			<div class="text-right">
-				<input type="button" id="modifyPerson" name="modifyPerson" value="개인 정보 수정"/>
-			</div>
 			<form id="myPageForm">
 				<input type="hidden" id="member_id" name="member_id" value="${data.member_id }"/>
 				<%-- <input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cvo.pageNum }"/>
@@ -183,7 +180,7 @@
 						</tr>
 						<tr>
 							<td><span class="dotori">${data.member_name}</span>님</td>
-							<td><span class="dotori" id="member_point">${data.member_point}</span>개
+							<td><span class="dotori" id="point">${data.member_point}</span>개
 								<input type="button" id="dotoriCharge" name="dotoriCharge" value="도토리 충전"></td>
 						</tr>
 					</table>
@@ -229,7 +226,7 @@
 			          </div>
 			          <div class="form-group">
 			            <label class="control-label">충전 할 도토리</label>
-			            <input type="text" class="form-control" id="member_pointCharge" name="member_pointCharge" maxlength="6">
+			            <input type="text" class="form-control" id="member_pointCharge" name="member_pointCharge">
 			          </div>
 			          <div class="form-group">
 			            <input type="button"  id="card" name="card" value="카드"/>

@@ -131,10 +131,8 @@
 			} 
 			
 			function rebootDotori(){
-				console.log("안나오니?");
-				console.log("${data.member_point}");
-				$("#member_point").html("");
-				$("#member_point").html("${data.member_point}");
+				$("#point").html("");
+				$("#point").html("${data.member_point}");
 			}
 		</script>
 		

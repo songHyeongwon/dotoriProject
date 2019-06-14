@@ -21,11 +21,10 @@
 		<script type="text/javascript">
 			var project_num;
 			$(function(){
-				console.log("${fundingPageMaker.cvo.pageNum }");
+				console.log()
 				myFundingListData();
 				
 				$(document).on("click","a[data-btn='locatBtn']",function(){
-					console.log("들어오니?");
 					var project_num = $(this).parents("div.col-sm-6").attr("data-num");
 					console.log(project_num);
 					/* $.ajax({
@@ -50,6 +49,7 @@
 			
 			// 내가 만든 펀딩 동적 생성을 위한 함수
 			function myFundingListData(){
+				console.log("들어가니?");
 				$.getJSON("/member/fundingProcess", $("#myPageForm").serialize(), function(data){
 					console.log("length : "+data.length);
 					$(data).each(function(index){

@@ -491,7 +491,7 @@
 								<textarea class="form-control" id="qna_a_content" name="qna_content" rows="5"></textarea>
 							</div>
 							<div>
-								<label for="message-text" class="control-label">비밀문의</label>
+								<!-- <label for="message-text" class="control-label">비밀문의</label> -->
 								<input type="hidden" class="form-control" name="qna_hidden" id="qna_a_hidden" value="0">
 							</div>
 						</form>

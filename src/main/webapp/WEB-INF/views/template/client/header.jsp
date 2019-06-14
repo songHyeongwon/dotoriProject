@@ -39,8 +39,8 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="/cs_board/cs_boardList">자주묻는 게시판</a></li>
-							<li><a href="#">문의하기</a></li>
+							<li><a href="/faq_board/faq_boardList">자주묻는 게시판</a></li>
+							<li><a href="/cs_board/cs_boardList">문의하기</a></li>
 						</ul></li>
 				</ul>
 				<form class="navbar-form navbar-left" role="search" id="search" action="/project/listForm" method="get">

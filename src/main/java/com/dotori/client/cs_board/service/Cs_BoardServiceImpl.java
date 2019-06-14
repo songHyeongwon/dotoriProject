@@ -39,20 +39,12 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 		result = cs_boardDao.cs_boardInsert(bvo);
 		return result;
 	}
-
+	//문의 상세정보
 	@Override
 	public Cs_BoardVO cs_boardDetail(int cs_num) {
 		Cs_BoardVO cs_detail = new Cs_BoardVO();
 		cs_detail = cs_boardDao.cs_boardDetail(cs_num);
 		return cs_detail;
-	}
-
-	//비밀번호 확인 구현
-	@Override
-	public int cs_pwdConfirm(Cs_BoardVO bvo) {
-		int result = 0;
-		result = cs_boardDao.cs_pwdConfirm(bvo);
-		return result;
 	}
 	
 	//창이동시 값 세팅용
@@ -70,7 +62,8 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 		result = cs_boardDao.cs_boardUpdate(bvo);
 		return result;
 	}
-
+	
+	//문의 게시글 삭제
 	@Override
 	public int cs_boardDelete(int cs_num) {
 		int result = 0;
@@ -79,40 +72,47 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 		return result;
 	}
 
+	//문의 게시글 개수
 	@Override
 	public int cs_boardListCnt(Cs_BoardVO bvo) {
 		int result = 0;
 		result = cs_boardDao.cs_boardListCnt(bvo);
 		return result;
 	}
+	
+	//문의 게시글 마지막 생성 게시글 번호
 	@Override
 	public int cs_boardDetail_currnum() {
 		int result = 0;
 		result = cs_boardDao.cs_boardDetail_currnum();
 		return result;
 	}
-
+	
+	//조회수 업데이트
 	@Override
 	public int cs_hitsUpdate(Cs_BoardVO bvo) {
 		int result = 0;
 		result = cs_boardDao.cs_hitsUpdate(bvo);
 		return result;
 	}
-
+	//조회수 값
 	@Override
 	public int cs_hits(int cs_num) {
 		int result = 0;
 		result = cs_boardDao.cs_hits(cs_num);
 		return result;
 	}
-
+	
+//관리자
+	
+	//관리자 공지글 생성
 	@Override
 	public int master_cs_boardInsert(Cs_BoardVO bvo) {
 		int result = 0;
 		result = cs_boardDao.master_cs_boardInsert(bvo);
 		return result;
 	}
-
+	//관리자 공지 리스트
 	@Override
 	public List<Cs_BoardVO> master_cs_boardList(Cs_BoardVO bvo) {
 		List<Cs_BoardVO> List = null;
@@ -120,4 +120,77 @@ public class Cs_BoardServiceImpl implements Cs_BoardService{
 		List = cs_boardDao.master_cs_boardList(bvo);
 		return List;
 	}
+	
+	//관리자 공지 업데이트
+	@Override
+	public int master_cs_boardUpdate(Cs_BoardVO bvo) {
+		int result = 0;
+		result = cs_boardDao.master_cs_boardUpdate(bvo);
+		return result;
+	}
+	
+	//관리자 공지 삭제
+	@Override
+	public int master_cs_boardDelete(int cs_num) {
+		int result = 0;
+		result = cs_boardDao.master_cs_boardDelete(cs_num);
+		return result;
+	}
+	
+	//관리자 공지 조회수 업데이트
+	@Override
+	public int master_cs_hitsUpdate(Cs_BoardVO bvo) {
+		int result = 0;
+		result = cs_boardDao.master_cs_hitsUpdate(bvo);
+		return result;
+	}
+
+	//창이동시 값 세팅용
+	@Override
+	public Cs_BoardVO master_cs_updateForm(int cs_num) {
+		Cs_BoardVO detail = null;
+		detail = cs_boardDao.master_cs_boardDetail(cs_num); 
+		return detail;
+	}
+	
+	//관리자 공지 조회수 값
+	@Override
+	public int master_cs_hits(int cs_num) {
+		int result = 0;
+		result = cs_boardDao.master_cs_hits(cs_num);
+		return result;
+	}
+	//관리자 상세정보
+	@Override
+	public Cs_BoardVO master_cs_boardDetail(int cs_num) {
+		Cs_BoardVO cs_detail = new Cs_BoardVO();
+		cs_detail = cs_boardDao.master_cs_boardDetail(cs_num);
+		return cs_detail;
+	}
+	
+	//문의 게시글 마지막 생성 게시글 번호
+	@Override
+	public int master_cs_boardDetail_currnum() {
+		int result = 0;
+		result = cs_boardDao.master_cs_boardDetail_currnum();
+		return result;
+	}
+	
+	//문의 게시글 개수
+	@Override
+	public int master_cs_boardListCnt(Cs_BoardVO bvo) {
+		int result = 0;
+		result = cs_boardDao.master_cs_boardListCnt(bvo);
+		return result;
+	}
+	
+	//관리자 공지 리스트 All
+	public List<Cs_BoardVO> master_cs_boardAllList(Cs_BoardVO bvo) {
+		List<Cs_BoardVO> List = null;
+		List = new ArrayList<Cs_BoardVO>();
+		List = cs_boardDao.master_cs_boardAllList(bvo);
+		return List;
+	}
+
+
 }

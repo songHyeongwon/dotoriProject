@@ -228,7 +228,7 @@ public class Faq_BoardController{
 	//------------------------------------湲� �긽�꽭�젙蹂�-----------------------------------------------------------
 
 	@RequestMapping(value="/faq_boardDetail", method=RequestMethod.GET)
-	public String faq_boardDetail(@ModelAttribute("data") Faq_BoardVO bvo,Model model) {
+	public String faq_boardDetail(@ModelAttribute("boardData") Faq_BoardVO bvo,Model model) {
 		
 		Faq_BoardVO faq_detail = faq_boardService.faq_boardDetail(bvo.getFaq_num());
 		System.out.println(faq_detail.getMember_id());
@@ -241,7 +241,7 @@ public class Faq_BoardController{
 	@RequestMapping(value="/faq_boardDetail_curr", method=RequestMethod.GET)
 	public String faq_boardDetail_curr(RedirectAttributes redirectAttributes) {
 		Faq_BoardVO faq_detail = faq_boardService.faq_boardDetail(faq_boardService.faq_boardDetail_currnum());
-		redirectAttributes.addFlashAttribute("data",faq_detail);
+		redirectAttributes.addFlashAttribute("boardData",faq_detail);
 		
 		return "redirect:/faq_board/faq_boardDetail";
 	}
@@ -252,7 +252,7 @@ public class Faq_BoardController{
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------湲� 紐⑸줉-----------------------------------------------------------
 	@RequestMapping(value="/faq_boardList",method=RequestMethod.GET)
-	public String boardList(@ModelAttribute("data") Faq_BoardVO bvo,Model model) {
+	public String boardList(@ModelAttribute Faq_BoardVO bvo,Model model) {
 		List<Faq_BoardVO> faq_boardList = faq_boardService.faq_boardList(bvo);
 		for(int i = 0; i < faq_boardList.size();i++) {
 			String str = faq_boardList.get(i).getEditor();
@@ -325,7 +325,7 @@ public class Faq_BoardController{
 		
 		result = faq_boardService.faq_boardUpdate(bvo);
 		
-		ras.addFlashAttribute("data",bvo);
+		ras.addFlashAttribute("boardData",bvo);
 		
 		if(result==1) {
 			url="/faq_board/faq_boardDetail";

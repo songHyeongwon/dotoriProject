@@ -20,12 +20,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dotori.client.cs_board.service.Cs_BoardService;
 import com.dotori.client.cs_board.vo.Cs_BoardVO;
-import com.dotori.client.cs_reply.service.Cs_ReplyService;
+import com.dotori.client.member.service.MemberService;
 import com.dotori.common.vo.PageDTO;
 
 import lombok.AllArgsConstructor;
@@ -183,7 +182,7 @@ public class Cs_BoardController{
 	//------------------------------------愿�由ъ옄 寃뚯떆湲� �벑濡�-----------------------------------------------------------
 
 	@RequestMapping(value="/master_cs_boardInsert", method=RequestMethod.POST)
-	public String master_cs_boardInsert(@ModelAttribute Cs_BoardVO bvo, Model model) {
+	public String master_cs_boardInsert(@ModelAttribute Cs_BoardVO bvo,RedirectAttributes redirectAttributes, Model model) {
 		getDelete(bvo.getEditor());
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/cs_board/"+getFolder("C:\\uploadStorage\\cs_board").replace("\\", "/")+"/"));
 		bvo.setEditor(bvo.getEditor().replaceAll("&nbsp;"," "));
@@ -200,13 +199,12 @@ public class Cs_BoardController{
 		String url ="";
 		bvo.setT_editor(bvo.getEditor().replaceAll("[<][^>]*[>]", " ").trim());
 		//�엫�떆 �땳�꽕�엫----------------------------------------
-		bvo.setCs_name("testName");
 		result = cs_boardService.master_cs_boardInsert(bvo);
 		
 		if(result == 1) {
 			url ="/cs_board/cs_boardDetail_curr";
 		}
-		
+		redirectAttributes.addFlashAttribute("write", "master_write");
 		return "redirect:"+url;
 	}
 	//------------------------------------愿�由ъ옄 寃뚯떆湲� �벑濡�-----------------------------------------------------------
@@ -222,7 +220,7 @@ public class Cs_BoardController{
 	}
 
 	@RequestMapping(value="/cs_boardInsert", method=RequestMethod.POST)
-	public String cs_boardInsert(@ModelAttribute Cs_BoardVO bvo, Model model) {
+	public String cs_boardInsert(@ModelAttribute Cs_BoardVO bvo,RedirectAttributes redirectAttributes, Model model) {
 		log.info("boardInsert �샇異� �꽦怨�");
 		getDelete(bvo.getEditor());
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/cs_board/"+getFolder("C:\\uploadStorage\\cs_board").replace("\\", "/")+"/"));
@@ -241,7 +239,6 @@ public class Cs_BoardController{
 		String url ="";
 		bvo.setT_editor(bvo.getEditor().replaceAll("[<][^>]*[>]", " ").trim());
 		//�엫�떆 �땳�꽕�엫----------------------------------------
-		bvo.setCs_name("testName");
 		result = cs_boardService.cs_boardInsert(bvo);
 		
 		if(result == 1) {
@@ -249,6 +246,7 @@ public class Cs_BoardController{
 		}
 		
 		//redirect: 瑜� �벐硫� �뒪�봽留� �궡遺��뿉�꽌 �옄�룞�쟻�쑝濡� response.sendRedirect(url)瑜� �샇異쒗빐以��떎.
+		redirectAttributes.addFlashAttribute("write", "write");
 		return "redirect:"+url;
 	}
 	//------------------------------------寃뚯떆湲� �벑濡�-----------------------------------------------------------
@@ -257,10 +255,12 @@ public class Cs_BoardController{
 	
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------湲� �긽�꽭�젙蹂�-----------------------------------------------------------
+	
+	//臾몄쓽 寃뚯떆湲� 議고쉶�닔
 	@RequestMapping(value="/cs_boardDetailHits", method=RequestMethod.GET)
 	public String cs_boardDetailHits(@RequestParam("cs_num") int cs_num,@RequestParam("pageNum") int pageNum,@RequestParam("amount") int amount,@RequestParam(value = "path", required = false , defaultValue = "") String path,RedirectAttributes redirectAttributes) {
 		String url = "";
-		String t_Path="";
+		String t_Path="";		
 		int hits = cs_boardService.cs_hits(cs_num);
 		Cs_BoardVO bvo = new Cs_BoardVO();
 		hits++;
@@ -270,27 +270,65 @@ public class Cs_BoardController{
 		if(result == 1) {
 			url = "/cs_board/cs_boardDetail";
 		}
-		if(path!="") {
+		if(path!="" || path != null) {
 			t_Path = "&path="+path;
 		}
+		redirectAttributes.addFlashAttribute("cs_boardDetail", "cs_boardDetail");
+		return "redirect:"+url+"?pageNum="+pageNum+"&amount=" +amount+"&cs_num="+cs_num + t_Path;
+	}
+	
+	//愿�由ъ옄 怨듭� 寃뚯떆湲� 議고쉶�닔
+	@RequestMapping(value="/master_cs_boardDetailHits", method=RequestMethod.GET)
+	public String master_cs_boardDetailHits(@RequestParam("cs_num") int cs_num,@RequestParam("pageNum") int pageNum,@RequestParam("amount") int amount,@RequestParam(value = "path", required = false , defaultValue = "") String path,RedirectAttributes redirectAttributes) {
+		String url = "";
+		String t_Path="";
+		int hits = cs_boardService.master_cs_hits(cs_num);
+		Cs_BoardVO bvo = new Cs_BoardVO();
+		hits++;
+		bvo.setCs_hits(hits);
+		bvo.setCs_num(cs_num);
+		int result = cs_boardService.master_cs_hitsUpdate(bvo);
+		if(result == 1) {
+			url = "/cs_board/cs_boardDetail";
+		}
+		if(path.trim()!="" || path != null) {
+			t_Path = "&path="+path;
+		}
+		redirectAttributes.addFlashAttribute("cs_boardDetail", "master_cs_boardDetail");
 		return "redirect:"+url+"?pageNum="+pageNum+"&amount=" +amount+"&cs_num="+cs_num + t_Path;
 	}
 
 	
 	@RequestMapping(value="/cs_boardDetail", method=RequestMethod.GET)
-	public String cs_boardDetail(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
-		
-		Cs_BoardVO cs_detail = cs_boardService.cs_boardDetail(bvo.getCs_num());
+	public String cs_boardDetail(@ModelAttribute("boardData") Cs_BoardVO bvo,@ModelAttribute("cs_boardDetail") String request,Model model) {
+		Cs_BoardVO cs_detail = null;
+		String update = "";
+		if(request.trim().equals("master_cs_boardDetail")) {
+			cs_detail = cs_boardService.master_cs_boardDetail(bvo.getCs_num());
+			update = "master_update";
+		} else {
+			cs_detail = cs_boardService.cs_boardDetail(bvo.getCs_num());
+			update = "update";
+		}
 		model.addAttribute("cs_detail",cs_detail);
-		
+		model.addAttribute("update",update);
 		
 		return "cs_board/cs_boardDetail";
 	}
 	
 	@RequestMapping(value="/cs_boardDetail_curr", method=RequestMethod.GET)
-	public String cs_boardDetail_curr(RedirectAttributes redirectAttributes) {
-		Cs_BoardVO cs_detail = cs_boardService.cs_boardDetail(cs_boardService.cs_boardDetail_currnum());
-		redirectAttributes.addFlashAttribute("data",cs_detail);
+	public String cs_boardDetail_curr(RedirectAttributes redirectAttributes,@ModelAttribute("write") String write) {
+		Cs_BoardVO cs_detail = null;
+		String cs_boardDetail = "";
+		if(write.trim().equals("master_write")) {
+			cs_detail = cs_boardService.master_cs_boardDetail(cs_boardService.master_cs_boardDetail_currnum());	
+			cs_boardDetail = "master_cs_boardDetail";
+		} else {
+			cs_detail = cs_boardService.cs_boardDetail(cs_boardService.cs_boardDetail_currnum());
+			cs_boardDetail = "cs_boardDetail";
+		}
+		redirectAttributes.addFlashAttribute("cs_boardDetail",cs_boardDetail);
+		redirectAttributes.addFlashAttribute("boardData",cs_detail);
 		
 		return "redirect:/cs_board/cs_boardDetail";
 	}
@@ -301,7 +339,7 @@ public class Cs_BoardController{
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------湲� 紐⑸줉-----------------------------------------------------------
 	@RequestMapping(value="/cs_boardList",method=RequestMethod.GET)
-	public String boardList(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
+	public String boardList(@ModelAttribute Cs_BoardVO bvo,Model model) {
 		List<Cs_BoardVO> cs_boardList = cs_boardService.cs_boardList(bvo);
 		for(int i = 0; i < cs_boardList.size();i++) {
 			String str = cs_boardList.get(i).getEditor();
@@ -339,15 +377,46 @@ public class Cs_BoardController{
 		
 		return "cs_board/cs_boardList";
 	}
+	//愿�由ъ옄 怨듭� 寃뚯떆湲�
+	@RequestMapping(value="/master_cs_boardAllList",method=RequestMethod.GET)
+	public String master_boardList(@ModelAttribute("data") Cs_BoardVO bvo,Model model) {
+		List<Cs_BoardVO> master_cs_boardList = cs_boardService.master_cs_boardAllList(bvo);
+		for(int i = 0; i < master_cs_boardList.size();i++) {
+			String str = master_cs_boardList.get(i).getEditor();
+			if(str.indexOf("<img src=\"")!=-1) {
+				String subStr = ""; 
+				str = str.substring(str.indexOf("<img src=\""));
+				str = str.substring(0, str.indexOf("\">")+2);
+				subStr = str.substring(str.lastIndexOf("/")+1,str.indexOf("."));
+				str = str.replaceAll(subStr, "THUMB_"+subStr);
+				master_cs_boardList.get(i).setEditor(str);
+			} else {
+				master_cs_boardList.get(i).setEditor("");				
+			}
+		}
+		model.addAttribute("master_cs_boardList",master_cs_boardList);
+		
+		//�쟾泥� �젅肄붾뱶 �닔 援ы쁽
+		int total = cs_boardService.master_cs_boardListCnt(bvo);
+		model.addAttribute("pageMaker",new PageDTO(bvo,total,10));
+		
+		return "cs_board/master_cs_boardAllList";
+	}
 	//------------------------------------湲� 紐⑸줉-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------�뾽�뜲�씠�듃 酉�-----------------------------------------------------------
 	@RequestMapping(value="/cs_updateForm")
-	public String updateForm(@ModelAttribute("data") Cs_BoardVO bvo,@RequestParam("cs_num") int cs_num, Model model) {
+	public String updateForm(@ModelAttribute("data") Cs_BoardVO bvo,@ModelAttribute("update") String update,@RequestParam("cs_num") int cs_num, Model model) {
+		Cs_BoardVO cs_updateDate = null;
+		if(update.trim().equals("master_update")) {
+			cs_updateDate = cs_boardService.master_cs_updateForm(cs_num);			
+		} else {
+			cs_updateDate = cs_boardService.cs_updateForm(cs_num);						
+		}
 		
-		Cs_BoardVO cs_updateDate = cs_boardService.cs_updateForm(cs_num);
+		model.addAttribute("update", update);
 		model.addAttribute("cs_updateData", cs_updateDate);
 		return "cs_board/cs_updateForm";
 	}
@@ -357,10 +426,16 @@ public class Cs_BoardController{
 
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------�뜲�씠�꽣 �뾽�뜲�씠�듃-----------------------------------------------------------
-
+	
+	//臾몄쓽 寃뚯떆湲� �닔�젙 �쟾 �궗吏� 泥섎━
 	@RequestMapping(value="/cs_updateFormAction", method=RequestMethod.POST)
-	public String cs_updateFormAction(@RequestParam("cs_html") String html,@RequestParam("cs_num") int cs_num) {
-		Cs_BoardVO bvo= cs_boardService.cs_boardDetail(cs_num);
+	public String cs_updateFormAction(@RequestParam("cs_html") String html,@RequestParam("cs_num") int cs_num,@RequestParam("update") String update) {
+		Cs_BoardVO bvo = null;
+		if(update.trim().equals("master_update")) {
+			bvo = cs_boardService.master_cs_boardDetail(cs_num);			
+		} else {			
+			bvo = cs_boardService.cs_boardDetail(cs_num);			
+		}
 		String outStr = bvo.getEditor();
 		String getStr = html;
 		while(outStr.indexOf("<img src=\"") != -1) {
@@ -375,21 +450,36 @@ public class Cs_BoardController{
 		return "redirect:/cs_board/cs_updateForm";
 	}
 	
+	//臾몄쓽 寃뚯떆湲� �닔�젙
 	@RequestMapping(value="/cs_boardUpdate", method=RequestMethod.POST)
-	public String updateForm(@ModelAttribute Cs_BoardVO bvo, RedirectAttributes ras) {
+	public String updateForm(@ModelAttribute Cs_BoardVO bvo,@ModelAttribute("update") String update, RedirectAttributes ras) {
 		log.info("boardUpdate �샇異� �꽦怨�");
 		
 		int result = 0;
 		String url = "";
-		Cs_BoardVO beforeBvo = cs_boardService.cs_boardDetail(bvo.getCs_num());
+		Cs_BoardVO beforeBvo =null;
+		String cs_boardDetail = "";
+		if(update.trim().equals("master_update")) {
+			beforeBvo = cs_boardService.master_cs_boardDetail(bvo.getCs_num());
+		}else {
+			beforeBvo = cs_boardService.cs_boardDetail(bvo.getCs_num());
+		}
+		
 		
 		bvo.setEditor(getUpdate(beforeBvo.getEditor(), bvo.getEditor(), beforeBvo.getCs_regDate()));
 		
 		bvo.setT_editor(bvo.getEditor().replaceAll("[<][^>]*[>]", " ").trim());
 		
-		result = cs_boardService.cs_boardUpdate(bvo);
+		if(update.trim().equals("master_update")) {
+			result = cs_boardService.master_cs_boardUpdate(bvo);
+			cs_boardDetail = "master_cs_boardDetail";
+		}else {
+			result = cs_boardService.cs_boardUpdate(bvo);
+			cs_boardDetail = "cs_boardDetail";
+		}
 		
-		ras.addFlashAttribute("data",bvo);
+		ras.addFlashAttribute("cs_boardDetail",cs_boardDetail);
+		ras.addFlashAttribute("boardData",bvo);
 		
 		if(result==1) {
 			url="/cs_board/cs_boardDetail";
@@ -463,13 +553,21 @@ public class Cs_BoardController{
 	
 	//------------------------------------�뜲�씠�꽣 �궘�젣-----------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------
+	
+	//臾몄쓽 寃뚯떆湲� �궘�젣
 	@RequestMapping(value="/cs_boardDelete")
-	public String boardDelete(@ModelAttribute Cs_BoardVO bvo) {
+	public String boardDelete(@ModelAttribute Cs_BoardVO bvo,@ModelAttribute("update") String update) {
 		log.info("boardDelete �샇異� �꽦怨�");
 		int result = 0;
 		String url = "";
-		Cs_BoardVO bvo1 = cs_boardService.cs_boardDetail(bvo.getCs_num());
-		result = cs_boardService.cs_boardDelete(bvo.getCs_num());
+		Cs_BoardVO bvo1 = null;
+		if(update.trim().equals("master_update")) {
+			bvo1 = cs_boardService.master_cs_boardDetail(bvo.getCs_num());
+			result = cs_boardService.master_cs_boardDelete(bvo.getCs_num());						
+		} else {
+			bvo1 = cs_boardService.cs_boardDetail(bvo.getCs_num());
+			result = cs_boardService.cs_boardDelete(bvo.getCs_num());			
+		}
 		getDelete(bvo1.getEditor());
 		if(result ==1) {
 			url="/cs_board/cs_boardList";

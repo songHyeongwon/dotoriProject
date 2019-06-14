@@ -5,25 +5,13 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<!-- 브라우저의 호환성 보기 모드를 막고, 해당 브라우저에서 지원하는 가장 최신 버전의 방식으로  html을 보여주도록 설정 -->
-	<meta name="viewport"
-		content="width=device-width initial-scale=1.0,
-			maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-	<!-- viewport : 화면에 보이는 영역을 제어하는 기술.
-			width는 device-width로 설정. initial-scale는 초기비율 -->
-	<!-- IE8이하 브라우저에서 HTML5를 인식하기 위해서는 아래의 패스필터를 적용하면 된다. -->
-	<!-- 만약 lt IE 9보다 낮다면 script html5shiv.js를 읽어와 적용하라 -->
-	<!-- [if lt IE 9]>
-				<script src="../js/html5shiv.js"></script>
-			<![endif] -->
+	<meta name="viewport" content="width=device-width initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="/resources/image/icon.png" />
 	<link rel="apple-touch-icon" href="/resources/image/icon.png" />
-	<link rel="stylesheet"
-		href="/resources/include/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css">
 	<!--모바일 웹 페이지 설정 끝 -->
-	<script type="text/javascript"
-		src="/resources/include/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="/resources/include/js/common.js"></script>
 	<script src="/resources/include/dist/js/bootstrap.min.js"></script>
 	<!--모바일 웹 페이지 설정 끝 -->
@@ -153,7 +141,8 @@
 							data: JSON.stringify({
 								cs_num : cs_num,
 								cs_r_content:$("#cs_r_content").val().trim(),
-								member_id : $("#member_id").val().trim()
+								member_id : $("#member_id").val().trim(),
+								cs_r_name : $("#cs_r_name").val().trim()
 							}),
 							error : function() {
 								alert("시스템 오류입니다. 관리자에게 문의 하세요");
@@ -324,7 +313,6 @@
 	</head>
 	<body>
 		<div id="replyContainer">
-			<input type="hidden" name="member_id" id="member_id" value="${member_id}">
 			<p>
 				<button type="button" class="cs_replyBtn" id="replyInsertFormBtn">댓글 등록</button>
 			</p>
@@ -348,8 +336,10 @@
 							<form id="replyForm" name="replyForm">
 								<div class="form-group">
 									<label for="message-text" class="control-label">글내용: </label>
+									<input type="hidden" name="member_id" id="member_id" value="${sessionScope.data.member_id}">
+									<input type="hidden" name="cs_r_name" id="cs_r_name" value="${sessionScope.data.member_name}">
 									<textarea class="form-control" id="cs_r_content" name="cs_r_content" rows="5">
-										</textarea>
+									</textarea>
 								</div>
 							</form>
 						</div>	

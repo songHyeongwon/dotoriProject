@@ -52,7 +52,7 @@
 	</head>
 	<body>
 		<form id="nameForm">
-			<h4 id="name">${data.member_name}님 안녕하세요.</h4>
+			<h4 id="name">${sessionScope.data.member_name}님 안녕하세요.</h4>
 		</form>
 		<input type="button" id="logoutBtn" name="logoutBtn" value="로그아웃"/>&nbsp;&nbsp;
 		<input type="button" id="myPageBtn" name="myPageBtn" value="마이페이지"/>

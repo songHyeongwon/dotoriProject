@@ -22,4 +22,5 @@ public class Faq_BoardVO extends CommonVO{
 	private String member_id    = "";
 	private String faq_regDate    = "";
 	private String faq_mDate    = "";
+	//private String member_name    = "";
 }

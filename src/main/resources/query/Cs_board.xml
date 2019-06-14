@@ -150,34 +150,23 @@
 		]]>
 	</select>
 	
-	<select id="master_cs_boardList" resultType="board" parameterType="board">
-		<![CDATA[
-		SELECT /*+INDEX_DESC(master_cs_board master_cs_board_pk)*/
-			cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor,member_id
- 		FROM master_cs_board where rownum >= 1 and rownum < 4
-		]]>
-
-	</select>
 	
 
-		<!--게시물 등록 1-->	
+	<!--게시물 등록 -->	
 	<insert id="cs_boardInsert" parameterType="board">
 		<![CDATA[
 			Insert into cs_board(cs_num,cs_name,cs_title,editor,t_editor,member_id) 
 			values(cs_board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{member_id})
 		]]>
 	</insert>
-	<insert id="master_cs_boardInsert" parameterType="board">
-		<![CDATA[
-			Insert into master_cs_board(cs_num,cs_name,cs_title,editor,t_editor,member_id) 
-			values(master_CS_Board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{member_id})
-		]]>
-	</insert>
+	
 
+	<!-- 게시글 마지막 생성 값-->	
 	<select id="cs_boardDetail_currnum" resultType="int">
 		select /*+INDEX_DESC(cs_board cs_board_pk)*/ cs_num from cs_board where rownum = 1	
 	</select>
 
+	<!-- 게시글 상세정보-->	
 	<select id="cs_boardDetail" parameterType="int" resultType="board">
 		<![CDATA[
 			SELECT cs_num,cs_name,cs_title,editor,member_id,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,
@@ -187,6 +176,7 @@
 		]]>
 	</select>
 
+	<!-- 게시글 수정-->	
 	<update id="cs_boardUpdate" parameterType="board">
 		/* cs_board - cs_boardUpdate */
 		UPDATE cs_board SET 
@@ -197,7 +187,9 @@
 		WHERE 
 		cs_num = #{cs_num}
 	</update>
-
+	
+	
+	<!-- 게시글 삭제-->	
 	<delete id="cs_boardDelete" parameterType="board">
 		DELETE FROM cs_board
 		WHERE
@@ -212,6 +204,7 @@
 			<include refid="cs_boardSearch"></include>
 		</trim>
 	</select> 
+	
 	<!-- 조회수  업데이트 -->
 	<update id="cs_hitsUpdate" parameterType="board">
 		/* cs_board - cs_boardUpdate */
@@ -225,4 +218,114 @@
 	<select id="cs_hits" parameterType="int" resultType="int">
 		select cs_hits from cs_board where cs_num = #{cs_num}
 	</select> 
+
+<!-- 관리자 창 -->	
+
+	<!-- 관리자 게시글 생성 -->
+	<insert id="master_cs_boardInsert" parameterType="board">
+		<![CDATA[
+			Insert into master_cs_board(cs_num,cs_name,cs_title,editor,t_editor,member_id) 
+			values(master_CS_Board_seq.nextval,#{cs_name},#{cs_title},#{editor},#{t_editor},#{member_id})
+		]]>
+	</insert>
+	
+	<!-- 관리자 게시글 생성 -->
+	<select id="master_cs_boardList" resultType="board" parameterType="board">
+		<![CDATA[
+			SELECT /*+INDEX_DESC(master_cs_board master_cs_board_pk)*/
+				cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor,member_id
+	 		FROM master_cs_board where rownum >= 1 and rownum < 4
+		]]>
+	</select>
+	
+	
+	<!-- 관리자 게시글 상세보기 조회 -->
+	<select id="master_cs_boardDetail" parameterType="int" resultType="board">
+		<![CDATA[
+			SELECT cs_num,cs_name,cs_title,editor,member_id,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,
+			to_char(cs_mDate,'YYYY-MM-DD') as cs_mDate,cs_hits 
+			FROM master_cs_board 
+			where cs_num = #{cs_num}
+		]]>
+	</select>
+	
+	<!-- 게시글 수정-->	
+	<update id="master_cs_boardUpdate" parameterType="board">
+		/* cs_board - cs_boardUpdate */
+		UPDATE master_cs_board SET 
+		cs_title = #{cs_title} 
+		,editor = #{editor} 
+		,t_editor = #{t_editor} 
+		,cs_mDate = sysdate 
+		WHERE 
+		cs_num = #{cs_num}
+	</update>
+	
+	
+	<!-- 게시글 삭제-->	
+	<delete id="master_cs_boardDelete" parameterType="board">
+		DELETE FROM master_cs_board
+		WHERE
+		cs_num = #{cs_num}
+	</delete>
+
+
+	<!--관리자 공지 조회수  업데이트 -->
+	<update id="master_cs_hitsUpdate" parameterType="board">
+		/* master_cs_board - master_cs_boardUpdate */
+		UPDATE master_cs_board SET 
+		cs_hits = #{cs_hits} 
+		WHERE 
+		cs_num = #{cs_num}
+	</update>
+
+	<!--관리자 공지 조회수  조회 -->
+	<select id="master_cs_hits" parameterType="int" resultType="int">
+		select cs_hits from master_cs_board where cs_num = #{cs_num}
+	</select>
+	
+	<!-- 게시글 마지막 생성 값-->	
+	<select id="master_cs_boardDetail_currnum" resultType="int">
+		select /*+INDEX_DESC(master_cs_board master_cs_board_pk)*/ cs_num from master_cs_board where rownum = 1	
+	</select>
+	
+	<!-- 관리자 공지 리스트 -->
+	<select id="master_cs_boardAllList" resultType="board" parameterType="board">
+		<![CDATA[
+		SELECT 
+			cs_num,cs_name,cs_title,to_char(cs_regDate,'YYYY-MM-DD') as cs_regDate,cs_hits,editor,t_editor,member_id
+ 			FROM ( 
+			SELECT 
+				/*+INDEX_DESC(master_cs_board master_cs_board_pk)*/
+				rownum as rnum, cs_num, cs_name, cs_title, cs_regDate,cs_hits,editor,t_editor,member_id 
+			FROM master_cs_board 
+			WHERE 
+		]]>
+
+	<!-- 		
+			안에 조건이 만족되면 (b_title like '%'|| #{keyword}||'%') and 가 추가된다. trim 
+			= 안에 if가 만족되면 앞부분과 뒷부분을 붙혀준다. prefix = 앞에 추가되는 구분 suffix = 뒤에 추가되는 구분 prefixOverrides 
+			= 조건이 만족되지 않았을때 AND까지의 내용을 지우도록 명명
+ 	-->		
+ 		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="cs_boardSearch"></include>
+		</trim>
+ 		<trim prefix="(" suffix=") AND " prefixOverrides="AND">
+			<include refid="cs_boardOrderOption"></include>
+		</trim>
+
+		<![CDATA[ 
+			rownum <= #{pageNum} * #{amount}
+			) master_boardlist
+			WHERE rnum > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+	<!-- 검색된 레코드의 갯수를 반환받는다.-->	
+	<select id="master_cs_boardListCnt" parameterType="board" resultType="int">
+		select count(*) from master_cs_board
+		<trim prefix=" where (" suffix=")">
+			<include refid="cs_boardSearch"></include>
+		</trim>
+	</select>  
 </mapper>

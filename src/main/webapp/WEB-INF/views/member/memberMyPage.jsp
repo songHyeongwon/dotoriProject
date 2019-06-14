@@ -201,7 +201,7 @@
 	<body>
 		<div>
 			<form>
-				<input type="hidden" id="member_id" name="member_id" value="${data.member_id }"/>
+				<input type="hidden" id="member_id" name="member_id" value="${sessionScope.data.member_id }"/>
 				<div class="text-center">
 					<table class="table table-striped">
 						<tr>
@@ -209,8 +209,8 @@
 							<td><span class="dotori">도토리</span></td>
 						</tr>
 						<tr>
-							<td><span class="dotori">${data.member_name}</span>님</td>
-							<td><span class="dotori">${data.member_point}</span>개
+							<td><span class="dotori">${sessionScope.data.member_name}</span>님</td>
+							<td><span class="dotori">${sessionScope.data.member_point}</span>개
 								<input type="button" id="dotoriCharge" name="dotoriCharge" value="도토리 충전"></td>
 						</tr>
 					</table>

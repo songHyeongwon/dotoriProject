@@ -270,7 +270,7 @@
 						<tr class="tb">
 							<td class="tn">아이디</td>
 							<td colspan="2">
-								<input type="text" id="member_id" name="member_id" placeholder="Id 입력" maxlength="20" value="${data.member_id }" readonly="readonly"/>
+								<input type="text" id="member_id" name="member_id" placeholder="Id 입력" maxlength="20" value="${sessionScope.data.member_id }" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr class="tb">
@@ -287,7 +287,7 @@
 						</tr>
 						<tr class="tb">	
 							<td class="tn">닉네임</td>
-							<td colspan="2"><input type="text" id="member_nickName" name="member_nickName" value="${data.member_nickName }"/></td>
+							<td colspan="2"><input type="text" id="member_nickName" name="member_nickName" value="${sessionScope.data.member_nickName }"/></td>
 						</tr>
 						<tr class="tb">
 							<td class="tn">이메일</td>
@@ -317,11 +317,11 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소</td>
-							<td colspan="2"><input type="text" name="member_address" id="member_address" value="${data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
+							<td colspan="2"><input type="text" name="member_address" id="member_address" value="${sessionScope.data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소 세부사항</td>
-							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress" value="${data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
+							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress" value="${sessionScope.data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
 						</tr>
 						<tr>
 							<td><h3 class="plusInfo">추가 정보</h3></td>

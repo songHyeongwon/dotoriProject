@@ -36,6 +36,7 @@ public class ProjectVO extends CommonVO{
 	private String member_id;
 	private MultipartFile file=null;
 	private List<ContentVO> list;
+	private int orders_price;		// 내가 펀딩한 금액
 	
 	public ProjectVO() {
 		list = new ArrayList<ContentVO>();

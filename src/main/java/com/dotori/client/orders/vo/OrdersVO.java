@@ -5,6 +5,7 @@ import com.dotori.client.orders.vo.DeliveryVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class OrdersVO extends DeliveryVO{

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -51,7 +52,7 @@
 				var bank = ["우리","국민","기업","농협","신한","KEB하나","한국씨티","SC제일","경남","광주","대구","도이치","부산","비엔피파리바","산림조합","산업","수협","신협","우체국","카카오뱅크"];
 				var chooseBtn = 0;
 				var chooseConfirmBtn=0;
-				var Pattern = /^[0-9]$/;
+				var Pattern = /^[0-9]*$/;
 				
 				$("#card").click(function(){
 					$("#bankName").hide();
@@ -81,48 +82,14 @@
 					$("#transact_method").append("은행계좌");
 				})
 				
-				// 정보 수정 버튼 클릭 시 함수 
-				$("#modifyPerson").click(function(){
+				$('#myTab a').click(function (e) {
+				  e.preventDefault()
+				  $(this).tab('show')
+				})
+				
+				// 개인 정보 수정 클릭 시 함수 
+				$(".personalModify").click(function(){
 					location.href="/member/confirmPassword"
-				})
-				
-				
-				// 펀딩중 클릭 시 함수
-				$("#funding").click(function(){
-					$.ajax({
-						url : "/member/memberFunding",
-						data : "member_id="+$("#member_id").val(),
-						type : "post",
-						dataType : "text",
-						error : function(){
-							alert("펀딩 중 상품 로딩 중 시스템 오류입니다. 관리자에게 문의 바랍니다.");
-						},
-						success : function(data){
-							if(data=="성공"){
-								alert("비밀번호 확인되었습니다.");
-							}else{
-								alert("비밀번호 확인 중 오류 발생 잠시 후 다시 시도해 주세요.");
-								$("member_pwd").val("");
-								$("member_pwd").focus();
-							}
-						}
-					})
-				})
-				
-				
-				// 도토리 사용내역
-				$("#usingDotori").click(function(){
-					$.ajax({
-						url : "/member/usingDotori",
-						type : "post",
-						data : "member_id="+$("member_id").val(),
-						dataType : "text",
-						error : function(){
-							alert("도토리 사용내역 출력 중 오류 발생. 관리자에게 문의 바랍니다.");
-						},success : function(data){
-							location.href="/member/memberMyPage";
-						}
-					})
 				})
 				
 				// '도토리 충전' 버튼 클릭 시 함수
@@ -131,6 +98,7 @@
 					$("#dotoriModal").modal();
 				})
 				
+				// 비밀번호 확인 버튼 클릭시 함수
 				$("#pwdCheckBtn").click(function(){
 					$.ajax({
 						url : "/member/passwordConfirm",
@@ -156,6 +124,7 @@
 					})
 				})
 				
+				// 도토리 충전
 				$("#chargeBtn").click(function(){
 					if(!chkData("#member_pointCharge","충전할 도토리를")) return;
 					else if(!chkData("#transact_num","번호를")) return;
@@ -163,7 +132,7 @@
 					else if(chooseConfirmBtn==0){
 						alert("비밀번호 확인 버튼을 눌러주세요.");
 					}else if($("#member_pointCharge").val().search(Pattern)<0 || $("#transact_num").val().search(Pattern)<0){
-						alert("정확하게 입력해주세요.");	
+						alert("정확하게 입력해주세요.");
 					}else{
 						$.ajax({
 							url : "/member/dotoriCharge",
@@ -171,13 +140,13 @@
 							data : "member_id="+$("#member_id").val()+"&member_pointCharge="+$("#member_pointCharge").val()+"&member_point="+$("#member_point").val(),
 							dataType : "text",
 							error : function(){
-								alert("도토리 충전 중 시스템 오류 발생 관리자에게 문의바랍니다. ");
+								alert("도토리 충전 중 시스템 오류 발생. 관리자에게 문의바랍니다. ");
 							},
 							success : function(data){
 								if(data=="성공"){
 									alert("도토리 충전이 완료되었습니다.");
 									$("#dotoriModal").modal('hide');
-									location.href = "/member/memberMyPage"
+									location.href = "/member/memberMyPage";
 								}else{
 									alert("도토리 충전 중 오류 발생 잠시 후 다시 시도해 주세요.");
 								}
@@ -193,15 +162,16 @@
 				})
 				
 				
-			})
-			
 				
+			})
 		</script>
 	</head>
 	<body>
 		<div>
-			<form>
-				<input type="hidden" id="member_id" name="member_id" value="${sessionScope.data.member_id }"/>
+			<form id="myPageForm">
+				<input type="hidden" id="member_id" name="member_id" value="${data.member_id }"/>
+				<%-- <input type="hidden" id="pageNum" name="pageNum" value="${pageMaker.cvo.pageNum }"/>
+				<input type="hidden" id="amount" name="amount" value="${pageMaker.cvo.amount }"/> --%>
 				<div class="text-center">
 					<table class="table table-striped">
 						<tr>
@@ -209,25 +179,35 @@
 							<td><span class="dotori">도토리</span></td>
 						</tr>
 						<tr>
-							<td><span class="dotori">${sessionScope.data.member_name}</span>님</td>
-							<td><span class="dotori">${sessionScope.data.member_point}</span>개
+							<td><span class="dotori">${data.member_name}</span>님</td>
+							<td><span class="dotori" id="point">${data.member_point}</span>개
 								<input type="button" id="dotoriCharge" name="dotoriCharge" value="도토리 충전"></td>
 						</tr>
 					</table>
 				</div>
 				
 				<div>
-					<ul class="li">
-						<li class="list"><input type="button" class="btn" id="funding" name="funding" value="펀딩 중 상품"/></li>
-						<li class="list"><input type="button" class="btn" id="usingDotori" name="usingDotori" value="사용한 도토리 내역"/></li>
-						<li class="list"><input type="button" class="btn" id="makeFund" name="makeFund" value="내가 만든 펀딩"/></li>
-						<li class="list"><input type="button" class="btn" id="modifyPerson" name="modifyPerson" value="개인 정보 수정"/></li>
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="list" role="presentation"><a href="#fundings" aria-controls="fundings" role="tab" data-toggle="tab">펀딩 중</a></li>
+						<li class="list" role="presentation"><a href="#usingDotori" aria-controls="usingDotori" role="tab" data-toggle="tab">사용한 도토리 내역</a></li>
+						<li class="list" role="presentation"><a href="#myFund" aria-controls="myFund" role="tab" data-toggle="tab">내가 만든 펀딩</a></li>
+						<li class="list" role="presentation"><a href="#personalModify" aria-controls="personalModify" class="personalModify" role="tab" data-toggle="tab">개인 정보 수정</a></li>
 					</ul>
 				</div>
 				
-				<div>
-				
+				<div class="tab-content">
+				    <div role="tabpanel" class="tab-pane" id="fundings">
+				    	<jsp:include page="fundings.jsp"/>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="usingDotori">
+				    	<jsp:include page="usingDotori.jsp"/>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="myFund">
+				    	<jsp:include page="myFund.jsp"/> 
+				    </div>
 				</div>
+				
+				
 			</form>
 			
 			<%-- 등록 화면 영역(modal) --%>
@@ -246,7 +226,7 @@
 			          </div>
 			          <div class="form-group">
 			            <label class="control-label">충전 할 도토리</label>
-			            <input type="text" class="form-control" id="member_pointCharge" name="member_pointCharge" maxlength="6">
+			            <input type="text" class="form-control" id="member_pointCharge" name="member_pointCharge">
 			          </div>
 			          <div class="form-group">
 			            <input type="button"  id="card" name="card" value="카드"/>

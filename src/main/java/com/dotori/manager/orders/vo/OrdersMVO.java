@@ -17,4 +17,7 @@ public class OrdersMVO extends CommonVO {
 	private int orders_guideAgree;
 	private int orders_infoAgree;
 	private int content_kind;
+	private String project_name;
+	private int project_status;
+	private int refundOk;
 }

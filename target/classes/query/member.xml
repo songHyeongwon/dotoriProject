@@ -88,12 +88,33 @@
 		as state from dual
 	</select>
 	
-	<!-- 회원 마이페이지 '펀딩 중' 쿼리 -->	
-	<select id="memberFunding" parameterType="member" resultType="int">
-		/* member - memberFunding */
-		select pj.project_thumb, pj.project_url
-		from project pj inner join member mem
-		on mem.member_id=#{member_id} 
+	<!-- 회원 마이페이지 '내가 만든 펀딩' 쿼리 -->	
+	<select id="myFunding" parameterType="member" resultType="Project">
+		/* member - myFunding */
+		select project_thumb, project_url, project_name , project_summary, project_num, project_content, member_id, project_adddate, project_status  
+		from project where member_id=#{member_id}
+    	
+	</select>
+	
+	<!-- 회원 마이페이지 '도토리 사용내역' 쿼리 -->
+	<select id="usingDotori" parameterType="member" resultType="ordersM">
+		/* member - usingDotori */
+		select od.project_num, orders_price, project_name ,
+		to_char(orders_date,'YYYY-MM-DD') orders_date,orders_num,
+		od.member_id, orders_content,project_status,refundOk  
+		from orders od inner join project pj   
+		on od.project_num = pj.project_num  
+		where od.member_id=#{member_id} order by orders_num desc
+	</select>
+	
+	<!-- 마이페이지 '펀딩 중' 쿼리 -->
+	<select id="fundingProcess" parameterType="member" resultType="Project">
+		select project_name, sum(orders_price) orders_price,pj.project_num,  
+		project_summoney,project_targetmoney,to_char(project_enddate,'YYYY-MM-DD') project_enddate,pj.member_id 
+		from orders od inner join project pj 
+		on od.project_num = pj.project_num 
+		where od.member_id = #{member_id} 
+		group by project_name,project_summoney,project_targetmoney,project_enddate,pj.member_id,pj.project_num
 	</select>
 	
 	<!-- 도토리 충전 쿼리 -->
@@ -103,4 +124,43 @@
 		member_point = #{member_point}+#{member_pointCharge} 
 		where member_id = #{member_id}
 	</update>
+	
+	<!-- 페이징을 위한 리스트 숫자 구하는 쿼리 -->
+	<select id="memberListCnt" parameterType="member" resultType="int">
+		select count(project_num) from project 
+		where member_id = #{member_id}
+	</select>
+	
+	<!-- 비밀번호/아이디 확인 시 회원 테이블에 저장되어 있는 이메일로 보내기 위한 확인 작업 -->
+	<select id="emailCheck" parameterType="member" resultType="int">
+		select nvl((select 1 from member where member_email=#{member_eMail}),0) from dual
+	</select>
+	
+	<!-- 이메일 확인 후 회원테이블에 저장되어 있는 아이디 값 보내기 -->
+	<select id="logIdCheck" parameterType="member" resultType="member">
+		select member_id,member_name from member where member_eMail = #{member_eMail}
+	</select>
+	
+	<!-- 입력받은 이메일,아이디 값으로 테이블 안에서 비밀번호 찾는 쿼리 -->
+	<select id="logPasswordCheck" parameterType="member" resultType="String">
+		select member_pwd from member where member_eMail = #{member_eMail} and member_id=#{member_id}
+	</select>
+	
+	<!-- 마이페이지 '도토리 사용 내역' 환불 버튼 쿼리 -->
+	<update id="refund" parameterType="ordersM" statementType="CALLABLE">
+         { CALL orders_back(
+         #{orders_num}
+         )}
+    </update>
+    
+    <!-- 펀딩중 리스트 숫자 구하기 -->
+    <select id="memberfundingListCnt" parameterType="member" resultType="int">
+    	select count(project_name) from (select project_name, sum(orders_price) orders_price,pj.project_num,  
+		project_summoney,project_targetmoney,to_char(project_enddate,'YYYY-MM-DD') project_enddate,pj.member_id  
+		from orders od inner join project pj 
+		on od.project_num = pj.project_num 
+		where od.member_id = #{member_id} 
+		group by project_name,project_summoney,project_targetmoney,project_enddate,pj.member_id,pj.project_num)
+    </select>
+
 </mapper>

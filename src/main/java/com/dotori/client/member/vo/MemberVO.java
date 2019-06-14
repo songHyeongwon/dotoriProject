@@ -2,10 +2,14 @@ package com.dotori.client.member.vo;
 
 import java.util.Date;
 
+import com.dotori.common.vo.CommonVO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class MemberVO {
+@EqualsAndHashCode(callSuper=false)
+public class MemberVO extends CommonVO{
 	private int member_num=0;				// 회원 번호
 	private String member_id="";			// 회원 아이디
 	private String member_pwd="";			// 회원 비밀번호

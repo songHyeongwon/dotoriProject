@@ -124,7 +124,7 @@
 			                
 			                <div>
 								제목 : ${project.project_name}<br>
-								설명 : ${project.project_summary}<br>
+								<%-- 설명 : ${project.project_summary}<br> --%>
 								달성률 : ${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
 								종료일 : ${project.project_endDate}<br>
 								제작자 : ${project.member_id}<br>

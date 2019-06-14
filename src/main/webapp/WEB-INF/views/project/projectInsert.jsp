@@ -392,7 +392,7 @@
 						<tr>
 							<td class="text-center">관련 사이트 URL</td>
 							<td><input type="text" id="Project_URL" name="Project_URL"
-								class="form-control"></td>
+								class="form-control" maxlength="50"></td>
 						</tr>
 						<tr>
 							<td class="text-center">세부내역 입력</td>

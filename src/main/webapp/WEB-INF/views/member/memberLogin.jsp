@@ -8,7 +8,7 @@
 		<meta charset="UTF-8">
 		<title>로그인 창</title>
 		
-		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/css/memberJoin.css">
+		<link type="text/css" rel="stylesheet" href="/resources/include/css/memberJoin.css">
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script> -->
+		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
@@ -124,12 +124,12 @@
 					아직 도토리's 계정이 없으신가요?<a href="/member/join" class="a">도토리's 회원가입</a>
 				</div>
 				<div class="form-group">
-					<input type="button" class="btn btn-success" id="naver" name="naver" value="Naver"/>
-					<input type="button" class="btn btn-primary" id="facebook" name="facebook" value="FaceBook"/>
+					<input type="button" class="btn btn-success logBtn" id="naver" name="naver" value="Naver"/>
+					<input type="button" class="btn btn-primary logBtn" id="facebook" name="facebook" value="FaceBook"/>
 				</div>
 				<div class="form-group">
-					<input type="button" class="btn btn-default" id="google" name="google" value="Google"/>
-					<input type="button" class="btn btn-info" id="twitter" name="twitter" value="twitter"/>
+					<input type="button" class="btn btn-default logBtn" id="google" name="google" value="Google"/>
+					<input type="button" class="btn btn-info logBtn" id="twitter" name="twitter" value="twitter"/>
 				</div>
 			</div>
 		</div>

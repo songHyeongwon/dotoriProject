@@ -5,6 +5,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
+		
+		<style type="text/css">
+			#member_eMail{
+				width: 230px;
+			}
+		</style>
 
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
@@ -73,30 +79,20 @@
 		</script>
 	</head>
 	<body>
-		<div>
+		<div class="text-center">
 			<form id="idChkForm">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h2>아이디 찾기</h2></td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>등록한 이메일 주소</td>
-							<td>
-								<input type="email" id="member_eMail" name="member_eMail"/>&nbsp;
-							</td>
-						</tr>
-						<tr class="text-center">
-							<td>
-								<input type="button" id="chkBtn" name="chkBtn" value="확인"/>
-								<input type="button" id="chkPwdBtn" name="chkPwdBtn" value="비밀번호 찾기"/>&nbsp;&nbsp;
-								<input type="button" id="cancleBtn" name="cancleBtn" value="취소"/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+					<div class="form-group">
+							<h2>아이디 찾기</h2>
+					</div>
+					<div class="form-group">
+					등록한 이메일 주소 : 
+						<input type="email" id="member_eMail" name="member_eMail" placeholder="예) dotoriFundings@naver.com"/>&nbsp;
+					</div>
+					<div class="form-group">
+						<input type="button" class="btn btn-success" id="chkBtn" name="chkBtn" value="확인"/>
+						<input type="button" class="btn btn-primary" id="chkPwdBtn" name="chkPwdBtn" value="비밀번호 찾기"/>
+						<input type="button" class="btn btn-danger" id="cancleBtn" name="cancleBtn" value="취소"/>
+					</div>
 			</form>
 		</div>
 	</body>

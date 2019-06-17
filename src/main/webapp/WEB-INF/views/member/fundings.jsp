@@ -6,7 +6,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
-
+		
+		<style type="text/css">
+			.caption{
+				border: 1px,bold,black;
+			}
+		</style>
+		
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
@@ -86,7 +92,10 @@
 			function fundingList(project_num,project_name,orders_price,project_summoney,project_targetMoney,member_id,project_endDate,percentage,index){
 				var column = $("<div>");
 				column.attr("data-num",project_num);
-				column.addClass("col-sm-6 col-md-4");				
+				column.addClass("col-sm-6 col-md-4");
+				
+				var thumbnail = $("<div>");
+				thumbnail.addClass("thumbnail");
 				
 				var caption = $("<div>");
 				caption.addClass("caption");
@@ -112,7 +121,7 @@
 				locationBtn.html("이동");
 				
 				caption.append(h3).append(pInfo).append(percentage1).append(myMoney).append(pBtnArea.append(locationBtn));
-				column.append(caption);
+				column.append(thumbnail.append(caption));
 				
 				$("#fundingList").append(column);
 			}

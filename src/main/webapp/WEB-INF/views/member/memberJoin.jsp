@@ -22,10 +22,6 @@
 		</style>
 =======
 		</style> -->
-=======
-		</style>
-		</style> -->
->>>>>>> refs/remotes/choose_remote_name/HyeonGwon
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 
@@ -292,6 +288,8 @@
 								location.href = "/";
 							}else if(data=="실패"){
 								alert("회원가입에 실패하였습니다. 잠시후 다시 시도해 주새요.");
+							}else if(data=="이메일"){
+								alert("입력하신 이메일은 가입이 되어 있습니다. 확인 부탁드립니다.");
 							}
 						}
 					})

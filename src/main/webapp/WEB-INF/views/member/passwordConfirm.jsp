@@ -36,14 +36,15 @@
 							data : "member_pwd="+$("#member_pwd").val()+"&member_id="+$("#member_id").val(),
 							dataType : "text",
 							error : function(){
-								alert("비밀번호 확인 중 오류 발생 관리자에게 문의 바랍니다.");
+								alert("비밀번호 확인 중 오류 발생. 관리자에게 문의 바랍니다.");
 							},
 							success : function(data){
-								if(data="성공"){
+								console.log(data);
+								if(data=="성공"){
 									alert("비밀번호 확인되었습니다.");
 									location.href = "/member/personalModify";
 								}else{
-									alert("비밀번호 확인 중 오류 발생 잠시 후 다시 시도해 주세요.");
+									alert("비밀번호 확인 중 오류 발생. 잠시 후 다시 시도해 주세요.");
 									$("#member_pwd").val("");
 									$("#pwdConf").val("");
 									$("#member_pwd").focus();

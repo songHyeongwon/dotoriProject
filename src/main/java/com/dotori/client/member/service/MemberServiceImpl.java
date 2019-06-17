@@ -50,6 +50,8 @@ public class MemberServiceImpl implements MemberService{
 		String member_eMail = mvo.getMember_eMail();
 		
 		int result=memberDao.emailCheck(member_eMail);
+		if(result==1)
+			return 2;
 		
 		int result1=memberDao.memberJoin(mvo);
 		

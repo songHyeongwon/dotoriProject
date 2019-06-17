@@ -101,9 +101,9 @@
 						 $("#member_evenAgree").val('0');
 					 }
 					 
-					 if(!checkForm("#member_pwd","비밀번호를 ")) return;
+					 /* if(!checkForm("#member_pwd","비밀번호를 ")) return;
 					 else if(!checkForm("#member_cofirmPwd","확인 비밀번호를")) return;
-					 else if(!checkForm("#member_nickName","닉네임을 ")) return;
+					 else  */if(!checkForm("#member_nickName","닉네임을 ")) return;
 					 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
 						 	alert("이메일을 입력해주세요.");
 						 	$("#eMailFront").val("");
@@ -118,7 +118,7 @@
 						 	$("#phoneFirst").focus();
 						 	return;
 					 }else if(!checkForm("#member_address","주소를 ")) return;
-					 else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
+					/*  else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
 						 alert("비밀번호가 같지 않습니다. 확인 부탁드립니다.");
 						 $("#cofirmPwd").val("");
 						 $("#cofirmPwd").focus();
@@ -128,16 +128,16 @@
 						 $("#member_pwd").val("");
 						 $("#member_pwd").focus();
 						 return;
-					 }else if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
+					 }else  */if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
 						 alert("핸드폰 번호를 올바르게 입력해주세요.");
 						 $("#phoneFirst").val("");
 						 $("#phoneMiddle").val("");
 						 $("#phoneLast").val("");
 						 $("#phoneFirst").focus();
 						 return;
-					 }else if(member_chPwd==0){
+					 }/* else if(member_chPwd==0){
 						 alert("비밀번호 확인 버튼을 눌러서 확인해 주세요.");
-					 }else{
+					 } */else{
 						member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
 						member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
 						$("#member_eMail").val(member_eMail);
@@ -154,17 +154,12 @@
 							success : function(data){
 								if(data=="성공"){
 									alert("정보 수정이 완료되었습니다.");
-									location.href="/";
+									location.href="/member/memberMyPage";
 								}else{
 									alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
 								}
 							}
 						})
-						$("#modifyForm").attr({
-							"method" : "post",
-						 	"action" : "/member/memberUpdate"
-						 });
-						 $("#joinForm").submit();
 						 
 					 }
 				 })

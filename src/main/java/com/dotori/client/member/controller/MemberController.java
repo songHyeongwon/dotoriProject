@@ -117,13 +117,14 @@ public class MemberController {
 	// 회원가입 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="/memberJoin",method=RequestMethod.POST,produces="text/plain; charset=UTF-8")
-	public String memberJoin(@ModelAttribute MemberVO mvo, Model model) {
+	public String memberJoin(@ModelAttribute MemberVO mvo) {
 		int result = 0;
 		
 		result=memberService.memberJoin(mvo);
 		if(result==1) {
-			model.addAttribute("success",1);
 			return "성공";
+		}else if(result==2){
+			return "이메일";
 		}else {
 			return "실패";
 		}
@@ -170,6 +171,8 @@ public class MemberController {
 	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
 		
 		int result=memberService.passwordConfirm(mvo);
+		log.info("확인 " +mvo.getMember_id() + " "+mvo.getMember_pwd());
+		log.info("result : "+result);
 		
 		if(result==1) {
 			return "성공";

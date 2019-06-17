@@ -79,7 +79,7 @@
 				thumbnail.addClass("thumbnail");
 				
 				var img = $("<img>");
-				img.attr("src","/uploadStorage/project/thumbnail/"+project_thumb);
+				img.attr("src","/uploadStorage/gallery/"+project_thumb);
 				console.log(img.attr("src"));
 				
 				

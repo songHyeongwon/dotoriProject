@@ -13,18 +13,11 @@
 		
 		<link rel="shortcut icon" href="../image/icon.png"/>
 		<link rel="apple-touch-icon" href="../image/icon.png"/>
-	
+		<link rel="stylesheet" href="/resources/include/css/ordersFinal.css"/>
 		<!-- IE8이하 브라우저에서 html5를 인식하기 위한 패스필터 -->
 		<!-- [if lt IE 9]>
 			<script src="../js/html5shiv.js"></script>
 		<![endif]-->
-		<style type="text/css">
-			#container{
-				width:800px;
-				margin:0px auto;
-				text-align:center;
-			}
-		</style>
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript">
 			$(function(){
@@ -77,9 +70,8 @@
 		</c:choose>
 		<div id="container">
 		<header></header>
-	<hr/>
 	<div id="rewardDetail">
-		<h4>리워드 세부항목</h4>
+		<h3>리워드 세부항목</h3>
 		-후원금액:${orders.order_price}<br/>
 		-리워드 세부내역:${orders.order_content}<br/>
 		-주소:<span id="address">${orders.delivery_recaddress}</span>
@@ -98,7 +90,7 @@
 		<input type="checkbox" name="order_infoAgree" id="order_infoAgree"/>
 		<label>모두 읽었습니다.</label>
 		<footer>
-			<button type="button" name="finalConfirm" id="finalConfirm">이해하고 후원 완료하기</button>
+			<button type="button" name="finalConfirm" id="finalConfirm" class="btn btn-primary">이해하고 후원 완료하기</button>
 		</footer>
 	</div>
 </form>

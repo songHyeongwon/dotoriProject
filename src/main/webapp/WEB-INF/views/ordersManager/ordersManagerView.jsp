@@ -63,8 +63,8 @@
 
 	              var data = google.visualization.arrayToDataTable([
 	                ['프로젝트 대분류', '매출'],
-	                ['출판',0],
-	                ['패션',137200],
+	                ['출판',33500],
+	                ['패션',626800],
 	                ['게임',0],
 	                ['공연',100],
 	                ['캠페인',0]
@@ -103,6 +103,7 @@
 			</form>
 		</div>
 		<div id="piechart" class="text-center" style="width: 900px; height: 500px;"></div>
+	<h1>후원 현황</h1>
 	<c:choose>
 		<c:when test="${not empty ordersList}">
 			<table class="table">

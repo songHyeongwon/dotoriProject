@@ -1,0 +1,24 @@
+@charset "UTF-8";
+			@font-face { 
+				font-family: 'PurenJeonnam'; 
+				src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/PureunJeonnam.woff') format('woff'); 
+				font-weight: normal; 
+				font-style: normal; 
+			}
+			body{
+				font-family: 'PurenJeonnam';
+			}
+			#container{
+				width:800px;
+				margin:0px auto;
+				text-align:center;
+			}
+			hr{
+				border:solid 1px #A9D0F5;
+			}
+			input[type="checkbox"] {
+    			margin:20px 2px;
+			}
+			p{
+				margin:35px auto;
+			}

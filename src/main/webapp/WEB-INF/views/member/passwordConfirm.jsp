@@ -39,7 +39,7 @@
 								alert("비밀번호 확인 중 오류 발생 관리자에게 문의 바랍니다.");
 							},
 							success : function(data){
-								if(data="성공"){
+								if(data=="성공"){
 									alert("비밀번호 확인되었습니다.");
 									location.href = "/member/personalModify";
 								}else{

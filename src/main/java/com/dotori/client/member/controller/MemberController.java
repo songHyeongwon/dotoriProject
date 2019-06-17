@@ -170,7 +170,7 @@ public class MemberController {
 	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
 		
 		int result=memberService.passwordConfirm(mvo);
-		
+		log.info("반환되어 오는값"+result);
 		if(result==1) {
 			return "성공";
 		}else {

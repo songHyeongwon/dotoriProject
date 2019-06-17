@@ -28,8 +28,12 @@ var fristName ="";
 var optionCnt =0;
 //처음 셀렉트
 	$(function() {
+		var money = "${(project.project_sumMoney/project.project_targetMoney)*100}";
+		money = 1*money;
+		$("#money").html(" "+parseInt(money)+"% ");
 		//모달 선택시
 		$(document).on("click","button[name='content']", function() {
+			
 			if($("#project_status").val()==0){
 				alert("승인되지 않은 프로젝트의 물품을 구매할수 없습니다.");
 			}else if($("#project_status").val()==2){
@@ -167,13 +171,30 @@ var optionCnt =0;
 		}
 	#projectInfo1{
 		width: 68%;
-		display: inline-block;}
+		display: inline-block;
+		margin-top: 20px;}
 	#projectInfo2{
 		width: 30%;
-		float: right;}
+		float: right;
+		margin-top: 10%;}
 	#project_thumb{
 		width: 98%;
 		height: auto;}
+	.value-text{
+		font-size: 40px;
+		font-weight: bold;
+		}
+	#money{
+		font-weight: bold;
+		font-size: 30px;
+		}
+	.values{
+		font-size: 20px;
+		font-weight: bold;}
+	.summary{
+		font-weight: bold;
+		font-size: 15px;
+		font-family: sans-serif;}
 </style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -193,33 +214,38 @@ var optionCnt =0;
 			<div>
 				<div id="projectInfo1">
 					<input type="hidden" id="project_status" value="${project.project_status}">
-					<H4>${project.project_name}</H4>
-					<p>${project.member_id}님의 아이디어입니다.</p>
-					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb">
-					<p>${project.project_summary}</p>
-					<a href="${project.project_URL}">${project.project_URL}로 이동</a>
+					<H2 class="text-center">${project.project_name}</H2>
+					<p class="text-right">${project.member_id}님의 아이디어입니다.</p><br>
+					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb"><br><hr>
+					<p class="text-center"><a href="${project.project_URL}" class="URL-center">관련사이트 = ${project.project_URL}로 이동</a></p><hr>
+					<span class="summary">${project.project_summary}</span><hr>
 				</div>
 				<div id="projectInfo2">
+					<br><br>
 					<c:choose>
 						<c:when test="${project.project_status==0}">
-							<h2>관리자의 승인을 기다리고 있습니다.</h2>
+							<h3 class="text-center">관리자의 승인을 기다리고 있습니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==1}">
-							<h2>현재 진행중인 프로젝트</h2>
+							<h3 class="text-center">현재 진행중인 프로젝트</h3>
 						</c:when>
 						<c:when test="${project.project_status==2}">
-							<h2>부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h2>
+							<h3 class="text-center">부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==3}">
-							<h2>여러분에 성원에 성공한 프로젝트입니다.</h2>
+							<h3 class="text-center">여러분에 성원에 성공한 프로젝트입니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==4}">
-							<h2>아쉽게도 달성되지 못한 프로젝트입니다.</h2>
+							<h3 class="text-center">아쉽게도 달성되지 못한 프로젝트입니다.</h3>
 						</c:when>
 					</c:choose>
-					<h2>목표금액 : ${project.project_targetMoney}</h2>
-					<h3>현재까지 모음 : ${project.project_sumMoney}</h3>
-					<h3>이 아이디어를 ${project.project_count}명이 <br>후원해주셨습니다.</h3>
+					<br>
+					<p class="values">목표금액</p>
+					<span class="value-text">${project.project_targetMoney}</span>원 <br> <br>
+					<p class="values">현재까지모음</p>
+					<span class="value-text">${project.project_sumMoney}</span>원<span id="money"></span>달성 <br> <br>
+					<p class="values">이 아이디어를 ~</p>
+					<span class="value-text">${project.project_count}</span>명이 후원해주셨습니다 <br> <br>
 				</div>
 			</div>
 			<%--헤더 종료 --%>
@@ -239,18 +265,21 @@ var optionCnt =0;
 				<div class="tab-content">
 					<%--프로젝트 소개 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane active" id="home">
-					${project.project_content}
+						<br>
+						${project.project_content}
 					</div>
 					<%--프로젝트 소개 폼 종료 --%>
 					
 					<%--문의사항 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane" id="profile">
+						<br>
 						<jsp:include page="projectBoard.jsp"></jsp:include>
 					</div>
 					<%--문의사항 폼 종료 --%>
 					
 					<%--리뷰 폼 시작--%>
 					<div role="tabpanel" class="tab-pane" id="settings">
+						<br>
 						<jsp:include page="projectReply.jsp"></jsp:include>
 					</div>
 					<%--리뷰 폼 종료--%>

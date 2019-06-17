@@ -52,8 +52,13 @@
 	.hdpe{height: 400px;
 		width: 32%;
 		border: black 1px solid;
-		margin: 5px;}
-	#pagination{}
+		margin: 5px;} 	 
+	.txt_line {
+		width: 350px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+  	}
 </style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -123,8 +128,8 @@
 			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
 			                
 			                <div>
-								제목 : ${project.project_name}<br>
-								<%-- 설명 : ${project.project_summary}<br> --%>
+								<div class="txt_line">제목 : ${project.project_name}</div>
+								<div class="txt_line">설명 : ${project.project_summary}</div>
 								달성률 : ${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
 								종료일 : ${project.project_endDate}<br>
 								제작자 : ${project.member_id}<br>

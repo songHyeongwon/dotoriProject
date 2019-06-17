@@ -9,6 +9,7 @@ import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.client.project.vo.QnaBoard;
 import com.dotori.client.project.vo.ReplyVO;
+import com.dotori.common.vo.HomeControllerVO;
 
 public interface ProjectService {
 
@@ -55,6 +56,8 @@ public interface ProjectService {
 	public int boardUpdate(QnaBoard qvo);
 
 	public int qnaInsert(QnaBoard qvo);
+
+	public HomeControllerVO managerList();
 
 	
 }

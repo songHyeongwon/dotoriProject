@@ -21,5 +21,36 @@
 	</head>
 	<body>
 		<h1>어서오세요 관리자님 환영합니다.</h1>
+		
+		<table class="table">
+			<colgroup>
+				<col width="30%">
+				<col width="70%">
+			</colgroup>	
+			<thead>
+				<tr>
+					<td>작업내용</td>
+					<td>작업량</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>승인대기 프로젝트</td>
+					<td><a href="/projectManager/projectManagerForm">${managerData.project_count}개의 프로젝트가 승인대기중입니다.</a></td>
+				</tr>
+				<tr>
+					<td>답변대기 문의게시글</td>
+					<td><a href="/cs_board/cs_boardList">${managerData.cs_board_count}개의 문의게시글이 답변을 기다립니다.</a></td>
+				</tr>
+				<tr>
+					<td>금일 신규가입 회원수</td>
+					<td><a href="/memberManager/memberManagerForm">${managerData.member_count}명의 신규가입자가 들어왔습니다.</a></td>
+				</tr>
+				<tr>
+					<td>금일 홈페이지 사용 포인트</td>
+					<td><a href="/ordersManager/ordersManagerView">${managerData.orders_sum_price}원의 포인트가 사용되었습니다.</a></td>
+				</tr>
+			</tbody>
+		</table>
 	</body>
 </html>

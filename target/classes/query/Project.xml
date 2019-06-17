@@ -431,4 +431,18 @@
 		    1
 		)
 	</insert>
+	
+	<!-- 관리자 메인으로 보낼 값 -->
+	<select id="cs_board_count" resultType="int">
+		<![CDATA[select nvl(count(CS_NUM),0) as cs_board_count from cs_board b where (SELECT COUNT(CS_NUM) FROM cs_reply WHERE CS_NUM = B.CS_NUM)<=0]]>
+	</select>
+	<select id="member_count" resultType="int">
+		<![CDATA[select nvl(count(member_num),0) as member_count from member where to_char(MEMBER_ADDDATE,'yyyy/mm/dd')=to_char(sysdate,'yyyy/mm/dd')]]>
+	</select>
+	<select id="orders_sum_price" resultType="int">
+		<![CDATA[select nvl(sum(ORDERS_PRICE),0) as orders_sum_price from orders where to_char(ORDERS_DATE,'yyyy/mm/dd')=to_char(sysdate,'yyyy/mm/dd')]]>
+	</select>
+	<select id="project_count" resultType="int">
+		<![CDATA[select nvl(count(project_status),0) as project_count from project where project_status=0]]>
+	</select>
 </mapper>

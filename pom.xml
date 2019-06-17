@@ -159,12 +159,11 @@
 		</dependency>
 
 		<!-- 오라클 11g -->
-			
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>6.0</version>
-		</dependency> 
+		</dependency>
 		
 
 		<!-- hikariCP 최신유행의 커넥션 풀 -->

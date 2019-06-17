@@ -54,7 +54,6 @@
 		<!-- /.container-fluid -->
 	</nav>
 	<!--최상단 네비게이션  종료-->
-	<div class="jumbotron container theme-showcase">
-		<h1>토토리s 펀딩s에 어서오세요</h1>
-		<p>현재 마스터 계정으로 로그인 하였습니다.</p>
+	<div class="jumbotron container theme-showcase" style="margin-bottom: 20; padding-bottom: 0;">
+		<img src="/resources/image/dotoriManagerMain.png" style="height: 350px; width: 100%; margin: 0;">
 	</div>

@@ -105,8 +105,8 @@
 					<c:choose>
 						<c:when test="${not empty viewList}">
 								<div class="item active">
-									<img src="">
-									<div class="carousel-caption">도토리 펀딩즈에 어서오세요</div>
+									<img src="/resources/image/ser1.jpg">
+									<!-- <div class="carousel-caption">도토리 펀딩즈에 어서오세요</div> -->
 								</div>
 							<c:forEach var="project" items="${viewList}" varStatus="status">
 								<div class="item">

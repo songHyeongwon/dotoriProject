@@ -5,11 +5,29 @@
 	<head>		
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
-
+		
+		<style type="text/css">
+			.text{
+				width : 180px;
+			}
+			
+			.confirm{
+				width: 130px;
+			}
+			
+			.title{
+				margin-top : 100px; 
+			}
+			
+			.lastBtn{
+				padding-bottom: 100px;
+			}
+		</style>
+		
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
-	
+		
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
@@ -24,12 +42,7 @@
 				$("#pwdConfirmBtn").click(function(){
 					if(!checkForm("#member_pwd","비밀번호를")) return;
 					else if(!checkForm("#pwdConf","재확인 비밀번호를")) return;
-					else if($("#member_pwd").val()!=$("#pwdConf").val()){
-						alert("비밀번호가 일치하지 않습니다. 확인 부탁드립니다.");
-						$("#member_pwd").val("");
-						$("#pwdConf").val("");
-						$("#member_pwd").focus();
-					}else{
+					else{
 						$.ajax({
 							url : "/member/passwordConfirm",
 							type : "post",
@@ -57,27 +70,25 @@
 		</script>
 	</head>
 	<body>
-		<div class="text-center">
-			<h2>비밀번호 확인</h2>
-			<div>
-				<form id="pwdConfirm">
-					<input type="hidden" id="member_id" name="member_id" value="${data.member_id}"/>
-					<div class="form-group">
-						<input type="password" class="text" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력"/>
-					</div>
-					<div class="form-group">
-						<input type="password" class="text" id="pwdConf" name="pwdConf" placeholder="재확인 비밀번호 입력"/>
-					</div>
-				</form>
+		<div class="text-center thumbnail total">
+			<div class="title">
+				<h2>비밀번호 확인</h2>
 			</div>
-			
-			<div class="form-group">
-				<input type="button" name="pwdConfirmBtn" id="pwdConfirmBtn" value="확인"/>
-			</div>
-			<div class="form-group">
+				<div>
+					<form id="pwdConfirm">
+						<input type="hidden" id="member_id" name="member_id" value="${data.member_id}"/>
+						<div class="form-group">
+							<input type="password" class="text" id="member_pwd" name="member_pwd" placeholder="비밀번호 입력"/>
+						</div>
+					</form>
+				</div>
 				
-				<input type="button" name="cancelBtn" id="cancelBtn" value="취소"/>
-			</div>
+				<div class="form-group">
+					<input type="button" class="btn btn-success confirm" name="pwdConfirmBtn" id="pwdConfirmBtn" value="확인"/>
+				</div>
+				<div class="form-group lastBtn">
+					<input type="button" class="btn btn-primary confirm" name="cancelBtn" id="cancelBtn" value="취소"/>
+				</div>
 		</div>
 	</body>
 </html>

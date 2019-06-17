@@ -364,7 +364,7 @@
 		 }
 		</script>
 	</head>
-	<body>
+	<body>		
 		<div>
 			<h1>회원 가입</h1>
 			<div class="form-group">
@@ -451,7 +451,37 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="checkbox" id="member_infoAgree" name="member_infoAgree"/><label for="member_infoAgree">개인정보 처리 동의</label>&nbsp;<a href="#">정보처리 약관보기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" id="member_infoAgree" name="member_infoAgree"/><label for="member_infoAgree">개인정보처리 동의 여부</label>
+								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+								  <div class="panel panel-default">
+								    <div class="panel-heading" role="tab" id="headingOne">
+								      <h4 class="panel-title">
+								        <a data-toggle="collapsing " data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								          	개인 정보처리 약관보기
+								        </a>
+								      </h4>
+								    </div>
+								    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								      <div class="panel-body">
+								      	제1조(개인정보의 처리목적) 도토리's 펀딩's은(는) 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br/><br/> 
+
+										  1. 홈페이지 회원 가입 및 관리 <br/>
+										     회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별․인증, 회원자격 유지․관리, 제한적 본인확인제 시행에 따른 본인확인, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 처리시 법정대리인의 동의여부 확인, 각종 고지․통지, 고충처리 등을 목적으로 개인정보를 처리합니다. <br/><br/>
+										
+										  2. 재화 또는 서비스 제공 <br/>
+										     물품배송, 서비스 제공, 계약서․청구서 발송, 콘텐츠 제공, 맞춤서비스 제공, 본인인증, 연령인증, 요금결제․정산, 채권추심 등을 목적으로 개인정보를 처리합니다. <br/><br/>
+										
+										  3. 고충처리 <br/>
+										     민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락․통지, 처리결과 통보 등의 목적으로 개인정보를 처리합니다. <br/><br/>
+										
+										  4. <해당 도토리's 펀딩's의 개인정보 처리업무><br/>
+										     <개인정보 처리업무에 따른 처리목적>으로 개인정보를 처리합니다.
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+								
 								<input type="checkbox" id="member_evenAgree" name="member_evenAgree"/><label for="member_evenAgree">이메일/문자 수신 동의</label>&nbsp;<a href="#">수신 약관보기</a>
 							</td>
 						</tr>	

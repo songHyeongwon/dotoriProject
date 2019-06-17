@@ -182,9 +182,23 @@ public class MemberController {
 	// 회원 수정 컨트롤러
 	@ResponseBody
 	@PostMapping(value="/memberUpdate", produces="text/plain; charset=UTF-8")
-	public String memberUpdate(@ModelAttribute MemberVO mvo) {
+	public String memberUpdate(@ModelAttribute MemberVO mvo,HttpSession session) {
 		
+		MemberVO mvo1 = (MemberVO)session.getAttribute("data");
+		
+		
+		log.info(mvo.toString());
 		int result=memberService.memberUpdate(mvo);
+		
+		mvo1.setMember_pwd(mvo.getMember_pwd());
+		mvo1.setMember_nickName(mvo.getMember_nickName());
+		mvo1.setMember_eMail(mvo.getMember_eMail());
+		mvo1.setMember_phone(mvo.getMember_phone());
+		mvo1.setMember_address(mvo.getMember_address());
+		mvo1.setMember_detailAddress(mvo.getMember_detailAddress());
+		mvo1.setMember_evenAgree(mvo.getMember_evenAgree());
+		
+		session.setAttribute("data", mvo1);
 		
 		if(result==1) {
 			return "성공";

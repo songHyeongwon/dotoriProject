@@ -13,22 +13,12 @@
 		
 		<link rel="shortcut icon" href="../image/icon.png"/>
 		<link rel="apple-touch-icon" href="../image/icon.png"/>
-		
+		<link rel="stylesheet" href= "/resources/include/css/ordersForm.css"/>
+		<!-- <link type="stylesheet" href="/resources/include/css/ordersForm.css"/> -->
 		<!-- IE8이하 브라우저에서 html5를 인식하기 위한 패스필터 -->
 		<!-- [if lt IE 9]>
 			<script src="../js/html5shiv.js"></script>
 		<![endif]-->
-		<style type="text/css">
-			#container{
-				width:800px;
-				margin:0px auto;
-				text-align:center;
-			}
-			.checked{
-				background:#F2FBEF;
-			}
-		</style>
-		
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script type="text/javascript">
@@ -177,11 +167,10 @@
 	</form>
 	<div id="container">
 	<header>
-		<hr/>
 		<div class="detailOrders">
 			<label>후원금액 : ${orders.order_price}</label><br/>
 			<label>현재 포인트 : ${data.member_point}</label><br>
-			<label>결재 후 잔액 : ${data.member_point-orders.order_price}</label><br>
+			<label>결제 후 잔액 : ${data.member_point-orders.order_price}</label><br>
 			<label>리워드 세부내역 : ${orders.order_content}</label><br/>
 		</div>
 	</header>
@@ -193,7 +182,7 @@
 					<label>받는사람 이름</label><br>
 					<input type="text" placeholder="받는사람 이름" id="recname"><hr>
 					<label>받는사람 전화번호</label><br>
-					<input type="text" class="phone" name="phoneFirst" id="phoneFirst" maxlength="3"/>
+					<input type="text" class="phone" name="phoneFirst" id="phoneFirst" maxlength="3" />
 					-
 					<input type="text" class="phone" name="phoneMiddle" id="phoneMiddle" maxlength="4"/>
 					-
@@ -202,13 +191,13 @@
 					<ul id="addressList">
 						<li id="newAddress">${data.member_address} ${data.member_detailAddress}</li>
 					</ul>
-					<button type="button" id="addAddress">다른 주소 입력</button>
+					<button type="button" id="addAddress" class="btn btn-primary">다른 주소 입력</button>
 					<div id="f_address">
 						<input type="text" id="postcode" placeholder="우편번호" readonly="readonly" /> 
 						<input type="button" id="searchPostCode" value="우편번호 찾기" /><br/> 
 						<input type="text" id="roadAddress" placeholder="도로명주소" readonly="readonly" /> 
 						<input type="text" id="detailAddress" placeholder="상세주소"> 
-						<input type="button" id="addBtn" value="등록" /> 
+						<input type="button" id="addBtn" value="등록" class="btn btn-primary" /> 
 						<span id="guide" style="color: #999"></span>
 					</div>
 					<br />
@@ -219,30 +208,33 @@
 					<div class="annotation">
 					
 						<label>배송 안내사항</label> <br />
-						<textarea rows="5" cols="50" readonly="readonly">
-							배송정보 제 3자(프로젝트 진행자) 제공 동의
-							회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
-					
-							제공받는자:
-							제공목적: 선물 전달/배송과 관련된 상담 및 민원처리
-							제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)
-							보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)
-							
-							※ 동의 거부권 등에 대한 고지
+							<strong>배송정보 제 3자(프로젝트 진행자) 제공 동의</strong>
+							<p>
+								회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. 
+								'회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및 이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.</p>
+							<ul>
+								<li>제공받는자:</li>
+								<li>제공목적: 선물 전달/배송과 관련된 상담 및 민원처리</li>
+								<li>제공정보: 수취인 성명, 휴대전화번호, 배송 주소 (구매자와 수취인이 다를 경우에는 수취인의 정보가 제공될 수 있습니다)</li>
+								<li>보유 및 이용기간: 재화 또는 서비스의 제공이 완료된 즉시 파기 (단, 관계법령에 정해진 규정에 따라 법정기간 동안 보관)</li>
+							</ul>
+							<strong>※ 동의 거부권 등에 대한 고지</strong>
+							<p>
 							개인정보 제공은 서비스 이용을 위해 꼭 필요합니다. 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
-						</textarea>
-
+							</p>
+							
 						<br /> <input type="checkbox" name="order_guideAgree"
 							id="order_guideAgree" /> <label>약관을 모두 읽었으며 이에 동의합니다.</label> <br />
-						<button type="button" name="support" id="support">후원하기</button>
+						<button type="button" name="support" id="support" class="btn btn-primary">후원하기</button>
 
 					</div>
 				</div>
 			</c:when>
 			<c:otherwise>
+			<hr/>
 				<br /> <input type="checkbox" name="order_guideAgree"
 							id="order_guideAgree" /> <label>세부사항을 모두 확인하였습니다.</label> <br />
-						<button type="button" name="support" id="support">후원하기</button>
+						<button type="button" name="support" id="support" class="btn btn-primary">후원하기</button>
 			</c:otherwise>
 		</c:choose>
 	</div>

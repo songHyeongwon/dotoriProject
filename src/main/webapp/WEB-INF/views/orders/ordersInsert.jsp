@@ -13,17 +13,12 @@
 		
 		<link rel="shortcut icon" href="../image/icon.png"/>
 		<link rel="apple-touch-icon" href="../image/icon.png"/>
-	
+		<link rel="stylesheet" href="/resources/include/css/ordersInsert.css"/>
 		<!-- IE8이하 브라우저에서 html5를 인식하기 위한 패스필터 -->
 		<!-- [if lt IE 9]>
 			<script src="../js/html5shiv.js"></script>
 		<![endif]-->
-		<style type="text/css">
-			#container{
-				width:800px;
-				margin:0px auto;
-			}
-		</style>
+		
 		<script type="text/javascript">
 			$(function(){
 				$("#backHome").click(function(){

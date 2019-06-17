@@ -1,5 +1,38 @@
 @charset "UTF-8";
-.title{
-	color:navy;
-	font-color:white;
+
+@font-face { 
+	font-family: 'PurenJeonnam'; 
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/PureunJeonnam.woff') format('woff'); 
+	font-weight: normal; 
+	font-style: normal; 
+}
+body{
+	font-family: 'PurenJeonnam';
+}
+label{
+	text-align:left;
+}
+#container{
+	width:800px;
+	margin:0px auto;
+	text-align:center;
+}
+.detailOrders{
+	margin:30px auto;
+}
+.checked{
+	background:#F2FBEF;
+}
+hr{
+	border:solid 1px #A9D0F5;
+}
+input[type="text"]{
+	width:20px;
+	height:5px;
+}
+input[type="checkbox"] {
+    margin:20px 2px;
+}
+li{
+	text-align:left;
 }

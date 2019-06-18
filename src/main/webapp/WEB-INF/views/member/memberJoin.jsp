@@ -58,6 +58,10 @@
 			var siglang;
 			var slide;
 			
+			$('#myCollapsible').collapse({
+				  toggle: false
+			})
+			
 			$("#searchAddr").click(function(){
 				daumAddressPostCode();
 			})

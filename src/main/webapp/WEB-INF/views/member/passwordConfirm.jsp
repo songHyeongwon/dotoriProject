@@ -41,7 +41,6 @@
 			$(function(){
 				$("#pwdConfirmBtn").click(function(){
 					if(!checkForm("#member_pwd","비밀번호를")) return;
-					else if(!checkForm("#pwdConf","재확인 비밀번호를")) return;
 					else{
 						$.ajax({
 							url : "/member/passwordConfirm",

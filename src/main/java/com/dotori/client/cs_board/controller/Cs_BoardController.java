@@ -389,7 +389,9 @@ public class Cs_BoardController{
 				String subStr = ""; 
 				str = str.substring(str.indexOf("<img src=\""));
 				str = str.substring(0, str.indexOf("\">")+2);
-				subStr = str.substring(str.lastIndexOf("/")+1,str.indexOf("."));
+				//subStr = str.substring(str.lastIndexOf("/")+1,str.indexOf("."));
+				subStr = str.substring(str.lastIndexOf("/")+1);
+				subStr = subStr.substring(0,subStr.indexOf("."));
 				str = str.replaceAll(subStr, "THUMB_"+subStr);
 				master_cs_boardList.get(i).setEditor(str);
 			} else {

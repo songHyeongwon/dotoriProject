@@ -68,5 +68,5 @@
 	</nav>
 	<!--최상단 네비게이션  종료-->
 	<div class="jumbotron container theme-showcase" style="margin-bottom: 20; padding-bottom: 0;">
-		<img src="/resources/image/dotoriClientMain.jpg" style="height: 350px; width: 100%; margin: 0;">
+		<img src="/resources/image/dotoriClientMain.png" style="height: 350px; width: 100%; margin: 0;">
 	</div>

@@ -353,6 +353,17 @@
 		button.parent().append(span);
 	}
 </script>
+<style type="text/css">
+	input[type=checkbox]
+{
+	  /* Double-sized Checkboxes */
+	  -ms-transform: scale(1.5); /* IE */
+	  -moz-transform: scale(1.5); /* FF */
+	  -webkit-transform: scale(1.5); /* Safari and Chrome */
+	  -o-transform: scale(1.5); /* Opera */
+	  padding: 5px;
+}
+</style>
 </head>
 <body>
 	<h1>프로젝트의 내용을 입력해주세요</h1>

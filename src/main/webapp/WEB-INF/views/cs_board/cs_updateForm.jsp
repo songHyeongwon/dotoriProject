@@ -14,7 +14,6 @@
 		<!--모바일 웹 페이지 설정 끝 -->
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 		
 		<script type="text/javascript">

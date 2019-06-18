@@ -298,11 +298,6 @@
 		var optionDiv = $("<div>");
 		optionDiv.addClass("hide");
 
-		//마지막 옵션을 담는 에리어
-		//var lastOption = $("<input>");
-		//lastOption.attr("type", "hidden");
-		//lastOption.attr("name", "lastOption");
-
 		//옵션담는 텍스트 에리어
 		var optionValue = $("<textarea>");
 		optionValue.attr("name", "list[" + cnt + "].listOption[" + cntOption

@@ -145,7 +145,9 @@
 			#list > div > div:nth-child(1) {
 				margin-left: 0px;
 				width: 500px;
-				margin-right: 200px;				
+				margin-right: 200px;
+				height: 20px;
+				overflow: hidden;				
 			}
 			#list > div > div:nth-child(2) {
 				margin-right: 100px;				
@@ -161,7 +163,8 @@
 				display: block;
 				position:relative;
 				top:-30px;
-				height: 30px;
+				height: 20px;
+				width:700px;
 				margin-left: 0px;
 				overflow: hidden;
 			}

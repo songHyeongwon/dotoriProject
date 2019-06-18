@@ -73,6 +73,10 @@
 			.table > tbody > tr:nth-child(3) > td {			
 				border: none;
 			}
+			.table > tbody > tr:nth-child(3) > td img {	
+				max-width: 1000px;		
+				border: none;
+			}
 			.table > tbody > tr:nth-child(3) {			
 				border : none;
 				height: 300px;

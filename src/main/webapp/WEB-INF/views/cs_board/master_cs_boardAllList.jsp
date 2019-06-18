@@ -166,7 +166,9 @@
 				display: block;
 				position:relative;
 				top:-30px;
-				height: 30px;
+				width:700px;
+				height: 20px;
+				overflow:hidden;
 				margin-left: 0px;
 			}
 			/*관리 공지 게시글*/

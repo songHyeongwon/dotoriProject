@@ -183,7 +183,9 @@ public class Cs_BoardController{
 
 	@RequestMapping(value="/master_cs_boardInsert", method=RequestMethod.POST)
 	public String master_cs_boardInsert(@ModelAttribute Cs_BoardVO bvo,RedirectAttributes redirectAttributes, Model model) {
+		getClone(bvo.getEditor(),null);
 		getDelete(bvo.getEditor());
+		
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/cs_board/"+getFolder("C:\\uploadStorage\\cs_board").replace("\\", "/")+"/"));
 		bvo.setEditor(bvo.getEditor().replaceAll("&nbsp;"," "));
 		
@@ -212,16 +214,11 @@ public class Cs_BoardController{
 
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------寃뚯떆湲� �벑濡�-----------------------------------------------------------
-	@RequestMapping(value="/cs_writeFormAction", method=RequestMethod.POST)
-	public String cs_writeFormAction(@RequestParam("cs_html") String html) {
-		getClone(html,null);
-		getDelete(html);
-		return "redirect:/cs_board/cs_writeForm";
-	}
 
 	@RequestMapping(value="/cs_boardInsert", method=RequestMethod.POST)
 	public String cs_boardInsert(@ModelAttribute Cs_BoardVO bvo,RedirectAttributes redirectAttributes, Model model) {
 		log.info("boardInsert �샇異� �꽦怨�");
+		getClone(bvo.getEditor(),null);
 		getDelete(bvo.getEditor());
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/cs_board/"+getFolder("C:\\uploadStorage\\cs_board").replace("\\", "/")+"/"));
 		bvo.setEditor(bvo.getEditor().replaceAll("&nbsp;"," "));

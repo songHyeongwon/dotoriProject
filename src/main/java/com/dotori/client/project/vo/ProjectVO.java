@@ -41,5 +41,4 @@ public class ProjectVO extends CommonVO{
 	public ProjectVO() {
 		list = new ArrayList<ContentVO>();
 	}
-	
 }

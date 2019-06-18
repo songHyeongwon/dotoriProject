@@ -41,6 +41,8 @@
 								$("#point").html(point[1]);
 								console.log("value: ");
 								usingDotoriListData();
+								$("#fundingList").html('');
+								myFundingListData();
 								alert("환불이 완료되었습니다.");
 								
 								console.log($("#point").html());

@@ -15,7 +15,6 @@
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
 		<script src="https://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" src="/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 		<script type="text/javascript">
@@ -84,18 +83,6 @@
 									return;
 							} else {
 								if(confirm("등록 하시겠습니까?")){									
-						            $.ajax({
-						            	url : '/cs_board/cs_writeFormAction',
-						            	data : "cs_html="+$("#editor").val()+"",
-						            	type : "POST",
-						            	dataType : "text",
-						            	success : function(result){
-											
-						            	},
-						                error : function(request,status,error){
-						                
-						                }
-						            });
 						            
 						            $("#cs_writeFrm").attr({
 						            	action : "/cs_board/cs_boardInsert",
@@ -132,18 +119,6 @@
 									return;
 							} else {
 								if(confirm("등록 하시겠습니까?")){									
-						            $.ajax({
-						            	url : '/cs_board/cs_writeFormAction',
-						            	data : "cs_html="+$("#editor").val()+"",
-						            	type : "POST",
-						            	dataType : "text",
-						            	success : function(result){
-											
-						            	},
-						                error : function(request,status,error){
-						                
-						                }
-						            });
 						            
 						            $("#cs_writeFrm").attr({
 						            	action : "/cs_board/master_cs_boardInsert",

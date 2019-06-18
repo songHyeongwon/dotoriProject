@@ -185,16 +185,11 @@ public class Faq_BoardController{
 	
 	//--------------------------------------------------------------------------------------------------------
 	//------------------------------------寃뚯떆湲� �벑濡�-----------------------------------------------------------
-	@RequestMapping(value="/faq_writeFormAction", method=RequestMethod.POST)
-	public String faq_writeFormAction(@RequestParam("faq_html") String html) {
-		getClone(html,null);
-		getDelete(html);
-		return "redirect:/faq_board/faq_writeForm";
-	}
 
 	@RequestMapping(value="/faq_boardInsert", method=RequestMethod.POST)
 	public String boardInsert(@ModelAttribute Faq_BoardVO bvo, Model model) {
 		log.info("boardInsert �샇異� �꽦怨�");
+		getClone(bvo.getEditor(),null);
 		getDelete(bvo.getEditor());
 		bvo.setEditor(bvo.getEditor().replaceAll("uploadStorage/", "uploadStorage/faq_board/"+getFolder("C:\\uploadStorage\\faq_board").replace("\\", "/")+"/"));
 		bvo.setEditor(bvo.getEditor().replaceAll("&nbsp;"," "));

@@ -15,7 +15,7 @@
 		SELECT 
 		    member_num,
 		    member_id,
-		    member_name,
+		    '*'||SUBSTR(member_name,2) as member_name,
 		    member_address,
 		    member_phone,
 		    member_email,
@@ -62,7 +62,7 @@
 		SELECT 
 		    member_num,
 		    member_id,
-		    member_name,
+		    '*'||SUBSTR(member_name,2) as member_name,
 		    member_address,
 		    member_phone,
 		    member_email,
@@ -100,7 +100,7 @@
 		    member_num,
 		    member_id,
 		    member_pwd,
-		    member_name,
+		    '*'||SUBSTR(member_name,2) as member_name,
 		    member_address,
 		    member_phone,
 		    member_email,

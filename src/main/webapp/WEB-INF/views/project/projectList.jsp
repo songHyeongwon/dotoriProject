@@ -1,3 +1,4 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -54,7 +55,7 @@
 		border: black 1px solid;
 		margin: 5px;} 	 
 	.txt_line {
-		width: 350px;
+		width: 80%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -126,11 +127,10 @@
 								</c:choose>
 							</div>
 			                <img src="/uploadStorage/gallery/${project.project_thumb}" class="img-responsive" style="height: 200px; width: 600px">
-			                
 			                <div>
 								<div class="txt_line">제목 : ${project.project_name}</div>
 								<div class="txt_line">설명 : ${project.project_summary}</div>
-								달성률 : ${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
+								달성률 : ${fn:substring((project.project_sumMoney/project.project_targetMoney)*100,0,5)}%<br>
 								종료일 : ${project.project_endDate}<br>
 								제작자 : ${project.member_id}<br>
 								대분류 : ${project.project_pattern1}<br>
@@ -149,7 +149,7 @@
 	</div>
 	<%--============================리스트 종료========================== --%>
 	<%--=========================페이징 처리 시작=========================== --%>
-	<div class="text-center" id="pagination">
+	<div class="text-center inpage" id="pagination">
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev}">
 				<li class="paginate_button previous"><a

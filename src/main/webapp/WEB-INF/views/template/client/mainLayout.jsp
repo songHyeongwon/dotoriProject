@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,32 +48,37 @@
 	})
 </script>
 <style type="text/css">
-.hdpe {
-	height: 400px;
-	width: 32%;
-	border: black 1px solid;
-	margin: 5px;
-}
-.carousel-inner > .item > a > img {
-	top: 0;
-	left: 0;
-	min-width: 100%;
-	min-height: 400px;
-	max-height: 400px;
-}
-.carousel-inner > .item > img {
-	top: 0;
-	left: 0;
-	min-width: 100%;
-	min-height: 400px;
-	max-height: 400px;
-}
-.txt_line {
-	width: 350px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
+	.hdpe {
+		height: 400px;
+		width: 32%;
+		border: black 1px solid;
+		margin: 5px;
+	}
+	.carousel-inner > .item > a > img {
+		top: 0;
+		left: 0;
+		min-width: 100%;
+		min-height: 400px;
+		max-height: 400px;
+	}
+	.carousel-inner > .item > img {
+		top: 0;
+		left: 0;
+		min-width: 100%;
+		min-height: 400px;
+		max-height: 400px;
+	}
+	.txt_line {
+		width: 80%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+  	}
+  	.h1name{
+  		text-align: center;
+  		font-weight: bold;
+  		font-size: 30px;
+  		}
 </style>
 </head>
 
@@ -141,7 +147,8 @@
 			<!-- 호버 이미지 영역 끝-->
 
 			<!-- Example row of columns -->
-			<h1>가장 최근에 등록된 프로젝트입니다.</h1>
+			<br>
+			<p class="h1name">가장 최근에 등록된 프로젝트입니다.</p>
 			<div id="boardList">
 				<c:choose>
 					<c:when test="${not empty mainList}">
@@ -177,11 +184,11 @@
 
 								<div>
 									<div class="txt_line">제목 : ${project.project_name}</div>
-								<div class="txt_line">설명 : ${project.project_summary}</div>
-								달성률 :
-									${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
-									종료일 : ${project.project_endDate}<br> 제작자 :
-									${project.member_id}<br> 대분류 : ${project.project_pattern1}<br>
+									<div class="txt_line">설명 : ${project.project_summary}</div>
+									달성률 : ${fn:substring((project.project_sumMoney/project.project_targetMoney)*100,0,5)}%<br>
+									종료일 : ${project.project_endDate}<br>
+									제작자 : ${project.member_id}<br>
+									대분류 : ${project.project_pattern1}<br>
 									소분류 : ${project.project_pattern2}<br>
 								</div>
 							</div>
@@ -192,7 +199,9 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<h1>최고 후원액의 프로젝트입니다.</h1>
+			<br>
+			<p class="h1name">최고 후원액의 프로젝트입니다.</p>
+			
 			<div>
 				<c:choose>
 					<c:when test="${not empty summoneyList}">
@@ -227,11 +236,12 @@
 									class="img-responsive" style="height: 200px; width: 600px">
 
 								<div>
-									제목 : ${project.project_name}<br> <%-- 설명 :
-									${project.project_summary}<br>  --%>달성률 :
-									${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
-									종료일 : ${project.project_endDate}<br> 제작자 :
-									${project.member_id}<br> 대분류 : ${project.project_pattern1}<br>
+									<div class="txt_line">제목 : ${project.project_name}</div>
+									<div class="txt_line">설명 : ${project.project_summary}</div>
+									달성률 : ${fn:substring((project.project_sumMoney/project.project_targetMoney)*100,0,5)}%<br>
+									종료일 : ${project.project_endDate}<br>
+									제작자 : ${project.member_id}<br>
+									대분류 : ${project.project_pattern1}<br>
 									소분류 : ${project.project_pattern2}<br>
 								</div>
 							</div>
@@ -241,7 +251,6 @@
 						등록된 게시물이 없습니다.
 					</c:otherwise>
 				</c:choose>
-				
 			</div>
 		</section>
 	</div>

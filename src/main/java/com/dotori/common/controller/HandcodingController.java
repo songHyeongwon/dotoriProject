@@ -23,20 +23,20 @@ public class HandcodingController {
  
     @RequestMapping(value = "/insertBoard.do", method = RequestMethod.POST)
     public String insertBoard(String editor) {
-        System.err.println("저장할 내용 : " + editor);
+        System.err.println("���옣�븷 �궡�슜 : " + editor);
         return "redirect:/coding.do";
     }
  
-    // 다중파일업로드
+    // �떎以묓뙆�씪�뾽濡쒕뱶
     @RequestMapping(value = "/file_uploader_html5.do", method = RequestMethod.POST)
     @ResponseBody
     public String multiplePhotoUpload(HttpServletRequest request) {
-        // 파일정보
+        // �뙆�씪�젙蹂�
         StringBuffer sb = new StringBuffer();
         try {
-            // 파일명을 받는다 - 일반 원본파일명
+            // �뙆�씪紐낆쓣 諛쏅뒗�떎 - �씪諛� �썝蹂명뙆�씪紐�
             String oldName = request.getHeader("file-name").replaceAll("%20", " ");
-            // 파일 기본경로 _ 상세경로
+            // �뙆�씪 湲곕낯寃쎈줈 _ �긽�꽭寃쎈줈
             
             String filePath = "C:/uploadStorage/";
             				//"D:/workspace/Spring/src/main/webapp/resources/photoUpload/";
@@ -53,13 +53,11 @@ public class HandcodingController {
             }
             os.flush();
             os.close(); 
-            // 정보 출력
+            // �젙蹂� 異쒕젰
             sb = new StringBuffer();
             sb.append("&bNewLine=true")
               .append("&sFileName=").append(oldName)
-              .append("&sFileURL=").append("http://localhost:8080/uploadStorage/")
-              								//http://localhost:8080/resources/image/
-                                          //http://localhost:8090/Spring/resources/photoUpload/
+              .append("&sFileURL=").append("http://192.168.0.120:8080/uploadStorage/")
               .append(saveName);
         } catch (Exception e) {
             e.printStackTrace();

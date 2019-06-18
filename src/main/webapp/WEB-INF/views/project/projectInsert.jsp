@@ -30,7 +30,19 @@
 <script type="text/javascript">
 	//컨텐츠의 갯수를 받아오는 전역변수
 	var ContentCnt = 2;
-
+	
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10) {
+	    dd='0'+dd
+	} 
+	if(mm<10) {
+	    mm='0'+mm
+	} 
+	today = yyyy+'/' + mm+'/'+dd;
+	
 	$(function() {
 		//전역변수
 		var obj = [];
@@ -155,31 +167,45 @@
 			else if (!chkData('#Project_summary', "프로젝트 소개를")) return;
 			else if (!chkData('#file', "등록할 이미지를")) return;
 			else if (!chkFile($('#file'))) return;
-			//else if (!chkData('#Project_pattern1',"대분류를")) return;
-			//else if (!chkData('#Project_pattern2',"소분류를")) return;
-			else if (!chkData('#Project_targetMoney', "목표금액을")) return;
-			else if (!chkData('#Project_endDate', "종료날짜를")) return;
-			//else if (!chkData('#editor',"프로젝트 소개를")) return;
-			else if (!chkData('#Project_bank', "입금은행명을")) return;
+			else if ($("#Project_pattern1").val()=="no") {
+				alert("카테고리를 선택해주세요")
+				return;
+			} else if (!chkData('#Project_targetMoney', "목표금액을")) return;
+			else if (!$.isNumeric($('#Project_targetMoney').val())) {
+				alert('목표금액은 숫자만 입력가능합니다.');
+				$('#Project_targetMoney').val('');
+				return;
+			} else if (!chkData('#Project_endDate', "종료날짜를")) return;
+			else if (!chkData('#firstContent', "첫번째 물품은 필수입니다. \n첫번째 물품을")) return;
+			else if (!chkData('#firstName', "첫번째 물품은 필수입니다. \n첫번째 물품 금액을")) return;
+			else if (!$.isNumeric($('#firstName').val())) {
+				alert('물품의 금액은 숫자만 입력가능합니다.');
+				$('#firstName').val('');
+				return;
+			} else if (!chkData('#Project_bank', "입금은행명을")) return;
 			else if (!chkData('#Project_bankNum', "입금계좌를")) return;
 			else {
 				//스마트 에디터 내용 삽입
 				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-				//url 에 조건으로 https붙이기 
-				var url = $("#Project_URL").val();
-				if(url.indexOf("http://")==-1){
-					if(url.indexOf("https://"==-1)){
-						$("#Project_URL").val("http://"+url);
+				//에디터 유효성 체크
+				if(!chkData('#editor', "프로젝트 세부 내용을")) return;
+				else{
+					
+					//url 에 조건으로 https붙이기 
+					var url = $("#Project_URL").val();
+					if(url.indexOf("http://")==-1){
+						if(url.indexOf("https://"==-1)){
+							$("#Project_URL").val("http://"+url);
+						}
 					}
+	
+					$("#projectInsertForm").attr({
+						"method" : "post",
+						"action" : "/project/insertProject",
+						"enctype" : "multipart/form-data"
+					});
+					$("#projectInsertForm").submit();
 				}
-
-				$("#projectInsertForm").attr({
-					"method" : "post",
-					"action" : "/project/insertProject",
-					"enctype" : "multipart/form-data"
-				});
-				$("#projectInsertForm").submit();
-				
 			}
 		})
 
@@ -368,7 +394,7 @@
 							<td class="text-center">프로젝트 구분</td>
 							<td>대분류 <select id="Project_pattern1"
 								name="Project_pattern1" class="form-control">
-									<option value=" ">선택하세요</option>
+									<option value="no">선택하세요</option>
 									<option value="게임">게임</option>
 									<option value="공연">공연</option>
 									<option value="출판">출판</option>
@@ -419,8 +445,8 @@
 						<tr>
 							<td>상품 1</td>
 							<td>
-								상품명 <input type="text" name="list[0].content_name"class="form-control" maxlength="50">
-								금액 <input type="text"name="list[0].content_MinPrice" class="form-control" >
+								상품명 <input type="text" id="firstContent" name="list[0].content_name"class="form-control" maxlength="50">
+								금액 <input type="text" id="firstName" name="list[0].content_MinPrice" class="form-control" >
 
 								배송이 필요한 상품인가요? <input type="checkbox" name="list[0].content_Kind" value="1"> 
 								<input type="hidden" name="contentCnt" value="0"> <br> 
@@ -457,7 +483,7 @@
 						<tr>
 							<td class="text-center">계좌번호</td>
 							<td><input type="text" id="Project_bankNum"
-								name="Project_bankNum" class="form-control"></td>
+								name="Project_bankNum" class="form-control" maxlength="27"></td>
 						</tr>
 						<tr>
 							<td colspan="2">

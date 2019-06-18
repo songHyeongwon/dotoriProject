@@ -34,7 +34,7 @@ public class OrdersManagerController {
 		
 		int total=ordersManagerService.ordersListCnt(omvo);
 		log.info("총 구매내역 수:"+total);
-		model.addAttribute("pageMarker", new PageDTO(omvo, total, 10));
+		model.addAttribute("pageMaker", new PageDTO(omvo, total, 10));
 		
 		return "ordersManager/ordersManagerView";
 	}

@@ -44,8 +44,8 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="/cs_board/cs_boardList">자주묻는 게시판</a></li>
-							<li><a href="#">문의하기</a></li>
+							<li><a href="/faq_board/faq_boardList">자주묻는 게시판</a></li>
+							<li><a href="/cs_board/cs_boardList">문의하기</a></li>
 						</ul></li>
 				</ul>
 				<form class="navbar-form navbar-left" role="search" id="search" action="/project/listForm" method="get">
@@ -73,5 +73,5 @@
 	</nav>
 	<!--최상단 네비게이션  종료-->
 	<div class="jumbotron container theme-showcase" style="margin-bottom: 20; padding-bottom: 0;">
-		<img src="/uploadStorage/smartBoard/2019052914253963f3731c-ce84-4238-b206-83e11100a517.jpg" style="height: 350px; width: 100%; margin: 0;">
+		<img src="/resources/image/dotoriClientMain.jpg" style="height: 350px; width: 100%; margin: 0;">
 	</div>

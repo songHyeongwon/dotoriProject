@@ -4,19 +4,16 @@ package com.dotori.main;
 
 import java.util.List;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 import com.dotori.client.project.service.ProjectService;
 import com.dotori.client.project.vo.ProjectVO;
+import com.dotori.common.vo.HomeControllerVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -66,6 +63,14 @@ public class HomeController {
 		List<ProjectVO> summoneylList = projectService.mainList(pvo);
 		model.addAttribute("summoneyList",summoneylList);
 		
+		
+		/*********************************************************************
+		 *********************** 이곳부터는 관리자페이지에 갈 데이터입니다.*****************
+		 **********************************************************************/
+		HomeControllerVO managerVO = new HomeControllerVO();
+		managerVO = projectService.managerList();
+		
+		model.addAttribute("managerData",managerVO);
 		
 		return "index";
 	}

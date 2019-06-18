@@ -235,13 +235,32 @@ var optionCnt =0;
 		}
 	#projectInfo1{
 		width: 68%;
-		display: inline-block;}
+		display: inline-block;
+		margin-top: 20px;}
 	#projectInfo2{
 		width: 30%;
-		float: right;}
+		float: right;
+		margin-top: 10%;}
 	#project_thumb{
 		width: 98%;
 		height: auto;}
+	.value-text{
+		font-size: 40px;
+		font-weight: bold;
+		}
+	#money{
+		font-weight: bold;
+		font-size: 30px;
+		}
+	.values{
+		font-size: 20px;
+		font-weight: bold;}
+	.summary{
+		font-weight: bold;
+		font-size: 15px;
+		font-family: sans-serif;}
+	.managerBtn{
+		margin-bottom: 10px;}
 </style>
 <!--모바일 웹 페이지 설정 끝 -->
 </head>
@@ -261,46 +280,52 @@ var optionCnt =0;
 			<div>
 				<div id="projectInfo1">
 					<input type="hidden" id="project_status" value="${project.project_status}">
-					<H4>${project.project_name}</H4>
-					<p>${project.member_id}님의 아이디어입니다.</p>
-					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb">
-					<p>${project.project_summary}</p>
-					<a href="${project.project_URL}">${project.project_URL}로 이동</a>
+					<H2 class="text-center">${project.project_name}</H2>
+					<p class="text-right">${project.member_id}님의 아이디어입니다.</p><br>
+					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb"><br><hr>
+					<p class="text-center"><a href="${project.project_URL}" class="URL-center">관련사이트 = ${project.project_URL}로 이동</a></p><hr>
+					<span class="summary">${project.project_summary}</span><hr>
 				</div>
 				<div id="projectInfo2">
+					<br><br>
 					<c:choose>
 						<c:when test="${project.project_status==0}">
-							<h1>관리자의 승인을 기다리고 있습니다.</h1>
+							<h3 class="text-center">관리자의 승인을 기다리고 있습니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==1}">
-							<h1>현재 진행중인 프로젝트</h1>
+							<h3 class="text-center">현재 진행중인 프로젝트</h3>
 						</c:when>
 						<c:when test="${project.project_status==2}">
-							<h1>관리자가 게시를 거부한 프로젝트입니다.</h1>
+							<h3 class="text-center">부적절한 내용으로 관리자가 게시를 거부한 프로젝트입니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==3}">
-							<h1>성공한 프로젝트입니다.</h1>
+							<h3 class="text-center">여러분에 성원에 성공한 프로젝트입니다.</h3>
 						</c:when>
 						<c:when test="${project.project_status==4}">
-							<h1>달성되지 못한 프로젝트입니다.</h1>
+							<h3 class="text-center">아쉽게도 달성되지 못한 프로젝트입니다.</h3>
 						</c:when>
 					</c:choose>
-					<h1>목표금액 : ${project.project_targetMoney}</h1>
-					<h1>현재까지 모음 : ${project.project_sumMoney}</h1>
-					<h1>이 아이디어를 ${project.project_count}명이 후원해주셨습니다.</h1>
+					<br>
+					<p class="values">목표금액</p>
+					<span class="value-text">${project.project_targetMoney}</span>원 <br> <br>
+					<p class="values">현재까지모음</p>
+					<span class="value-text">${project.project_sumMoney}</span>원<span id="money"></span>달성 <br> <br>
+					<p class="values">이 아이디어를 ~</p>
+					<span class="value-text">${project.project_count}</span>명이 후원해주셨습니다 <br>
+					<hr>
 					<c:choose>
 						<c:when test="${project.project_status==0}">
-							<button id="yes" class="btn btn-primary">승인하기</button>
-							<button id="no" class="btn btn-default">부적절한 프로젝트</button>
+							<button id="yes" class="btn btn-primary form-control managerBtn">승인하기</button>
+							<button id="no" class="btn btn-default form-control managerBtn">부적절한 프로젝트</button>
 						</c:when>
 						<c:when test="${project.project_status==1}">
-							<button id="no" class="btn btn-default">부적절한 프로젝트</button>
+							<button id="no" class="btn btn-default form-control managerBtn">부적절한 프로젝트</button>
 						</c:when>
 						<c:when test="${project.project_status==2}">
-							<button id="yes" class="btn btn-primary">승인하기</button>
+							<button id="yes" class="btn btn-primary form-control managerBtn">승인하기</button>
 						</c:when>
 					</c:choose>
-					<button id="delProject" class="btn btn-default">프로젝트 삭제하기</button>
+					<button id="delProject" class="btn btn-default form-control managerBtn">프로젝트 삭제하기</button>
 				</div>
 			</div>
 			<%--헤더 종료 --%>
@@ -320,18 +345,21 @@ var optionCnt =0;
 				<div class="tab-content">
 					<%--프로젝트 소개 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane active" id="home">
-					${project.project_content}
+					<br>
+						${project.project_content}
 					</div>
 					<%--프로젝트 소개 폼 종료 --%>
 					
 					<%--문의사항 폼 시작 --%>
 					<div role="tabpanel" class="tab-pane" id="profile">
-						
+						<br>
+						<jsp:include page="projectBoard.jsp"></jsp:include>
 					</div>
 					<%--문의사항 폼 종료 --%>
 					
 					<%--==============================================리뷰 폼 시작=========================================--%>
 					<div role="tabpanel" class="tab-pane" id="settings">
+						<br>
 						<jsp:include page="projectReply.jsp"></jsp:include>
 					</div>
 					<%--======================================리뷰 폼 종료=============================================--%>
@@ -340,19 +368,21 @@ var optionCnt =0;
 			<div id="floatMenu" class="floating">
 				<c:forEach var="content" items="${project.list}">
 					<form name="content">
-						<input type="text" name="content_num" value="${content.content_num}" class="form-control" readonly="readonly">
-						<input type="text" name="content_name" value="${content.content_name}" class="form-control" readonly="readonly">
-						<input type="text" name="content_MinPrice" value="${content.content_MinPrice}" class="form-control" readonly="readonly">
-						<input type="text" name="content_Kind" value="${content.content_Kind}" class="form-control" readonly="readonly">
-						<input type="text" name="content_recdate" value="${content.content_recdate}" class="form-control" readonly="readonly">
-						<input type="text" name="option_table_name" value="${content.option_table_name}" class="form-control" readonly="readonly">
-						<!-- <button type="button" name="content" class="content btn btn-info"> -->
-						<!-- data-toggle="modal" data-target="#myModal" -->
-							<%-- 상품명 : ${content.content_name}<br>
-							최소후원액 : ${content.content_MinPrice}원<br>
-							<h3>프로젝트 후원하기</h3>
-						</button> --%>
+						<%-- <input type="text" name="content_num" value="${content.content_num}" class="form-control" readonly="readonly"> --%>
+						<input type="text" name="content_name" value="상품명 = ${content.content_name}" class="form-control" readonly="readonly">
+						<input type="text" name="content_MinPrice" value="금액 = ${content.content_MinPrice}" class="form-control" readonly="readonly">
+						<c:choose>
+							<c:when test="${content.content_Kind==1}">
+								<input type="text" name="content_Kind" value="배송상품입니다." class="form-control" readonly="readonly">
+							</c:when>
+							<c:when test="${content.content_Kind==0}">
+								<input type="text" name="content_Kind" value="미배송상품입니다." class="form-control" readonly="readonly">
+							</c:when>
+						</c:choose>
+						<input type="text" name="content_recdate" value="등록일 = ${content.content_recdate}" class="form-control" readonly="readonly">
+						<%-- <input type="text" name="option_table_name" value="${content.option_table_name}" class="form-control" readonly="readonly"> --%>
 					</form>
+					<br>
 				</c:forEach>
 			</div>
 			

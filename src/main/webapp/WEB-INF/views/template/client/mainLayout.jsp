@@ -67,6 +67,12 @@
 	min-height: 400px;
 	max-height: 400px;
 }
+.txt_line {
+	width: 350px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 </style>
 </head>
 
@@ -105,8 +111,8 @@
 					<c:choose>
 						<c:when test="${not empty viewList}">
 								<div class="item active">
-									<img src="">
-									<div class="carousel-caption">도토리 펀딩즈에 어서오세요</div>
+									<img src="/resources/image/ser1.jpg">
+									<!-- <div class="carousel-caption">도토리 펀딩즈에 어서오세요</div> -->
 								</div>
 							<c:forEach var="project" items="${viewList}" varStatus="status">
 								<div class="item">
@@ -170,8 +176,9 @@
 									class="img-responsive" style="height: 200px; width: 600px">
 
 								<div>
-									제목 : ${project.project_name}<br> 설명 :
-									${project.project_summary}<br> 달성률 :
+									<div class="txt_line">제목 : ${project.project_name}</div>
+								<div class="txt_line">설명 : ${project.project_summary}</div>
+								달성률 :
 									${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
 									종료일 : ${project.project_endDate}<br> 제작자 :
 									${project.member_id}<br> 대분류 : ${project.project_pattern1}<br>
@@ -220,8 +227,8 @@
 									class="img-responsive" style="height: 200px; width: 600px">
 
 								<div>
-									제목 : ${project.project_name}<br> 설명 :
-									${project.project_summary}<br> 달성률 :
+									제목 : ${project.project_name}<br> <%-- 설명 :
+									${project.project_summary}<br>  --%>달성률 :
 									${(project.project_sumMoney/project.project_targetMoney)*100}%<br>
 									종료일 : ${project.project_endDate}<br> 제작자 :
 									${project.member_id}<br> 대분류 : ${project.project_pattern1}<br>

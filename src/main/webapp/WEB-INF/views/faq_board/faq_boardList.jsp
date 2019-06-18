@@ -5,39 +5,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport"
-			content="width=device-width initial-scale=1.0,
-				maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-		<!-- viewport : 화면에 보이는 영역을 제어하는 기술.
-				width는 device-width로 설정. initial-scale는 초기비율 -->
-		<!-- IE8이하 브라우저에서 HTML5를 인식하기 위해서는 아래의 패스필터를 적용하면 된다. -->
-		<!-- 만약 lt IE 9보다 낮다면 script html5shiv.js를 읽어와 적용하라 -->
-		<!-- [if lt IE 9]>
-					<script src="../js/html5shiv.js"></script>
-				<![endif] -->
+		<meta name="viewport" content="width=device-width initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 		<link rel="shortcut icon" href="/resources/image/icon.png" />
 		<link rel="apple-touch-icon" href="/resources/image/icon.png" />
-		<link rel="stylesheet"
-			href="/resources/include/dist/css/bootstrap.min.css">
-		<link rel="stylesheet"
-			href="/resources/include/dist/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css">
 		<!--모바일 웹 페이지 설정 끝 -->
-		<script type="text/javascript"
-			src="/resources/include/js/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<style type="text/css">
-			.required{
-				color: red;}
-		</style>
-		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
 			$(function() {
-				var word= "<c:out value='${data.keyword}'/>";
+				var word= "<c:out value='${pageScope.data.keyword}'/>";
 				var value = "";
 				if(word!=""){
-					$("#keyword").val("<c:out value='${data.keyword}'/>");
-					$("#search").val("<c:out value='${data.search}'/>");
+					$("#keyword").val("<c:out value='${pageScope.data.keyword}'/>");
+					$("#search").val("<c:out value='${pageScope.data.search}'/>");
 					
 						//contains()는 특정 텍스트를 포함한 요소 반환
 					if($("#search").val()!='all'){
@@ -109,6 +92,7 @@
 				if ($("#member_id").val().trim()!="master"){					
 					$("#faq_insertFormBtn").hide();
 					$("#faq_masterBoardListBtn").hide();
+					$("#faq_masterBoardListNewBtn").hide();
 				}
 				
 				
@@ -218,15 +202,20 @@
 				color: red;
 				background: red;
 			}
+			.required{
+				color: red;
+			}
+			
 		</style>
 	</head>
 	<body>
-		<input type="hidden" name="member_id" id="member_id" value="master"/>
 		<div class="contentContainer">
 			<div class="contentTit text-center">
 				<h1>자주 묻는 게시판</h1>
 			</div>
 			<form id="faq_boardList">
+				<input type="hidden" name="member_id" id="member_id" value="${sessionScope.data.member_id}"/>
+				<input type="hidden" name="member_name" id="member_name" value="${sessionScope.data.member_name}"/>
 				<input type="hidden" id="faq_num" name="faq_num" />
 				<input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cvo.pageNum}">
 				<input type="hidden" name="amount" id="amount" value="${pageMaker.cvo.amount}">

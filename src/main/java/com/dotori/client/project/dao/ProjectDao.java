@@ -8,8 +8,13 @@ import com.dotori.client.project.vo.OptionVO;
 import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.client.project.vo.QnaBoard;
 import com.dotori.client.project.vo.ReplyVO;
+import com.dotori.common.vo.HomeControllerVO;
 
 public interface ProjectDao {
+
+
+
+	
 
 	public ArrayList<ProjectVO> getPatterns(String project_pattern1);
 
@@ -66,5 +71,9 @@ public interface ProjectDao {
 	public int boardUpdate(QnaBoard qvo);
 
 	public int qnaInsert(QnaBoard qvo);
-
+	
+	public int cs_board_count();
+	public int member_count();
+	public int orders_sum_price();
+	public int project_count();
 }

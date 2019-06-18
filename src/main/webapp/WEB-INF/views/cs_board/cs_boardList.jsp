@@ -5,39 +5,24 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport"
-			content="width=device-width initial-scale=1.0,
-				maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-		<!-- viewport : 화면에 보이는 영역을 제어하는 기술.
-				width는 device-width로 설정. initial-scale는 초기비율 -->
-		<!-- IE8이하 브라우저에서 HTML5를 인식하기 위해서는 아래의 패스필터를 적용하면 된다. -->
-		<!-- 만약 lt IE 9보다 낮다면 script html5shiv.js를 읽어와 적용하라 -->
-		<!-- [if lt IE 9]>
-					<script src="../js/html5shiv.js"></script>
-				<![endif] -->
+		<meta name="viewport" content="width=device-width initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 		<link rel="shortcut icon" href="/resources/image/icon.png" />
 		<link rel="apple-touch-icon" href="/resources/image/icon.png" />
-		<link rel="stylesheet"
-			href="/resources/include/dist/css/bootstrap.min.css">
-		<link rel="stylesheet"
-			href="/resources/include/dist/css/bootstrap-theme.min.css">
-		<!--모바일 웹 페이지 설정 끝 -->
-		<script type="text/javascript"
-			src="/resources/include/js/jquery-1.12.4.min.js"></script>
+
+		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css">
+
+		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<style type="text/css">
-			.required{
-				color: red;}
-		</style>
-		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
+		<!--모바일 웹 페이지 설정 끝 -->
 
 		<script type="text/javascript">
 			$(function() {
-				var word= "<c:out value='${data.keyword}'/>";
+				var word= "<c:out value='${pageScope.data.keyword}'/>";
 				var value = "";
 				if(word!=""){
-					$("#keyword").val("<c:out value='${data.keyword}'/>");
-					$("#search").val("<c:out value='${data.search}'/>");
+					$("#keyword").val("<c:out value='${pageScope.data.keyword}'/>");
+					$("#search").val("<c:out value='${pageScope.data.search}'/>");
 					
 						//contains()는 특정 텍스트를 포함한 요소 반환
 					if($("#search").val()!='all'){
@@ -64,22 +49,40 @@
 					}						
 				}
 				
+				//게시글 작성
 				$("#cs_insertFormBtn").click(function() {
 					var queryString = "?pageNum="+$("#pageNum").val()+"&amount="+$("#amount").val();
 					location.href = "/cs_board/cs_writeForm"+queryString;
 				});
-		
+				
+				//
+				$("#master_cs_boardListBtn").click(function() {
+					location.href = "/cs_board/master_cs_boardAllList";
+				});
+				
+				//문의게시글
 				$(".goDetail").click(function() {
 					var cs_num = $(this).parents("div").attr("data-num");
 					$("#cs_num").val(cs_num);
-		
-					$("#cs_boardList").attr({
-						"method" : "get",
-						"action" : "/cs_board/cs_boardDetailHits"
-					});
+						$("#cs_boardList").attr({
+							"method" : "get",
+							"action" : "/cs_board/cs_boardDetailHits"
+						});
 					$("#cs_boardList").submit();
 				});
 				
+				//관리자 공지 게시글
+				$(".goMasterDetail").click(function() {
+					var cs_num = $(this).parents("div").attr("data-num");
+					$("#cs_num").val(cs_num);
+						$("#cs_boardList").attr({
+							"method" : "get",
+							"action" : "/cs_board/master_cs_boardDetailHits"
+						});
+					$("#cs_boardList").submit();
+				});
+				
+				//게시글 검색
 				$("#searchData").click(function() {
 					if($("#search").val()!="all"){
 						if(!chkData("#keyword","검색어를")) return
@@ -95,11 +98,15 @@
 					goPage();
 				});
 				//--------회원 분류--------------			
-				if ($("#member_id").val().trim()==""){					
+				if($("#member_id").val().trim()==""){					
 					$("#cs_insertFormBtn").hide();
+				}
+				if($("#member_id").val().trim()!="master") {
+					$("#master_cs_boardListBtn").hide();
 				}
 				
 				$("#list").stop().animate({ "opacity": "1", "margin-top" : "-20px" }, 'slow');
+				$("#master_list").stop().animate({ "opacity": "1", "margin-top" : "-15px" }, 'slow');
 			});
 			function goPage() {
 				$("#search").attr({
@@ -115,8 +122,10 @@
 				margin-top: 30px;
 			}
 			#list {
+				margin-top: 15px;
+			}
+			#list,#master_list {
 				opacity : 0;
-				margin-top: 20px;
 			}
 			
 			#list_title > div {
@@ -131,42 +140,49 @@
 				margin-right: 250px; 
 			}
 			
-			#list > div {
+			#list > div , #master_list > div {
 				border : 1px solid #EAEAEA;
 				box-shadow : 0px 0px 10px 3px #EAEAEA;
 				margin: 30px 0;
 				padding: 20px;
 				padding-bottom: 0;
 			}
-			#list > div > div {
+			#list > div > div , #master_list > div > div {
 				display: inline-block;
 				vertical-align: text-top;
 				margin-left: 80px;					
 			}
-			#list > div > div:nth-child(1) {
+			#list > div > div:nth-child(1),#master_list > div > div:nth-child(1) {
 				margin-left: 0px;
 			}
-			#list > div > div:nth-child(1),#list > div > div:nth-child(5) {
+			#list > div > div:nth-child(1),#list > div > div:nth-child(5),#master_list > div > div:nth-child(1),#master_list > div > div:nth-child(5) {
 				width: 70px;
 			}
-			#list > div > div:nth-child(2) {
-				width: 300px;				
+			#list > div > div:nth-child(2),#master_list > div > div:nth-child(2) {
+				width: 300px;
+				height:20px;
+				overflow:hidden;				
 			}
-			#list > div > div:nth-child(3),#list > div > div:nth-child(4) {
+			#list > div > div:nth-child(3),#list > div > div:nth-child(4),#master_list > div > div:nth-child(3),#master_list > div > div:nth-child(4) {
 				width: 100px;
 			}
-			#list > div > div:nth-child(6) {
+			#list > div > div:nth-child(6),#master_list > div > div:nth-child(6) {
 				width: 100px;
 				height: 100px;
 				background-color: #EAEAEA;
 				margin: 0 auto;
 			}
-			#list > div > div:nth-child(7) {
+			#list > div > div:nth-child(7),#master_list > div > div:nth-child(7) {
 				display: block;
 				position:relative;
 				top:-30px;
-				height: 30px;
+				height: 20px;
 				margin-left: 0px;
+				width:900px;
+				overflow:hidden;
+			}
+			#list > div > div:nth-child(7){
+				margin-top: 10px;
 			}
 			#list > div > div:nth-child(8) {
 				border-top:0.5px solid #EAEAEA;
@@ -175,8 +191,17 @@
 				width: 98%;
 				height: auto;
 				margin-left: 0px;
-				padding-top: 10px;		
+				padding-top: 10px;	
 			}
+			/*관리 공지 게시글*/
+			#master_list{
+				margin-top: 30px;
+				margin-bottom: 50px;
+			}
+			#master_list > div {
+				box-shadow : 0px 0px 10px 3px #FFA7A7;
+			}			
+			
 			#defaultTr {
 				width: 100%;
 				height: 60px;
@@ -186,6 +211,9 @@
 				border-radius : 5px;
 				width: 60px;
 				height: 35px;
+			}
+			.writebtn:nth-child(2) {
+				width: 85px;
 			}
 			.writebtn:hover {
 				color: rgba(30, 22, 54, 0.6);
@@ -206,14 +234,14 @@
 			.searchbtn {
 				vertical-align: middle;
 			}
-			.paginate_button{
+			
+			.required{
 				color: red;
-				background: red;
 			}
 		</style>
 	</head>
 	<body>
-		<input type="hidden" name="member_id" id="member_id" value="master"/>
+		<input type="hidden" name="member_id" id="member_id" value="${sessionScope.data.member_id}"/>
 		<div class="contentContainer">
 			<div class="contentTit text-center">
 				<h1>문의 게시판</h1>
@@ -258,13 +286,14 @@
 								<c:forEach var="master_cs_board" items="${master_cs_boardList}" varStatus="status">
 									<div class="tac" data-num="${master_cs_board.cs_num}">
 										<div>${master_cs_board.cs_num}</div>
-										<div class="goDetail tal"><a href="#">${master_cs_board.cs_title}</a></div>
+										<div class="goMasterDetail "><a href="#">${master_cs_board.cs_title}</a></div>
 										<div>${master_cs_board.cs_regDate}</div>
 										<div class="name">${master_cs_board.cs_name}</div>
 										<div>${master_cs_board.cs_hits}</div>
 										<div>${master_cs_board.editor}</div>
 										<div class="t_editor">${master_cs_board.t_editor}</div>
 									</div>
+									<input type="hidden" id="member_id" value="${master_cs_board.t_editor}">
 								</c:forEach>
 							</c:when>
 						</c:choose>
@@ -323,6 +352,7 @@
  		<%--=========================글쓰기 버튼 출력 시작========================= --%>
 		<div class="contentBtn">
 			<input type="button" value="글쓰기" id="cs_insertFormBtn"	class="writebtn">
+			<input type="button" value="공지 목록" id="master_cs_boardListBtn"	class="writebtn">
 		</div>
 		<%--=========================글쓰기 버튼 출력 종료========================= --%>
 	</body>

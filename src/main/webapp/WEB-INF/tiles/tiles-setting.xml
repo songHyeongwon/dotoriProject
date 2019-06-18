@@ -28,6 +28,9 @@
 	<definition name="cs_board/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/cs_board/{1}.jsp"/>
 	</definition>
+	<definition name="faq_board/*" extends="content">
+		<put-attribute name="body" value="/WEB-INF/views/faq_board/{1}.jsp"/>
+	</definition>
 	<definition name="member/*" extends="content">
 		<put-attribute name="body" value="/WEB-INF/views/member/{1}.jsp"/>
 		<put-attribute name="nav" value=""/>

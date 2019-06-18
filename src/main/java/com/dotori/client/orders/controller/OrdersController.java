@@ -2,20 +2,17 @@ package com.dotori.client.orders.controller;
 
 
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dotori.client.member.vo.MemberVO;
 import com.dotori.client.orders.service.OrdersService;
 import com.dotori.client.orders.vo.DeliveryVO;
 import com.dotori.client.orders.vo.OrdersVO;
-import com.dotori.client.project.vo.ProjectVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -64,11 +61,11 @@ public class OrdersController {
 	
 	//최종 결제창: orders테이블에 주문내역 insert
 	@RequestMapping(value="/ordersInsert")
-	public String ordersInsert(@ModelAttribute OrdersVO ovo, Model model) {
+	public String ordersInsert(@ModelAttribute OrdersVO ovo, Model model,HttpSession session) {
 
 		log.info("넘겨받은값 = "+ovo);
 		log.info("final페이지에 넘겨받은 값 = "+ovo.getDelivery_recaddress()+" "+ovo.getDelivery_recname()+" "+ovo.getDelivery_recphone()+" "+ovo.getDelivery_send());
-
+		
 		String url="";
 		int result=0;
 		try{
@@ -79,7 +76,11 @@ public class OrdersController {
 			//여기에 에러페이지를 넣어준다.
 			url="index";
 		}
+		
 		int resultNum = ordersService.getOrders();
+		MemberVO mvo = (MemberVO) session.getAttribute("data");
+		mvo.setMember_point(mvo.getMember_point()-ovo.getOrder_price());
+		session.setAttribute("data", mvo);
 		ovo.setOrder_num(resultNum);
 		model.addAttribute("orders", ovo);
 		return url;

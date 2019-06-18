@@ -7,17 +7,28 @@
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
 		
-		<style type="text/css">
-			.img{
-				width: 150px;
-				height: 100px;
-			}
-		</style>
 
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
 	
+		<style type="text/css">
+			.project_img{
+				min-height: 200px;
+				max-height: 200px;
+				min-width: 300px;
+				max-width: 300px;
+			}
+			
+			.total{
+				margin-top: 10px;
+			}
+			
+			.notBtn{
+				padding-bottom: 42px;
+			}
+		</style>
+			
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
@@ -80,13 +91,14 @@
 			function thumbnailList(project_num,member_id,project_content,project_addDate,project_name,project_thumb,project_url,project_summary,project_status,index){
 				var column = $("<div>");
 				column.attr("data-num",project_num);
-				column.addClass("col-sm-6 col-md-4");
+				column.addClass("col-sm-6 col-md-4 total");
 				
 				var thumbnail = $("<div>");
 				thumbnail.addClass("thumbnail");
 				
 				var img = $("<img>");
 				img.attr("src","/uploadStorage/gallery/"+project_thumb);
+				img.addClass("project_img")
 				console.log(img.attr("src"));
 				
 				
@@ -98,9 +110,6 @@
 				
 				var pInfo = $("<p>");
 				pInfo.html("작성자 : "+member_id+"/ 등록일 : "+project_addDate);
-				
-				var pContent = $("<p>");
-				pContent.html(project_content.substring(0,24)+"...");
 				
 				var pjStatus = $("<p>");
 				if(project_status==0){
@@ -116,6 +125,7 @@
 				}
 				
 				
+				
 				var pBtnArea = $("<p>");
 				
 				if(project_status==0 || project_status==2){
@@ -124,9 +134,11 @@
 								"role" : "button" });
 					stopBtn.addClass("btn btn-primary gap");
 					stopBtn.html("삭제");
+				}else{
+					pjStatus.addClass("notBtn")
 				}
 				
-				caption.append(h3).append(pInfo).append(pContent).append(pjStatus).append(pBtnArea.append(stopBtn));
+				caption.append(h3).append(pInfo).append(pjStatus).append(pBtnArea.append(stopBtn));
 				column.append(thumbnail.append(img).append(caption));
 				
 				$("#myFundingList").append(column);

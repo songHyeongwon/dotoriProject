@@ -90,53 +90,45 @@
 			}
 			
 			function fundingList(project_num,project_name,orders_price,project_summoney,project_targetMoney,member_id,project_endDate,percentage,index){
-				var column = $("<div>");
-				column.attr("data-num",project_num);
-				column.addClass("col-sm-6 col-md-4");
-				
-				var thumbnail = $("<div>");
-				thumbnail.addClass("thumbnail");
-				
-				var caption = $("<div>");
-				caption.addClass("caption");
-				
-				var h3 = $("<h3>")
-				h3.html(project_name.substring(0,12)+"...");
-				
-				var pInfo = $("<p>");
-				pInfo.html("펀딩 개설자 : "+member_id+"/ 마감일 : "+project_endDate);
-				
-				var percentage1 = $("<p>");
-				percentage1.html("달성률 : " +percentage+"%");
-				
-				var myMoney = $("<p>");
-				myMoney.html("후원한 도토리 개수 : "+orders_price+"개 후원");
-				
-				var pBtnArea = $("<p>");
-				
-				var locationBtn = $("<a>");
-				locationBtn.attr({"data-btn" : "locatBtn",
-							"role" : "button" });
-				locationBtn.addClass("btn btn-primary gap");
-				locationBtn.html("이동");
-				
-				caption.append(h3).append(pInfo).append(percentage1).append(myMoney).append(pBtnArea.append(locationBtn));
-				column.append(thumbnail.append(caption));
-				
-				$("#fundingList").append(column);
+				if(orders_price>0){
+					var column = $("<div>");
+					column.attr("data-num",project_num);
+					column.addClass("col-sm-6 col-md-4");
+					
+					var thumbnail = $("<div>");
+					thumbnail.addClass("thumbnail");
+					
+					var caption = $("<div>");
+					caption.addClass("caption");
+					
+					var h3 = $("<h3>")
+					h3.html(project_name.substring(0,12)+"...");
+					
+					var pInfo = $("<p>");
+					pInfo.html("펀딩 개설자 : "+member_id+"/ 마감일 : "+project_endDate);
+					
+					var percentage1 = $("<p>");
+					percentage1.html("달성률 : " +percentage+"%");
+					
+					var myMoney = $("<p>");
+					myMoney.html("후원한 도토리 개수 : "+orders_price+"개 후원");
+					
+					var pBtnArea = $("<p>");
+					
+					var locationBtn = $("<a>");
+					locationBtn.attr({"data-btn" : "locatBtn",
+								"role" : "button" });
+					locationBtn.addClass("btn btn-primary gap");
+					locationBtn.html("이동");
+					
+					caption.append(h3).append(pInfo).append(percentage1).append(myMoney).append(pBtnArea.append(locationBtn));
+					column.append(thumbnail.append(caption));
+					
+					$("#fundingList").append(column);
+				}
 			}
 			
-			function goPage(){
-				/* if($("#search").val()=="all"){
-					$("#keyword").val("");
-				} */
-				$("#funding_search").attr({
-					"method" : "get",
-					"action" : "/member/fundingProcess"
-				});
-				
-				$("#funding_search").submit();
-			}
+			
 		</script>
 	</head>
 	<body>

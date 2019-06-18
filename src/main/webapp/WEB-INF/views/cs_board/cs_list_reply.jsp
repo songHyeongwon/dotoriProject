@@ -1,30 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-	<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<!-- 브라우저의 호환성 보기 모드를 막고, 해당 브라우저에서 지원하는 가장 최신 버전의 방식으로  html을 보여주도록 설정 -->
-	<meta name="viewport"
-		content="width=device-width initial-scale=1.0,
-			maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-	<!-- viewport : 화면에 보이는 영역을 제어하는 기술.
-			width는 device-width로 설정. initial-scale는 초기비율 -->
-	<!-- IE8이하 브라우저에서 HTML5를 인식하기 위해서는 아래의 패스필터를 적용하면 된다. -->
-	<!-- 만약 lt IE 9보다 낮다면 script html5shiv.js를 읽어와 적용하라 -->
-	<!-- [if lt IE 9]>
-				<script src="../js/html5shiv.js"></script>
-			<![endif] -->
-	<link rel="shortcut icon" href="/resources/image/icon.png" />
-	<link rel="apple-touch-icon" href="/resources/image/icon.png" />
-	<link rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css">
-	<!--모바일 웹 페이지 설정 끝 -->
-	<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="/resources/include/js/common.js"></script>
-	<script src="/resources/include/dist/js/bootstrap.min.js"></script>
-	<!--모바일 웹 페이지 설정 끝 -->
 	<script type="text/javascript">
 		$(function () {
 			var cs_num = ${cs_num};
@@ -70,7 +45,8 @@
 							data: JSON.stringify({
 								cs_num : cs_num,
 								cs_r_content:$("#cs_writeText${cs_num}").val().trim(),
-								member_id : $("#member_id").val().trim()
+								member_id : $("#member_id").val().trim(),
+								cs_r_name : $("#cs_r_name").val().trim()
 							}),
 							error : function() {
 								alert("시스템 오류입니다. 관리자에게 문의 하세요");
@@ -386,24 +362,21 @@
 			top:5px;
 		}
 	</style>
-	</head>
-	<body>
-		<input type="hidden" name="member_id" id="member_id" value="${member_id}"/>						
-		<input id="cs_reply_show${cs_num}" class="cs_reply_show" type="image" src="/resources/image/cs_board/down-arrow_icon-icons.com_64915.ico"/>
-		댓글<div id="cs_reply_cnt${cs_num}"></div>
-		<table id="cs_reply_table${cs_num}" class="cs_reply_table">			
-			<tr>
-				<td id="cs_reply_text${cs_num}"><label>빠른 답변</label></td>
-			</tr>
-			<tr>
-				<td>
-					<textarea id="cs_writeText${cs_num}" name="cs_writeText${cs_num}" class="cs_writeText" rows="2"></textarea>
+	<input type="hidden" name="member_id" id="member_id" value="${sessionScope.data.member_id}"/>						
+	<input type="hidden" name="cs_r_name" id="cs_r_name" value="${sessionScope.data.member_name}"/>						
+	<input id="cs_reply_show${cs_num}" class="cs_reply_show" type="image" src="/resources/image/cs_board/down-arrow_icon-icons.com_64915.ico"/>
+	댓글<div id="cs_reply_cnt${cs_num}"></div>
+	<table id="cs_reply_table${cs_num}" class="cs_reply_table">			
+		<tr>
+			<td id="cs_reply_text${cs_num}"><label>빠른 답변</label></td>
+		</tr>
+		<tr>
+			<td>
+				<textarea id="cs_writeText${cs_num}" name="cs_writeText${cs_num}" class="cs_writeText" rows="2"></textarea>
 					<button id="cs_writeBtn${cs_num}" class="cs_writeBtn"><img src="/resources/image/cs_board/plus_47697.ico" /></button>
-				</td>
-			</tr>
-			<tr>
-				<td id="cs_writeReply${cs_num}" class="cs_writeReply"></td>
-			</tr>
-		</table>		
-	</body>
-</html>
+			</td>
+		</tr>
+		<tr>
+			<td id="cs_writeReply${cs_num}" class="cs_writeReply"></td>
+		</tr>
+	</table>		

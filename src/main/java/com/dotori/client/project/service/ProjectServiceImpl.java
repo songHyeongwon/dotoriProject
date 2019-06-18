@@ -12,6 +12,7 @@ import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.client.project.vo.QnaBoard;
 import com.dotori.client.project.vo.ReplyVO;
 import com.dotori.common.file.FileUploadUtil;
+import com.dotori.common.vo.HomeControllerVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -245,6 +246,16 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int qnaInsert(QnaBoard qvo) {
 		int result = projectDao.qnaInsert(qvo);
+		return result;
+	}
+
+	@Override
+	public HomeControllerVO managerList() {
+		HomeControllerVO result = new HomeControllerVO();
+		result.setCs_board_count(projectDao.cs_board_count());
+		result.setMember_count(projectDao.member_count());
+		result.setOrders_sum_price(projectDao.orders_sum_price());
+		result.setProject_count(projectDao.project_count());
 		return result;
 	}
 }

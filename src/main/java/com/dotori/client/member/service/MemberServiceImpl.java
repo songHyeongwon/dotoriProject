@@ -95,6 +95,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		int result;
 		
+		MemberVO mvoU = memberDao.memberAll(mvo.getMember_id());
+		
+		if(mvo.getMember_chPwd()==0) {
+			mvo.setMember_pwd(mvoU.getMember_pwd());
+		}
+		
 		result=memberDao.memberUpdate(mvo);
 		
 		return result;

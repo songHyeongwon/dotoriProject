@@ -382,7 +382,7 @@
 							<td class="text-center">프로젝트 목표금액</td>
 							<td><input type="text" id="Project_targetMoney"
 								name="Project_targetMoney" class="form-control"
-								placeholder="금액입력"></td>
+								placeholder="금액입력" maxlength="15"></td>
 						</tr>
 						<tr>
 							<td class="text-center">프로젝트 종료일</td>
@@ -392,7 +392,7 @@
 						<tr>
 							<td class="text-center">관련 사이트 URL</td>
 							<td><input type="text" id="Project_URL" name="Project_URL"
-								class="form-control"></td>
+								class="form-control" maxlength="50"></td>
 						</tr>
 						<tr>
 							<td class="text-center">세부내역 입력</td>

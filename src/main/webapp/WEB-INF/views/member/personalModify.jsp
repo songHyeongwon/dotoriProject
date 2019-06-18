@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -7,7 +8,21 @@
 		<title>갤러리 리스트</title>
 		
 		<style type="text/css">
+			#inform{
+				color: red;
+			}
 			
+			.phone{
+				width: 50px;
+			}
+			
+			#eMailBack{
+				width: 100px;
+			}
+			
+			#member_address{
+				width : 450px;
+			}
 		</style>
 
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
@@ -44,9 +59,9 @@
 				
 				// session값인 ${data.member_evenAgree} (이메일,문자 이벤트 발송 처리 변수)값에 따른 id="member_evenAgree"에 check가 되냐 안되냐의 함수
 				if(agree==1){
-					$("#member_evenAgree").prop("checked");
+					$("input:checkbox[id='member_even']").prop("checked", true);
 				}else{
-					$("#member_evenAgree").prop('checked', false);
+					$("input:checkbox[id='member_even']").prop("checked", false);
 				} 
 				
 				// 주소 찾기 클릭 시 처리 함수
@@ -83,10 +98,8 @@
 						},
 						success : function(data){
 							if(data=="성공"){
-								member_chPwd = 1;
 								alert("이 비밀번호는 사용 가능합니다.");
 							}else if(data=="실패" && $("#member_pwd").val()!=""){
-								member_chPwd = 0;
 								alert("전 비밀번호와 같습니다. 다르게 적어주세요.");
 								$("#member_pwd").val("");
 							}else if($("#member_pwd").val()==""){
@@ -99,71 +112,131 @@
 				
 				// 수정하기 클릭 시 처리 함수
 				$("#modifyBtn").click(function(){
-					 if($("#member_evenAgree").prop("checked")){
+					 if($("#member_even").prop("checked")){
 						 $("#member_evenAgree").val('1');
 					 }else{
 						 $("#member_evenAgree").val('0');
 					 }
 					 
-					 /* if(!checkForm("#member_pwd","비밀번호를 ")) return;
-					 else if(!checkForm("#member_cofirmPwd","확인 비밀번호를")) return;
-					 else  */if(!checkForm("#member_nickName","닉네임을 ")) return;
-					 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
-						 	alert("이메일을 입력해주세요.");
-						 	$("#eMailFront").val("");
-						 	$("#eMailBack").val("");
-						 	$("#eMailFront").focus();
-						 	return;
-					 }else if($("#phoneFirst").val().replace(/\s/g,"")=="" || $("#phoneMiddle").val().replace(/\s/g,"")=="" ||$("#phoneLast").val().replace(/\s/g,"")==""){
-						 	alert("전화번호를 입력해주세요.");
-						 	$("#phoneFirst").val("");
-						 	$("#phoneMiddle").val("");
-						 	$("#phoneLast").val("");
-						 	$("#phoneFirst").focus();
-						 	return;
-					 }else if(!checkForm("#member_address","주소를 ")) return;
-					/*  else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
-						 alert("비밀번호가 같지 않습니다. 확인 부탁드립니다.");
-						 $("#cofirmPwd").val("");
-						 $("#cofirmPwd").focus();
-						 return;
-					 }else if($("#member_pwd").val().search(Pattern)<0){
-						 alert("비밀번호를 올바르게 입력해주세요.");
-						 $("#member_pwd").val("");
-						 $("#member_pwd").focus();
-						 return;
-					 }else  */if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
-						 alert("핸드폰 번호를 올바르게 입력해주세요.");
-						 $("#phoneFirst").val("");
-						 $("#phoneMiddle").val("");
-						 $("#phoneLast").val("");
-						 $("#phoneFirst").focus();
-						 return;
-					 }/* else if(member_chPwd==0){
-						 alert("비밀번호 확인 버튼을 눌러서 확인해 주세요.");
-					 } */else{
-						member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
-						member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
-						$("#member_eMail").val(member_eMail);
-						$("#member_phone").val(member_phone);
-						$("#member_chPwd").val(member_chPwd);
-						$.ajax({
-							url : "/member/memberUpdate",
-							type : "post",
-							data : $("#modifyForm").serialize(),
-							dataType : "text",
-							error : function(){
-								alert("정보 수정 중 오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
-							},
-							success : function(data){
-								if(data=="성공"){
-									alert("정보 수정이 완료되었습니다.");
-									location.href="/member/memberMyPage";
-								}else{
-									alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
+					 if($('#member_pwd').val()==''){
+						 member_chPwd=0;
+					 }else{
+						 member_chPwd=1;
+					 }
+					 
+					 
+					 if(member_chPwd==1){
+						 if(!checkForm("#member_pwd","비밀번호를 ")) return;
+						 else if(!checkForm("#member_cofirmPwd","확인 비밀번호를")) return;
+						 else if(!checkForm("#member_nickName","닉네임을 ")) return;
+						 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
+							 	alert("이메일을 입력해주세요.");
+							 	$("#eMailFront").val("");
+							 	$("#eMailBack").val("");
+							 	$("#eMailFront").focus();
+							 	return;
+						 }else if($("#phoneFirst").val().replace(/\s/g,"")=="" || $("#phoneMiddle").val().replace(/\s/g,"")=="" ||$("#phoneLast").val().replace(/\s/g,"")==""){
+							 	alert("전화번호를 입력해주세요.");
+							 	$("#phoneFirst").val("");
+							 	$("#phoneMiddle").val("");
+							 	$("#phoneLast").val("");
+							 	$("#phoneFirst").focus();
+							 	return;
+						 }else if(!checkForm("#member_address","주소를 ")) return;
+						 else if($("#member_pwd").val()!=$("#member_cofirmPwd").val()){
+							 alert("비밀번호가 같지 않습니다. 확인 부탁드립니다.");
+							 $("#cofirmPwd").val("");
+							 $("#cofirmPwd").focus();
+							 return;
+						 }else if($("#member_pwd").val().search(Pattern)<0){
+							 alert("비밀번호를 올바르게 입력해주세요.");
+							 $("#member_pwd").val("");
+							 $("#member_pwd").focus();
+							 return;
+						 }else if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
+							 alert("핸드폰 번호를 올바르게 입력해주세요.");
+							 $("#phoneFirst").val("");
+							 $("#phoneMiddle").val("");
+							 $("#phoneLast").val("");
+							 $("#phoneFirst").focus();
+							 return;
+						 }else if(member_chPwd==0){
+							 alert("비밀번호 확인 버튼을 눌러서 확인해 주세요.");
+						 }else{
+							member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
+							member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
+							$("#member_eMail").val(member_eMail);
+							$("#member_phone").val(member_phone);
+							$("#member_chPwd").val(member_chPwd);
+							$.ajax({
+								url : "/member/memberUpdate",
+								type : "post",
+								data : $("#modifyForm").serialize(),
+								dataType : "text",
+								error : function(){
+									alert("정보 수정 중 오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
+								},
+								success : function(data){
+									if(data=="성공"){
+										alert("정보 수정이 완료되었습니다.");
+										location.href="/member/personalModify";
+									}else{
+										alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
+									}
+
 								}
-							}
-						})
+							
+							})
+						 }
+					 }else{
+							 if(!checkForm("#member_nickName","닉네임을 ")) return;
+							 else if($("#eMailFront").val().replace(/\s/g,"")=="" || $("#eMailBack").val().replace(/\s/g,"")==""){
+								 	alert("이메일을 입력해주세요.");
+								 	$("#eMailFront").val("");
+								 	$("#eMailBack").val("");
+								 	$("#eMailFront").focus();
+								 	return;
+							 }else if($("#phoneFirst").val().replace(/\s/g,"")=="" || $("#phoneMiddle").val().replace(/\s/g,"")=="" ||$("#phoneLast").val().replace(/\s/g,"")==""){
+								 	alert("전화번호를 입력해주세요.");
+								 	$("#phoneFirst").val("");
+								 	$("#phoneMiddle").val("");
+								 	$("#phoneLast").val("");
+								 	$("#phoneFirst").focus();
+								 	return;
+							 }else if(!checkForm("#member_address","주소를 ")) return;
+							 else if($("#phoneFirst").val().search(phonePattern)<0 || $("#phoneMiddle").val().search(phonePattern)<0 || $("#phoneLast").val().search(phonePattern)<0 ){
+								 alert("핸드폰 번호를 올바르게 입력해주세요.");
+								 $("#phoneFirst").val("");
+								 $("#phoneMiddle").val("");
+								 $("#phoneLast").val("");
+								 $("#phoneFirst").focus();
+								 return;
+							 }else{
+								member_eMail=$("#eMailFront").val()+"@"+$("#eMailBack").val();
+								member_phone=$("#phoneFirst").val()+"-"+$("#phoneMiddle").val()+"-"+$("#phoneLast").val();
+								$("#member_eMail").val(member_eMail);
+								$("#member_phone").val(member_phone);
+								$("#member_chPwd").val(member_chPwd);
+								$("#member_pwd").val("${data.member_pwd}");
+								
+								$.ajax({
+									url : "/member/memberUpdate",
+									type : "post",
+									data : $("#modifyForm").serialize(),
+									dataType : "text",
+									error : function(){
+										alert("정보 수정 중 오류가 발생하였습니다. 관리자에게 문의 바랍니다.");
+									},
+									success : function(data){
+										if(data=="성공"){
+											alert("정보 수정이 완료되었습니다.");
+											location.href="/member/personalModify";
+										}else{
+											alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
+										}
+									}
+								}) 
+						 }
 						 
 					 }
 				 })
@@ -269,7 +342,7 @@
 						<tr class="tb">
 							<td class="tn">아이디</td>
 							<td colspan="2">
-								<input type="text" id="member_id" name="member_id" placeholder="Id 입력" maxlength="20" value="${data.member_id }" readonly="readonly"/>
+								<input type="text" id="member_id" name="member_id" placeholder="Id 입력" maxlength="20" value="${sessionScope.data.member_id }" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr class="tb">
@@ -286,7 +359,7 @@
 						</tr>
 						<tr class="tb">	
 							<td class="tn">닉네임</td>
-							<td colspan="2"><input type="text" id="member_nickName" name="member_nickName" value="${data.member_nickName }"/></td>
+							<td colspan="2"><input type="text" id="member_nickName" name="member_nickName" value="${sessionScope.data.member_nickName }"/></td>
 						</tr>
 						<tr class="tb">
 							<td class="tn">이메일</td>
@@ -298,7 +371,7 @@
 									<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hanmail.net">hamail.net</option>
-									<option value="google.co.kr">google.co.kr</option>
+									<option value="gmail.com">gmail.com</option>
 									<option value="nate.com">nate.com</option>
 									<option value="yahoo.co.kr">yahoo.co.kr</option>
 								</select>
@@ -316,30 +389,31 @@
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소</td>
-							<td colspan="2"><input type="text" name="member_address" id="member_address" value="${data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
+							<td colspan="2"><input type="text" name="member_address" id="member_address" value="${sessionScope.data.member_address}" maxlength="50"/>&nbsp;&nbsp;<input type="button" id="searchAddr" name="searchAddr" value="주소 찾기"/></td>	
 						</tr>
 						<tr class="tb">
 							<td class="tn">주소 세부사항</td>
-							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress" value="${data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
+							<td colspan="2"><input type="text" name="member_detailAddress" id="member_detailAddress" value="${sessionScope.data.member_detailAddress} "/><span id="guide" style="color:#999;display:none"></span></td>
 						</tr>
 						<tr>
 							<td><h3 class="plusInfo">추가 정보</h3></td>
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="checkbox" id="member_evenAgree" name="member_evenAgree"/><label for="member_evenAgree">이메일/문자 수신 동의</label>&nbsp;<a href="#">수신 약관보기</a>
+								<label id="inform">도토리's 펀딩's에서 보내는 정보에 대한 문자와 이메일 전송에 동의하십니까??</label><br/><input type="checkbox" id="member_even" name="member_even"/><label for="member_even">이메일/문자 수신 동의</label>
 							</td>
 						</tr>	
 					</table>
 					<input type="hidden" name="member_phone" id="member_phone" />
 					<input type="hidden" id="member_chPwd" name="member_chPwd"/>
 					<input type="hidden" name="member_eMail" id="member_eMail"/>
+					<input type="hidden" id="member_evenAgree" name="member_evenAgree"/>
 				</form>
 				<div class="text-center">
-					<input type="button" class="btn" id="modifyBtn" name="modifyBtn" value="수정하기"/>
-					<input type="button" class="btn" id="cancelBtn" name="cancelBtn" value="취소"/>
-					<input type="button" class="btn" id="deleteBtn" name="deleteBtn" value="탈퇴하기"/>
-					<input type="button" class="btn" id="homeBtn" name="homeBtn" value="홈"/>
+					<input type="button" class="btn btn-primary" id="modifyBtn" name="modifyBtn" value="수정하기"/>
+					<input type="button" class="btn btn-info" id="cancelBtn" name="cancelBtn" value="취소"/>
+					<input type="button" class="btn btn-danger" id="deleteBtn" name="deleteBtn" value="탈퇴하기"/>
+					<input type="button" class="btn btn-success" id="homeBtn" name="homeBtn" value="홈"/>
 				</div>
 			</div>
 		</div>

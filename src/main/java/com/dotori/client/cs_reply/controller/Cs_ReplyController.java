@@ -44,7 +44,6 @@ public class Cs_ReplyController {
 	public ResponseEntity<String> replyInsert(@RequestBody Cs_ReplyVO rvo) {
 		log.info("replyInsert 호출 성공");
 		log.info("ReplyVO : " + rvo);
-		rvo.setCs_r_name("testName");
 		int result = 0;
 		//cs_board/cs_boardList
 		result = replyService.cs_replyInsert(rvo);

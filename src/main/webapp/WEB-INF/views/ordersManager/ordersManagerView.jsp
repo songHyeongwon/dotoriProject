@@ -18,33 +18,68 @@
 		<!-- [if lt IE 9]>
 			<script src="../js/html5shiv.js"></script>
 		<![endif]-->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript">
-			$(function(){
-				$("#excelDownBtn").click(function(){
-					$("#f_search").attr({
-						"method":"get",
-						"action":"/ordersManager/ordersExcel"
-					});
-					$("#f_search").submit();
-				});
-				$(".paginate_button a").click(function(e) {
-					e.preventDefault();
-					$("#f_search").find("input[name='pageNum']").val($(this).attr("href"));
-					goPage();
-				});
-			});
-			function goPage() {
-				if ($("#search").val() == "all") {
-					$("#keyword").val("");
-				}
-				$("#search").attr({
-					"method" : "get",
-					"action" : "/ordersManager/ordersManangerView"
-				});
-				$("#f_search").submit();
-			}
-	
+		 $(function(){
+	            $("#searchData").click(function(){
+	               if($("#keyword").val().replace(/\s/g,"")==""){
+	                  alert("검색어를 입력해주세요.");
+	                  return;
+	               }
+	               goPage();
+	            });
+	            //'엑셀파일 내려받기' 처리 함수
+	            $("#excelDownBtn").click(function(){
+	               $("#f_search").attr({
+	                  "method":"get",
+	                  "action":"/ordersManager/ordersExcel"
+	               });
+	               $("#f_search").submit();
+	            });
+	            //페이징 처리 함수
+	            $(".paginate_button a").click(function(e) {
+	               e.preventDefault();
+	               $("#f_search").find("input[name='pageNum']").val($(this).attr("href"));
+	               goPage();
+	            });
+	            
+	         });
+	         function goPage() {
+	            if ($("#search").val() == "all") {
+	               $("#keyword").val("");
+	            }
+	            $("#search").attr({
+	               "method" : "get",
+	               "action" : "/ordersManager/ordersManangerView"
+	            });
+	            $("#f_search").submit();
+	         }
+	         //google chart api
+	          google.charts.load('current', {'packages':['corechart']});
+	          google.charts.setOnLoadCallback(drawChart);
+
+	            function drawChart() {
+
+	              var data = google.visualization.arrayToDataTable([
+	                ['프로젝트 대분류', '매출'],
+	                ['출판',33500],
+	                ['패션',626800],
+	                ['게임',0],
+	                ['공연',100],
+	                ['캠페인',0]
+	              ]);
+
+	              var options = {
+	                title: '프로젝트 대분류별 매출 현황',
+	                sliceVisibilityThreshold:0
+	              };
+
+	              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+	              chart.draw(data, options);
+	            }
+
 		</script>
 		<title>Insert title here</title>
 	</head>
@@ -67,6 +102,8 @@
 				</div>
 			</form>
 		</div>
+		<div id="piechart" class="text-center" style="width: 900px; height: 500px;"></div>
+	<h1>후원 현황</h1>
 	<c:choose>
 		<c:when test="${not empty ordersList}">
 			<table class="table">

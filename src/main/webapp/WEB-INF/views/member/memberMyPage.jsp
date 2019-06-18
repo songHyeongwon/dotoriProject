@@ -5,7 +5,7 @@
 <html>
 	<head>
 	
-		<!-- <style type="text/css">
+		<style type="text/css">
 		
 			
 			.li {
@@ -22,14 +22,7 @@
 			.dotori{
 				font-size: 30px;
 			}
-			
-			.btn{
-				border: 0;				
-				outline : 0;				/* 버튼 테두리 없애는 방법 */
-				background-color: rgba( 255, 255, 255, 0.5 );  /* 버튼 배경색 투명하게 하는법 */
-				
-			}
-		</style> -->
+		</style>
 		
 		<meta charset="UTF-8">
 		<title>마이 페이지</title>

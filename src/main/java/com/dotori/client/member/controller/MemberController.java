@@ -7,13 +7,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,8 +19,6 @@ import com.dotori.client.member.email.Email;
 import com.dotori.client.member.email.EmailSender;
 import com.dotori.client.member.service.MemberService;
 import com.dotori.client.member.vo.MemberVO;
-import com.dotori.client.orders.vo.OrdersVO;
-import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.common.vo.PageDTO;
 import com.dotori.manager.orders.vo.OrdersMVO;
 
@@ -171,9 +167,7 @@ public class MemberController {
 	public String passwordConfirm(@ModelAttribute MemberVO mvo,Model model) {
 		
 		int result=memberService.passwordConfirm(mvo);
-		log.info("확인 " +mvo.getMember_id() + " "+mvo.getMember_pwd());
-		log.info("result : "+result);
-		
+		log.info("반환되어 오는값"+result);
 		if(result==1) {
 			return "성공";
 		}else {
@@ -185,9 +179,23 @@ public class MemberController {
 	// 회원 수정 컨트롤러
 	@ResponseBody
 	@PostMapping(value="/memberUpdate", produces="text/plain; charset=UTF-8")
-	public String memberUpdate(@ModelAttribute MemberVO mvo) {
+	public String memberUpdate(@ModelAttribute MemberVO mvo,HttpSession session) {
 		
+		MemberVO mvo1 = (MemberVO)session.getAttribute("data");
+		
+		
+		log.info(mvo.toString());
 		int result=memberService.memberUpdate(mvo);
+		
+		mvo1.setMember_pwd(mvo.getMember_pwd());
+		mvo1.setMember_nickName(mvo.getMember_nickName());
+		mvo1.setMember_eMail(mvo.getMember_eMail());
+		mvo1.setMember_phone(mvo.getMember_phone());
+		mvo1.setMember_address(mvo.getMember_address());
+		mvo1.setMember_detailAddress(mvo.getMember_detailAddress());
+		mvo1.setMember_evenAgree(mvo.getMember_evenAgree());
+		
+		session.setAttribute("data", mvo1);
 		
 		if(result==1) {
 			return "성공";
@@ -391,7 +399,7 @@ public class MemberController {
 		
 		try {
 			memberService.refund(orders_num);
-			return "성공";
+			return "성공/"+mvo1.getMember_point();
 		}catch(Exception e) {
 			e.printStackTrace();
 			return "실패";

@@ -51,7 +51,6 @@
 								alert("비밀번호 확인 중 오류 발생. 관리자에게 문의 바랍니다.");
 							},
 							success : function(data){
-								console.log(data);
 								if(data=="성공"){
 									alert("비밀번호 확인되었습니다.");
 									location.href = "/member/personalModify";
@@ -69,6 +68,7 @@
 		</script>
 	</head>
 	<body>
+
 		<div class="text-center thumbnail total">
 			<div class="title">
 				<h2>비밀번호 확인</h2>

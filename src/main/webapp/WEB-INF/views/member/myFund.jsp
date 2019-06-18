@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
+		
 
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>

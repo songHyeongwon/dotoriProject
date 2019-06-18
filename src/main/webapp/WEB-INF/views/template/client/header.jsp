@@ -3,7 +3,7 @@
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script type="text/javascript">
+<script type="text/javascript">	
 	var data = '${data.member_id}';
 	$(function() {
 		$("#insertFormHerf").click(function(e) {
@@ -14,6 +14,11 @@
 		});
 	});
 </script>
+<style type="text/css">
+	.navbar-right{
+		padding-right: 160px;
+	}
+</style>
 	<!--최상단 네비게이션 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">

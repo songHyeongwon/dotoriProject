@@ -34,13 +34,20 @@
 							alert("환불 중 시스템 오류 발생. 관리자에게 문의바랍니다.");
 						},
 						success : function(data){
-							if(data=="성공"){
+							if(data.indexOf("성공") >= 0){
+								var point = data.split("/");
+								
+								$("#point").html("");
+								$("#point").html(point[1]);
+								console.log("value: ");
 								usingDotoriListData();
 								alert("환불이 완료되었습니다.");
+								
+								console.log($("#point").html());
 							}else{
 								alert("환불 중 오류 발생. 잠시후 다시 시도해 주세요.");
 							}
-							rebootDotori();
+							
 						}
 					})
 				});

@@ -5,11 +5,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
+		
+		
 
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
-	
+		
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
@@ -72,36 +74,28 @@
 		
 	</head>
 	<body>
-		<div>
+		<div class="text-center">
 			<form id="pwdChkForm">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h2>비밀번호 찾기</h2></td>
-						</tr>
-					</thead>
-					<tbody>
+				<div class="form-group"> 
+					<h2>비밀번호 찾기</h2>
+				</div>
+				<div class="form-group">
+					<table class="table table-striped">
 						<tr>
 							<td>아이디</td>
 							<td>등록한 이메일 주소</td>
 						</tr>
 						<tr>
-							<td>
-								<input type="text" id="member_id" name="member_id"/>
-							</td>
-							<td>
-								<input type="email" id="member_eMail" name="member_eMail"/>
-							</td>
+							<td><input type="text" id="member_id" name="member_id"/></td>
+							<td><input type="email" id="member_eMail" name="member_eMail"/></td>
 						</tr>
-						<tr class="text-center">
-							<td>
-								<input type="button" id="chkBtn" name="chkBtn" value="확인"/>
-								<input type="button" id="chkIdBtn" name="chkIdBtn" value="아이디 찾기"/>&nbsp;&nbsp;
-								<input type="button" id="cancleBtn" name="cancleBtn" value="취소"/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+					</table>
+				</div>
+				<div class="form-group">
+					<input type="button" class="btn btn-success" id="chkBtn" name="chkBtn" value="확인"/>
+					<input type="button" class="btn btn-primary" id="chkIdBtn" name="chkIdBtn" value="아이디 찾기"/>
+					<input type="button" class="btn btn-danger" id="cancleBtn" name="cancleBtn" value="취소"/>
+				</div>
 			</form>
 		</div>
 	</body>

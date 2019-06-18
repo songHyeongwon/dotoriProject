@@ -6,13 +6,31 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>갤러리 리스트</title>
+		
+		<style type="text/css">
+			#inform{
+				color: red;
+			}
+			
+			.phone{
+				width: 50px;
+			}
+			
+			#eMailBack{
+				width: 100px;
+			}
+			
+			#member_address{
+				width : 450px;
+			}
+		</style>
 
-		<!-- <link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
+		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css"/>
 		<link type="text/css" rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css"/>
 	
 		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="/resources/include/js/jquery.form.min.js"></script>
-		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script> -->
+		<script type="text/javascript" src="/resources/include/dist/js/bootstrap.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="/resources/include/css/lightbox.css"/>
 		<script type="text/javascript" src="/resources/include/js/lightbox.js"></script>
 		<script type="text/javascript" src="/resources/include/js/common.js"></script>
@@ -165,7 +183,9 @@
 									}else{
 										alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
 									}
+
 								}
+							
 							})
 						 }
 					 }else{
@@ -351,7 +371,7 @@
 									<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
 									<option value="hanmail.net">hamail.net</option>
-									<option value="google.co.kr">google.co.kr</option>
+									<option value="gmail.com">gmail.com</option>
 									<option value="nate.com">nate.com</option>
 									<option value="yahoo.co.kr">yahoo.co.kr</option>
 								</select>
@@ -380,7 +400,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="checkbox" id="member_even" name="member_even"/><label for="member_evenAgree">이메일/문자 수신 동의</label>&nbsp;<label id="inform">도토리's 펀딩's에서 보내는 정보에 대한 문자와 이메일 전송에 동의하십니까??</label>
+								<label id="inform">도토리's 펀딩's에서 보내는 정보에 대한 문자와 이메일 전송에 동의하십니까??</label><br/><input type="checkbox" id="member_even" name="member_even"/><label for="member_even">이메일/문자 수신 동의</label>
 							</td>
 						</tr>	
 					</table>
@@ -390,10 +410,10 @@
 					<input type="hidden" id="member_evenAgree" name="member_evenAgree"/>
 				</form>
 				<div class="text-center">
-					<input type="button" class="btn" id="modifyBtn" name="modifyBtn" value="수정하기"/>
-					<input type="button" class="btn" id="cancelBtn" name="cancelBtn" value="취소"/>
-					<input type="button" class="btn" id="deleteBtn" name="deleteBtn" value="탈퇴하기"/>
-					<input type="button" class="btn" id="homeBtn" name="homeBtn" value="홈"/>
+					<input type="button" class="btn btn-primary" id="modifyBtn" name="modifyBtn" value="수정하기"/>
+					<input type="button" class="btn btn-info" id="cancelBtn" name="cancelBtn" value="취소"/>
+					<input type="button" class="btn btn-danger" id="deleteBtn" name="deleteBtn" value="탈퇴하기"/>
+					<input type="button" class="btn btn-success" id="homeBtn" name="homeBtn" value="홈"/>
 				</div>
 			</div>
 		</div>

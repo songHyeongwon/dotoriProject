@@ -125,12 +125,6 @@
 		where member_id = #{member_id}
 	</update>
 	
-	<!-- 페이징을 위한 리스트 숫자 구하는 쿼리 -->
-	<select id="memberListCnt" parameterType="member" resultType="int">
-		select count(project_num) from project 
-		where member_id = #{member_id}
-	</select>
-	
 	<!-- 비밀번호/아이디 확인 시 회원 테이블에 저장되어 있는 이메일로 보내기 위한 확인 작업 -->
 	<select id="emailCheck" parameterType="member" resultType="int">
 		select nvl((select 1 from member where member_email=#{member_eMail}),0) from dual

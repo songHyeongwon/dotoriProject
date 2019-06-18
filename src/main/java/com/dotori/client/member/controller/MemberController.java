@@ -7,13 +7,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,8 +19,6 @@ import com.dotori.client.member.email.Email;
 import com.dotori.client.member.email.EmailSender;
 import com.dotori.client.member.service.MemberService;
 import com.dotori.client.member.vo.MemberVO;
-import com.dotori.client.orders.vo.OrdersVO;
-import com.dotori.client.project.vo.ProjectVO;
 import com.dotori.common.vo.PageDTO;
 import com.dotori.manager.orders.vo.OrdersMVO;
 
@@ -117,13 +113,14 @@ public class MemberController {
 	// 회원가입 컨트롤러
 	@ResponseBody
 	@RequestMapping(value="/memberJoin",method=RequestMethod.POST,produces="text/plain; charset=UTF-8")
-	public String memberJoin(@ModelAttribute MemberVO mvo, Model model) {
+	public String memberJoin(@ModelAttribute MemberVO mvo) {
 		int result = 0;
 		
 		result=memberService.memberJoin(mvo);
 		if(result==1) {
-			model.addAttribute("success",1);
 			return "성공";
+		}else if(result==2){
+			return "이메일";
 		}else {
 			return "실패";
 		}
@@ -402,7 +399,7 @@ public class MemberController {
 		
 		try {
 			memberService.refund(orders_num);
-			return "성공";
+			return "성공/"+mvo1.getMember_point();
 		}catch(Exception e) {
 			e.printStackTrace();
 			return "실패";

@@ -214,7 +214,7 @@ var optionCnt =0;
 			<div>
 				<div id="projectInfo1">
 					<input type="hidden" id="project_status" value="${project.project_status}">
-					<H2 class="text-center">${project.project_name}</H2>
+					<hr><H2 class="text-center">${project.project_name}</H2><hr>
 					<p class="text-right">${project.member_id}님의 아이디어입니다.</p><br>
 					<img src="/uploadStorage/gallery/${project.project_thumb}" id="project_thumb"><br><hr>
 					<p class="text-center"><a href="${project.project_URL}" class="URL-center">관련사이트 = ${project.project_URL}로 이동</a></p><hr>

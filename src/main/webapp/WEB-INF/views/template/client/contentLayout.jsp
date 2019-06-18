@@ -26,7 +26,7 @@
 <script src="/resources/include/dist/js/ie-emulation-modes-warning.js"></script>
 <script src="/resources/include/dist/js/ie10-viewport-bug-workaround.js"></script>
 <script src="/resources/include/dist/js/docs.min.js"></script>
-
+<script type="text/javascript" src="/resources/include/js/common.js"></script>
 </head>
 
 <body>

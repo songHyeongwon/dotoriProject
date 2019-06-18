@@ -322,18 +322,24 @@
 		addOption.attr("type", "button");
 		addOption.attr("name", "addOption");
 		addOption.attr("value", "옵션넣기");
+		addOption.addClass("btn");
+		addOption.addClass("btn-default");
 
 		//마지막 옵션 제거하기
 		var delOption = $("<input>");
 		delOption.attr("type", "button");
 		delOption.attr("name", "delOption");
 		delOption.attr("value", "마지막 옵션 제거하기");
+		delOption.addClass("btn");
+		delOption.addClass("btn-default");
 
 		//옵션틀 전체 제거 버튼
 		var delOptionDiv = $("<input>");
 		delOptionDiv.attr("type", "button");
 		delOptionDiv.attr("name", "delOptionDiv");
 		delOptionDiv.attr("value", "옵션제거하기");
+		delOptionDiv.addClass("btn");
+		delOptionDiv.addClass("btn-default");
 
 		//전체틀 span
 		var span = $("<span>");

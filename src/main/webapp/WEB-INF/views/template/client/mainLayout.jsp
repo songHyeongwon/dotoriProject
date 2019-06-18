@@ -148,8 +148,8 @@
 
 			<!-- Example row of columns -->
 			<br>
-			<p class="h1name">가장 최근에 등록된 프로젝트입니다.</p>
 			<div id="boardList">
+				<p class="h1name">가장 최근에 등록된 프로젝트입니다.</p>
 				<c:choose>
 					<c:when test="${not empty mainList}">
 						<c:forEach var="project" items="${mainList}" varStatus="status">
@@ -200,9 +200,9 @@
 				</c:choose>
 			</div>
 			<br>
-			<p class="h1name">최고 후원액의 프로젝트입니다.</p>
 			
 			<div>
+				<p class="h1name">최고 후원액의 프로젝트입니다.</p>
 				<c:choose>
 					<c:when test="${not empty summoneyList}">
 						<c:forEach var="project" items="${summoneyList}" varStatus="status">

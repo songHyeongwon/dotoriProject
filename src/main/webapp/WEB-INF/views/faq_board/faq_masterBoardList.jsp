@@ -11,9 +11,9 @@
 		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/resources/include/dist/css/bootstrap-theme.min.css">
 		<!--모바일 웹 페이지 설정 끝 -->
-		<script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
-		<script type="text/javascript" src="/resources/include/js/common.js"></script>
-		<script src="/resources/include/dist/js/bootstrap.min.js"></script>
+		<!-- <script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="/resources/include/js/common.js"></script> -->
+		<!-- <script src="/resources/include/dist/js/bootstrap.min.js"></script> -->
 
 		<script type="text/javascript">
 			$(function() {

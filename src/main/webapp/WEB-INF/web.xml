@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee">
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
@@ -26,18 +26,18 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 
-		<multpart-config>
-			<location>C:\\uploadStorage\\</location><!-- 업로드 되는 파일을 저장할 공간 -->
-			<max-file-size>20971520</max-file-size><!-- 업로드 되는 파일의 최대 크기 1MB*20 -->
-			<max-request-size>41943040</max-request-size><!-- 한번에 올릴 수 있는 최대 크기 -40MB -->
-			<file-size-threshold>20971520</file-size-threshold><!-- 20MB -->
-		</multpart-config>
-		<!-- <multipart-config>
+		<!-- <multpart-config>
+			<location>C:\Temp\uploadStorage</location>업로드 되는 파일을 저장할 공간
+			<max-file-size>20971520</max-file-size>업로드 되는 파일의 최대 크기 1MB*20
+			<max-request-size>41943040</max-request-size>한번에 올릴 수 있는 최대 크기 -40MB
+			<file-size-threshold>20971520</file-size-threshold>20MB
+		</multpart-config> -->
+		<multipart-config>
 			<location>D:\temp</location>
 			<max-file-size>-1</max-file-size>
 			<max-request-size>-1</max-request-size>
 			<file-size-threshold>1024</file-size-threshold>
-		</multipart-config> -->
+		</multipart-config>
 	</servlet>
 
 	<servlet-mapping>

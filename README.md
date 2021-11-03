@@ -17,7 +17,7 @@
     운영체제		- 윈도우 7<br/>
     데이터베이스	- Oracle 11g<br/>
     개발도구		- Eclipse IDE SQL developer<br/>
-    서버(WAS)		- Tomcat8.5<br/>
+    서버(WAS)	- Tomcat8.5<br/>
     형상관리		- GitHub(https://github.com/songHyeongwon/dotoriProject.git)<br/>
     설계 툴		- ERWin<br/>
     테스트 브라우저	- Chrome<br/>

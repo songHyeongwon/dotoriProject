@@ -29,6 +29,6 @@
 
 ![그림2](https://user-images.githubusercontent.com/51102922/140052051-7fa3f47e-645f-4e61-b3e8-a252e93099db.png)
 
-<h1>첨부</h1>
+<h1>첨부</h1> 
 
 [도토리s펀딩s.pdf](https://github.com/songHyeongwon/dotoriProject/files/7467174/s.s.pdf)
